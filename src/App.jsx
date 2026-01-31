@@ -138,7 +138,7 @@ function App() {
               ))}
               <div className="add-card-btn" onClick={() => setIsModalOpen(true)}>
                 <span>+</span>
-                <span style={{ fontSize: '0.8rem' }}>새 카드 등록</span>
+                <span style={{ fontSize: '0.8rem' }}>내 카드 추가하기</span>
               </div>
             </div>
           </div>
