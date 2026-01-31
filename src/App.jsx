@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { CARDS as MOCK_CARDS, TRANSACTIONS } from './data/mockData';
+import { POPULAR_CARDS, findCardByBenefits } from './data/popularCards';
 import { findBestCard } from './utils/recommender';
 import { supabase } from './utils/supabase';
 import './index.css';
@@ -11,6 +12,7 @@ function App() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
   const chatEndRef = useRef(null);
 
   // Form states
@@ -47,32 +49,32 @@ function App() {
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setInputValue('');
 
-    const amountMatch = userMsg.match(/(\d+(?:,\d+)*)\s*원/);
-    const amount = amountMatch ? parseInt(amountMatch[1].replace(/,/g, '')) : 20000;
-
-    let merchant = "기타";
-    if (userMsg.includes("스타벅스")) merchant = "Starbucks";
-    else if (userMsg.includes("이마트")) merchant = "E-Mart";
-    else if (userMsg.includes("넷플릭스")) merchant = "Netflix";
-    else if (userMsg.includes("편의점") || userMsg.includes("GS25")) merchant = "GS25";
-    else if (userMsg.includes("영화") || userMsg.includes("CGV")) merchant = "CGV";
-
-    const recommendations = findBestCard(merchant, amount);
-    const best = recommendations[0];
+    // 인기 카드에서 검색
+    const matchedCards = findCardByBenefits(userMsg);
 
     setTimeout(() => {
-      let responseText = `${merchant}에서 ${amount.toLocaleString()}원 결제 시, **${best.name}** 카드를 추천합니다!\n\n`;
-      if (best.expectedReward > 0) {
-        responseText += `예상 혜택: **${best.expectedReward.toLocaleString()}원** 입니다.`;
-      } else {
-        responseText += `특별한 혜택은 없지만, 기본 적립이 가능한 카드입니다.`;
-      }
+      if (matchedCards.length > 0) {
+        const bestCard = matchedCards[0];
+        let responseText = `**${bestCard.issuer} ${bestCard.name}** 카드를 추천드립니다!\n\n`;
+        responseText += `💳 **연회비**: ${bestCard.annualFee}\n`;
+        responseText += `📊 **전월 실적**: ${bestCard.previousMonthSpending}\n\n`;
+        responseText += `✨ **주요 혜택**:\n`;
+        bestCard.benefits.forEach((benefit, idx) => {
+          responseText += `${idx + 1}. ${benefit}\n`;
+        });
 
-      setMessages(prev => [...prev, {
-        role: 'agent',
-        text: responseText,
-        recommendation: best
-      }]);
+        setMessages(prev => [...prev, {
+          role: 'agent',
+          text: responseText,
+          recommendation: bestCard
+        }]);
+      } else {
+        // 매칭되는 카드가 없을 경우
+        setMessages(prev => [...prev, {
+          role: 'agent',
+          text: '죄송합니다. 해당 조건에 맞는 카드를 찾지 못했습니다. 다른 조건으로 다시 검색해주세요.'
+        }]);
+      }
     }, 600);
   };
 
@@ -120,6 +122,29 @@ function App() {
         <h1>Cherry Picker Agent</h1>
         <p className="tagline">당신의 소비를 스마트하게, 혜택은 극대화로.</p>
       </header>
+
+      {/* 인기 카드 섹션 */}
+      <section className="popular-cards-section">
+        <h2 className="section-title">🔥 인기 카드 상품</h2>
+        <div className="popular-cards-grid">
+          {POPULAR_CARDS.map(card => (
+            <div
+              key={card.id}
+              className="popular-card-item"
+              style={{ background: card.color }}
+              onClick={() => setSelectedCard(card)}
+            >
+              <div className="popular-card-issuer">{card.issuer}</div>
+              <div className="popular-card-name">{card.name}</div>
+              <div className="popular-card-tags">
+                {card.categories.map((cat, idx) => (
+                  <span key={idx} className="card-tag">#{cat}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <div className="dashboard">
         <section className="left-panel">
@@ -249,6 +274,56 @@ function App() {
                 style={{ marginTop: '1rem', padding: '1rem', background: 'var(--accent-color)', color: '#000' }}
               >
                 저장 및 대시보드 추가
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 카드 상세 정보 모달 */}
+      {selectedCard && (
+        <div className="modal-overlay" onClick={() => setSelectedCard(null)}>
+          <div className="modal-content card-detail-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{selectedCard.issuer} {selectedCard.name}</h2>
+              <button className="close-btn" onClick={() => setSelectedCard(null)}>✕</button>
+            </div>
+
+            <div className="card-detail-body">
+              <div className="card-preview" style={{ background: selectedCard.color }}>
+                <div className="card-preview-issuer">{selectedCard.issuer}</div>
+                <div className="card-preview-name">{selectedCard.name}</div>
+              </div>
+
+              <div className="card-info-section">
+                <h3>💳 카드 정보</h3>
+                <div className="info-row">
+                  <span className="info-label">연회비</span>
+                  <span className="info-value">{selectedCard.annualFee}</span>
+                </div>
+                <div className="info-row">
+                  <span className="info-label">전월 실적</span>
+                  <span className="info-value">{selectedCard.previousMonthSpending}</span>
+                </div>
+              </div>
+
+              <div className="card-benefits-section">
+                <h3>✨ 주요 혜택</h3>
+                <ul className="benefits-list">
+                  {selectedCard.benefits.map((benefit, idx) => (
+                    <li key={idx} className="benefit-item-detail">{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <button
+                className="add-to-wallet-btn-detail"
+                onClick={() => {
+                  alert(`${selectedCard.name} 카드 신청 페이지로 이동합니다.`);
+                  setSelectedCard(null);
+                }}
+              >
+                카드 신청하기
               </button>
             </div>
           </div>

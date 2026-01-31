@@ -715,3 +715,231 @@ button:hover {
     font-size: 0.9rem;
   }
 }
+
+/* 인기 카드 섹션 */
+.popular-cards-section {
+  margin-bottom: 3rem;
+}
+
+.popular-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .popular-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .popular-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.popular-card-item {
+  height: 140px;
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popular-card-item:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 768px) {
+  .popular-card-item {
+    height: 120px;
+    padding: 1.25rem;
+  }
+}
+
+.popular-card-issuer {
+  font-size: 0.75rem;
+  opacity: 0.9;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.popular-card-name {
+  font-size: 1.4rem;
+  font-weight: 900;
+  line-height: 1.2;
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .popular-card-name {
+    font-size: 1.2rem;
+  }
+}
+
+.popular-card-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.card-tag {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* 카드 상세 모달 */
+.card-detail-modal {
+  max-width: 500px;
+}
+
+.card-detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card-preview {
+  height: 180px;
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .card-preview {
+    height: 150px;
+    padding: 1.5rem;
+  }
+}
+
+.card-preview-issuer {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.card-preview-name {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .card-preview-name {
+    font-size: 1.6rem;
+  }
+}
+
+.card-info-section {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.card-info-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--accent-color);
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.info-value {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.card-benefits-section {
+  background: rgba(0, 242, 254, 0.03);
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid rgba(0, 242, 254, 0.1);
+}
+
+.card-benefits-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--accent-color);
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.benefit-item-detail {
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.benefit-item-detail::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-weight: 700;
+}
+
+.add-to-wallet-btn-detail {
+  width: 100%;
+  padding: 1.25rem;
+  background: var(--accent-color);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-to-wallet-btn-detail:hover {
+  transform: scale(1.02);
+  box-shadow: 0 5px 15px rgba(0, 242, 254, 0.3);
+}
+
+@media (max-width: 768px) {
+  .add-to-wallet-btn-detail {
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+}
