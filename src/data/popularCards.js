@@ -866,10 +866,21 @@ export const POPULAR_CARDS = [
 // 카드사 목록
 export const ISSUERS = ['전체', '신한카드', '현대카드', '삼성카드', '우리카드', '하나카드', '롯데카드'];
 
+// 배열 셔플 함수 (Fisher-Yates 알고리즘)
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
 // 카드사별 필터링 함수
 export function getCardsByIssuer(issuer) {
     if (issuer === '전체') {
-        return POPULAR_CARDS;
+        // 전체 탭에서는 카드를 섞어서 표시
+        return shuffleArray(POPULAR_CARDS);
     }
     return POPULAR_CARDS.filter(card => card.issuer === issuer);
 }
