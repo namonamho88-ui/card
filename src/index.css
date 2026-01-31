@@ -1117,3 +1117,28 @@ button:hover {
     font-size: 1.3rem;
   }
 }
+
+/* 카드 태그 */
+.catalog-card-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0;
+}
+
+.card-tag {
+  font-size: 0.65rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .card-tag {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.4rem;
+  }
+}

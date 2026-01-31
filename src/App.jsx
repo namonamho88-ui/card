@@ -101,6 +101,11 @@ function App() {
             >
               <div className="catalog-card-issuer">{card.issuer}</div>
               <div className="catalog-card-name">{card.name}</div>
+              <div className="catalog-card-tags">
+                {card.categories.slice(0, 2).map((cat, idx) => (
+                  <span key={idx} className="card-tag">#{cat}</span>
+                ))}
+              </div>
               <div className="catalog-card-fee">연회비 {card.annualFee}</div>
             </div>
           ))}
