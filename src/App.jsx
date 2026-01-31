@@ -1,14 +1,21 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { CARDS, TRANSACTIONS } from './data/mockData';
+import { CARDS as MOCK_CARDS, TRANSACTIONS } from './data/mockData';
 import { findBestCard } from './utils/recommender';
+import { supabase } from './utils/supabase';
 import './index.css';
 
 function App() {
+  const [cards, setCards] = useState(MOCK_CARDS);
   const [messages, setMessages] = useState([
     { role: 'agent', text: '안녕하세요! 체리피커 에이전트입니다. 어디서 얼마를 결제하실 건가요? 가장 혜택이 좋은 카드를 찾아드릴게요.' }
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const chatEndRef = useRef(null);
+
+  // Form states
+  const [newCard, setNewCard] = useState({ name: '', brand: '', color: 'linear-gradient(135deg, #667eea, #764ba2)', type: 'Credit' });
+  const [description, setDescription] = useState('');
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -18,6 +25,21 @@ function App() {
     scrollToBottom();
   }, [messages]);
 
+  // Fetch cards from Supabase (if configured)
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const { data, error } = await supabase.from('cards').select('*, benefits(*)');
+        if (data && data.length > 0) {
+          setCards(data);
+        }
+      } catch (err) {
+        console.log("Supabase not connected yet or table missing. Using mock data.");
+      }
+    };
+    fetchCards();
+  }, []);
+
   const handleSend = () => {
     if (!inputValue.trim()) return;
 
@@ -25,12 +47,9 @@ function App() {
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setInputValue('');
 
-    // Process logic
-    // Regex to extract merchant and amount
     const amountMatch = userMsg.match(/(\d+(?:,\d+)*)\s*원/);
     const amount = amountMatch ? parseInt(amountMatch[1].replace(/,/g, '')) : 20000;
 
-    // Simple merchant extraction
     let merchant = "기타";
     if (userMsg.includes("스타벅스")) merchant = "Starbucks";
     else if (userMsg.includes("이마트")) merchant = "E-Mart";
@@ -57,6 +76,44 @@ function App() {
     }, 600);
   };
 
+  const handleSmartParse = () => {
+    // Simulating AI parsing of the description
+    // In a real app, this could call an edge function or a simple regex engine
+    if (!description.includes("스타벅스") && !description.includes("할인")) {
+      alert("분석할 혜택 정보가 부족합니다. 상세 내용을 더 입력해주세요.");
+      return;
+    }
+
+    setNewCard({
+      ...newCard,
+      name: description.split(' ')[0] || "새로운 카드",
+      brand: "분석된 브랜드"
+    });
+    alert("혜택 분석이 완료되었습니다. 아래 정보를 확인하고 등록해주세요.");
+  };
+
+  const handleAddCard = async () => {
+    const cardToSave = {
+      ...newCard,
+      id: Date.now(), // Local fallback
+      benefits: [
+        { category: "Coffee", merchant: "Starbucks", percentage: 50, minSpend: 0 }
+      ]
+    };
+
+    try {
+      const { data, error } = await supabase.from('cards').insert([newCard]).select();
+      if (error) throw error;
+      alert("카드가 Supabase에 성공적으로 등록되었습니다!");
+    } catch (err) {
+      console.error(err);
+      alert("로컬 대시보드에 임시 등록되었습니다. (Supabase 연결 확인 필요)");
+    }
+
+    setCards(prev => [...prev, cardToSave]);
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="app-container">
       <header>
@@ -69,7 +126,7 @@ function App() {
           <div className="section-header">
             <h2 className="section-title">💳 My Cards</h2>
             <div className="card-grid">
-              {CARDS.map(card => (
+              {cards.map(card => (
                 <div
                   key={card.id}
                   className="card-item"
@@ -79,6 +136,10 @@ function App() {
                   <span className="card-name">{card.name}</span>
                 </div>
               ))}
+              <div className="add-card-btn" onClick={() => setIsModalOpen(true)}>
+                <span>+</span>
+                <span style={{ fontSize: '0.8rem' }}>새 카드 등록</span>
+              </div>
             </div>
           </div>
 
@@ -97,9 +158,6 @@ function App() {
                   </div>
                 </div>
               ))}
-              <div style={{ textAlign: 'center', padding: '1rem', color: '#666', fontSize: '0.8rem' }}>
-                외 {TRANSACTIONS.length - 10}건의 내역 더보기
-              </div>
             </div>
           </div>
         </section>
@@ -113,7 +171,7 @@ function App() {
                   <div dangerouslySetInnerHTML={{ __html: m.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
                   {m.recommendation && (
                     <div className="recommendation-result">
-                      💡 Tip: {m.recommendation.name}는 {m.recommendation.benefits[0].percentage}% 적립 혜택이 있습니다.
+                      💡 Tip: {m.recommendation.name}는 혜택 조건이 매우 좋습니다.
                     </div>
                   )}
                 </div>
@@ -133,6 +191,69 @@ function App() {
           </div>
         </section>
       </div>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>카드 등록하기</h2>
+              <button className="close-btn" onClick={() => setIsModalOpen(false)}>×</button>
+            </div>
+
+            <div className="smart-parse-area">
+              <h3>✨ 스마트 등록 (설명서 파싱)</h3>
+              <p style={{ fontSize: '0.8rem', color: '#888', marginBottom: '0.5rem' }}>
+                카드 상품 설명서나 혜택 내용을 복사해서 붙여넣어 보세요. 에이전트가 혜택을 분석합니다.
+              </p>
+              <textarea
+                placeholder="예: 현대카드 M3 BOOST - 스타벅스 50% 할인, 배달의민족 10% 적립..."
+                rows="4"
+                style={{ width: '100%', boxSizing: 'border-box' }}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <button className="parse-btn" onClick={handleSmartParse}>혜택 분석하기</button>
+            </div>
+
+            <div className="registration-form">
+              <div className="form-group">
+                <label>카드 이름</label>
+                <input
+                  type="text"
+                  value={newCard.name}
+                  onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
+                  placeholder="예: 신한 딥드림 카드"
+                />
+              </div>
+              <div className="form-group">
+                <label>카드사</label>
+                <input
+                  type="text"
+                  value={newCard.brand}
+                  onChange={(e) => setNewCard({ ...newCard, brand: e.target.value })}
+                  placeholder="예: 신한카드"
+                />
+              </div>
+              <div className="form-group">
+                <label>카드 타입</label>
+                <select
+                  value={newCard.type}
+                  onChange={(e) => setNewCard({ ...newCard, type: e.target.value })}
+                >
+                  <option>Credit</option>
+                  <option>Check</option>
+                </select>
+              </div>
+              <button
+                onClick={handleAddCard}
+                style={{ marginTop: '1rem', padding: '1rem', background: 'var(--accent-color)', color: '#000' }}
+              >
+                저장 및 대시보드 추가
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
