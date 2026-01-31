@@ -77,6 +77,7 @@ function App() {
 
       {/* 카드사 탭 네비게이션 */}
       <section className="card-catalog-section">
+        <h2 className="section-title">🏆 카드사별 인기 TOP10 카드 목록</h2>
         <div className="tabs-container">
           {ISSUERS.map(issuer => (
             <button
