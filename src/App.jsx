@@ -33,6 +33,12 @@ const App = () => {
 
   useEffect(() => {
     const fetchCards = async () => {
+      // Only attempt to fetch from local scraper if running on localhost
+      if (window.location.hostname !== 'localhost') {
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch('http://localhost:3001/api/cards');
         const result = await response.json();
@@ -41,7 +47,7 @@ const App = () => {
           setLastUpdate(result.lastUpdate);
         }
       } catch (error) {
-        console.error('Failed to fetch real-time cards:', error);
+        console.warn('Scraper server is not running locally. Using built-in data.');
       } finally {
         setLoading(false);
       }
