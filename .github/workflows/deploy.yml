@@ -29,16 +29,6 @@ jobs:
 
       - name: Build
         run: npm run build
-        env:
-          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
-
-      - name: Verify Secret Presence (Debug)
-        run: |
-          if [ -z "${{ secrets.VITE_GEMINI_API_KEY }}" ]; then
-            echo "::error::VITE_GEMINI_API_KEY가 비어있습니다! Repository Secrets를 확인해주세요."
-            exit 1
-          fi
-        shell: bash
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
