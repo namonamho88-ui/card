@@ -391,10 +391,12 @@ const App = () => {
               </div>
             </div>
           </div>
+          <div className="border-t border-white/10 mt-12 pt-8 text-center text-[#6B778C] text-[12px]">
+            © 2026 CARDSMART. All rights reserved. 본 서비스는 데이터 분석 기반의 추천을 제공하며 법적 조언을 대신하지 않습니다.
+          </div>
         </div>
+      </footer>
     </div>
-      </footer >
-    </div >
   );
 };
 
