@@ -55,26 +55,28 @@ function App() {
         return;
       }
 
-      // 프롬프트 최적화: 불필요한 공백 및 문구 제거하여 토큰 절약
+      // 프롬프트 최적화: 불필요한 공백 및 문구 제거하여 토큰 절약 (Aggressive Compression)
       const allCards = Object.values(POPULAR_CARDS).flat();
+      // Format: Issuer Name(Fee/Perform):Benefit1,Benefit2...
       const cardContext = allCards.map(c =>
-        `${c.issuer}|${c.name}|${c.annualFee}|${c.previousMonthSpending}|${c.benefits.join(',')}`
+        `${c.issuer} ${c.name}(${c.annualFee}/${c.previousMonthSpending}):${c.benefits.join(',')}`
       ).join('\n');
 
       const systemInstruction = `
-        당신은 카드 추천 전문가 '체리피커'입니다. 아래 데이터에서 사용자에게 맞는 카드를 3개 추천하세요.
-        데이터형식: 카드사|이름|연회비|전월실적|혜택목록
+        당신은 카드 추천 전문가 '체리피커'입니다. 아래 데이터 기반으로 추천하세요.
+        데이터: 카드사 상품명(연회비/실적):혜택...
 
         [데이터]
         ${cardContext}
 
         [가이드]
-        1. 질문 의도에 맞는 카드 1~3개 추천.
-        2. 추천 이유, 혜택, 조건 명시.
-        3. Markdown 포맷 사용.
+        1. 질문에 맞는 카드 3개 추천.
+        2. 이유,혜택,조건 설명.
+        3. Markdown 사용.
       `;
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+      // 모델 변경: gemini-2.0-flash (429) -> gemini-flash-latest (Stable)
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
