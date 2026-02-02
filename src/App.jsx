@@ -374,26 +374,25 @@ const App = () => {
               <div ref={chatEndRef} />
             </div>
 
-            {/* Chat Input */}
-            <div className="p-3 md:p-4 bg-white border-t border-slate-100 pb-safe">
-              <div className="relative flex items-center gap-2">
+            {/* Chat Input - Fixed & Clean */}
+            <div className="p-4 bg-white border-t border-slate-100 pb-safe shadow-[0_-4px_10px_rgba(0,0,0,0.03)]">
+              <div className="relative flex items-center gap-3">
                 <input
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="어떤 혜택을 원하시나요?"
-                  className="flex-grow bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-5 py-3 md:py-3.5 text-[15px] md:text-sm font-semibold focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400"
+                  placeholder="어떤 카드를 찾으시나요?"
+                  className="flex-grow bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-[15px] md:text-[14px] font-medium focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400"
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim()}
-                  className="absolute right-1.5 md:right-2 bg-indigo-600 text-white p-2 md:p-2.5 rounded-xl hover:bg-indigo-700 transition-all active:scale-90 disabled:opacity-30 shadow-lg shadow-indigo-100"
+                  className="bg-indigo-600 text-white p-3 rounded-2xl hover:bg-indigo-700 transition-all active:scale-95 disabled:opacity-40 shadow-lg shadow-indigo-100/50 flex items-center justify-center"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-center text-[9px] text-slate-400 mt-2 md:mt-3 font-bold uppercase tracking-[0.1em] hidden md:block">Space D AI Assistant</p>
             </div>
           </div>
         )}
