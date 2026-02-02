@@ -315,42 +315,46 @@ const App = () => {
       )}
 
       {/* Floating AI Chatbot */}
-      <div className={`fixed bottom-6 right-6 z-40 flex flex-col items-end transition-all duration-300 ${isChatOpen ? 'w-[360px] md:w-[420px]' : 'w-16'}`}>
+      <div className={`fixed z-40 flex flex-col items-end transition-all duration-300 md:bottom-6 md:right-6 
+        ${isChatOpen
+          ? 'inset-x-0 bottom-0 top-0 md:inset-auto md:w-[420px] md:h-[600px]'
+          : 'bottom-6 right-6 w-16 h-16'}`}>
+
         {isChatOpen && (
-          <div className="bg-white rounded-[2.5rem] shadow-2xl border border-slate-200 w-full h-[550px] flex flex-col mb-4 overflow-hidden animate-slide-up">
+          <div className="bg-white md:rounded-[2.5rem] shadow-2xl border border-slate-200 w-full h-full flex flex-col overflow-hidden animate-slide-up">
             {/* Chat Header - Glassmorphism */}
-            <div className="p-5 bg-indigo-600/95 backdrop-blur-lg text-white flex justify-between items-center shrink-0 border-b border-white/10">
+            <div className="p-4 md:p-5 bg-indigo-600/95 backdrop-blur-lg text-white flex justify-between items-center shrink-0 border-b border-white/10 pt-safe">
               <div className="flex items-center gap-3">
                 <div className="bg-white/20 p-2 rounded-xl backdrop-blur-md border border-white/20">
                   <Sparkles className="w-5 h-5 text-indigo-100" />
                 </div>
                 <div>
-                  <p className="text-sm font-black tracking-tight">AI Advisor</p>
-                  <p className="text-[9px] text-indigo-200 font-bold uppercase tracking-[0.2em] opacity-80">Premium Recommendation</p>
+                  <p className="text-[15px] font-black tracking-tight leading-none mb-1">AI Advisor</p>
+                  <p className="text-[9px] text-indigo-200 font-bold uppercase tracking-[0.2em] opacity-80 leading-none">Premium Recommendation</p>
                 </div>
               </div>
               <button onClick={() => setIsChatOpen(false)} className="p-2.5 hover:bg-white/10 rounded-full transition-all active:scale-90">
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6 md:w-5 md:h-5" />
               </button>
             </div>
 
             {/* Chat Messages */}
-            <div className="flex-grow overflow-y-auto p-5 space-y-6 bg-slate-50/50 no-scrollbar">
+            <div className="flex-grow overflow-y-auto p-4 md:p-5 space-y-6 bg-slate-50/50 no-scrollbar">
               {messages.map((msg, i) => (
-                <div key={i} className={`flex items-start gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                <div key={i} className={`flex items-start gap-2.5 md:gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                   {msg.role === 'assistant' ? (
-                    <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shrink-0 mt-1 shadow-sm border border-white/20">
-                      <Sparkles className="w-5 h-5 text-white" />
+                    <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl md:rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shrink-0 mt-1 shadow-sm border border-white/20">
+                      <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-white" />
                     </div>
                   ) : (
-                    <div className="w-9 h-9 rounded-2xl bg-white flex items-center justify-center shrink-0 mt-1 border border-slate-200 shadow-sm">
-                      <User className="w-5 h-5 text-slate-400" />
+                    <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl md:rounded-2xl bg-white flex items-center justify-center shrink-0 mt-1 border border-slate-200 shadow-sm">
+                      <User className="w-4 h-4 md:w-5 md:h-5 text-slate-400" />
                     </div>
                   )}
-                  <div className={`max-w-[78%] p-4 rounded-3xl text-[13.5px] leading-relaxed shadow-sm animate-zoom-in
+                  <div className={`max-w-[82%] md:max-w-[78%] p-3.5 md:p-4 rounded-[1.25rem] md:rounded-3xl text-[14px] md:text-[13.5px] leading-relaxed shadow-sm animate-zoom-in font-medium
                     ${msg.role === 'user'
-                      ? 'bg-indigo-600 text-white rounded-tr-none font-semibold'
-                      : 'bg-white text-slate-700 rounded-tl-none border border-slate-200 chat-markdown-content font-medium shadow-indigo-100/30'}`}
+                      ? 'bg-indigo-600 text-white rounded-tr-none'
+                      : 'bg-white text-slate-700 rounded-tl-none border border-slate-200 chat-markdown-content shadow-indigo-100/30'}`}
                   >
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {msg.content}
@@ -371,7 +375,7 @@ const App = () => {
             </div>
 
             {/* Chat Input */}
-            <div className="p-4 bg-white border-t border-slate-100">
+            <div className="p-3 md:p-4 bg-white border-t border-slate-100 pb-safe">
               <div className="relative flex items-center gap-2">
                 <input
                   type="text"
@@ -379,17 +383,17 @@ const App = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder="어떤 혜택을 원하시나요?"
-                  className="flex-grow bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400"
+                  className="flex-grow bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-5 py-3 md:py-3.5 text-[15px] md:text-sm font-semibold focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400"
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim()}
-                  className="absolute right-2 bg-indigo-600 text-white p-2.5 rounded-xl hover:bg-indigo-700 transition-all active:scale-90 disabled:opacity-30 shadow-lg shadow-indigo-100"
+                  className="absolute right-1.5 md:right-2 bg-indigo-600 text-white p-2 md:p-2.5 rounded-xl hover:bg-indigo-700 transition-all active:scale-90 disabled:opacity-30 shadow-lg shadow-indigo-100"
                 >
                   <Send className="w-4 h-4" />
                 </button>
               </div>
-              <p className="text-center text-[9px] text-slate-400 mt-3 font-bold uppercase tracking-[0.1em]">Space D AI Assistant</p>
+              <p className="text-center text-[9px] text-slate-400 mt-2 md:mt-3 font-bold uppercase tracking-[0.1em] hidden md:block">Space D AI Assistant</p>
             </div>
           </div>
         )}
