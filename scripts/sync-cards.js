@@ -219,6 +219,14 @@ async function runSync() {
     // 타겟 카드사 초기화
     Object.keys(ISSUER_COLORS).forEach(k => issuerBuckets[k] = []);
 
+    // 카드사별 ID 접두사 매핑
+    const ID_PREFIXES = {
+        '신한카드': 'sh', '삼성카드': 'ss', '현대카드': 'hd',
+        'KB국민카드': 'kb', '롯데카드': 'lo', '우리카드': 'wo',
+        '하나카드': 'hn', 'NH농협카드': 'nh', 'IBK기업은행': 'ib',
+        'BC카드': 'bc'
+    };
+
     rawCards.forEach(raw => {
         // 카드사 추론
         let issuer = inferIssuer(raw.name);
@@ -235,8 +243,9 @@ async function runSync() {
 
         // 버킷에 추가 (10개 꽉 차면 스킵)
         if (issuerBuckets[issuer].length < 10) {
+            const prefix = ID_PREFIXES[issuer] || 'etc';
             const newCard = {
-                id: `${issuer === 'KB국민카드' ? 'kb' : issuer === 'IBK기업은행' ? 'ibk' : issuer === 'NH농협카드' ? 'nh' : 'card'}-${issuerBuckets[issuer].length + 1}`,
+                id: `${prefix}-${issuerBuckets[issuer].length + 1}`,
                 issuer: issuer,
                 name: raw.name,
                 annualFee: "1~3만원", // 기본값

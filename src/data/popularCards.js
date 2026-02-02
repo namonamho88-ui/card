@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-02T17:27:32.168Z
+// Auto-generated card data - 2026-02-02T17:34:10.314Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -16,7 +16,7 @@ const ISSUER_COLORS = {
 
 export const POPULAR_CARDS = [
     {
-        "id": "card-1",
+        "id": "sh-1",
         "issuer": "신한카드",
         "name": "신한카드 Mr.Life",
         "annualFee": "1~3만원",
@@ -29,7 +29,7 @@ export const POPULAR_CARDS = [
         "rank": 3
     },
     {
-        "id": "card-1",
+        "id": "ss-1",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ALL 카드",
         "annualFee": "1~3만원",
@@ -42,7 +42,7 @@ export const POPULAR_CARDS = [
         "rank": 2
     },
     {
-        "id": "card-2",
+        "id": "sh-2",
         "issuer": "신한카드",
         "name": "신한카드 Mr.Life",
         "annualFee": "1~3만원",
@@ -55,7 +55,7 @@ export const POPULAR_CARDS = [
         "rank": 3
     },
     {
-        "id": "card-2",
+        "id": "ss-2",
         "issuer": "삼성카드",
         "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
         "annualFee": "1~3만원",
@@ -68,7 +68,7 @@ export const POPULAR_CARDS = [
         "rank": 4
     },
     {
-        "id": "card-1",
+        "id": "wo-1",
         "issuer": "우리카드",
         "name": "카드의정석 SHOPPING+",
         "annualFee": "1~3만원",
@@ -94,7 +94,7 @@ export const POPULAR_CARDS = [
         "rank": 6
     },
     {
-        "id": "card-3",
+        "id": "ss-3",
         "issuer": "삼성카드",
         "name": "삼성카드 taptap O",
         "annualFee": "1~3만원",
@@ -107,7 +107,7 @@ export const POPULAR_CARDS = [
         "rank": 7
     },
     {
-        "id": "card-1",
+        "id": "lo-1",
         "issuer": "롯데카드",
         "name": "LOCA 365 카드",
         "annualFee": "1~3만원",
@@ -120,7 +120,7 @@ export const POPULAR_CARDS = [
         "rank": 9
     },
     {
-        "id": "card-3",
+        "id": "sh-3",
         "issuer": "신한카드",
         "name": "신한카드 Discount Plan+",
         "annualFee": "1~3만원",
@@ -133,7 +133,7 @@ export const POPULAR_CARDS = [
         "rank": 10
     },
     {
-        "id": "card-4",
+        "id": "ss-4",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ALL 카드",
         "annualFee": "1~3만원",
@@ -146,7 +146,7 @@ export const POPULAR_CARDS = [
         "rank": 2
     },
     {
-        "id": "card-4",
+        "id": "sh-4",
         "issuer": "신한카드",
         "name": "신한카드 Mr.Life",
         "annualFee": "1~3만원",
@@ -159,7 +159,7 @@ export const POPULAR_CARDS = [
         "rank": 3
     },
     {
-        "id": "card-5",
+        "id": "ss-5",
         "issuer": "삼성카드",
         "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
         "annualFee": "1~3만원",
@@ -172,7 +172,7 @@ export const POPULAR_CARDS = [
         "rank": 4
     },
     {
-        "id": "card-2",
+        "id": "wo-2",
         "issuer": "우리카드",
         "name": "카드의정석 SHOPPING+",
         "annualFee": "1~3만원",
@@ -198,7 +198,7 @@ export const POPULAR_CARDS = [
         "rank": 6
     },
     {
-        "id": "card-6",
+        "id": "ss-6",
         "issuer": "삼성카드",
         "name": "삼성카드 taptap O",
         "annualFee": "1~3만원",
@@ -211,7 +211,7 @@ export const POPULAR_CARDS = [
         "rank": 7
     },
     {
-        "id": "card-2",
+        "id": "lo-2",
         "issuer": "롯데카드",
         "name": "LOCA 365 카드",
         "annualFee": "1~3만원",
@@ -224,7 +224,7 @@ export const POPULAR_CARDS = [
         "rank": 9
     },
     {
-        "id": "card-5",
+        "id": "sh-5",
         "issuer": "신한카드",
         "name": "신한카드 Discount Plan+",
         "annualFee": "1~3만원",
@@ -237,7 +237,7 @@ export const POPULAR_CARDS = [
         "rank": 10
     },
     {
-        "id": "card-7",
+        "id": "ss-7",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ON 카드",
         "annualFee": "1~3만원",
@@ -250,7 +250,7 @@ export const POPULAR_CARDS = [
         "rank": 11
     },
     {
-        "id": "card-6",
+        "id": "sh-6",
         "issuer": "신한카드",
         "name": "신한카드 처음(ANNIVERSE)",
         "annualFee": "1~3만원",
@@ -263,7 +263,7 @@ export const POPULAR_CARDS = [
         "rank": 12
     },
     {
-        "id": "card-3",
+        "id": "wo-3",
         "issuer": "우리카드",
         "name": "카드의정석 EVERY DISCOUNT",
         "annualFee": "1~3만원",
@@ -289,7 +289,7 @@ export const POPULAR_CARDS = [
         "rank": 14
     },
     {
-        "id": "card-3",
+        "id": "lo-3",
         "issuer": "롯데카드",
         "name": "LOCA LIKIT 1.2",
         "annualFee": "1~3만원",
@@ -302,7 +302,7 @@ export const POPULAR_CARDS = [
         "rank": 15
     },
     {
-        "id": "card-8",
+        "id": "ss-8",
         "issuer": "삼성카드",
         "name": "삼성 iD SIMPLE 카드",
         "annualFee": "1~3만원",
@@ -315,7 +315,7 @@ export const POPULAR_CARDS = [
         "rank": 16
     },
     {
-        "id": "card-9",
+        "id": "ss-9",
         "issuer": "삼성카드",
         "name": "taptap DIGITAL",
         "annualFee": "1~3만원",
@@ -328,7 +328,7 @@ export const POPULAR_CARDS = [
         "rank": 17
     },
     {
-        "id": "card-4",
+        "id": "wo-4",
         "issuer": "우리카드",
         "name": "카드의정석2",
         "annualFee": "1~3만원",
@@ -354,7 +354,7 @@ export const POPULAR_CARDS = [
         "rank": 20
     },
     {
-        "id": "card-5",
+        "id": "wo-5",
         "issuer": "우리카드",
         "name": "카드의정석 EVERY MILE SKYPASS",
         "annualFee": "1~3만원",
@@ -367,7 +367,7 @@ export const POPULAR_CARDS = [
         "rank": 21
     },
     {
-        "id": "card-10",
+        "id": "ss-10",
         "issuer": "삼성카드",
         "name": "THE iD. 1st",
         "annualFee": "1~3만원",
@@ -380,7 +380,7 @@ export const POPULAR_CARDS = [
         "rank": 23
     },
     {
-        "id": "card-7",
+        "id": "sh-7",
         "issuer": "신한카드",
         "name": "신한카드 Deep Oil",
         "annualFee": "1~3만원",
@@ -390,10 +390,10 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 24
+        "rank": 25
     },
     {
-        "id": "card-1",
+        "id": "bc-1",
         "issuer": "BC카드",
         "name": "BC 바로 On&Off 카드",
         "annualFee": "1~3만원",
@@ -406,7 +406,7 @@ export const POPULAR_CARDS = [
         "rank": 26
     },
     {
-        "id": "card-6",
+        "id": "wo-6",
         "issuer": "우리카드",
         "name": "우리카드 MILE&POINT",
         "annualFee": "1~3만원",
@@ -419,7 +419,7 @@ export const POPULAR_CARDS = [
         "rank": 27
     },
     {
-        "id": "card-1",
+        "id": "hd-1",
         "issuer": "현대카드",
         "name": "현대카드 M",
         "annualFee": "1~3만원",
@@ -432,7 +432,7 @@ export const POPULAR_CARDS = [
         "rank": 28
     },
     {
-        "id": "card-8",
+        "id": "sh-8",
         "issuer": "신한카드",
         "name": "신한카드 Air One",
         "annualFee": "1~3만원",
@@ -445,7 +445,7 @@ export const POPULAR_CARDS = [
         "rank": 29
     },
     {
-        "id": "card-2",
+        "id": "bc-2",
         "issuer": "BC카드",
         "name": "BC 바로 ZONE 카드",
         "annualFee": "1~3만원",
@@ -458,7 +458,7 @@ export const POPULAR_CARDS = [
         "rank": 32
     },
     {
-        "id": "card-9",
+        "id": "sh-9",
         "issuer": "신한카드",
         "name": "신한카드 Point Plan",
         "annualFee": "1~3만원",
@@ -471,7 +471,7 @@ export const POPULAR_CARDS = [
         "rank": 34
     },
     {
-        "id": "card-7",
+        "id": "wo-7",
         "issuer": "우리카드",
         "name": "우리카드 7CORE",
         "annualFee": "1~3만원",
@@ -484,7 +484,7 @@ export const POPULAR_CARDS = [
         "rank": 35
     },
     {
-        "id": "card-10",
+        "id": "sh-10",
         "issuer": "신한카드",
         "name": "메리어트 본보이™ 더 베스트 신한카드",
         "annualFee": "1~3만원",
@@ -497,7 +497,7 @@ export const POPULAR_CARDS = [
         "rank": 37
     },
     {
-        "id": "card-2",
+        "id": "hd-2",
         "issuer": "현대카드",
         "name": "현대카드ZERO Edition3(할인형)",
         "annualFee": "1~3만원",
@@ -510,7 +510,7 @@ export const POPULAR_CARDS = [
         "rank": 38
     },
     {
-        "id": "card-8",
+        "id": "wo-8",
         "issuer": "우리카드",
         "name": "카드의정석 EVERY POINT",
         "annualFee": "1~3만원",
@@ -523,7 +523,7 @@ export const POPULAR_CARDS = [
         "rank": 42
     },
     {
-        "id": "card-3",
+        "id": "hd-3",
         "issuer": "현대카드",
         "name": "현대카드 Summit",
         "annualFee": "1~3만원",
@@ -536,7 +536,7 @@ export const POPULAR_CARDS = [
         "rank": 43
     },
     {
-        "id": "card-4",
+        "id": "hd-4",
         "issuer": "현대카드",
         "name": "현대카드 ZERO Up",
         "annualFee": "1~3만원",
@@ -549,7 +549,7 @@ export const POPULAR_CARDS = [
         "rank": 45
     },
     {
-        "id": "card-9",
+        "id": "wo-9",
         "issuer": "우리카드",
         "name": "카드의정석 TEN",
         "annualFee": "1~3만원",
@@ -588,7 +588,7 @@ export const POPULAR_CARDS = [
         "rank": 52
     },
     {
-        "id": "card-3",
+        "id": "bc-3",
         "issuer": "BC카드",
         "name": "BC 바로 MACAO 카드",
         "annualFee": "1~3만원",
@@ -614,7 +614,7 @@ export const POPULAR_CARDS = [
         "rank": 55
     },
     {
-        "id": "card-4",
+        "id": "bc-4",
         "issuer": "BC카드",
         "name": "GOAT BC 바로카드",
         "annualFee": "1~3만원",
@@ -627,7 +627,7 @@ export const POPULAR_CARDS = [
         "rank": 58
     },
     {
-        "id": "card-10",
+        "id": "wo-10",
         "issuer": "우리카드",
         "name": "카드의정석 I&U+",
         "annualFee": "1~3만원",
@@ -640,7 +640,7 @@ export const POPULAR_CARDS = [
         "rank": 59
     },
     {
-        "id": "card-1",
+        "id": "hn-1",
         "issuer": "하나카드",
         "name": "하나 스카이패스 아멕스 플래티늄 카드",
         "annualFee": "1~3만원",
@@ -653,7 +653,7 @@ export const POPULAR_CARDS = [
         "rank": 61
     },
     {
-        "id": "card-2",
+        "id": "hn-2",
         "issuer": "하나카드",
         "name": "토스뱅크 하나카드 Day",
         "annualFee": "1~3만원",
@@ -666,7 +666,7 @@ export const POPULAR_CARDS = [
         "rank": 64
     },
     {
-        "id": "ibk-1",
+        "id": "ib-1",
         "issuer": "IBK기업은행",
         "name": "IBK포인트(신용)",
         "annualFee": "1~3만원",
@@ -679,7 +679,7 @@ export const POPULAR_CARDS = [
         "rank": 65
     },
     {
-        "id": "card-5",
+        "id": "hd-5",
         "issuer": "현대카드",
         "name": "현대카드T",
         "annualFee": "1~3만원",
@@ -705,7 +705,7 @@ export const POPULAR_CARDS = [
         "rank": 69
     },
     {
-        "id": "card-6",
+        "id": "hd-6",
         "issuer": "현대카드",
         "name": "에너지플러스 현대카드",
         "annualFee": "1~3만원",
@@ -718,7 +718,7 @@ export const POPULAR_CARDS = [
         "rank": 70
     },
     {
-        "id": "card-7",
+        "id": "hd-7",
         "issuer": "현대카드",
         "name": "현대카드O",
         "annualFee": "1~3만원",
@@ -731,6 +731,19 @@ export const POPULAR_CARDS = [
         "rank": 71
     },
     {
+        "id": "hn-3",
+        "issuer": "하나카드",
+        "name": "원더카드 2.0 FREE+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+        "rank": 72
+    },
+    {
         "id": "kb-5",
         "issuer": "KB국민카드",
         "name": "Easy all 티타늄카드",
@@ -741,23 +754,10 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
-        "rank": 72
-    },
-    {
-        "id": "card-3",
-        "issuer": "하나카드",
-        "name": "원더카드 2.0 FREE+",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 73
     },
     {
-        "id": "card-4",
+        "id": "lo-4",
         "issuer": "롯데카드",
         "name": "LOCA LIKIT Eat",
         "annualFee": "1~3만원",
@@ -783,7 +783,7 @@ export const POPULAR_CARDS = [
         "rank": 78
     },
     {
-        "id": "card-8",
+        "id": "hd-8",
         "issuer": "현대카드",
         "name": "현대카드 MX Black Edition2",
         "annualFee": "1~3만원",
@@ -796,7 +796,7 @@ export const POPULAR_CARDS = [
         "rank": 79
     },
     {
-        "id": "ibk-2",
+        "id": "ib-2",
         "issuer": "IBK기업은행",
         "name": "IBK포인트3.8(신용)",
         "annualFee": "1~3만원",
@@ -809,7 +809,7 @@ export const POPULAR_CARDS = [
         "rank": 81
     },
     {
-        "id": "card-4",
+        "id": "hn-4",
         "issuer": "하나카드",
         "name": "원더카드 2.0 LIFE",
         "annualFee": "1~3만원",
@@ -822,7 +822,7 @@ export const POPULAR_CARDS = [
         "rank": 84
     },
     {
-        "id": "card-9",
+        "id": "hd-9",
         "issuer": "현대카드",
         "name": "현대카드MY BUSINESS M F&B",
         "annualFee": "1~3만원",
@@ -835,7 +835,7 @@ export const POPULAR_CARDS = [
         "rank": 87
     },
     {
-        "id": "card-5",
+        "id": "lo-5",
         "issuer": "롯데카드",
         "name": "LOCA LIKIT Play",
         "annualFee": "1~3만원",
@@ -848,7 +848,7 @@ export const POPULAR_CARDS = [
         "rank": 88
     },
     {
-        "id": "card-5",
+        "id": "hn-5",
         "issuer": "하나카드",
         "name": "트래블로그 신용카드",
         "annualFee": "1~3만원",
@@ -874,19 +874,6 @@ export const POPULAR_CARDS = [
         "rank": 92
     },
     {
-        "id": "card-5",
-        "issuer": "BC카드",
-        "name": "BC 바로 클리어 플러스",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
-        "rank": 95
-    },
-    {
         "id": "nh-5",
         "issuer": "NH농협카드",
         "name": "올바른 NEW HAVE카드",
@@ -897,6 +884,19 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
+        "rank": 94
+    },
+    {
+        "id": "bc-5",
+        "issuer": "BC카드",
+        "name": "BC 바로 클리어 플러스",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
         "rank": 96
     },
     {
