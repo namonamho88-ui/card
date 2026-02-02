@@ -5,16 +5,13 @@ import { CARD_DATA } from './data/popularCards';
 import './index.css';
 
 const App = () => {
-  // --- Logic: Card Data Management ---
   const [cardData, setCardData] = useState(CARD_DATA);
   const [lastUpdate, setLastUpdate] = useState(null);
 
-  // UI State
   const ISSUERS = Object.keys(cardData);
   const [selectedIssuer, setSelectedIssuer] = useState(ISSUERS[0] || "신한카드");
   const [selectedCard, setSelectedCard] = useState(null);
 
-  // Chatbot State
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -25,15 +22,12 @@ const App = () => {
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
 
-  // Auto-scroll to bottom of chat
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  // --- Logic: Local Scraper Sync (Optional Dev Mode) ---
   useEffect(() => {
     const fetchCards = async () => {
-      // Logic for local dev environment only
       if (window.location.hostname === 'localhost') {
         try {
           const response = await fetch('http://localhost:3001/api/cards');
@@ -50,7 +44,6 @@ const App = () => {
     fetchCards();
   }, []);
 
-  // --- Logic: Chatbot Interaction ---
   const handleSend = async () => {
     if (!inputValue.trim()) return;
 
@@ -63,11 +56,10 @@ const App = () => {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (!apiKey) throw new Error('API_KEY_MISSING');
 
-      // Optimizing data for token limit
       const optimizedCardData = Object.entries(cardData).reduce((acc, [corp, cards]) => {
         acc[corp] = cards.map(c => ({
           name: c.name,
-          benefits: c.benefits.slice(0, 2), // Send top 2 benefits only
+          benefits: c.benefits.slice(0, 2),
           fee: c.fee
         }));
         return acc;
@@ -112,7 +104,6 @@ const App = () => {
 
   return (
     <div className="app-container">
-      {/* Header */}
       <header>
         <h1>Cherry Picker</h1>
         <p className="tagline">현명한 소비의 시작</p>
@@ -123,13 +114,11 @@ const App = () => {
         )}
       </header>
 
-      {/* Card Catalog */}
       <section className="card-catalog-section">
         <div className="section-title">
           <span>🏆</span> 실시간 인기 카드
         </div>
 
-        {/* Tabs */}
         <div className="tabs-container">
           {ISSUERS.map(issuer => (
             <button
@@ -142,7 +131,6 @@ const App = () => {
           ))}
         </div>
 
-        {/* Grid */}
         <div className="catalog-cards-grid">
           {displayedCards.map((card, idx) => (
             <div
@@ -164,7 +152,6 @@ const App = () => {
         </div>
       </section>
 
-      {/* Chatbot */}
       <section className="chatbot-section">
         <div className="section-title">
           <span>🤖</span> AI 카드 추천
@@ -208,7 +195,6 @@ const App = () => {
         </div>
       </section>
 
-      {/* Details Modal */}
       {selectedCard && (
         <div className="modal-overlay" onClick={() => setSelectedCard(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -245,7 +231,7 @@ const App = () => {
               <button
                 className="add-to-wallet-btn-detail"
                 onClick={() => {
-                  alert("신청 페이지로 이동합니다 (준비중)");
+                  alert("신청 페이지로 이동합니다");
                   setSelectedCard(null);
                 }}
               >
