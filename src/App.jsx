@@ -8,41 +8,28 @@ const App = () => {
   const [cardData, setCardData] = useState(CARD_DATA);
   const [lastUpdate, setLastUpdate] = useState(null);
 
+  // UI State
   const ISSUERS = Object.keys(cardData);
-  const [selectedIssuer, setSelectedIssuer] = useState(ISSUERS[0] || "신한카드");
+  const [selectedIssuer, setSelectedIssuer] = useState(
+    ISSUERS.length > 0 ? ISSUERS[0] : "신한카드"
+  );
   const [selectedCard, setSelectedCard] = useState(null);
 
+  // Chatbot State
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: '안녕하세요! 소비 패턴에 딱 맞는 카드를 찾아드릴게요. \n\n"영화 자주 보는데 할인율 높은 카드는 뭐야?" 처럼 물어보세요!'
+      content: '안녕하세요! 소비 패턴에 딱 맞는 카드를 찾아드릴게요.\n\n"영화 자주 보는데 할인율 높은 카드는 뭐야?" 처럼 물어보세요!'
     }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
 
+  // Auto-scroll
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
-
-  useEffect(() => {
-    const fetchCards = async () => {
-      if (window.location.hostname === 'localhost') {
-        try {
-          const response = await fetch('http://localhost:3001/api/cards');
-          const result = await response.json();
-          if (result.data) {
-            setCardData(result.data);
-            setLastUpdate(result.lastUpdate);
-          }
-        } catch (error) {
-          console.warn('Scraper data check: Using static card database.');
-        }
-      }
-    };
-    fetchCards();
-  }, []);
 
   const handleSend = async () => {
     if (!inputValue.trim()) return;
@@ -54,7 +41,15 @@ const App = () => {
 
     try {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      if (!apiKey) throw new Error('API_KEY_MISSING');
+
+      // Fallback response if no API key
+      if (!apiKey) {
+        setTimeout(() => {
+          setMessages(prev => [...prev, { role: 'assistant', content: "API 키가 설정되지 않아 데모 응답을 보여드립니다. \n\n**추천 카드**: 신한카드 Deep Dream\n- 전월 실적 없음\n- 0.7% 기본 적립" }]);
+          setIsTyping(false);
+        }, 1000);
+        return;
+      }
 
       const optimizedCardData = Object.entries(cardData).reduce((acc, [corp, cards]) => {
         acc[corp] = cards.map(c => ({
@@ -66,16 +61,9 @@ const App = () => {
       }, {});
 
       const systemInstruction = `
-        당신은 금융 전문가 '체리피커'입니다. 토스(Toss) 앱처럼 친절하고 간결한 말투를 사용하세요.
-        사용자의 질문을 분석하여 제공된 카드 데이터베이스 내에서 가장 적합한 카드를 **최대 3개** 추천해주세요.
-        
-        [답변 가이드]
-        1. 핵심만 간결하게 설명하세요.
-        2. 카드 비교는 반드시 **Markdown 표(Table)** 형식을 사용하세요.
-        3. 표 컬럼: [카드명 | 주요 혜택 | 추천 이유]
-        4. 데이터에 없는 내용은 지어내지 마세요.
-        
-        카드 데이터: ${JSON.stringify(optimizedCardData)}
+        당신은 카드 추천 전문가입니다.
+        데이터: ${JSON.stringify(optimizedCardData)}
+        사용자 질문에 맞춰 카드를 3개 추천하고, 출력은 Markdown Table로 해주세요.
       `;
 
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
@@ -88,13 +76,10 @@ const App = () => {
       });
 
       const data = await response.json();
-      const botResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "죄송합니다. 잠시 후 다시 시도해주세요.";
+      const botResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "죄송합니다. 오류가 발생했습니다.";
       setMessages(prev => [...prev, { role: 'assistant', content: botResponse }]);
     } catch (error) {
-      console.error('Chatbot Error:', error);
-      let errorMessage = "네트워크 연결을 확인해주세요.";
-      if (error.message === 'API_KEY_MISSING') errorMessage = "API 키가 설정되지 않았습니다.";
-      setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: "일시적인 오류가 발생했습니다." }]);
     } finally {
       setIsTyping(false);
     }
@@ -107,13 +92,9 @@ const App = () => {
       <header>
         <h1>Cherry Picker</h1>
         <p className="tagline">현명한 소비의 시작</p>
-        {lastUpdate && (
-          <span className="last-update">
-            업데이트: {new Date(lastUpdate).toLocaleDateString()}
-          </span>
-        )}
       </header>
 
+      {/* Catalog */}
       <section className="card-catalog-section">
         <div className="section-title">
           <span>🏆</span> 실시간 인기 카드
@@ -138,7 +119,7 @@ const App = () => {
               className="catalog-card-item"
               onClick={() => setSelectedCard(card)}
             >
-              <div className="catalog-card-rank">{card.rank || idx + 1}위</div>
+              <span className="catalog-card-rank">{card.rank || idx + 1}위</span>
               <div className="catalog-card-image">{card.image || "💳"}</div>
               <div className="catalog-card-name">{card.name}</div>
               <div className="catalog-card-tags">
@@ -152,6 +133,7 @@ const App = () => {
         </div>
       </section>
 
+      {/* Chatbot */}
       <section className="chatbot-section">
         <div className="section-title">
           <span>🤖</span> AI 카드 추천
@@ -173,9 +155,7 @@ const App = () => {
               </div>
             ))}
             {isTyping && (
-              <div className="message agent">
-                <span className="typing-dots">...</span>
-              </div>
+              <div className="message agent">...</div>
             )}
             <div ref={chatEndRef} />
           </div>
@@ -183,18 +163,17 @@ const App = () => {
           <div className="input-area">
             <input
               type="text"
-              placeholder="어떤 혜택을 찾으세요?"
+              placeholder="질문을 입력하세요..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             />
-            <button onClick={handleSend} disabled={isTyping || !inputValue.trim()}>
-              ↑
-            </button>
+            <button onClick={handleSend} disabled={isTyping}>↑</button>
           </div>
         </div>
       </section>
 
+      {/* Modal */}
       {selectedCard && (
         <div className="modal-overlay" onClick={() => setSelectedCard(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -208,33 +187,23 @@ const App = () => {
                 <div className="card-preview-name">{selectedCard.name}</div>
               </div>
 
-              <div className="card-info-section">
-                <div className="info-row">
-                  <span className="info-label">연회비</span>
-                  <span className="info-value">{selectedCard.fee}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">전월 실적</span>
-                  <span className="info-value">{selectedCard.record}</span>
-                </div>
+              <div className="info-row">
+                <span className="info-label">연회비</span>
+                <span className="info-value">{selectedCard.fee}</span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">전월 실적</span>
+                <span className="info-value">{selectedCard.record || '정보 없음'}</span>
               </div>
 
               <div className="card-benefits-section">
                 <h3>주요 혜택</h3>
-                <ul className="benefits-list">
-                  {selectedCard.benefits.map((benefit, idx) => (
-                    <li key={idx} className="benefit-item-detail">{benefit}</li>
-                  ))}
-                </ul>
+                {selectedCard.benefits.map((benefit, idx) => (
+                  <div key={idx} className="benefit-item-detail">{benefit}</div>
+                ))}
               </div>
 
-              <button
-                className="add-to-wallet-btn-detail"
-                onClick={() => {
-                  alert("신청 페이지로 이동합니다");
-                  setSelectedCard(null);
-                }}
-              >
+              <button className="add-to-wallet-btn-detail" onClick={() => alert("신청 기능 준비중")}>
                 신청하기
               </button>
             </div>
