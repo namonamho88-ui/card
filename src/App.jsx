@@ -11,6 +11,11 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [selectedIssuer, setSelectedIssuer] = useState('전체');
   const chatEndRef = useRef(null);
+  const chatbotSectionRef = useRef(null); // 챗봇 섹션 참조
+
+  const scrollToChatbot = () => {
+    chatbotSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -186,7 +191,7 @@ function App() {
       </section>
 
       {/* AI 챗봇 섹션 */}
-      <section className="chatbot-section">
+      <section className="chatbot-section" ref={chatbotSectionRef}>
         <h2 className="section-title">🤖 AI 카드 추천</h2>
         <div className="agent-container">
           <div className="chat-history">
@@ -264,6 +269,16 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* 플로팅 챗봇 버튼 */}
+      <div className="floating-chat-widget">
+        <button className="floating-chat-btn" onClick={scrollToChatbot} aria-label="챗봇 열기">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9C5 11.38 6.19 13.47 8 14.74V17C8 17.55 8.45 18 9 18H10C10.55 18 11 17.55 11 17V16H13V17C13 17.55 13.45 18 14 18H15C15.55 18 16 17.55 16 17V14.74C17.81 13.47 19 11.38 19 9C19 5.13 15.87 2 12 2ZM7 9C7 7.62 8.12 6.5 9.5 6.5C9.85 6.5 10.12 6.84 10.02 7.18C9.55 8.92 7.23 9.77 7.02 8.87C7 9.03 7 9.17 7 9ZM12 13.5C10.62 13.5 9.5 12.38 9.5 11C9.5 10.17 9.83 9 12 9C14.17 9 14.5 10.17 14.5 11C14.5 12.38 13.38 13.5 12 13.5ZM17 9C17 9.17 16.98 9.03 16.98 8.87C16.77 9.77 14.45 8.92 13.98 7.18C13.88 6.84 14.15 6.5 14.5 6.5C15.88 6.5 17 7.62 17 9Z" fill="currentColor" />
+          </svg>
+          <span className="tooltip">AI 추천받기</span>
+        </button>
+      </div>
     </div>
   );
 }
