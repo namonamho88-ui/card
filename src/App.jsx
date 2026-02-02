@@ -55,25 +55,23 @@ function App() {
         return;
       }
 
-      // 프롬프트 구성을 위한 카드 데이터 요약
+      // 프롬프트 최적화: 불필요한 공백 및 문구 제거하여 토큰 절약
       const allCards = Object.values(POPULAR_CARDS).flat();
       const cardContext = allCards.map(c =>
-        `- [${c.issuer}] ${c.name} (연회비: ${c.annualFee}, 전월실적: ${c.previousMonthSpending}): ${c.benefits.join(', ')}`
+        `${c.issuer}|${c.name}|${c.annualFee}|${c.previousMonthSpending}|${c.benefits.join(',')}`
       ).join('\n');
 
       const systemInstruction = `
-        당신은 대한민국 최고의 신용카드 추천 전문가 '체리피커'입니다.
-        아래 제공된 카드 데이터베이스를 바탕으로 사용자의 질문에 가장 적합한 카드를 추천해주세요.
+        당신은 카드 추천 전문가 '체리피커'입니다. 아래 데이터에서 사용자에게 맞는 카드를 3개 추천하세요.
+        데이터형식: 카드사|이름|연회비|전월실적|혜택목록
 
-        [카드 데이터베이스]
+        [데이터]
         ${cardContext}
 
-        [답변 가이드]
-        1. 사용자의 질문 의도를 파악하여 가장 적합한 카드를 1~3개 추천하세요.
-        2. 각 추천 카드에 대해 '추천 이유', '주요 혜택', '연회비/실적 조건'을 명확히 설명하세요.
-        3. 답변은 가독성 좋게 Markdown 형식(볼드체, 리스트 등)을 사용하여 작성하세요.
-        4. 친절하고 전문적인 어조를 유지하세요.
-        5. 데이터베이스에 없는 내용은 지어내지 마세요.
+        [가이드]
+        1. 질문 의도에 맞는 카드 1~3개 추천.
+        2. 추천 이유, 혜택, 조건 명시.
+        3. Markdown 포맷 사용.
       `;
 
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
@@ -86,6 +84,9 @@ function App() {
       });
 
       if (!response.ok) {
+        if (response.status === 429) {
+          throw new Error("Too Many Requests (Rate Limit)");
+        }
         throw new Error(`API Error: ${response.status}`);
       }
 
@@ -100,9 +101,15 @@ function App() {
 
     } catch (error) {
       console.error("Gemini API Error:", error);
+      let errorMsg = "죄송합니다. 일시적인 오류가 발생했습니다.";
+
+      if (error.message.includes("Too Many Requests")) {
+        errorMsg = "⚠️ 가용량이 초과되었습니다 (429 Error).\n\n무료 버전 API 사용량이 많아 일시적으로 제한되었습니다. 약 1분 뒤에 다시 시도해주세요.";
+      }
+
       setMessages(prev => prev.map(msg =>
         msg.id === loadingId
-          ? { ...msg, text: "죄송합니다. 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", isLoading: false }
+          ? { ...msg, text: errorMsg, isLoading: false }
           : msg
       ));
     }
