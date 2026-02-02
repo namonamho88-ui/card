@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {
@@ -15,16 +15,17 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { CARD_DATA } from './data/popularCards';
+import './index.css';
 
 const App = () => {
+  // Logic: Card Data & Scraper
   const [cardData, setCardData] = useState(CARD_DATA);
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState(null);
-  const [selectedCompany, setSelectedCompany] = useState("신한카드");
+  const [selectedIssuer, setSelectedIssuer] = useState("신한카드");
   const [selectedCard, setSelectedCard] = useState(null);
 
-  // Chatbot State
-  const [isChatOpen, setIsChatOpen] = useState(false);
+  // Logic: Chatbot State
   const [messages, setMessages] = useState([
     { role: 'assistant', content: '안녕하세요! 당신의 소비 패턴에 맞는 최고의 금융 상품을 제안해드리는 금융 AI 상담사입니다. 궁금한 점이 있으시면 언제든 말씀해 주세요.' }
   ]);
@@ -32,6 +33,7 @@ const App = () => {
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
 
+  // Crawling Logic (Current)
   useEffect(() => {
     const fetchCards = async () => {
       if (window.location.hostname !== 'localhost') {
@@ -58,11 +60,12 @@ const App = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSendMessage = async () => {
+  // Chatbot Logic (Gemini - Current)
+  const handleSend = async () => {
     if (!inputValue.trim()) return;
 
-    const userMessage = { role: 'user', content: inputValue };
-    setMessages(prev => [...prev, userMessage]);
+    const userMsg = inputValue;
+    setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
     setInputValue('');
     setIsTyping(true);
 
@@ -87,7 +90,7 @@ const App = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: inputValue }] }],
+          contents: [{ role: 'user', parts: [{ text: userMsg }] }],
           system_instruction: { parts: [{ text: systemInstruction }] }
         })
       });
@@ -105,299 +108,149 @@ const App = () => {
     }
   };
 
+  // UI Derived Data
+  const ISSUERS = Object.keys(cardData);
+  const displayedCards = cardData[selectedIssuer] || [];
+
   return (
-    <div className="min-h-screen bg-[#F4F7FA]">
-      {/* Header */}
-      <header className="sticky top-0 bg-white border-b border-[#E2E8F0] z-40">
-        <div className="max-width-container h-[64px] flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#0052CC] rounded-[8px] flex items-center justify-center">
-              <CreditCard className="text-white w-5 h-5" />
-            </div>
-            <h1 className="text-[20px] font-extrabold tracking-tight text-[#091E42]">CARDSMART</h1>
-          </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="#" className="font-bold text-[#0052CC]">실시간 랭킹</a>
-            <a href="#" className="font-bold text-[#6B778C] hover:text-[#0052CC]">맞춤 카드 찾기</a>
-            <a href="#" className="font-bold text-[#6B778C] hover:text-[#0052CC]">고객지원</a>
-          </nav>
-          <div className="flex items-center gap-3">
-            <button className="text-[14px] font-bold text-[#6B778C] h-[40px] px-4">로그인</button>
-            <button className="btn btn-primary h-[40px] px-5 text-[14px]">회원가입</button>
-          </div>
-        </div>
+    <div className="app-container">
+      <header>
+        <h1>Cherry Picker Agent</h1>
+        <p className="tagline">당신의 소비를 스마트하게, 혜택은 극대화로.</p>
+        {lastUpdate && (
+          <p className="last-update">
+            업데이트: {new Date(lastUpdate).toLocaleString('ko-KR')}
+          </p>
+        )}
       </header>
 
-      {/* Hero Section */}
-      <section className="bg-white py-16">
-        <div className="max-width-container">
-          <div className="max-w-[640px] animate-up">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#EBF2FF] text-[#0052CC] rounded-full text-[12px] font-extrabold mb-6">
-              <TrendingUp className="w-4 h-4" /> 실시간 데이터 분석 완료
-            </div>
-            <h2 className="text-[40px] md:text-[52px] leading-[1.1] mb-6">
-              금융 전문가가 추천하는<br />
-              <span className="text-[#0052CC]">내 인생 최고의 카드</span>
-            </h2>
-            <p className="text-[18px] text-[#6B778C] mb-8 font-medium">
-              국내 모든 카드사의 실시간 혜택을 분석하여<br />
-              사용자의 소비 패턴에 최적화된 상품을 제안합니다.
-            </p>
-            <div className="flex gap-3">
-              <button className="btn btn-primary px-8 h-[52px] text-[16px]">지금 내 카드 찾기</button>
-              <button className="btn bg-white border border-[#DFE1E6] text-[#091E42] px-8 h-[52px] text-[16px] hover:bg-[#F4F7FA]">랭킹 전체보기</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content: Card List */}
-      <main className="max-width-container py-12">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-          <div className="flex items-center gap-3">
-            <h3 className="text-[24px] font-bold">인기 카드 차트</h3>
-            {lastUpdate && (
-              <div className="flex items-center gap-1.5 px-3 py-1 bg-white border border-[#DFE1E6] rounded-full text-[12px] text-[#6B778C] font-bold">
-                <Clock className="w-3.5 h-3.5" />
-                {new Date(lastUpdate).toLocaleString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 업데이트
-              </div>
-            )}
-          </div>
-
-          <div className="flex gap-1.5 p-1 bg-white border border-[#DFE1E6] rounded-[16px] overflow-x-auto no-scrollbar max-w-full">
-            {Object.keys(cardData).map(company => (
-              <button
-                key={company}
-                onClick={() => setSelectedCompany(company)}
-                className={`h-[40px] px-5 rounded-[12px] text-[14px] font-bold transition-all whitespace-nowrap
-                  ${selectedCompany === company
-                    ? 'bg-[#0052CC] text-white shadow-md'
-                    : 'text-[#6B778C] hover:bg-[#F4F7FA] hover:text-[#091E42]'}`}
-              >
-                {company}
-              </button>
-            ))}
-          </div>
+      {/* 카드사 탭 네비게이션 (56b384b UI) */}
+      <section className="card-catalog-section">
+        <h2 className="section-title">🏆 카드사별 인기 TOP10 카드 목록</h2>
+        <div className="tabs-container">
+          {ISSUERS.map(issuer => (
+            <button
+              key={issuer}
+              className={`tab-btn ${selectedIssuer === issuer ? 'active' : ''}`}
+              onClick={() => setSelectedIssuer(issuer)}
+            >
+              {issuer}
+            </button>
+          ))}
         </div>
 
-        {/* Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cardData[selectedCompany].map((card) => (
+        {/* 카드 그리드 (56b384b UI) */}
+        <div className="catalog-cards-grid">
+          {displayedCards.map(card => (
             <div
-              key={card.id}
-              className="card-finance p-6 flex flex-col group cursor-pointer"
+              key={card.id || card.name}
+              className="catalog-card-item"
+              style={{ background: card.color || '#172B4D' }}
               onClick={() => setSelectedCard(card)}
             >
-              <div className="flex justify-between items-start mb-6">
-                <div className="rank-badge">{card.rank}</div>
-                <div className="text-[12px] font-extrabold text-[#0052CC] bg-[#EBF2FF] px-2 py-1 rounded-md">{selectedCompany}</div>
-              </div>
-
-              <div className="flex gap-4 mb-6">
-                <div className="w-[80px] h-[120px] bg-[#172B4D] rounded-[10px] shadow-lg flex items-center justify-center shrink-0">
-                  <CreditCard className="text-white/20 w-8 h-8" />
-                </div>
-                <div className="flex flex-col pt-2">
-                  <h4 className="text-[18px] leading-tight mb-2 group-hover:text-[#0052CC] transition-colors line-clamp-2">{card.name}</h4>
-                  <div className="text-[13px] text-[#6B778C] font-bold">연회비 {card.fee}</div>
-                </div>
-              </div>
-
-              <div className="flex-grow space-y-2.5 mb-6">
-                {card.benefits.slice(0, 3).map((b, idx) => (
-                  <div key={idx} className="flex items-center gap-2.5">
-                    <div className="w-1.5 h-1.5 bg-[#0052CC] rounded-full"></div>
-                    <span className="text-[14px] text-[#42526E] font-medium line-clamp-1">{b}</span>
-                  </div>
+              <div className="catalog-card-issuer">{selectedIssuer}</div>
+              <div className="catalog-card-name">{card.name}</div>
+              <div className="catalog-card-tags">
+                {(card.categories || card.benefits.slice(0, 3)).map((tag, idx) => (
+                  <span key={idx} className="card-tag">#{tag}</span>
                 ))}
               </div>
-
-              <button className="mt-auto h-[48px] bg-[#F4F7FA] text-[#42526E] rounded-[12px] font-extrabold text-[14px] flex items-center justify-center gap-2 group-hover:bg-[#0052CC] group-hover:text-white transition-all">
-                상세 혜택 분석 <ChevronRight className="w-4 h-4" />
-              </button>
+              <div className="catalog-card-fee">연회비 {card.fee}</div>
             </div>
           ))}
         </div>
-      </main>
+      </section>
 
-      {/* Card Detail Modal (Bottom Sheet inspired for Mobile) */}
-      {selectedCard && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#091E42]/60 backdrop-blur-sm p-4 animate-up" onClick={() => setSelectedCard(null)}>
-          <div onClick={e => e.stopPropagation()} className="bg-white rounded-[24px] w-full max-w-[560px] shadow-2xl p-8 relative">
-            <button onClick={() => setSelectedCard(null)} className="absolute top-6 right-6 p-2 hover:bg-[#F4F7FA] rounded-full transition-colors">
-              <X className="w-6 h-6 text-[#6B778C]" />
-            </button>
-
-            <div className="flex items-start gap-6 mb-8 border-b border-[#DFE1E6] pb-8">
-              <div className="w-[100px] h-[150px] bg-[#091E42] rounded-[12px] shadow-2xl flex items-center justify-center shrink-0">
-                <CreditCard className="text-white/10 w-12 h-12" />
-              </div>
-              <div className="pt-2">
-                <div className="text-[12px] font-black text-[#0052CC] mb-2 uppercase tracking-wider">{selectedCompany}</div>
-                <h2 className="text-[28px] mb-4">{selectedCard.name}</h2>
-                <div className="flex gap-4">
-                  <div className="flex flex-col">
-                    <span className="text-[11px] font-bold text-[#6B778C]">연회비</span>
-                    <span className="text-[15px] font-extrabold">{selectedCard.fee}</span>
-                  </div>
-                  <div className="w-px h-8 bg-[#DFE1E6]"></div>
-                  <div className="flex flex-col">
-                    <span className="text-[11px] font-bold text-[#6B778C]">전월 실적</span>
-                    <span className="text-[15px] font-extrabold">{selectedCard.record || '30만원'}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-10">
-              <div className="flex items-center gap-2 mb-4">
-                <Filter className="w-4 h-4 text-[#0052CC]" />
-                <h4 className="text-[16px] font-bold">주요 혜택 한눈에 보기</h4>
-              </div>
-              <div className="grid grid-cols-1 gap-3">
-                {selectedCard.benefits.map((b, i) => (
-                  <div key={i} className="flex gap-4 items-center bg-[#F4F7FA] p-4 rounded-[12px]">
-                    <div className="w-[24px] h-[24px] bg-white text-[#0052CC] rounded-full flex items-center justify-center font-black text-[12px] border border-[#DFE1E6] shrink-0">{i + 1}</div>
-                    <span className="text-[14px] font-bold text-[#42526E]">{b}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex gap-3">
-              <button className="flex-grow btn btn-primary h-[56px] text-[16px]">카드 발급 신청하기</button>
-              <button className="w-[56px] h-[56px] border border-[#DFE1E6] rounded-[12px] flex items-center justify-center hover:bg-[#F4F7FA] transition-colors">
-                <ExternalLink className="w-5 h-5 text-[#6B778C]" />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Floating Chatbot */}
-      {!isChatOpen ? (
-        <div className="chatbot-bubble" onClick={() => setIsChatOpen(true)}>
-          <MessageCircle className="w-7 h-7" />
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-white rounded-full"></div>
-        </div>
-      ) : (
-        <div className="chat-window animate-up">
-          <div className="p-4 bg-[#0052CC] text-white flex justify-between items-center shrink-0">
-            <div className="flex items-center gap-2">
-              <div className="p-1.5 bg-white/20 rounded-lg">
-                <Sparkles className="w-4 h-4" />
-              </div>
-              <div>
-                <p className="text-[14px] font-bold">금융 AI 상담사</p>
-                <p className="text-[10px] opacity-80">어드바이저가 상담 중입니다</p>
-              </div>
-            </div>
-            <button onClick={() => setIsChatOpen(false)} className="p-1 hover:bg-white/10 rounded-full transition-colors">
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div className="flex-grow overflow-y-auto p-4 space-y-5 bg-[#F4F7FA]">
-            {messages.map((msg, i) => (
-              <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] p-4 rounded-[16px] text-[14px] shadow-sm font-medium
-                  ${msg.role === 'user'
-                    ? 'bg-[#0052CC] text-white rounded-tr-none'
-                    : 'bg-white text-[#172B4D] border border-[#DFE1E6] rounded-tl-none'}`}>
+      {/* AI 챗봇 섹션 (56b384b UI Layout + Current Gemini Logic) */}
+      <section className="chatbot-section">
+        <h2 className="section-title">🤖 AI 카드 추천</h2>
+        <div className="agent-container">
+          <div className="chat-history">
+            {messages.map((m, i) => (
+              <div key={i} className={`message ${m.role === 'user' ? 'user' : 'agent'}`}>
+                <div className="message-content">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
                       table: ({ node, ...props }) => <div className="overflow-x-auto my-3"><table className="finance-table" {...props} /></div>,
-                      th: ({ node, ...props }) => <th className="bg-[#EBF2FF] text-[#0052CC] p-2 border-b border-[#DFE1E6]" {...props} />,
-                      td: ({ node, ...props }) => <td className="p-2 border-b border-[#F4F7FA]" {...props} />,
                     }}
                   >
-                    {msg.content}
+                    {m.content}
                   </ReactMarkdown>
                 </div>
               </div>
             ))}
             {isTyping && (
-              <div className="flex justify-start">
-                <div className="bg-white px-4 py-3 rounded-[16px] rounded-tl-none border border-[#DFE1E6] flex gap-1 items-center">
-                  <span className="w-1.5 h-1.5 bg-[#0052CC] rounded-full animate-bounce"></span>
-                  <span className="w-1.5 h-1.5 bg-[#0052CC] rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                  <span className="w-1.5 h-1.5 bg-[#0052CC] rounded-full animate-bounce [animation-delay:0.4s]"></span>
-                </div>
+              <div className="message agent">
+                <div className="message-content typing">상담사가 답변을 작성 중입니다...</div>
               </div>
             )}
             <div ref={chatEndRef} />
           </div>
+          <div className="input-area">
+            <input
+              type="text"
+              placeholder="예: 영화를 자주 보는데 제일 혜택 좋은 카드는?"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+            />
+            <button onClick={handleSend} disabled={isTyping}>전송</button>
+          </div>
+        </div>
+      </section>
 
-          <div className="p-4 bg-white border-t border-[#DFE1E6]">
-            <div className="relative flex items-center">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                placeholder="금융 궁금증을 해결해 드릴게요"
-                className="w-full bg-[#F4F7FA] border border-[#DFE1E6] rounded-[16px] px-4 py-3 text-[14px] font-medium focus:ring-2 focus:ring-[#0052CC]/20 focus:border-[#0052CC] outline-none transition-all pr-12"
-              />
+      {/* 카드 상세 정보 모달 (56b384b UI) */}
+      {selectedCard && (
+        <div className="modal-overlay" onClick={() => setSelectedCard(null)}>
+          <div className="modal-content card-detail-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{selectedIssuer} {selectedCard.name}</h2>
+              <button className="close-btn" onClick={() => setSelectedCard(null)}>✕</button>
+            </div>
+
+            <div className="card-detail-body">
+              <div className="card-preview" style={{ background: selectedCard.color || '#172B4D' }}>
+                <div className="card-preview-issuer">{selectedIssuer}</div>
+                <div className="card-preview-name">{selectedCard.name}</div>
+              </div>
+
+              <div className="card-info-section">
+                <h3>💳 카드 정보</h3>
+                <div className="info-row">
+                  <span className="info-label">연회비</span>
+                  <span className="info-value">{selectedCard.fee}</span>
+                </div>
+                <div className="info-row">
+                  <span className="info-label">전월 실적</span>
+                  <span className="info-value">{selectedCard.record || '30만원'}</span>
+                </div>
+              </div>
+
+              <div className="card-benefits-section">
+                <h3>✨ 주요 혜택</h3>
+                <ul className="benefits-list">
+                  {selectedCard.benefits.map((benefit, idx) => (
+                    <li key={idx} className="benefit-item-detail">{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+
               <button
-                onClick={handleSendMessage}
-                disabled={!inputValue.trim()}
-                className="absolute right-2 p-2 bg-[#0052CC] text-white rounded-[12px] hover:bg-[#0747A6] disabled:opacity-30 transition-all"
+                className="add-to-wallet-btn-detail"
+                onClick={() => {
+                  alert(`${selectedCard.name} 카드 신청 페이지로 이동합니다.`);
+                  setSelectedCard(null);
+                }}
               >
-                <Send className="w-4 h-4" />
+                카드 신청하기
               </button>
             </div>
           </div>
         </div>
       )}
-
-      {/* Footer */}
-      <footer className="bg-[#091E42] text-white py-12 mt-20">
-        <div className="max-width-container">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-10">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <CreditCard className="w-6 h-6 text-white" />
-                <span className="text-[18px] font-extrabold tracking-tight">CARDSMART</span>
-              </div>
-              <p className="text-[#6B778C] text-[14px] max-w-[320px] leading-relaxed">
-                사용자의 현명한 금융 생활을 돕는 카드 분석 플랫폼.<br />
-                데이터에 기반한 최적의 혜택을 제공합니다.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-12 text-[14px]">
-              <div>
-                <h5 className="font-bold mb-4">서비스</h5>
-                <ul className="space-y-2 text-[#6B778C]">
-                  <li><a href="#" className="hover:text-white transition-colors">실시간 차트</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">카드 비교</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">금융 어드바이저</a></li>
-                </ul>
-              </div>
-              <div>
-                <h5 className="font-bold mb-4">카드사</h5>
-                <ul className="space-y-2 text-[#6B778C]">
-                  <li><a href="#" className="hover:text-white transition-colors">신한카드</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">현대카드</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">삼성카드</a></li>
-                </ul>
-              </div>
-              <div>
-                <h5 className="font-bold mb-4">고객지원</h5>
-                <ul className="space-y-2 text-[#6B778C]">
-                  <li><a href="#" className="hover:text-white transition-colors">공지사항</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">제휴문의</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-white/10 mt-12 pt-8 text-center text-[#6B778C] text-[12px]">
-            © 2026 CARDSMART. All rights reserved. 본 서비스는 데이터 분석 기반의 추천을 제공하며 법적 조언을 대신하지 않습니다.
-          </div>
-        </div>
-      </footer>
     </div>
   );
-};
+}
 
 export default App;
