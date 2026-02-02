@@ -126,71 +126,72 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20 leading-relaxed overflow-x-hidden">
-      {/* Header */}
+      {/* Header - Slim & Professional */}
       <header className="bg-white border-b sticky top-0 z-30 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="bg-indigo-600 p-2 rounded-lg">
-              <CreditCard className="text-white w-6 h-6" />
-            </div>
-            <h1 className="text-xl font-extrabold tracking-tight text-indigo-900 uppercase">CARD <span className="text-indigo-600">SMART</span></h1>
+        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <h1 className="text-xl font-black tracking-tighter text-indigo-900">CARDGORILLA</h1>
+            <div className="h-4 w-px bg-slate-200 hidden md:block"></div>
+            <span className="text-xs font-bold text-slate-400 hidden md:block uppercase tracking-widest">Premium Chart</span>
           </div>
-          <div className="hidden md:flex gap-8 text-sm font-bold text-slate-500">
-            <a href="#" className="hover:text-indigo-600 transition-colors">실시간 랭킹</a>
-            <a href="#" className="hover:text-indigo-600 transition-colors">테마별 추천</a>
-            <a href="#" className="hover:text-indigo-600 transition-colors">나의 맞춤카드</a>
+          <div className="hidden md:flex gap-10 text-[13px] font-bold text-slate-600">
+            <a href="#" className="text-indigo-600 border-b-2 border-indigo-600 h-14 flex items-center">랭킹</a>
+            <a href="#" className="hover:text-indigo-600 transition-colors h-14 flex items-center">카드추천</a>
+            <a href="#" className="hover:text-indigo-600 transition-colors h-14 flex items-center">매거진</a>
           </div>
-          <button className="bg-slate-100 hover:bg-slate-200 p-2 rounded-full transition-colors">
-            <User className="w-5 h-5 text-slate-600" />
-          </button>
+          <div className="flex items-center gap-4">
+            <Search className="w-5 h-5 text-slate-400 cursor-pointer" />
+            <button className="bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-xs font-bold hover:bg-indigo-100 transition-colors">로그인</button>
+          </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="bg-indigo-900 text-white py-12 px-4 overflow-hidden relative">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
-          <div className="md:w-3/5 mb-8 md:mb-0">
-            <div className="inline-flex items-center gap-2 bg-indigo-800/50 px-3 py-1 rounded-full text-indigo-200 text-xs font-bold mb-4 border border-indigo-700">
-              <TrendingUp className="w-4 h-4" /> {lastUpdate ? `${new Date(lastUpdate).toLocaleString()} 기준 실시간 데이터` : '실시간 데이터 분석 중...'}
-            </div>
-            <h2 className="text-3xl md:text-5xl font-black mb-4 leading-tight tracking-tight">Space D가 추천하는<br />최고의 TOP 10 카드</h2>
-            <p className="text-indigo-100/80 text-base md:text-lg font-medium mb-0 max-w-lg leading-relaxed">
-              대한민국의 모든 인기 카드를 한눈에 비교하고,<br className="hidden md:block" />
-              AI와 함께 당신에게 꼭 맞는 혜택을 찾아보세요.
-            </p>
+      {/* Hero Section - Chart Heading Style */}
+      <section className="bg-[#f8fafc] py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 mb-6">
+            <div className="w-10 h-1 bg-indigo-600 rounded-full"></div>
+            <span className="text-sm font-black text-indigo-600 uppercase tracking-widest">Weekly TOP 30</span>
+            <div className="w-10 h-1 bg-indigo-600 rounded-full"></div>
           </div>
-          <div className="md:w-1/3 flex justify-center relative">
-            <div className="relative w-64 h-40 bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 rounded-2xl shadow-2xl transform rotate-12 hover:rotate-0 transition-all duration-500 border border-white/20 flex flex-col p-6 justify-between group overflow-hidden">
-              <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="flex justify-between items-start">
-                <div className="w-10 h-8 bg-yellow-400/90 rounded shadow-inner"></div>
-                <CreditCard className="text-white/40" />
-              </div>
-              <div className="text-white font-mono tracking-widest text-lg">**** **** **** 2026</div>
-              <div className="text-white/70 text-[10px] font-black uppercase tracking-widest">Smart Card Advisor</div>
-              <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-white/20 rounded-full blur-3xl group-hover:bg-white/40 transition-all"></div>
-            </div>
+          <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight tracking-tight text-slate-900">
+            고릴라차트 <span className="text-indigo-600">신용카드</span>
+          </h2>
+          <p className="text-slate-500 text-base md:text-lg font-medium mb-10 max-w-2xl mx-auto leading-relaxed">
+            {lastUpdate ? `${new Date(lastUpdate).toLocaleDateString()} 업데이트 · ` : ''}
+            우리나라 카드 소비자들이 가장 많이 찾는 카드 순위
+          </p>
+
+          {/* Chart Filter Tabs */}
+          <div className="chart-tab-container">
+            <button className="chart-tab chart-tab-active">주간차트</button>
+            <button className="chart-tab">월간차트</button>
+            <button className="chart-tab">전체차트</button>
           </div>
         </div>
-        {/* Background effects */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500 rounded-full blur-[120px] opacity-20 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500 rounded-full blur-[120px] opacity-20 translate-y-1/2"></div>
       </section>
 
-      {/* Main Content */}
+      {/* Main Content - Ranking List */}
       <main className="max-w-6xl mx-auto px-4 py-12">
-        <div className="flex flex-col gap-6 mb-8">
-          <h3 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">카드사별 인기 순위</h3>
-          {/* Company Tabs - Flex Wrap fixed for mobile readability */}
-          <div className="flex flex-wrap gap-2 pb-2">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 border-b border-slate-200 pb-6">
+          <div>
+            <h3 className="text-2xl font-black text-slate-900 tracking-tight mb-2">신용카드 인기순위</h3>
+            <div className="flex items-center gap-2 text-sm text-slate-400 font-bold">
+              <span>카드사별 보기</span>
+              <ChevronRight className="w-4 h-4" />
+            </div>
+          </div>
+
+          {/* Company Filter Tabs - Professional Style */}
+          <div className="flex flex-wrap gap-1.5">
             {Object.keys(cardData).map(company => (
               <button
                 key={company}
                 onClick={() => setSelectedCompany(company)}
-                className={`px-5 py-2.5 rounded-full text-sm font-black whitespace-nowrap transition-all shadow-sm border
+                className={`px-4 py-2 rounded-xl text-[13px] font-bold transition-all
                   ${selectedCompany === company
-                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-indigo-100'
-                    : 'bg-white text-slate-500 border-slate-200 hover:border-indigo-300 hover:text-indigo-600'}`}
+                    ? 'bg-slate-900 text-white shadow-lg'
+                    : 'bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-900 border border-slate-100'}`}
               >
                 {company}
               </button>
@@ -198,117 +199,129 @@ const App = () => {
           </div>
         </div>
 
-        {/* Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {/* Horizontal Ranking List */}
+        <div className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-100">
           {cardData[selectedCompany].map((card) => (
             <div
               key={card.id}
               onClick={() => setSelectedCard(card)}
-              className="bg-white border border-slate-200 rounded-[2rem] p-8 hover:shadow-2xl transition-all duration-300 cursor-pointer group relative flex flex-col h-full"
+              className="horizontal-card group"
             >
-              {/* High Contrast Rank Badge */}
-              <div className="absolute top-6 left-6 bg-indigo-600 text-white font-black w-10 h-10 rounded-full flex items-center justify-center text-sm shadow-xl ring-4 ring-white group-hover:scale-110 transition-transform">
+              {/* Rank */}
+              <div className={`rank-display ${card.rank <= 3 ? 'rank-top' : ''}`}>
                 {card.rank}
               </div>
 
-              <div className="flex flex-col items-center text-center mt-6 mb-8">
-                <div className="w-20 h-20 bg-indigo-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-sm border border-indigo-100">
-                  <CreditCard className="w-10 h-10 text-indigo-500" />
+              {/* Card Image mockup */}
+              <div className="flex justify-center">
+                <div className="card-mockup-vertical" style={{
+                  background: card.rank === 1 ? 'linear-gradient(135deg, #4f46e5, #3730a3)' :
+                    card.rank === 2 ? 'linear-gradient(135deg, #1e293b, #0f172a)' :
+                      card.rank === 3 ? 'linear-gradient(135deg, #475569, #1e293b)' :
+                        'linear-gradient(135deg, #94a3b8, #64748b)'
+                }}>
+                  <CreditCard className="text-white/30 w-10 h-10" />
                 </div>
-                <h3 className="font-black text-lg md:text-xl mb-1 text-slate-900 group-hover:text-indigo-600 transition-colors tracking-tight line-clamp-1">{card.name}</h3>
-                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{selectedCompany}</span>
               </div>
 
-              <div className="space-y-3 mb-8 flex-grow">
-                {card.benefits.slice(0, 3).map((benefit, i) => (
-                  <div key={i} className="flex items-center gap-3 text-sm text-slate-600 bg-slate-50/50 p-3.5 rounded-2xl border border-slate-100 font-bold group-hover:bg-white transition-colors">
-                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></div>
-                    <span className="line-clamp-1">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex justify-between items-center pt-6 border-t border-slate-100 mt-auto">
+              {/* Card Info & Benefits */}
+              <div className="flex flex-col gap-3">
                 <div className="flex flex-col">
-                  <span className="text-[10px] uppercase font-black text-slate-400 tracking-wider mb-0.5">연회비</span>
-                  <span className="text-sm font-black text-slate-800">{card.fee}</span>
+                  <span className="text-xs font-black text-indigo-600 mb-1 uppercase tracking-wider">{selectedCompany}</span>
+                  <h3 className="font-black text-xl text-slate-900 group-hover:text-indigo-600 transition-colors">{card.name}</h3>
                 </div>
-                <div className="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                  상세보기
+
+                <div className="flex flex-wrap gap-2 card-benefits">
+                  {card.benefits.slice(0, 3).map((benefit, i) => (
+                    <div key={i} className="benefit-tag">
+                      <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
                 </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col items-end gap-2 card-actions">
+                <button className="w-full bg-slate-900 text-white py-3 px-6 rounded-xl text-sm font-black hover:bg-slate-800 transition-all shadow-lg active:scale-95">
+                  카드 신청
+                </button>
+                <button className="w-full bg-white text-slate-500 border border-slate-200 py-3 px-6 rounded-xl text-sm font-black hover:border-slate-900 hover:text-slate-900 transition-all active:scale-95">
+                  자세히 보기
+                </button>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Placeholder for remaining cards */}
-        {cardData[selectedCompany].length < 10 && (
-          <div className="mt-8 p-12 text-center bg-slate-100/50 rounded-[2.5rem] border-2 border-dashed border-slate-200">
-            <Info className="mx-auto text-slate-400 w-8 h-8 mb-3" />
-            <p className="text-slate-500 font-bold">나머지 {10 - cardData[selectedCompany].length}개 항목 수집 중</p>
+        {/* Empty placeholder */}
+        {cardData[selectedCompany].length === 0 && (
+          <div className="p-20 text-center bg-white rounded-3xl border border-dashed border-slate-200">
+            <Info className="mx-auto text-slate-300 w-12 h-12 mb-4" />
+            <p className="text-slate-400 font-bold">해당 카드사의 랭킹 데이터를 불러오는 중입니다.</p>
           </div>
         )}
       </main>
 
-      {/* Card Detail Modal */}
+      {/* Card Detail Modal - Refined & Clean */}
       {selectedCard && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-slate-900/70 backdrop-blur-md transition-all" onClick={() => setSelectedCard(null)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-slate-900/40 backdrop-blur-sm transition-all" onClick={() => setSelectedCard(null)}>
           <div
             onClick={e => e.stopPropagation()}
-            className="bg-white rounded-[2.5rem] w-full max-w-lg shadow-2xl overflow-hidden animate-zoom-in"
+            className="bg-white rounded-[2rem] w-full max-w-xl shadow-2xl overflow-hidden animate-zoom-in"
           >
-            <div className="relative h-48 bg-indigo-900 p-8 flex items-end">
-              <button
-                onClick={() => setSelectedCard(null)}
-                className="absolute top-6 right-6 p-2 bg-white/20 hover:bg-white/40 rounded-full text-white transition-all backdrop-blur-md"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              <div className="flex gap-6 items-center">
-                <div className="w-20 h-28 bg-white/10 border border-white/20 rounded-2xl backdrop-blur-xl flex items-center justify-center shadow-2xl">
-                  <CreditCard className="w-12 h-12 text-white" />
+            <div className="relative p-8 border-b border-slate-100 flex items-center justify-between">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-24 bg-indigo-600 rounded-lg shadow-lg flex items-center justify-center shrink-0">
+                  <CreditCard className="w-8 h-8 text-white/40" />
                 </div>
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-black text-white mb-1 tracking-tight">{selectedCard.name}</h2>
-                  <p className="text-indigo-200 text-xs font-black uppercase tracking-widest">{selectedCompany} · 인기 {selectedCard.rank}위</p>
+                  <span className="text-xs font-black text-indigo-600 uppercase tracking-widest mb-1 block">{selectedCompany}</span>
+                  <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">{selectedCard.name}</h2>
                 </div>
               </div>
+              <button
+                onClick={() => setSelectedCard(null)}
+                className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-all"
+              >
+                <X className="w-6 h-6" />
+              </button>
             </div>
-            <div className="p-8 space-y-7">
-              <div>
-                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-indigo-500" /> AI Insights
-                </h4>
-                <p className="text-slate-700 bg-slate-50 p-5 rounded-2xl text-sm leading-relaxed border border-slate-100 font-bold italic">
-                  "{selectedCard.desc}"
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col gap-1">
-                  <span className="text-[10px] uppercase font-black text-slate-400 tracking-wider">연회비</span>
-                  <span className="text-xl font-black text-slate-800">{selectedCard.fee}</span>
+
+            <div className="p-8">
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="p-6 bg-slate-50 rounded-2xl flex flex-col gap-1">
+                  <span className="text-[11px] uppercase font-black text-slate-400 tracking-wider">연회비</span>
+                  <span className="text-lg font-black text-slate-800">{selectedCard.fee}</span>
                 </div>
-                <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col gap-1">
-                  <span className="text-[10px] uppercase font-black text-slate-400 tracking-wider">전월 실적</span>
-                  <span className="text-xl font-black text-slate-800">{selectedCard.record}</span>
+                <div className="p-6 bg-slate-50 rounded-2xl flex flex-col gap-1">
+                  <span className="text-[11px] uppercase font-black text-slate-400 tracking-wider">전월 실적</span>
+                  <span className="text-lg font-black text-slate-800">{selectedCard.record || '30만원 이상'}</span>
                 </div>
               </div>
-              <div>
-                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">상세 혜택</h4>
-                <div className="space-y-2.5">
+
+              <div className="mb-8">
+                <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">주요 혜택</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {selectedCard.benefits.map((b, i) => (
-                    <div key={i} className="flex gap-4 items-center text-slate-700 text-sm p-4 bg-white border border-slate-200 rounded-2xl font-bold">
+                    <div key={i} className="flex gap-4 items-center text-slate-700 text-sm p-4 bg-white border border-slate-100 rounded-xl font-bold">
                       <div className="w-6 h-6 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center justify-center shrink-0">
                         <span className="text-[10px] font-black text-indigo-600">{i + 1}</span>
                       </div>
-                      {b}
+                      <span className="line-clamp-2">{b}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <button className="w-full bg-indigo-600 text-white py-5 rounded-[2rem] font-black text-lg hover:bg-indigo-700 transition-all shadow-lg active:scale-95">
-                신청하기
-              </button>
+
+              <div className="flex gap-3">
+                <button className="flex-grow bg-slate-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-slate-800 transition-all shadow-lg active:scale-95">
+                  카드 신청하기
+                </button>
+                <button className="px-8 bg-white text-slate-500 border border-slate-200 rounded-2xl font-black hover:border-slate-900 hover:text-slate-900 transition-all">
+                  비교함
+                </button>
+              </div>
             </div>
           </div>
         </div>
