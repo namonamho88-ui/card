@@ -1,872 +1,923 @@
-// 카드사별 고유 브랜드 색상
+// Auto-generated card data - 2026-02-02T17:27:32.168Z
+// This file is updated automatically by GitHub Actions running scripts/sync-cards.js
+
 const ISSUER_COLORS = {
-    '신한카드': 'linear-gradient(135deg, #0046FF 0%, #0066FF 100%)',      // 신한 블루
-    '현대카드': 'linear-gradient(135deg, #111111 0%, #333333 100%)',      // 현대 블랙
-    '삼성카드': 'linear-gradient(135deg, #003366 0%, #0066cc 100%)',      // 삼성 네이비
-    '우리카드': 'linear-gradient(135deg, #004a99 0%, #0099ff 100%)',      // 우리 블루
-    '하나카드': 'linear-gradient(135deg, #004d40 0%, #009688 100%)',      // 하나 틸
-    '롯데카드': 'linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)'       // 롯데 레드
+    "신한카드": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+    "현대카드": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+    "삼성카드": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+    "우리카드": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+    "하나카드": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+    "롯데카드": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+    "KB국민카드": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
+    "NH농협카드": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
+    "IBK기업은행": "linear-gradient(135deg, #1865a9 0%, #104a80 100%)",
+    "BC카드": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)"
 };
 
-// 6개 카드사의 인기 상품 데이터 (각 10종, 총 60종)
 export const POPULAR_CARDS = [
-    // 신한카드 (10종)
     {
-        id: 'shinhan-1',
-        issuer: '신한카드',
-        name: '딥 드림',
-        color: ISSUER_COLORS['신한카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '모든 가맹점 0.7% 적립',
-            '드림 영역 2.1% 적립',
-            '가장 많이 쓴 곳 최대 3.5% 적립'
+        "id": "card-1",
+        "issuer": "신한카드",
+        "name": "신한카드 Mr.Life",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['포인트', '일상', '적립']
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 3
     },
     {
-        id: 'shinhan-2',
-        issuer: '신한카드',
-        name: '미스터라이프',
-        color: ISSUER_COLORS['신한카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '공과금 10% 할인',
-            '편의점/병원 10% 할인',
-            '온라인 쇼핑 5% 할인'
+        "id": "card-1",
+        "issuer": "삼성카드",
+        "name": "삼성 iD SELECT ALL 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['할인', '생활', '편의점']
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 2
     },
     {
-        id: 'shinhan-3',
-        issuer: '신한카드',
-        name: 'Deep Oil',
-        color: ISSUER_COLORS['신한카드'],
-        annualFee: '20,000원',
-        previousMonthSpending: '40만원',
-        benefits: [
-            '주유 리터당 150원 할인',
-            '자동차 정비 10% 할인',
-            '하이패스 10% 할인'
+        "id": "card-2",
+        "issuer": "신한카드",
+        "name": "신한카드 Mr.Life",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['주유', '자동차', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 3
     },
     {
-        id: 'shinhan-4',
-        issuer: '신한카드',
-        name: 'The Great',
-        color: ISSUER_COLORS['신한카드'],
-        annualFee: '30,000원',
-        previousMonthSpending: '50만원',
-        benefits: [
-            '영화 예매 50% 할인 (월 2회)',
-            'CGV/롯데시네마/메가박스 전용',
-            '팝콘 콤보 30% 할인'
+        "id": "card-2",
+        "issuer": "삼성카드",
+        "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['영화', '문화', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 4
     },
     {
-        id: 'shinhan-5',
-        issuer: '신한카드',
-        name: 'Deep Dream PLUS',
-        color: ISSUER_COLORS['신한카드'],
-        annualFee: '25,000원',
-        previousMonthSpending: '40만원',
-        benefits: [
-            '스타벅스 30% 할인',
-            '카페 전문점 20% 할인',
-            '베이커리 15% 할인'
+        "id": "card-1",
+        "issuer": "우리카드",
+        "name": "카드의정석 SHOPPING+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['카페', '스타벅스', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 5
     },
     {
-        id: 'shinhan-6',
-        issuer: '신한카드',
-        name: 'Mr.Life Woman',
-        color: ISSUER_COLORS['신한카드'],
-        annualFee: '18,000원',
-        previousMonthSpending: '35만원',
-        benefits: [
-            '뷰티/화장품 20% 할인',
-            '패션 15% 할인',
-            '헤어샵 10% 할인'
+        "id": "kb-1",
+        "issuer": "KB국민카드",
+        "name": "KB국민 My WE:SH 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['뷰티', '패션', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
+        "rank": 6
     },
     {
-        id: 'shinhan-7',
-        issuer: '신한카드',
-        name: 'Deep Eco',
-        color: ISSUER_COLORS['신한카드'],
-        annualFee: '12,000원',
-        previousMonthSpending: '25만원',
-        benefits: [
-            '대중교통 20% 할인',
-            '따릉이/킥보드 30% 할인',
-            '택시 10% 할인'
+        "id": "card-3",
+        "issuer": "삼성카드",
+        "name": "삼성카드 taptap O",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['대중교통', '교통', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 7
     },
     {
-        id: 'shinhan-8',
-        issuer: '신한카드',
-        name: 'Deep On',
-        color: ISSUER_COLORS['신한카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '쿠팡/네이버쇼핑 7% 할인',
-            '배달의민족 10% 할인',
-            '온라인 쇼핑몰 5% 할인'
+        "id": "card-1",
+        "issuer": "롯데카드",
+        "name": "LOCA 365 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['온라인', '쇼핑', '배달']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+        "rank": 9
     },
     {
-        id: 'shinhan-9',
-        issuer: '신한카드',
-        name: 'Deep Sky',
-        color: ISSUER_COLORS['신한카드'],
-        annualFee: '35,000원',
-        previousMonthSpending: '60만원',
-        benefits: [
-            '항공마일리지 2배 적립',
-            '공항 라운지 무료 (연 10회)',
-            '해외 결제 수수료 면제'
+        "id": "card-3",
+        "issuer": "신한카드",
+        "name": "신한카드 Discount Plan+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['여행', '항공', '마일리지']
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 10
     },
     {
-        id: 'shinhan-10',
-        issuer: '신한카드',
-        name: 'Deep Market',
-        color: ISSUER_COLORS['신한카드'],
-        annualFee: '10,000원',
-        previousMonthSpending: '20만원',
-        benefits: [
-            '이마트/홈플러스 5% 할인',
-            '마트 전용 10% 할인',
-            '식료품 7% 할인'
+        "id": "card-4",
+        "issuer": "삼성카드",
+        "name": "삼성 iD SELECT ALL 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['마트', '쇼핑', '할인']
-    },
-
-    // 현대카드 (10종)
-    {
-        id: 'hyundai-1',
-        issuer: '현대카드',
-        name: 'M',
-        color: ISSUER_COLORS['현대카드'],
-        annualFee: '없음',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '모든 가맹점 0.2~1% M포인트',
-            '포인트 유효기간 없음',
-            'M포인트몰 사용 가능'
-        ],
-        categories: ['포인트', '무료', '적립']
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 2
     },
     {
-        id: 'hyundai-2',
-        issuer: '현대카드',
-        name: 'Zero',
-        color: ISSUER_COLORS['현대카드'],
-        annualFee: '없음',
-        previousMonthSpending: '없음',
-        benefits: [
-            'ATM 수수료 전액 면제',
-            '해외 ATM 수수료 면제',
-            '이체 수수료 면제'
+        "id": "card-4",
+        "issuer": "신한카드",
+        "name": "신한카드 Mr.Life",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['체크', '무료', '수수료면제']
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 3
     },
     {
-        id: 'hyundai-3',
-        issuer: '현대카드',
-        name: 'Purple',
-        color: ISSUER_COLORS['현대카드'],
-        annualFee: '20,000원',
-        previousMonthSpending: '40만원',
-        benefits: [
-            '주유 리터당 200원 할인',
-            '자동차 보험 5% 할인',
-            '정비소 10% 할인'
+        "id": "card-5",
+        "issuer": "삼성카드",
+        "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['주유', '자동차', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 4
     },
     {
-        id: 'hyundai-4',
-        issuer: '현대카드',
-        name: 'Red',
-        color: ISSUER_COLORS['현대카드'],
-        annualFee: '25,000원',
-        previousMonthSpending: '45만원',
-        benefits: [
-            '영화 예매 40% 할인',
-            '공연/뮤지컬 20% 할인',
-            '전시회 무료 입장 (월 1회)'
+        "id": "card-2",
+        "issuer": "우리카드",
+        "name": "카드의정석 SHOPPING+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['영화', '문화', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 5
     },
     {
-        id: 'hyundai-5',
-        issuer: '현대카드',
-        name: 'Green',
-        color: ISSUER_COLORS['현대카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '스타벅스 25% 할인',
-            '투썸플레이스 20% 할인',
-            '카페베네 15% 할인'
+        "id": "kb-2",
+        "issuer": "KB국민카드",
+        "name": "KB국민 My WE:SH 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['카페', '스타벅스', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
+        "rank": 6
     },
     {
-        id: 'hyundai-6',
-        issuer: '현대카드',
-        name: 'Blue',
-        color: ISSUER_COLORS['현대카드'],
-        annualFee: '30,000원',
-        previousMonthSpending: '50만원',
-        benefits: [
-            '해외 결제 1.5% 적립',
-            '공항 라운지 연 6회',
-            '여행자 보험 자동 가입'
+        "id": "card-6",
+        "issuer": "삼성카드",
+        "name": "삼성카드 taptap O",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['여행', '해외', '적립']
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 7
     },
     {
-        id: 'hyundai-7',
-        issuer: '현대카드',
-        name: 'X Edition',
-        color: ISSUER_COLORS['현대카드'],
-        annualFee: '18,000원',
-        previousMonthSpending: '35만원',
-        benefits: [
-            '온라인 쇼핑 8% 할인',
-            '쿠팡/11번가 10% 할인',
-            '배달앱 7% 할인'
+        "id": "card-2",
+        "issuer": "롯데카드",
+        "name": "LOCA 365 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['온라인', '쇼핑', '배달']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+        "rank": 9
     },
     {
-        id: 'hyundai-8',
-        issuer: '현대카드',
-        name: 'T Edition',
-        color: ISSUER_COLORS['현대카드'],
-        annualFee: '12,000원',
-        previousMonthSpending: '25만원',
-        benefits: [
-            '대중교통 25% 할인',
-            '지하철/버스 무제한',
-            'T머니 자동충전 5% 할인'
+        "id": "card-5",
+        "issuer": "신한카드",
+        "name": "신한카드 Discount Plan+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['대중교통', '교통', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 10
     },
     {
-        id: 'hyundai-9',
-        issuer: '현대카드',
-        name: 'S Edition',
-        color: ISSUER_COLORS['현대카드'],
-        annualFee: '22,000원',
-        previousMonthSpending: '40만원',
-        benefits: [
-            '편의점 15% 할인',
-            'GS25/CU/세븐일레븐 전용',
-            '택배 서비스 10% 할인'
+        "id": "card-7",
+        "issuer": "삼성카드",
+        "name": "삼성 iD SELECT ON 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['편의점', '생활', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 11
     },
     {
-        id: 'hyundai-10',
-        issuer: '현대카드',
-        name: 'K Edition',
-        color: ISSUER_COLORS['현대카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '마트 전체 7% 할인',
-            '코스트코 5% 할인',
-            '식료품 10% 할인'
+        "id": "card-6",
+        "issuer": "신한카드",
+        "name": "신한카드 처음(ANNIVERSE)",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['마트', '쇼핑', '할인']
-    },
-
-    // 삼성카드 (10종)
-    {
-        id: 'samsung-1',
-        issuer: '삼성카드',
-        name: 'taptap O',
-        color: ISSUER_COLORS['삼성카드'],
-        annualFee: '없음',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '편의점 10% 할인',
-            '대중교통 10% 할인',
-            '카페 10% 할인'
-        ],
-        categories: ['할인', '일상', '편의점']
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 12
     },
     {
-        id: 'samsung-2',
-        issuer: '삼성카드',
-        name: 'iD',
-        color: ISSUER_COLORS['삼성카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '온라인쇼핑 7% 할인',
-            '배달앱 10% 할인',
-            '넷플릭스/유튜브 프리미엄 무료'
+        "id": "card-3",
+        "issuer": "우리카드",
+        "name": "카드의정석 EVERY DISCOUNT",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['할인', '디지털', '온라인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 13
     },
     {
-        id: 'samsung-3',
-        issuer: '삼성카드',
-        name: 'taptap S',
-        color: ISSUER_COLORS['삼성카드'],
-        annualFee: '20,000원',
-        previousMonthSpending: '40만원',
-        benefits: [
-            '주유 리터당 180원 할인',
-            '세차 30% 할인',
-            '자동차 용품 15% 할인'
+        "id": "nh-1",
+        "issuer": "NH농협카드",
+        "name": "올바른 FLEX 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['주유', '자동차', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
+        "rank": 14
     },
     {
-        id: 'samsung-4',
-        issuer: '삼성카드',
-        name: 'iD MOVIE',
-        color: ISSUER_COLORS['삼성카드'],
-        annualFee: '25,000원',
-        previousMonthSpending: '45만원',
-        benefits: [
-            '영화 예매 45% 할인 (월 3회)',
-            '팝콘 콤보 무료',
-            'IMAX/4DX 20% 할인'
+        "id": "card-3",
+        "issuer": "롯데카드",
+        "name": "LOCA LIKIT 1.2",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['영화', '문화', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+        "rank": 15
     },
     {
-        id: 'samsung-5',
-        issuer: '삼성카드',
-        name: 'taptap CAFE',
-        color: ISSUER_COLORS['삼성카드'],
-        annualFee: '18,000원',
-        previousMonthSpending: '35만원',
-        benefits: [
-            '스타벅스 35% 할인',
-            '이디야 40% 할인',
-            '카페 전문점 25% 할인'
+        "id": "card-8",
+        "issuer": "삼성카드",
+        "name": "삼성 iD SIMPLE 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['카페', '스타벅스', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 16
     },
     {
-        id: 'samsung-6',
-        issuer: '삼성카드',
-        name: 'iD SHOPPING',
-        color: ISSUER_COLORS['삼성카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '백화점 10% 할인',
-            '아울렛 15% 할인',
-            '패션 브랜드 20% 할인'
+        "id": "card-9",
+        "issuer": "삼성카드",
+        "name": "taptap DIGITAL",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['쇼핑', '패션', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 17
     },
     {
-        id: 'samsung-7',
-        issuer: '삼성카드',
-        name: 'taptap GLOBAL',
-        color: ISSUER_COLORS['삼성카드'],
-        annualFee: '35,000원',
-        previousMonthSpending: '60만원',
-        benefits: [
-            '해외 결제 2% 적립',
-            '공항 라운지 연 12회',
-            '해외 ATM 수수료 면제'
+        "id": "card-4",
+        "issuer": "우리카드",
+        "name": "카드의정석2",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['여행', '해외', '적립']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 19
     },
     {
-        id: 'samsung-8',
-        issuer: '삼성카드',
-        name: 'iD DELIVERY',
-        color: ISSUER_COLORS['삼성카드'],
-        annualFee: '12,000원',
-        previousMonthSpending: '25만원',
-        benefits: [
-            '배달의민족 15% 할인',
-            '쿠팡이츠 12% 할인',
-            '요기요 10% 할인'
+        "id": "kb-3",
+        "issuer": "KB국민카드",
+        "name": "WE:SH Travel",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['배달', '음식', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
+        "rank": 20
     },
     {
-        id: 'samsung-9',
-        issuer: '삼성카드',
-        name: 'taptap METRO',
-        color: ISSUER_COLORS['삼성카드'],
-        annualFee: '10,000원',
-        previousMonthSpending: '20만원',
-        benefits: [
-            '지하철/버스 30% 할인',
-            '택시 15% 할인',
-            'T머니 충전 5% 할인'
+        "id": "card-5",
+        "issuer": "우리카드",
+        "name": "카드의정석 EVERY MILE SKYPASS",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['대중교통', '교통', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 21
     },
     {
-        id: 'samsung-10',
-        issuer: '삼성카드',
-        name: 'iD MARKET',
-        color: ISSUER_COLORS['삼성카드'],
-        annualFee: '13,000원',
-        previousMonthSpending: '28만원',
-        benefits: [
-            '이마트 8% 할인',
-            '홈플러스 7% 할인',
-            '롯데마트 6% 할인'
+        "id": "card-10",
+        "issuer": "삼성카드",
+        "name": "THE iD. 1st",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['마트', '쇼핑', '할인']
-    },
-
-    // 우리카드 (10종)
-    {
-        id: 'woori-1',
-        issuer: '우리카드',
-        name: '에브리원',
-        color: ISSUER_COLORS['우리카드'],
-        annualFee: '12,000원',
-        previousMonthSpending: '없음',
-        benefits: [
-            '모든 가맹점 1% 할인',
-            '최대 2만원 추가 할인',
-            '온라인 페이 결제 시 2% 할인'
-        ],
-        categories: ['할인', '단순', '일상']
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 23
     },
     {
-        id: 'woori-2',
-        issuer: '우리카드',
-        name: '카드의정석',
-        color: ISSUER_COLORS['우리카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '모든 가맹점 0.5% 적립',
-            '온라인쇼핑 1% 적립',
-            '해외 1.5% 적립'
+        "id": "card-7",
+        "issuer": "신한카드",
+        "name": "신한카드 Deep Oil",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['포인트', '여행', '적립']
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 24
     },
     {
-        id: 'woori-3',
-        issuer: '우리카드',
-        name: '위비 모바일',
-        color: ISSUER_COLORS['우리카드'],
-        annualFee: '10,000원',
-        previousMonthSpending: '25만원',
-        benefits: [
-            '통신비 10% 할인',
-            '넷플릭스/유튜브 프리미엄 50% 할인',
-            '온라인 쇼핑 5% 할인'
+        "id": "card-1",
+        "issuer": "BC카드",
+        "name": "BC 바로 On&Off 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['통신', '디지털', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
+        "rank": 26
     },
     {
-        id: 'woori-4',
-        issuer: '우리카드',
-        name: '위비 주유',
-        color: ISSUER_COLORS['우리카드'],
-        annualFee: '18,000원',
-        previousMonthSpending: '35만원',
-        benefits: [
-            '주유 리터당 170원 할인',
-            '자동차 정비 12% 할인',
-            '세차 20% 할인'
+        "id": "card-6",
+        "issuer": "우리카드",
+        "name": "우리카드 MILE&POINT",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['주유', '자동차', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 27
     },
     {
-        id: 'woori-5',
-        issuer: '우리카드',
-        name: '위비 영화',
-        color: ISSUER_COLORS['우리카드'],
-        annualFee: '20,000원',
-        previousMonthSpending: '40만원',
-        benefits: [
-            '영화 예매 50% 할인 (월 4회)',
-            '팝콘 세트 무료',
-            'CGV 골드클래스 30% 할인'
+        "id": "card-1",
+        "issuer": "현대카드",
+        "name": "현대카드 M",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['영화', '문화', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 28
     },
     {
-        id: 'woori-6',
-        issuer: '우리카드',
-        name: '위비 카페',
-        color: ISSUER_COLORS['우리카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '스타벅스 28% 할인',
-            '커피빈 25% 할인',
-            '카페 전문점 20% 할인'
+        "id": "card-8",
+        "issuer": "신한카드",
+        "name": "신한카드 Air One",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['카페', '스타벅스', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 29
     },
     {
-        id: 'woori-7',
-        issuer: '우리카드',
-        name: '위비 트래블',
-        color: ISSUER_COLORS['우리카드'],
-        annualFee: '30,000원',
-        previousMonthSpending: '50만원',
-        benefits: [
-            '항공권 5% 할인',
-            '호텔 10% 할인',
-            '공항 라운지 연 8회'
+        "id": "card-2",
+        "issuer": "BC카드",
+        "name": "BC 바로 ZONE 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['여행', '항공', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
+        "rank": 32
     },
     {
-        id: 'woori-8',
-        issuer: '우리카드',
-        name: '위비 배달',
-        color: ISSUER_COLORS['우리카드'],
-        annualFee: '13,000원',
-        previousMonthSpending: '28만원',
-        benefits: [
-            '배달앱 전체 12% 할인',
-            '배달의민족 15% 할인',
-            '쿠팡이츠 10% 할인'
+        "id": "card-9",
+        "issuer": "신한카드",
+        "name": "신한카드 Point Plan",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['배달', '음식', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 34
     },
     {
-        id: 'woori-9',
-        issuer: '우리카드',
-        name: '위비 교통',
-        color: ISSUER_COLORS['우리카드'],
-        annualFee: '11,000원',
-        previousMonthSpending: '22만원',
-        benefits: [
-            '대중교통 22% 할인',
-            '택시 12% 할인',
-            '따릉이 30% 할인'
+        "id": "card-7",
+        "issuer": "우리카드",
+        "name": "우리카드 7CORE",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['대중교통', '교통', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 35
     },
     {
-        id: 'woori-10',
-        issuer: '우리카드',
-        name: '위비 마트',
-        color: ISSUER_COLORS['우리카드'],
-        annualFee: '14,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '이마트/홈플러스 6% 할인',
-            '코스트코 4% 할인',
-            '식료품 8% 할인'
+        "id": "card-10",
+        "issuer": "신한카드",
+        "name": "메리어트 본보이™ 더 베스트 신한카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['마트', '쇼핑', '할인']
-    },
-
-    // 하나카드 (10종)
-    {
-        id: 'hana-1',
-        issuer: '하나카드',
-        name: '1Q',
-        color: ISSUER_COLORS['하나카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '모든 가맹점 0.7% 적립',
-            '온라인쇼핑 1% 적립',
-            '해외 1.5% 적립'
-        ],
-        categories: ['포인트', '일상', '적립']
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 37
     },
     {
-        id: 'hana-2',
-        issuer: '하나카드',
-        name: 'Viva',
-        color: ISSUER_COLORS['하나카드'],
-        annualFee: '20,000원',
-        previousMonthSpending: '40만원',
-        benefits: [
-            '주유 리터당 120원 할인',
-            '편의점 7% 할인',
-            '대중교통 15% 할인'
+        "id": "card-2",
+        "issuer": "현대카드",
+        "name": "현대카드ZERO Edition3(할인형)",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['할인', '주유', '교통']
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 38
     },
     {
-        id: 'hana-3',
-        issuer: '하나카드',
-        name: 'Viva G',
-        color: ISSUER_COLORS['하나카드'],
-        annualFee: '25,000원',
-        previousMonthSpending: '45만원',
-        benefits: [
-            '주유 리터당 200원 할인',
-            '자동차 보험 7% 할인',
-            '정비소 15% 할인'
+        "id": "card-8",
+        "issuer": "우리카드",
+        "name": "카드의정석 EVERY POINT",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['주유', '자동차', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 42
     },
     {
-        id: 'hana-4',
-        issuer: '하나카드',
-        name: 'Viva M',
-        color: ISSUER_COLORS['하나카드'],
-        annualFee: '22,000원',
-        previousMonthSpending: '42만원',
-        benefits: [
-            '영화 예매 42% 할인',
-            '공연/전시 25% 할인',
-            '도서 구매 20% 할인'
+        "id": "card-3",
+        "issuer": "현대카드",
+        "name": "현대카드 Summit",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['영화', '문화', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 43
     },
     {
-        id: 'hana-5',
-        issuer: '하나카드',
-        name: 'Viva C',
-        color: ISSUER_COLORS['하나카드'],
-        annualFee: '17,000원',
-        previousMonthSpending: '33만원',
-        benefits: [
-            '스타벅스 32% 할인',
-            '할리스 28% 할인',
-            '카페 전문점 22% 할인'
+        "id": "card-4",
+        "issuer": "현대카드",
+        "name": "현대카드 ZERO Up",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['카페', '스타벅스', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 45
     },
     {
-        id: 'hana-6',
-        issuer: '하나카드',
-        name: '1Q SHOPPING',
-        color: ISSUER_COLORS['하나카드'],
-        annualFee: '16,000원',
-        previousMonthSpending: '32만원',
-        benefits: [
-            '온라인 쇼핑 9% 할인',
-            '쿠팡 12% 할인',
-            'G마켓/옥션 10% 할인'
+        "id": "card-9",
+        "issuer": "우리카드",
+        "name": "카드의정석 TEN",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['온라인', '쇼핑', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 48
     },
     {
-        id: 'hana-7',
-        issuer: '하나카드',
-        name: '1Q TRAVEL',
-        color: ISSUER_COLORS['하나카드'],
-        annualFee: '32,000원',
-        previousMonthSpending: '55만원',
-        benefits: [
-            '항공마일리지 1.8배 적립',
-            '호텔 15% 할인',
-            '공항 라운지 연 10회'
+        "id": "nh-2",
+        "issuer": "NH농협카드",
+        "name": "zgm.streaming카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['여행', '항공', '마일리지']
+        "categories": [],
+        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
+        "rank": 49
     },
     {
-        id: 'hana-8',
-        issuer: '하나카드',
-        name: 'Viva D',
-        color: ISSUER_COLORS['하나카드'],
-        annualFee: '14,000원',
-        previousMonthSpending: '29만원',
-        benefits: [
-            '배달앱 전체 13% 할인',
-            '배달의민족 17% 할인',
-            '요기요 12% 할인'
+        "id": "nh-3",
+        "issuer": "NH농협카드",
+        "name": "zgm.play카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['배달', '음식', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
+        "rank": 52
     },
     {
-        id: 'hana-9',
-        issuer: '하나카드',
-        name: '1Q METRO',
-        color: ISSUER_COLORS['하나카드'],
-        annualFee: '12,000원',
-        previousMonthSpending: '24만원',
-        benefits: [
-            '지하철/버스 28% 할인',
-            '택시 18% 할인',
-            'T머니 자동충전 7% 할인'
+        "id": "card-3",
+        "issuer": "BC카드",
+        "name": "BC 바로 MACAO 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['대중교통', '교통', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
+        "rank": 53
     },
     {
-        id: 'hana-10',
-        issuer: '하나카드',
-        name: 'Viva MART',
-        color: ISSUER_COLORS['하나카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '31만원',
-        benefits: [
-            '이마트 9% 할인',
-            '홈플러스 8% 할인',
-            '코스트코 5% 할인'
+        "id": "kb-4",
+        "issuer": "KB국민카드",
+        "name": "KB NEED Edu카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['마트', '쇼핑', '할인']
-    },
-
-    // 롯데카드 (10종)
-    {
-        id: 'lotte-1',
-        issuer: '롯데카드',
-        name: 'Pink',
-        color: ISSUER_COLORS['롯데카드'],
-        annualFee: '15,000원',
-        previousMonthSpending: '30만원',
-        benefits: [
-            '뷰티 20% 할인',
-            '패션 15% 할인',
-            '카페 25% 할인'
-        ],
-        categories: ['할인', '쇼핑', '뷰티']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
+        "rank": 55
     },
     {
-        id: 'lotte-2',
-        issuer: '롯데카드',
-        name: 'Sky',
-        color: ISSUER_COLORS['롯데카드'],
-        annualFee: '30,000원',
-        previousMonthSpending: '50만원',
-        benefits: [
-            '항공마일리지 1.5배 적립',
-            '공항 라운지 연 6회',
-            '여행자보험 자동가입'
+        "id": "card-4",
+        "issuer": "BC카드",
+        "name": "GOAT BC 바로카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['마일리지', '여행', '항공']
+        "categories": [],
+        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
+        "rank": 58
     },
     {
-        id: 'lotte-3',
-        issuer: '롯데카드',
-        name: 'Red Oil',
-        color: ISSUER_COLORS['롯데카드'],
-        annualFee: '19,000원',
-        previousMonthSpending: '38만원',
-        benefits: [
-            '주유 리터당 160원 할인',
-            '세차 25% 할인',
-            '자동차 용품 12% 할인'
+        "id": "card-10",
+        "issuer": "우리카드",
+        "name": "카드의정석 I&U+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['주유', '자동차', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 59
     },
     {
-        id: 'lotte-4',
-        issuer: '롯데카드',
-        name: 'Cinema',
-        color: ISSUER_COLORS['롯데카드'],
-        annualFee: '23,000원',
-        previousMonthSpending: '43만원',
-        benefits: [
-            '롯데시네마 50% 할인 (월 5회)',
-            '팝콘 콤보 무료',
-            'IMAX 30% 할인'
+        "id": "card-1",
+        "issuer": "하나카드",
+        "name": "하나 스카이패스 아멕스 플래티늄 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['영화', '문화', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+        "rank": 61
     },
     {
-        id: 'lotte-5',
-        issuer: '롯데카드',
-        name: 'Cafe',
-        color: ISSUER_COLORS['롯데카드'],
-        annualFee: '16,000원',
-        previousMonthSpending: '32만원',
-        benefits: [
-            '스타벅스 30% 할인',
-            '엔제리너스 35% 할인',
-            '카페 전문점 23% 할인'
+        "id": "card-2",
+        "issuer": "하나카드",
+        "name": "토스뱅크 하나카드 Day",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['카페', '스타벅스', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+        "rank": 64
     },
     {
-        id: 'lotte-6',
-        issuer: '롯데카드',
-        name: 'Smart',
-        color: ISSUER_COLORS['롯데카드'],
-        annualFee: '14,000원',
-        previousMonthSpending: '29만원',
-        benefits: [
-            '온라인 쇼핑 8% 할인',
-            '롯데ON 12% 할인',
-            '11번가 10% 할인'
+        "id": "ibk-1",
+        "issuer": "IBK기업은행",
+        "name": "IBK포인트(신용)",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['온라인', '쇼핑', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #1865a9 0%, #104a80 100%)",
+        "rank": 65
     },
     {
-        id: 'lotte-7',
-        issuer: '롯데카드',
-        name: 'Global',
-        color: ISSUER_COLORS['롯데카드'],
-        annualFee: '28,000원',
-        previousMonthSpending: '48만원',
-        benefits: [
-            '해외 결제 1.8% 적립',
-            '공항 라운지 연 8회',
-            '해외 ATM 수수료 면제'
+        "id": "card-5",
+        "issuer": "현대카드",
+        "name": "현대카드T",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['여행', '해외', '적립']
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 67
     },
     {
-        id: 'lotte-8',
-        issuer: '롯데카드',
-        name: 'Delivery',
-        color: ISSUER_COLORS['롯데카드'],
-        annualFee: '11,000원',
-        previousMonthSpending: '24만원',
-        benefits: [
-            '배달앱 전체 11% 할인',
-            '배달의민족 14% 할인',
-            '쿠팡이츠 9% 할인'
+        "id": "nh-4",
+        "issuer": "NH농협카드",
+        "name": "zgm.the pay카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['배달', '음식', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
+        "rank": 69
     },
     {
-        id: 'lotte-9',
-        issuer: '롯데카드',
-        name: 'Metro',
-        color: ISSUER_COLORS['롯데카드'],
-        annualFee: '10,000원',
-        previousMonthSpending: '21만원',
-        benefits: [
-            '대중교통 24% 할인',
-            '택시 14% 할인',
-            'T머니 충전 6% 할인'
+        "id": "card-6",
+        "issuer": "현대카드",
+        "name": "에너지플러스 현대카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['대중교통', '교통', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 70
     },
     {
-        id: 'lotte-10',
-        issuer: '롯데카드',
-        name: 'Mart',
-        color: ISSUER_COLORS['롯데카드'],
-        annualFee: '13,000원',
-        previousMonthSpending: '27만원',
-        benefits: [
-            '롯데마트 10% 할인',
-            '이마트 5% 할인',
-            '식료품 7% 할인'
+        "id": "card-7",
+        "issuer": "현대카드",
+        "name": "현대카드O",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
         ],
-        categories: ['마트', '쇼핑', '할인']
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 71
+    },
+    {
+        "id": "kb-5",
+        "issuer": "KB국민카드",
+        "name": "Easy all 티타늄카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
+        "rank": 72
+    },
+    {
+        "id": "card-3",
+        "issuer": "하나카드",
+        "name": "원더카드 2.0 FREE+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+        "rank": 73
+    },
+    {
+        "id": "card-4",
+        "issuer": "롯데카드",
+        "name": "LOCA LIKIT Eat",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+        "rank": 76
+    },
+    {
+        "id": "kb-6",
+        "issuer": "KB국민카드",
+        "name": "롯데 국민행복카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
+        "rank": 78
+    },
+    {
+        "id": "card-8",
+        "issuer": "현대카드",
+        "name": "현대카드 MX Black Edition2",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 79
+    },
+    {
+        "id": "ibk-2",
+        "issuer": "IBK기업은행",
+        "name": "IBK포인트3.8(신용)",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #1865a9 0%, #104a80 100%)",
+        "rank": 81
+    },
+    {
+        "id": "card-4",
+        "issuer": "하나카드",
+        "name": "원더카드 2.0 LIFE",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+        "rank": 84
+    },
+    {
+        "id": "card-9",
+        "issuer": "현대카드",
+        "name": "현대카드MY BUSINESS M F&B",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 87
+    },
+    {
+        "id": "card-5",
+        "issuer": "롯데카드",
+        "name": "LOCA LIKIT Play",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+        "rank": 88
+    },
+    {
+        "id": "card-5",
+        "issuer": "하나카드",
+        "name": "트래블로그 신용카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+        "rank": 89
+    },
+    {
+        "id": "kb-7",
+        "issuer": "KB국민카드",
+        "name": "다담카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
+        "rank": 92
+    },
+    {
+        "id": "card-5",
+        "issuer": "BC카드",
+        "name": "BC 바로 클리어 플러스",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
+        "rank": 95
+    },
+    {
+        "id": "nh-5",
+        "issuer": "NH농협카드",
+        "name": "올바른 NEW HAVE카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
+        "rank": 96
+    },
+    {
+        "id": "nh-6",
+        "issuer": "NH농협카드",
+        "name": "zgm.일본여행중 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
+        "rank": 99
     }
 ];
+
 
 // 카드사 목록
 export const ISSUERS = ['전체', '신한카드', '현대카드', '삼성카드', '우리카드', '하나카드', '롯데카드'];
 
-// 배열 셔플 함수 (Fisher-Yates 알고리즘)
 function shuffleArray(array) {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -876,16 +927,13 @@ function shuffleArray(array) {
     return shuffled;
 }
 
-// 카드사별 필터링 함수
 export function getCardsByIssuer(issuer) {
     if (issuer === '전체') {
-        // 전체 탭에서는 카드를 섞어서 표시
         return shuffleArray(POPULAR_CARDS);
     }
     return POPULAR_CARDS.filter(card => card.issuer === issuer);
 }
 
-// 혜택 기반 카드 검색 함수
 export function findCardByBenefits(query) {
     const keywords = {
         '카페': ['카페', '커피', '스타벅스', '이디야', '투썸', '할리스', '커피빈', '엔제리너스'],
@@ -909,44 +957,25 @@ export function findCardByBenefits(query) {
 
     POPULAR_CARDS.forEach(card => {
         let score = 0;
-
-        // 혜택 텍스트에서 직접 매칭
         card.benefits.forEach(benefit => {
             const benefitLower = benefit.toLowerCase();
-
-            // 쿼리에 포함된 키워드 확인
             Object.entries(keywords).forEach(([category, words]) => {
                 words.forEach(word => {
                     if (queryLower.includes(word.toLowerCase())) {
-                        if (benefitLower.includes(word.toLowerCase())) {
-                            score += 10;
-                        }
-                        if (card.categories.some(cat => cat.includes(category))) {
-                            score += 5;
-                        }
+                        if (benefitLower.includes(word.toLowerCase())) score += 10;
+                        if (card.categories.some(cat => cat.includes(category))) score += 5;
                     }
                 });
             });
-
-            // 직접 쿼리 매칭
-            if (benefitLower.includes(queryLower)) {
-                score += 15;
-            }
-
-            // 할인율 추출 및 점수화
+            if (benefitLower.includes(queryLower)) score += 15;
             const discountMatch = benefit.match(/(\d+)%/);
-            if (discountMatch) {
-                score += parseInt(discountMatch[1]) / 10;
-            }
+            if (discountMatch) score += parseInt(discountMatch[1]) / 10;
         });
 
-        if (score > 0) {
-            scoredCards.push({ card, score });
-        }
+        if (score > 0) scoredCards.push({ card, score });
     });
 
-    // 점수 순으로 정렬
     scoredCards.sort((a, b) => b.score - a.score);
-
     return scoredCards.map(item => item.card);
 }
+
