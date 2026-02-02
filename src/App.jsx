@@ -206,8 +206,8 @@ const App = () => {
               </div>
 
               <div className="flex flex-col items-center text-center mt-6 mb-8">
-                <div className="w-20 h-20 bg-slate-50 rounded-[1.5rem] flex items-center justify-center text-5xl mb-4 group-hover:rotate-6 transition-transform duration-500 shadow-inner">
-                  {card.image}
+                <div className="w-20 h-20 bg-indigo-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-sm border border-indigo-100">
+                  <CreditCard className="w-10 h-10 text-indigo-500" />
                 </div>
                 <h3 className="font-black text-lg md:text-xl mb-1 text-slate-900 group-hover:text-indigo-600 transition-colors tracking-tight line-clamp-1">{card.name}</h3>
                 <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{selectedCompany}</span>
@@ -260,7 +260,7 @@ const App = () => {
               </button>
               <div className="flex gap-6 items-center">
                 <div className="w-20 h-28 bg-white/10 border border-white/20 rounded-2xl backdrop-blur-xl flex items-center justify-center shadow-2xl">
-                  <span className="text-6xl">{selectedCard.image}</span>
+                  <CreditCard className="w-12 h-12 text-white" />
                 </div>
                 <div>
                   <h2 className="text-2xl md:text-3xl font-black text-white mb-1 tracking-tight">{selectedCard.name}</h2>
@@ -331,16 +331,20 @@ const App = () => {
             {/* Chat Messages */}
             <div className="flex-grow overflow-y-auto p-5 space-y-6 bg-slate-50/50 no-scrollbar">
               {messages.map((msg, i) => (
-                <div key={i} className={`flex items-end gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                  {msg.role === 'assistant' && (
-                    <div className="w-8 h-8 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0 mb-1 border border-indigo-200">
-                      <Sparkles className="w-4 h-4 text-indigo-600" />
+                <div key={i} className={`flex items-start gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                  {msg.role === 'assistant' ? (
+                    <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shrink-0 mt-1 shadow-sm border border-white/20">
+                      <Sparkles className="w-5 h-5 text-white" />
+                    </div>
+                  ) : (
+                    <div className="w-9 h-9 rounded-2xl bg-white flex items-center justify-center shrink-0 mt-1 border border-slate-200 shadow-sm">
+                      <User className="w-5 h-5 text-slate-400" />
                     </div>
                   )}
-                  <div className={`max-w-[85%] p-4 rounded-2xl text-[13px] leading-relaxed shadow-sm animate-zoom-in
+                  <div className={`max-w-[78%] p-4 rounded-3xl text-[13.5px] leading-relaxed shadow-sm animate-zoom-in
                     ${msg.role === 'user'
-                      ? 'bg-gradient-to-br from-indigo-600 to-violet-600 text-white rounded-tr-none font-medium'
-                      : 'bg-white text-slate-700 rounded-tl-none border border-slate-200 chat-markdown-content font-bold shadow-indigo-100/50'}`}
+                      ? 'bg-indigo-600 text-white rounded-tr-none font-semibold'
+                      : 'bg-white text-slate-700 rounded-tl-none border border-slate-200 chat-markdown-content font-medium shadow-indigo-100/30'}`}
                   >
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {msg.content}
@@ -418,36 +422,48 @@ const App = () => {
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
         /* Chat Markdown Table Styling */
+        .chat-markdown-content {
+          overflow-wrap: break-word;
+          word-break: break-word;
+        }
         .chat-markdown-content table {
           width: 100%;
-          border-collapse: collapse;
-          margin: 12px 0;
-          font-size: 13px;
-          background: #f8fafc;
-          border-radius: 16px;
+          border-collapse: separate;
+          border-spacing: 0;
+          margin: 16px 0;
+          font-size: 12px;
+          background: #ffffff;
+          border-radius: 12px;
           overflow: hidden;
           border: 1px solid #e2e8f0;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
         .chat-markdown-content th, .chat-markdown-content td {
-          padding: 12px 10px;
-          border-bottom: 1px solid #e2e8f0;
+          padding: 10px 8px;
+          border-bottom: 1px solid #f1f5f9;
           text-align: left;
         }
         .chat-markdown-content th {
-          background: #f1f5f9;
+          background: #f8fafc;
           font-weight: 800;
-          color: #475569;
+          color: #64748b;
           font-size: 11px;
           text-transform: uppercase;
           letter-spacing: 0.05em;
         }
         .chat-markdown-content td {
-          color: #1e293b;
-          font-weight: 600;
-          line-height: 1.5;
+          color: #334155;
+          font-weight: 700;
+          line-height: 1.4;
         }
         .chat-markdown-content tr:last-child td {
           border-bottom: none;
+        }
+        .chat-markdown-content p {
+          margin-bottom: 8px;
+        }
+        .chat-markdown-content p:last-child {
+          margin-bottom: 0;
         }
 
         /* Mobile specific adjustments */
