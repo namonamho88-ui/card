@@ -181,10 +181,6 @@ function App() {
                   </span>
                 ))}
               </div>
-              <div className="catalog-card-fee">
-                {/* 연회비 대신 주요 혜택 요약 표시 */}
-                {card.benefits[0] ? card.benefits[0].substring(0, 15) + (card.benefits[0].length > 15 ? '...' : '') : '혜택 정보 확인'}
-              </div>
             </div>
           ))}
         </div>
