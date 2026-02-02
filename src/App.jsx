@@ -312,28 +312,35 @@ const App = () => {
       <div className={`fixed bottom-6 right-6 z-40 flex flex-col items-end transition-all duration-300 ${isChatOpen ? 'w-[360px] md:w-[420px]' : 'w-16'}`}>
         {isChatOpen && (
           <div className="bg-white rounded-[2.5rem] shadow-2xl border border-slate-200 w-full h-[550px] flex flex-col mb-4 overflow-hidden animate-slide-up">
-            {/* Chat Header */}
-            <div className="p-5 bg-indigo-600 text-white flex justify-between items-center shrink-0">
+            {/* Chat Header - Glassmorphism */}
+            <div className="p-5 bg-indigo-600/95 backdrop-blur-lg text-white flex justify-between items-center shrink-0 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <Sparkles className="w-5 h-5 text-indigo-100" />
+                <div className="bg-white/20 p-2 rounded-xl backdrop-blur-md border border-white/20">
+                  <Sparkles className="w-5 h-5 text-indigo-100" />
+                </div>
                 <div>
-                  <p className="text-sm font-black tracking-tight">AI 카드 추천 어드바이저</p>
-                  <p className="text-[10px] text-indigo-300 font-bold uppercase tracking-widest">Gemini Powered</p>
+                  <p className="text-sm font-black tracking-tight">AI Advisor</p>
+                  <p className="text-[9px] text-indigo-200 font-bold uppercase tracking-[0.2em] opacity-80">Premium Recommendation</p>
                 </div>
               </div>
-              <button onClick={() => setIsChatOpen(false)} className="p-2 hover:bg-white/20 rounded-full transition-colors">
+              <button onClick={() => setIsChatOpen(false)} className="p-2.5 hover:bg-white/10 rounded-full transition-all active:scale-90">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Chat Messages */}
-            <div className="flex-grow overflow-y-auto p-5 space-y-5 bg-slate-50 no-scrollbar">
+            <div className="flex-grow overflow-y-auto p-5 space-y-6 bg-slate-50/50 no-scrollbar">
               {messages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[90%] p-4 rounded-[1.75rem] text-sm leading-relaxed shadow-sm chat-markdown-content font-medium
+                <div key={i} className={`flex items-end gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                  {msg.role === 'assistant' && (
+                    <div className="w-8 h-8 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0 mb-1 border border-indigo-200">
+                      <Sparkles className="w-4 h-4 text-indigo-600" />
+                    </div>
+                  )}
+                  <div className={`max-w-[85%] p-4 rounded-2xl text-[13px] leading-relaxed shadow-sm animate-zoom-in
                     ${msg.role === 'user'
-                      ? 'bg-indigo-600 text-white rounded-tr-none'
-                      : 'bg-white text-slate-700 rounded-tl-none border border-slate-200'}`}
+                      ? 'bg-gradient-to-br from-indigo-600 to-violet-600 text-white rounded-tr-none font-medium'
+                      : 'bg-white text-slate-700 rounded-tl-none border border-slate-200 chat-markdown-content font-bold shadow-indigo-100/50'}`}
                   >
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {msg.content}
@@ -354,32 +361,35 @@ const App = () => {
             </div>
 
             {/* Chat Input */}
-            <div className="p-4 bg-white border-t border-slate-100 flex gap-2">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                placeholder="어떤 혜택을 원하시나요?"
-                className="flex-grow bg-slate-100 border-none rounded-2xl px-5 text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
-              />
-              <button
-                onClick={handleSendMessage}
-                disabled={!inputValue.trim()}
-                className="bg-indigo-600 text-white p-3.5 rounded-2xl hover:bg-indigo-700 transition-all active:scale-90"
-              >
-                <Send className="w-5 h-5" />
-              </button>
+            <div className="p-4 bg-white border-t border-slate-100">
+              <div className="relative flex items-center gap-2">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                  placeholder="어떤 혜택을 원하시나요?"
+                  className="flex-grow bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400"
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={!inputValue.trim()}
+                  className="absolute right-2 bg-indigo-600 text-white p-2.5 rounded-xl hover:bg-indigo-700 transition-all active:scale-90 disabled:opacity-30 shadow-lg shadow-indigo-100"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </div>
+              <p className="text-center text-[9px] text-slate-400 mt-3 font-bold uppercase tracking-[0.1em]">Space D AI Assistant</p>
             </div>
           </div>
         )}
 
         <button
           onClick={() => setIsChatOpen(!isChatOpen)}
-          className={`p-4 rounded-full shadow-2xl flex items-center justify-center transition-all duration-500 
-            ${isChatOpen ? 'bg-slate-800 rotate-90' : 'bg-indigo-600 hover:scale-110'}`}
+          className={`group p-4 rounded-full shadow-2xl flex items-center justify-center transition-all duration-500 
+            ${isChatOpen ? 'bg-indigo-600 rotate-90 scale-90' : 'bg-indigo-600 hover:scale-110 hover:shadow-indigo-200'}`}
         >
-          {isChatOpen ? <X className="text-white w-7 h-7" /> : <MessageSquare className="text-white w-7 h-7" />}
+          {isChatOpen ? <X className="text-white w-7 h-7" /> : <MessageSquare className="text-white w-7 h-7 group-hover:animate-pulse" />}
           {!isChatOpen && (
             <span className="absolute -top-1 -right-1 flex h-5 w-5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
