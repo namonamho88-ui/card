@@ -1,3 +1,4 @@
+
 import puppeteer from 'puppeteer';
 import fs from 'fs';
 import path from 'path';
@@ -20,23 +21,21 @@ const ISSUER_COLORS = {
     'BC카드': 'linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)'
 };
 
-// 2. 카드사 추론 키워드 (Top 100에서 카드사 정보가 명시적이지 않을 경우 대비)
+const EXCLUDED_ISSUERS = ['KB국민카드', 'NH농협카드', 'IBK기업은행', 'BC카드'];
+
+// 2. 카드사 추론 키워드
 const ISSUER_KEYWORDS = {
     '신한카드': ['신한', 'Deep', 'Mr.Life', 'Plea', '플리', 'SOL', 'Eats', '점심', 'Always'],
     '삼성카드': ['삼성', 'taptap', 'iD', 'MILEAGE', 'Monimo', '모니모'],
     '현대카드': ['현대', 'ZERO', 'M BOOST', 'Z family', 'Nolja', '네이버', 'Mobility'],
-    'KB국민카드': ['KB', '국민', 'WE:SH', 'My WE:SH', '톡톡', '청춘', '다담', 'Easy'],
     '롯데카드': ['롯데', 'LOCA', 'Digi', 'LIKIT', 'Rolling', '롤라'],
     '우리카드': ['우리', 'DA@', '카드의정석', 'NU', 'Nu', '오하쳌'],
     '하나카드': ['하나', '내맘대로', 'MULTI', 'Any', 'Jade', '원더', '트래블로그'],
-    'NH농협카드': ['농협', 'NH', 'zgm', '지금', '올바른'],
-    'IBK기업은행': ['IBK', '기업', '일상의', 'I-Al'],
-    'BC카드': ['BC', '비씨', '바로', 'GOAT', 'K-First']
 };
 
 // 3. 정적 헬퍼 함수
 const HELPER_FUNCTIONS = `
-// 카드사 목록
+// 카드사 목록 (제외 카드사 제거됨)
 export const ISSUERS = ['전체', '신한카드', '현대카드', '삼성카드', '우리카드', '하나카드', '롯데카드'];
 
 function shuffleArray(array) {
@@ -122,24 +121,82 @@ function extractCategories(benefits) {
             if (words.some(w => b.includes(w))) categories.add(cat);
         }
     });
+
+    // 카테고리 없으면 임의 추가 (데이터 보강용)
+    if (categories.size === 0) {
+        if (/할인/.test(benefits.join(''))) categories.add('할인');
+        if (/적립/.test(benefits.join(''))) categories.add('적립');
+    }
+
     return Array.from(categories).slice(0, 3);
 }
 
-// 카드명으로 카드사 추론
 function inferIssuer(cardName) {
     for (const [issuer, keywords] of Object.entries(ISSUER_KEYWORDS)) {
         if (keywords.some(k => cardName.includes(k))) {
             return issuer;
         }
     }
-    return '기타'; // 매칭 실패 시
+    return '기타';
+}
+
+async function scrapeCardDetail(page, detailUrl) {
+    try {
+        await page.goto(`https://www.card-gorilla.com${detailUrl}`, { waitUntil: 'domcontentloaded', timeout: 10000 });
+
+        // 상세 혜택 추출 (Regex Parsing Logic Added)
+        const benefits = await page.evaluate(() => {
+            const list = [];
+            // Strategy 1: Known containers (Try broadly)
+            const dts = document.querySelectorAll('dl.bnf_list dt, .benefit_list dt, .bnf dt, dt, li, strong');
+            dts.forEach(dt => {
+                const text = dt.innerText.trim();
+                // Filter out short/irrelevant texts
+                if (text && text.length > 5 && text.length < 50 && !list.includes(text) && /[0-9%원]/.test(text)) {
+                    list.push(text);
+                }
+            });
+
+            // Strategy 2: If empty, analyze full text for key patterns
+            if (list.length === 0) {
+                const bodyText = document.body.innerText;
+                const patterns = [
+                    // "스타벅스 50% 할인" type
+                    /([가-힣\w\s]+)(\d+)(%|원)\s(할인|적립)/g,
+                    // "리터당 100원 할인" type
+                    /([가-힣\w\s]+)\s(리터당|L당)\s(\d+)원/g,
+                    // "모든 가맹점 0.7% 적립" type
+                    /([가-힣\w\s]+)\s(\d+(\.\d+)?)%\s(할인|적립)/g
+                ];
+
+                patterns.forEach(regex => {
+                    let match;
+                    // Limit loop to avoid hanging
+                    let limit = 0;
+                    while ((match = regex.exec(bodyText)) !== null && limit++ < 20) {
+                        let raw = match[0].trim();
+                        raw = raw.replace(/\s+/g, ' ');
+                        if (raw.length < 40 && raw.length > 5 && !list.includes(raw)) {
+                            list.push(raw);
+                        }
+                    }
+                });
+            }
+
+            return list.length > 0 ? list.slice(0, 3) : [];
+        });
+
+        return benefits.length > 0 ? benefits : ["상세 혜택 홈페이지 참조"];
+    } catch (e) {
+        console.warn(`Failed to scrape detail: ${detailUrl}`, e.message);
+        return ["상세 혜택 홈페이지 참조"];
+    }
 }
 
 async function scrapeTop100(page) {
     const url = 'https://www.card-gorilla.com/chart/top100?term=weekly';
     console.log(`Navigating to Top 100: ${url}`);
 
-    // 타임아웃 넉넉히 설정
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
 
     try {
@@ -153,48 +210,41 @@ async function scrapeTop100(page) {
         const items = document.querySelectorAll('.chart_list > li, .ranking_list > li, li');
 
         items.forEach((el, index) => {
-            // 카드명 추출
             const nameEl = el.querySelector('.card_name, .name, .title, strong, p[class*="name"]');
             if (!nameEl) return;
             const name = nameEl.innerText.trim();
             if (!name) return;
 
-            // 순위 추출
             const rankEl = el.querySelector('.rank, .num, span[class*="rank"]');
             const rankText = rankEl ? rankEl.innerText.trim() : (index + 1).toString();
             const rank = parseInt(rankText) || (index + 1);
 
-            // 카드사 추출 (이미지에 alt 태그가 있거나, 텍스트에 포함된 경우 시도)
             let issuer = 'Unknown';
             const imgEl = el.querySelector('div.card_img img, .card_img img, .img img');
             if (imgEl) {
                 const alt = imgEl.getAttribute('alt');
-                if (alt) issuer = alt.split(' ')[0]; // 보통 "신한카드 딥드림" 꼴
+                if (alt) issuer = alt.split(' ')[0];
             }
 
-            // 혜택 추출
-            const benefits = [];
-            el.querySelectorAll('.w_benefit li, .benefit li, .bnf li, span[class*="benefit"]').forEach(b => {
-                const t = b.innerText.trim();
-                if (t) benefits.push(t);
-            });
+            // 디테일 페이지 URL 추출
+            const anchor = el.querySelector('a');
+            const detailUrl = anchor ? anchor.getAttribute('href') : null;
 
             results.push({
                 rank,
                 name,
                 rawIssuer: issuer,
-                benefits: benefits.slice(0, 3),
+                detailUrl
             });
         });
         return results;
     });
 
-    console.log(`Scraped ${cards.length} raw cards from Top 100.`);
     return cards;
 }
 
 async function runSync() {
-    console.log('Starting card data synchronization (Top 100 Strategy)...');
+    console.log('Starting card data synchronization (List + Detail Strategy)...');
 
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -204,71 +254,69 @@ async function runSync() {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
-    // 1. Top 100 긁어오기
+    // 1. Top 100 목록 수집
     const rawCards = await scrapeTop100(page);
-    await browser.close();
 
-    if (rawCards.length === 0) {
-        console.error('No Top 100 data fetched. Aborting.');
-        process.exit(1);
-    }
-
-    // 2. 데이터 가공 및 카드사별 분류
+    // 2. 필터링 및 상세 스크래핑
     const allCards = [];
     const issuerBuckets = {};
-    // 타겟 카드사 초기화
     Object.keys(ISSUER_COLORS).forEach(k => issuerBuckets[k] = []);
 
-    // 카드사별 ID 접두사 매핑
     const ID_PREFIXES = {
         '신한카드': 'sh', '삼성카드': 'ss', '현대카드': 'hd',
-        'KB국민카드': 'kb', '롯데카드': 'lo', '우리카드': 'wo',
-        '하나카드': 'hn', 'NH농협카드': 'nh', 'IBK기업은행': 'ib',
-        'BC카드': 'bc'
+        '롯데카드': 'lo', '우리카드': 'wo', '하나카드': 'hn'
     };
 
-    rawCards.forEach(raw => {
-        // 카드사 추론
+    // 순차 처리 (병렬 처리 시 차단 위험 있으므로 얌전히 순차)
+    for (const raw of rawCards) {
         let issuer = inferIssuer(raw.name);
 
-        // 추론 실패 시 rawIssuer(이미지 alt 등) 활용 재시도
         if (issuer === '기타' && raw.rawIssuer !== 'Unknown') {
             issuer = inferIssuer(raw.rawIssuer);
-            if (issuer === '기타') { // 그래도 안되면 rawIssuer 자체가 카드사 이름일수도
+            if (issuer === '기타') {
                 if (ISSUER_COLORS[raw.rawIssuer]) issuer = raw.rawIssuer;
             }
         }
 
-        if (issuer === '기타') return; // 타겟 카드사 아니면 제외
+        // 제외 로직
+        if (issuer === '기타' || EXCLUDED_ISSUERS.includes(issuer) || !ISSUER_COLORS[issuer]) {
+            continue;
+        }
 
-        // 버킷에 추가 (10개 꽉 차면 스킵)
+        // 각 카드사별 최대 10개까지만 수집
         if (issuerBuckets[issuer].length < 10) {
+            console.log(`Fetching details for [${issuer}] ${raw.name}...`);
+            let benefits = ["상세 혜택 홈페이지 참조"];
+
+            if (raw.detailUrl) {
+                benefits = await scrapeCardDetail(page, raw.detailUrl);
+                // 1초 대기 (매너)
+                await new Promise(r => setTimeout(r, 1000));
+            }
+
             const prefix = ID_PREFIXES[issuer] || 'etc';
             const newCard = {
                 id: `${prefix}-${issuerBuckets[issuer].length + 1}`,
                 issuer: issuer,
                 name: raw.name,
-                annualFee: "1~3만원", // 기본값
-                previousMonthSpending: "30만원", // 기본값
-                benefits: raw.benefits.length > 0 ? raw.benefits : ["상세 혜택 홈페이지 참조"],
-                categories: extractCategories(raw.benefits),
+                annualFee: "1~3만원", // 기본값 유지
+                previousMonthSpending: "30만원",
+                benefits: benefits,
+                categories: extractCategories(benefits),
                 color: ISSUER_COLORS[issuer],
                 rank: raw.rank
             };
             issuerBuckets[issuer].push(newCard);
             allCards.push(newCard);
         }
-    });
+    }
+
+    await browser.close();
 
     console.log('--- Distribution ---');
     Object.entries(issuerBuckets).forEach(([k, v]) => {
         console.log(`${k}: ${v.length} cards`);
     });
-
-    if (allCards.length === 0) {
-        console.error('No valid issuer cards filtered. Aborting.');
-        process.exit(1);
-    }
 
     const targetPath = path.resolve(__dirname, '../src/data/popularCards.js');
     const fileContent = `// Auto-generated card data - ${new Date().toISOString()}

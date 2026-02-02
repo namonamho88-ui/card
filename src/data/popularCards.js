@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-02T17:34:10.314Z
+// Auto-generated card data - 2026-02-02T17:54:17.153Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -16,26 +16,45 @@ const ISSUER_COLORS = {
 
 export const POPULAR_CARDS = [
     {
-        "id": "sh-1",
-        "issuer": "신한카드",
-        "name": "신한카드 Mr.Life",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 3
-    },
-    {
         "id": "ss-1",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ALL 카드",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 2
+    },
+    {
+        "id": "sh-1",
+        "issuer": "신한카드",
+        "name": "신한카드 Mr.Life",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 3
+    },
+    {
+        "id": "ss-2",
+        "issuer": "삼성카드",
+        "name": "삼성 iD SELECT ALL 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
@@ -48,20 +67,24 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 3
     },
     {
-        "id": "ss-2",
+        "id": "ss-3",
         "issuer": "삼성카드",
         "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
@@ -74,33 +97,24 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 5
     },
     {
-        "id": "kb-1",
-        "issuer": "KB국민카드",
-        "name": "KB국민 My WE:SH 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
-        "rank": 6
-    },
-    {
-        "id": "ss-3",
+        "id": "ss-4",
         "issuer": "삼성카드",
         "name": "삼성카드 taptap O",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
@@ -113,7 +127,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
@@ -126,20 +142,24 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 10
     },
     {
-        "id": "ss-4",
+        "id": "ss-5",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ALL 카드",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
@@ -152,20 +172,24 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 3
     },
     {
-        "id": "ss-5",
+        "id": "ss-6",
         "issuer": "삼성카드",
         "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
@@ -178,33 +202,24 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 5
     },
     {
-        "id": "kb-2",
-        "issuer": "KB국민카드",
-        "name": "KB국민 My WE:SH 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
-        "rank": 6
-    },
-    {
-        "id": "ss-6",
+        "id": "ss-7",
         "issuer": "삼성카드",
         "name": "삼성카드 taptap O",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
@@ -217,7 +232,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
@@ -230,20 +247,24 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 10
     },
     {
-        "id": "ss-7",
+        "id": "ss-8",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ON 카드",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
@@ -256,7 +277,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
@@ -269,24 +292,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 13
-    },
-    {
-        "id": "nh-1",
-        "issuer": "NH농협카드",
-        "name": "올바른 FLEX 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
-        "rank": 14
     },
     {
         "id": "lo-3",
@@ -295,33 +307,39 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 15
     },
     {
-        "id": "ss-8",
+        "id": "ss-9",
         "issuer": "삼성카드",
         "name": "삼성 iD SIMPLE 카드",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 16
     },
     {
-        "id": "ss-9",
+        "id": "ss-10",
         "issuer": "삼성카드",
         "name": "taptap DIGITAL",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
@@ -334,24 +352,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 19
-    },
-    {
-        "id": "kb-3",
-        "issuer": "KB국민카드",
-        "name": "WE:SH Travel",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
-        "rank": 20
     },
     {
         "id": "wo-5",
@@ -367,43 +374,19 @@ export const POPULAR_CARDS = [
         "rank": 21
     },
     {
-        "id": "ss-10",
-        "issuer": "삼성카드",
-        "name": "THE iD. 1st",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 23
-    },
-    {
         "id": "sh-7",
         "issuer": "신한카드",
         "name": "신한카드 Deep Oil",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 25
-    },
-    {
-        "id": "bc-1",
-        "issuer": "BC카드",
-        "name": "BC 바로 On&Off 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
-        "rank": 26
     },
     {
         "id": "wo-6",
@@ -412,7 +395,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
@@ -425,7 +410,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
@@ -438,24 +425,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 29
-    },
-    {
-        "id": "bc-2",
-        "issuer": "BC카드",
-        "name": "BC 바로 ZONE 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
-        "rank": 32
+        "rank": 30
     },
     {
         "id": "sh-9",
@@ -464,7 +440,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
@@ -477,7 +455,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
@@ -490,7 +470,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
@@ -503,7 +485,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
@@ -516,11 +500,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 42
+        "rank": 41
     },
     {
         "id": "hd-3",
@@ -529,7 +515,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
@@ -542,7 +530,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
@@ -555,76 +545,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 48
-    },
-    {
-        "id": "nh-2",
-        "issuer": "NH농협카드",
-        "name": "zgm.streaming카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
-        "rank": 49
-    },
-    {
-        "id": "nh-3",
-        "issuer": "NH농협카드",
-        "name": "zgm.play카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
-        "rank": 52
-    },
-    {
-        "id": "bc-3",
-        "issuer": "BC카드",
-        "name": "BC 바로 MACAO 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
-        "rank": 53
-    },
-    {
-        "id": "kb-4",
-        "issuer": "KB국민카드",
-        "name": "KB NEED Edu카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
-        "rank": 55
-    },
-    {
-        "id": "bc-4",
-        "issuer": "BC카드",
-        "name": "GOAT BC 바로카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
-        "rank": 58
     },
     {
         "id": "wo-10",
@@ -633,7 +560,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
@@ -646,7 +575,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
@@ -659,24 +590,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 64
-    },
-    {
-        "id": "ib-1",
-        "issuer": "IBK기업은행",
-        "name": "IBK포인트(신용)",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #1865a9 0%, #104a80 100%)",
-        "rank": 65
     },
     {
         "id": "hd-5",
@@ -685,24 +605,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 67
-    },
-    {
-        "id": "nh-4",
-        "issuer": "NH농협카드",
-        "name": "zgm.the pay카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
-        "rank": 69
     },
     {
         "id": "hd-6",
@@ -711,7 +620,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
@@ -724,7 +635,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
@@ -737,24 +650,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 72
-    },
-    {
-        "id": "kb-5",
-        "issuer": "KB국민카드",
-        "name": "Easy all 티타늄카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
-        "rank": 73
     },
     {
         "id": "lo-4",
@@ -763,24 +665,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 76
-    },
-    {
-        "id": "kb-6",
-        "issuer": "KB국민카드",
-        "name": "롯데 국민행복카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
-        "rank": 78
     },
     {
         "id": "hd-8",
@@ -789,24 +680,28 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 79
+        "rank": 78
     },
     {
-        "id": "ib-2",
-        "issuer": "IBK기업은행",
-        "name": "IBK포인트3.8(신용)",
+        "id": "lo-5",
+        "issuer": "롯데카드",
+        "name": "롯데 국민행복카드",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
-        "color": "linear-gradient(135deg, #1865a9 0%, #104a80 100%)",
-        "rank": 81
+        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+        "rank": 79
     },
     {
         "id": "hn-4",
@@ -815,7 +710,9 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
@@ -828,20 +725,24 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 87
+        "rank": 86
     },
     {
-        "id": "lo-5",
+        "id": "lo-6",
         "issuer": "롯데카드",
         "name": "LOCA LIKIT Play",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
@@ -854,68 +755,18 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1\t\tTHE 1 (스카이패스)",
+            "1THE 1 (스카이패스)",
+            "2삼성 iD SELECT ALL 카드"
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 89
-    },
-    {
-        "id": "kb-7",
-        "issuer": "KB국민카드",
-        "name": "다담카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ffcc00 0%, #ffbb00 100%)",
-        "rank": 92
-    },
-    {
-        "id": "nh-5",
-        "issuer": "NH농협카드",
-        "name": "올바른 NEW HAVE카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
-        "rank": 94
-    },
-    {
-        "id": "bc-5",
-        "issuer": "BC카드",
-        "name": "BC 바로 클리어 플러스",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ec1e26 0%, #c4121a 100%)",
-        "rank": 96
-    },
-    {
-        "id": "nh-6",
-        "issuer": "NH농협카드",
-        "name": "zgm.일본여행중 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #00c73c 0%, #00a030 100%)",
-        "rank": 99
     }
 ];
 
 
-// 카드사 목록
+// 카드사 목록 (제외 카드사 제거됨)
 export const ISSUERS = ['전체', '신한카드', '현대카드', '삼성카드', '우리카드', '하나카드', '롯데카드'];
 
 function shuffleArray(array) {

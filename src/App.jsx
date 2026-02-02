@@ -169,11 +169,17 @@ function App() {
               <div className="catalog-card-issuer">{card.issuer}</div>
               <div className="catalog-card-name">{card.name}</div>
               <div className="catalog-card-tags">
-                {card.categories.slice(0, 2).map((cat, idx) => (
-                  <span key={idx} className="card-tag">#{cat}</span>
+                {/* 주요 혜택 2개만 #태그로 표시 */}
+                {card.benefits.slice(0, 2).map((benefit, idx) => (
+                  <span key={idx} className="card-tag">
+                    #{benefit.split(' ')[0]} {/* 혜택 문구가 길면 첫 단어만, 아니면 전체 */}
+                  </span>
                 ))}
               </div>
-              <div className="catalog-card-fee">연회비 {card.annualFee}</div>
+              <div className="catalog-card-fee">
+                {/* 연회비 대신 주요 혜택 요약 표시 */}
+                {card.benefits[0] ? card.benefits[0].substring(0, 15) + (card.benefits[0].length > 15 ? '...' : '') : '혜택 정보 확인'}
+              </div>
             </div>
           ))}
         </div>
