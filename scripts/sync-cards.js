@@ -144,40 +144,31 @@ async function scrapeCardDetail(page, detailUrl) {
     try {
         await page.goto(`https://www.card-gorilla.com${detailUrl}`, { waitUntil: 'domcontentloaded', timeout: 10000 });
 
-        // 상세 혜택 추출 (Regex Parsing Logic Added)
+        // 상세 혜택 추출 (Correct .bnf1 section with dl/dt/dd structure)
         const benefits = await page.evaluate(() => {
             const list = [];
-            // Strategy 1: Known containers (Try broadly)
-            const dts = document.querySelectorAll('dl.bnf_list dt, .benefit_list dt, .bnf dt, dt, li, strong');
-            dts.forEach(dt => {
-                const text = dt.innerText.trim();
-                // Filter out short/irrelevant texts
-                if (text && text.length > 5 && text.length < 50 && !list.includes(text) && /[0-9%원]/.test(text)) {
-                    list.push(text);
-                }
-            });
 
-            // Strategy 2: If empty, analyze full text for key patterns
-            if (list.length === 0) {
-                const bodyText = document.body.innerText;
-                const patterns = [
-                    // "스타벅스 50% 할인" type
-                    /([가-힣\w\s]+)(\d+)(%|원)\s(할인|적립)/g,
-                    // "리터당 100원 할인" type
-                    /([가-힣\w\s]+)\s(리터당|L당)\s(\d+)원/g,
-                    // "모든 가맹점 0.7% 적립" type
-                    /([가-힣\w\s]+)\s(\d+(\.\d+)?)%\s(할인|적립)/g
-                ];
+            // Find the benefit section
+            const bnfSection = document.querySelector('.bnf1, .bnf_list, div[class*="benefit"]');
 
-                patterns.forEach(regex => {
-                    let match;
-                    // Limit loop to avoid hanging
-                    let limit = 0;
-                    while ((match = regex.exec(bodyText)) !== null && limit++ < 20) {
-                        let raw = match[0].trim();
-                        raw = raw.replace(/\s+/g, ' ');
-                        if (raw.length < 40 && raw.length > 5 && !list.includes(raw)) {
-                            list.push(raw);
+            if (bnfSection) {
+                // Get all DL elements within the benefit section
+                const dls = bnfSection.querySelectorAll('dl');
+
+                dls.forEach((dl) => {
+                    const dt = dl.querySelector('dt');
+                    const dd = dl.querySelector('dd');
+
+                    if (dt) {
+                        const title = dt.innerText.trim();
+                        const desc = dd ? dd.innerText.trim() : '';
+
+                        // Combine title and description
+                        const fullText = desc ? `${title} ${desc}` : title;
+
+                        // Filter out very short or very long text
+                        if (fullText.length > 3 && fullText.length < 100) {
+                            list.push(fullText);
                         }
                     }
                 });
