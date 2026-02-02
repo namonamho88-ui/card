@@ -1,33 +1,20 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import {
-  CreditCard,
-  X,
-  Send,
-  Sparkles,
-  ChevronRight,
-  TrendingUp,
-  MessageCircle,
-  Clock,
-  ExternalLink,
-  Filter,
-  ArrowRight
-} from 'lucide-react';
 import { CARD_DATA } from './data/popularCards';
 import './index.css';
 
 const App = () => {
-  // Logic: Card Data & Scraper
+  // Logic: Card Data & Scraper (Preserved)
   const [cardData, setCardData] = useState(CARD_DATA);
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState(null);
   const [selectedIssuer, setSelectedIssuer] = useState("신한카드");
   const [selectedCard, setSelectedCard] = useState(null);
 
-  // Logic: Chatbot State
+  // Logic: Chatbot State (Preserved)
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: '안녕하세요! 당신의 소비 패턴에 맞는 최고의 금융 상품을 제안해드리는 금융 AI 상담사입니다. 궁금한 점이 있으시면 언제든 말씀해 주세요.' }
+    { role: 'assistant', content: '안녕하세요! 체리피커 에이전트입니다. 궁금하신 카드 혜택이 있으신가요? 예를 들어 "영화를 자주 보는데 제일 혜택 좋은 카드는?" 이렇게 물어보세요!' }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -60,7 +47,7 @@ const App = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Chatbot Logic (Gemini - Current)
+  // Chatbot Logic (Gemini - Preserved)
   const handleSend = async () => {
     if (!inputValue.trim()) return;
 
@@ -118,13 +105,13 @@ const App = () => {
         <h1>Cherry Picker Agent</h1>
         <p className="tagline">당신의 소비를 스마트하게, 혜택은 극대화로.</p>
         {lastUpdate && (
-          <p className="last-update">
+          <p style={{ marginTop: '10px', fontSize: '0.9rem', color: '#666' }}>
             업데이트: {new Date(lastUpdate).toLocaleString('ko-KR')}
           </p>
         )}
       </header>
 
-      {/* 카드사 탭 네비게이션 (56b384b UI) */}
+      {/* 카드사 탭 네비게이션 (56b384b Style) */}
       <section className="card-catalog-section">
         <h2 className="section-title">🏆 카드사별 인기 TOP10 카드 목록</h2>
         <div className="tabs-container">
@@ -139,19 +126,19 @@ const App = () => {
           ))}
         </div>
 
-        {/* 카드 그리드 (56b384b UI) */}
+        {/* 카드 그리드 (56b384b Layout) */}
         <div className="catalog-cards-grid">
           {displayedCards.map(card => (
             <div
               key={card.id || card.name}
               className="catalog-card-item"
-              style={{ background: card.color || '#172B4D' }}
+              style={{ background: card.color || '#161b22' }} /* Fallback for missing color in current data */
               onClick={() => setSelectedCard(card)}
             >
               <div className="catalog-card-issuer">{selectedIssuer}</div>
               <div className="catalog-card-name">{card.name}</div>
               <div className="catalog-card-tags">
-                {(card.categories || card.benefits.slice(0, 3)).map((tag, idx) => (
+                {(card.categories || card.benefits.slice(0, 2)).map((tag, idx) => (
                   <span key={idx} className="card-tag">#{tag}</span>
                 ))}
               </div>
@@ -161,28 +148,28 @@ const App = () => {
         </div>
       </section>
 
-      {/* AI 챗봇 섹션 (56b384b UI Layout + Current Gemini Logic) */}
+      {/* AI 챗봇 섹션 (56b384b Layout + Markdown) */}
       <section className="chatbot-section">
         <h2 className="section-title">🤖 AI 카드 추천</h2>
         <div className="agent-container">
           <div className="chat-history">
             {messages.map((m, i) => (
               <div key={i} className={`message ${m.role === 'user' ? 'user' : 'agent'}`}>
-                <div className="message-content">
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                      table: ({ node, ...props }) => <div className="overflow-x-auto my-3"><table className="finance-table" {...props} /></div>,
-                    }}
-                  >
-                    {m.content}
-                  </ReactMarkdown>
-                </div>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    table: ({ node, ...props }) => <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px', fontSize: '0.9rem' }} {...props} />,
+                    th: ({ node, ...props }) => <th style={{ borderBottom: '1px solid #444', padding: '8px', textAlign: 'left', color: '#00bfb3' }} {...props} />,
+                    td: ({ node, ...props }) => <td style={{ borderBottom: '1px solid #333', padding: '8px' }} {...props} />
+                  }}
+                >
+                  {m.content}
+                </ReactMarkdown>
               </div>
             ))}
             {isTyping && (
               <div className="message agent">
-                <div className="message-content typing">상담사가 답변을 작성 중입니다...</div>
+                <div style={{ fontStyle: 'italic', color: '#888' }}>상담사가 답변을 작성 중입니다...</div>
               </div>
             )}
             <div ref={chatEndRef} />
@@ -200,7 +187,7 @@ const App = () => {
         </div>
       </section>
 
-      {/* 카드 상세 정보 모달 (56b384b UI) */}
+      {/* 카드 상세 정보 모달 (56b384b Style) */}
       {selectedCard && (
         <div className="modal-overlay" onClick={() => setSelectedCard(null)}>
           <div className="modal-content card-detail-modal" onClick={(e) => e.stopPropagation()}>
@@ -210,7 +197,7 @@ const App = () => {
             </div>
 
             <div className="card-detail-body">
-              <div className="card-preview" style={{ background: selectedCard.color || '#172B4D' }}>
+              <div className="card-preview" style={{ background: selectedCard.color || '#161b22' }}>
                 <div className="card-preview-issuer">{selectedIssuer}</div>
                 <div className="card-preview-name">{selectedCard.name}</div>
               </div>
