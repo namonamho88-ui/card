@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-03T05:09:24.288Z
+// Auto-generated card data - 2026-02-03T07:59:40.439Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -17,6 +17,19 @@ const ISSUER_COLORS = {
 export const POPULAR_CARDS = [
     {
         "id": "ss-1",
+        "issuer": "삼성카드",
+        "name": "삼성 iD SELECT ALL 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 2
+    },
+    {
+        "id": "ss-2",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ALL 카드",
         "annualFee": "1~3만원",
@@ -55,7 +68,7 @@ export const POPULAR_CARDS = [
         "rank": 4
     },
     {
-        "id": "ss-2",
+        "id": "ss-3",
         "issuer": "삼성카드",
         "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
         "annualFee": "1~3만원",
@@ -68,7 +81,7 @@ export const POPULAR_CARDS = [
         "rank": 5
     },
     {
-        "id": "ss-3",
+        "id": "ss-4",
         "issuer": "삼성카드",
         "name": "삼성카드 taptap O",
         "annualFee": "1~3만원",
@@ -107,7 +120,7 @@ export const POPULAR_CARDS = [
         "rank": 10
     },
     {
-        "id": "ss-4",
+        "id": "ss-5",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ALL 카드",
         "annualFee": "1~3만원",
@@ -146,7 +159,7 @@ export const POPULAR_CARDS = [
         "rank": 4
     },
     {
-        "id": "ss-5",
+        "id": "ss-6",
         "issuer": "삼성카드",
         "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
         "annualFee": "1~3만원",
@@ -159,7 +172,7 @@ export const POPULAR_CARDS = [
         "rank": 5
     },
     {
-        "id": "ss-6",
+        "id": "ss-7",
         "issuer": "삼성카드",
         "name": "삼성카드 taptap O",
         "annualFee": "1~3만원",
@@ -198,7 +211,7 @@ export const POPULAR_CARDS = [
         "rank": 10
     },
     {
-        "id": "ss-7",
+        "id": "ss-8",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ON 카드",
         "annualFee": "1~3만원",
@@ -250,7 +263,7 @@ export const POPULAR_CARDS = [
         "rank": 15
     },
     {
-        "id": "ss-8",
+        "id": "ss-9",
         "issuer": "삼성카드",
         "name": "삼성 iD SIMPLE 카드",
         "annualFee": "1~3만원",
@@ -263,7 +276,7 @@ export const POPULAR_CARDS = [
         "rank": 16
     },
     {
-        "id": "ss-9",
+        "id": "ss-10",
         "issuer": "삼성카드",
         "name": "taptap DIGITAL",
         "annualFee": "1~3만원",
@@ -289,19 +302,6 @@ export const POPULAR_CARDS = [
         "rank": 18
     },
     {
-        "id": "wo-5",
-        "issuer": "우리카드",
-        "name": "카드의정석 EVERY MILE SKYPASS",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 19
-    },
-    {
         "id": "sh-6",
         "issuer": "신한카드",
         "name": "신한카드 Deep Oil",
@@ -312,25 +312,12 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 21
+        "rank": 20
     },
     {
-        "id": "ss-10",
-        "issuer": "삼성카드",
-        "name": "삼성 iD GLOBAL 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 24
-    },
-    {
-        "id": "wo-6",
+        "id": "wo-5",
         "issuer": "우리카드",
-        "name": "우리카드 MILE&POINT",
+        "name": "카드의정석 EVERY MILE SKYPASS",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
@@ -338,7 +325,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 26
+        "rank": 22
     },
     {
         "id": "hd-1",
@@ -351,6 +338,19 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 26
+    },
+    {
+        "id": "wo-6",
+        "issuer": "우리카드",
+        "name": "우리카드 MILE&POINT",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 27
     },
     {
@@ -364,7 +364,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 30
+        "rank": 28
     },
     {
         "id": "wo-7",
@@ -377,7 +377,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 33
+        "rank": 31
     },
     {
         "id": "sh-8",
@@ -393,19 +393,6 @@ export const POPULAR_CARDS = [
         "rank": 35
     },
     {
-        "id": "sh-9",
-        "issuer": "신한카드",
-        "name": "메리어트 본보이™ 더 베스트 신한카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 37
-    },
-    {
         "id": "hd-2",
         "issuer": "현대카드",
         "name": "현대카드ZERO Edition3(할인형)",
@@ -416,6 +403,19 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 37
+    },
+    {
+        "id": "sh-9",
+        "issuer": "신한카드",
+        "name": "메리어트 본보이™ 더 베스트 신한카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 38
     },
     {
@@ -432,20 +432,20 @@ export const POPULAR_CARDS = [
         "rank": 40
     },
     {
-        "id": "hd-4",
-        "issuer": "현대카드",
-        "name": "현대카드 Summit",
+        "id": "wo-8",
+        "issuer": "우리카드",
+        "name": "카드의정석 TEN",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
             "상세 혜택 홈페이지 참조"
         ],
         "categories": [],
-        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 43
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 42
     },
     {
-        "id": "wo-8",
+        "id": "wo-9",
         "issuer": "우리카드",
         "name": "카드의정석 EVERY POINT",
         "annualFee": "1~3만원",
@@ -458,6 +458,19 @@ export const POPULAR_CARDS = [
         "rank": 44
     },
     {
+        "id": "hd-4",
+        "issuer": "현대카드",
+        "name": "현대카드 Summit",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 45
+    },
+    {
         "id": "sh-10",
         "issuer": "신한카드",
         "name": "신한카드 The CLASSIC-S",
@@ -468,19 +481,6 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 45
-    },
-    {
-        "id": "wo-9",
-        "issuer": "우리카드",
-        "name": "카드의정석 TEN",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 46
     },
     {
@@ -494,7 +494,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 60
+        "rank": 59
     },
     {
         "id": "hn-1",
@@ -520,7 +520,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 63
+        "rank": 64
     },
     {
         "id": "hd-5",
@@ -572,20 +572,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 74
-    },
-    {
-        "id": "hn-3",
-        "issuer": "하나카드",
-        "name": "원더카드 2.0 FREE+",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 76
+        "rank": 75
     },
     {
         "id": "hd-8",
@@ -598,6 +585,19 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 76
+    },
+    {
+        "id": "hn-3",
+        "issuer": "하나카드",
+        "name": "원더카드 2.0 FREE+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 77
     },
     {
@@ -611,7 +611,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 79
+        "rank": 80
     },
     {
         "id": "hn-4",
@@ -676,7 +676,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 96
+        "rank": 97
     },
     {
         "id": "hd-10",
@@ -689,7 +689,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 100
+        "rank": 98
     }
 ];
 
