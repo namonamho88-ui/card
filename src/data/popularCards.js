@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-04T14:31:34.984Z
+// Auto-generated card data - 2026-02-04T19:55:17.678Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -304,7 +304,7 @@ export const POPULAR_CARDS = [
     {
         "id": "wo-4",
         "issuer": "우리카드",
-        "name": "카드의정석 EVERY MILE SKYPASS",
+        "name": "카드의정석2",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
@@ -317,7 +317,7 @@ export const POPULAR_CARDS = [
     {
         "id": "wo-5",
         "issuer": "우리카드",
-        "name": "카드의정석2",
+        "name": "카드의정석 EVERY MILE SKYPASS",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
@@ -325,7 +325,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 22
+        "rank": 21
     },
     {
         "id": "hd-1",
@@ -429,7 +429,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 41
+        "rank": 40
     },
     {
         "id": "hd-4",
@@ -468,7 +468,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 46
+        "rank": 45
     },
     {
         "id": "wo-9",
@@ -572,7 +572,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 75
+        "rank": 76
     },
     {
         "id": "lo-4",
@@ -598,7 +598,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 78
+        "rank": 79
     },
     {
         "id": "hd-9",
@@ -611,7 +611,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 82
+        "rank": 85
     },
     {
         "id": "hn-3",
@@ -624,7 +624,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 84
+        "rank": 86
     },
     {
         "id": "hn-4",
@@ -650,7 +650,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 91
+        "rank": 90
     },
     {
         "id": "lo-6",
@@ -663,20 +663,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 97
-    },
-    {
-        "id": "lo-7",
-        "issuer": "롯데카드",
-        "name": "LOCA LIKIT",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 99
+        "rank": 98
     },
     {
         "id": "hd-10",
@@ -689,6 +676,19 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 99
+    },
+    {
+        "id": "lo-7",
+        "issuer": "롯데카드",
+        "name": "LOCA LIKIT",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 100
     }
 ];
