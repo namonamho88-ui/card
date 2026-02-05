@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-05T14:35:32.397Z
+// Auto-generated card data - 2026-02-05T19:53:25.209Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -260,7 +260,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 15
+        "rank": 14
     },
     {
         "id": "lo-3",
@@ -289,19 +289,6 @@ export const POPULAR_CARDS = [
         "rank": 17
     },
     {
-        "id": "wo-4",
-        "issuer": "우리카드",
-        "name": "카드의정석2",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 19
-    },
-    {
         "id": "sh-6",
         "issuer": "신한카드",
         "name": "신한카드 Deep Oil",
@@ -312,6 +299,19 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 19
+    },
+    {
+        "id": "wo-4",
+        "issuer": "우리카드",
+        "name": "카드의정석2",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 20
     },
     {
@@ -328,19 +328,6 @@ export const POPULAR_CARDS = [
         "rank": 21
     },
     {
-        "id": "hd-1",
-        "issuer": "현대카드",
-        "name": "현대카드 M",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 26
-    },
-    {
         "id": "wo-6",
         "issuer": "우리카드",
         "name": "우리카드 MILE&POINT",
@@ -351,6 +338,19 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 26
+    },
+    {
+        "id": "hd-1",
+        "issuer": "현대카드",
+        "name": "현대카드 M",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 27
     },
     {
@@ -445,19 +445,6 @@ export const POPULAR_CARDS = [
         "rank": 42
     },
     {
-        "id": "hd-4",
-        "issuer": "현대카드",
-        "name": "현대카드 Summit",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 43
-    },
-    {
         "id": "wo-8",
         "issuer": "우리카드",
         "name": "카드의정석 TEN",
@@ -468,6 +455,19 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 43
+    },
+    {
+        "id": "hd-4",
+        "issuer": "현대카드",
+        "name": "현대카드 Summit",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 44
     },
     {
@@ -559,7 +559,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 76
+        "rank": 75
     },
     {
         "id": "hd-8",
@@ -598,7 +598,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 80
+        "rank": 81
     },
     {
         "id": "hn-3",
@@ -611,7 +611,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 85
+        "rank": 84
     },
     {
         "id": "hn-4",
@@ -624,7 +624,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 88
+        "rank": 89
     },
     {
         "id": "hd-9",
@@ -637,7 +637,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 90
+        "rank": 91
     },
     {
         "id": "hn-5",
