@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-04T19:55:17.678Z
+// Auto-generated card data - 2026-02-05T05:10:56.700Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -325,7 +325,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 21
+        "rank": 20
     },
     {
         "id": "hd-1",
@@ -364,7 +364,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 28
+        "rank": 29
     },
     {
         "id": "wo-7",
@@ -377,7 +377,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 32
+        "rank": 31
     },
     {
         "id": "sh-8",
@@ -447,7 +447,7 @@ export const POPULAR_CARDS = [
     {
         "id": "wo-8",
         "issuer": "우리카드",
-        "name": "카드의정석 EVERY POINT",
+        "name": "카드의정석 TEN",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
@@ -456,6 +456,19 @@ export const POPULAR_CARDS = [
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 43
+    },
+    {
+        "id": "wo-9",
+        "issuer": "우리카드",
+        "name": "카드의정석 EVERY POINT",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 45
     },
     {
         "id": "sh-10",
@@ -468,33 +481,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 45
-    },
-    {
-        "id": "wo-9",
-        "issuer": "우리카드",
-        "name": "카드의정석 TEN",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 47
-    },
-    {
-        "id": "hn-1",
-        "issuer": "하나카드",
-        "name": "하나 스카이패스 아멕스 플래티늄 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 59
+        "rank": 46
     },
     {
         "id": "wo-10",
@@ -507,6 +494,19 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 57
+    },
+    {
+        "id": "hn-1",
+        "issuer": "하나카드",
+        "name": "하나 스카이패스 아멕스 플래티늄 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 60
     },
     {
@@ -533,7 +533,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 69
+        "rank": 66
     },
     {
         "id": "hd-6",
@@ -598,7 +598,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 79
+        "rank": 80
     },
     {
         "id": "hd-9",
@@ -624,23 +624,10 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 86
+        "rank": 87
     },
     {
         "id": "hn-4",
-        "issuer": "하나카드",
-        "name": "원더카드 2.0 LIFE",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 89
-    },
-    {
-        "id": "hn-5",
         "issuer": "하나카드",
         "name": "트래블로그 신용카드",
         "annualFee": "1~3만원",
@@ -650,7 +637,20 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 90
+        "rank": 88
+    },
+    {
+        "id": "hn-5",
+        "issuer": "하나카드",
+        "name": "원더카드 2.0 LIFE",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+        "rank": 93
     },
     {
         "id": "lo-6",
