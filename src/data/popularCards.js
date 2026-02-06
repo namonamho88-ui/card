@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-06T14:29:16.578Z
+// Auto-generated card data - 2026-02-06T19:52:26.077Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -211,19 +211,6 @@ export const POPULAR_CARDS = [
         "rank": 10
     },
     {
-        "id": "sh-5",
-        "issuer": "신한카드",
-        "name": "신한카드 처음(ANNIVERSE)",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "상세 혜택 홈페이지 참조"
-        ],
-        "categories": [],
-        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 11
-    },
-    {
         "id": "ss-8",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ON 카드",
@@ -234,6 +221,19 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 11
+    },
+    {
+        "id": "sh-5",
+        "issuer": "신한카드",
+        "name": "신한카드 처음(ANNIVERSE)",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "상세 혜택 홈페이지 참조"
+        ],
+        "categories": [],
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 12
     },
     {
@@ -325,7 +325,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 21
+        "rank": 22
     },
     {
         "id": "hd-1",
@@ -377,7 +377,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 32
+        "rank": 31
     },
     {
         "id": "hd-2",
@@ -481,7 +481,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 48
+        "rank": 49
     },
     {
         "id": "hn-1",
@@ -499,7 +499,7 @@ export const POPULAR_CARDS = [
     {
         "id": "wo-10",
         "issuer": "우리카드",
-        "name": "카드의정석 I&U+",
+        "name": "DA카드의정석Ⅱ",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
@@ -533,7 +533,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 64
+        "rank": 66
     },
     {
         "id": "hd-6",
@@ -559,7 +559,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 76
+        "rank": 75
     },
     {
         "id": "hd-8",
@@ -611,7 +611,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 85
+        "rank": 84
     },
     {
         "id": "hd-9",
@@ -637,7 +637,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 88
+        "rank": 89
     },
     {
         "id": "hn-5",
@@ -650,7 +650,7 @@ export const POPULAR_CARDS = [
         ],
         "categories": [],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 92
+        "rank": 91
     },
     {
         "id": "lo-6",
