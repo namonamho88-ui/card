@@ -1,8 +1,8 @@
-# Cherry Picker Agent - 기능 명세서
+# Space D AI 카드 에이전트 - 기능 명세서
 
 ## 📋 프로젝트 개요
 
-**프로젝트명**: Cherry Picker Agent  
+**프로젝트명**: Space D AI 카드 에이전트  
 **버전**: 1.0.0  
 **목적**: 사용자의 소비 패턴에 맞는 최적의 신용카드를 추천하는 AI 기반 카드 추천 시스템  
 **기술 스택**: React, Vite, Supabase (선택적)

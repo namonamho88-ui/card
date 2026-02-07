@@ -1,4 +1,4 @@
-# Cherry Picker Agent - 사용자 가이드
+# Space D AI 카드 에이전트 - 사용자 가이드
 
 ## 🚀 시작하기
 

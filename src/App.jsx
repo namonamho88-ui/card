@@ -5,7 +5,7 @@ import './index.css';
 
 function App() {
   const [messages, setMessages] = useState([
-    { role: 'agent', text: '안녕하세요! 체리피커 에이전트입니다. 궁금하신 카드 혜택이 있으신가요? 예를 들어 "영화를 자주 보는데 제일 혜택 좋은 카드는?" 이렇게 물어보세요!' }
+    { role: 'agent', text: '안녕하세요! Space D 에서 제공하는 AI 기반 카드 추천 에이전트 입니다. 궁금하신 카드 혜택이 있으신가요? 예를 들어 "영화를 자주 보는데 제일 혜택 좋은 카드는?" 이렇게 물어보세요!' }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [selectedCard, setSelectedCard] = useState(null);
@@ -68,7 +68,7 @@ function App() {
       ).join('\n');
 
       const systemInstruction = `
-        당신은 카드 추천 전문가 '체리피커'입니다. 아래 데이터 기반으로 추천하세요.
+        당신은 Space D 에서 제공하는 AI 기반 카드 추천 에이전트입니다. 아래 데이터 기반으로 추천하세요.
         데이터: 카드사 상품명(연회비/실적):혜택...
 
         [데이터]
@@ -162,13 +162,13 @@ function App() {
                 key={issuer}
                 onClick={() => setSelectedIssuer(issuer)}
                 className={`flex flex-col items-center shrink-0 justify-center h-full border-b-2 transition-all ${isActive
-                    ? 'border-toss-gray-800 dark:border-white'
-                    : 'border-transparent'
+                  ? 'border-toss-gray-800 dark:border-white'
+                  : 'border-transparent'
                   }`}
               >
                 <p className={`text-[15px] tracking-tight ${isActive
-                    ? 'text-toss-gray-800 dark:text-white font-bold'
-                    : 'text-toss-gray-600 dark:text-gray-500 font-medium'
+                  ? 'text-toss-gray-800 dark:text-white font-bold'
+                  : 'text-toss-gray-600 dark:text-gray-500 font-medium'
                   }`}>
                   {shortName}
                 </p>
@@ -258,8 +258,8 @@ function App() {
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-[15px] leading-relaxed ${m.role === 'user'
-                    ? 'bg-primary text-white rounded-tr-none'
-                    : 'bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-800 dark:text-gray-200 rounded-tl-none'
+                  ? 'bg-primary text-white rounded-tr-none'
+                  : 'bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-800 dark:text-gray-200 rounded-tl-none'
                   }`}>
                   <div dangerouslySetInnerHTML={{ __html: m.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
                 </div>
