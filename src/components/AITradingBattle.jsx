@@ -631,20 +631,6 @@ const AITradingBattle = () => {
         return g.patterns[g.patternIdx];
     }, []);
 
-    const nextPattern = useCallback(() => {
-        const g = gameRef.current;
-        g.patternIdx++;
-        g.patternTick = 0;
-        g.patternLength = 40 + Math.floor(Math.random() * 20);
-    }, []);
-
-    const handleDelisting = useCallback(() => {
-        const g = gameRef.current;
-        if (!g) return;
-        g.currentPrice = 0;
-        endGame({ delisted: true });
-    }, [endGame]);
-
     // ============ Trade & End Game ============
     const closePosition = useCallback(() => {
         const g = gameRef.current;
@@ -706,6 +692,20 @@ const AITradingBattle = () => {
         setRunning(false);
         setShowResult(true);
     }, [closePosition]);
+
+    const handleDelisting = useCallback(() => {
+        const g = gameRef.current;
+        if (!g) return;
+        g.currentPrice = 0;
+        endGame({ delisted: true });
+    }, [endGame]);
+
+    const nextPattern = useCallback(() => {
+        const g = gameRef.current;
+        g.patternIdx++;
+        g.patternTick = 0;
+        g.patternLength = 40 + Math.floor(Math.random() * 20);
+    }, []);
 
     const priceTick = useCallback(() => {
         const g = gameRef.current;
