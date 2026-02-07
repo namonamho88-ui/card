@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-07T01:43:27.213Z
+// Auto-generated card data - 2026-02-07T04:56:50.193Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -260,6 +260,25 @@ export const POPULAR_CARDS = [
         "rank": 17
     },
     {
+        "id": "ss-7",
+        "issuer": "삼성카드",
+        "name": "THE iD. 1st",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "프리미엄 영역 연간 최대 15만원할인 기프트",
+            "국내외 가맹점 1~3%빅포인트 적립",
+            "공항 라운지 연 3회무료 이용"
+        ],
+        "categories": [
+            "할인",
+            "적립"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2915/card_img/45262/2915card_1.png",
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 19
+    },
+    {
         "id": "wo-3",
         "issuer": "우리카드",
         "name": "카드의정석2",
@@ -274,7 +293,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2848/card_img/45022/2848card_1.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 19
+        "rank": 20
     },
     {
         "id": "sh-4",
@@ -294,25 +313,6 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/39/card_img/31864/39card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 20
-    },
-    {
-        "id": "ss-7",
-        "issuer": "삼성카드",
-        "name": "THE iD. 1st",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "프리미엄 영역 연간 최대 15만원할인 기프트",
-            "국내외 가맹점 1~3%빅포인트 적립",
-            "공항 라운지 연 3회무료 이용"
-        ],
-        "categories": [
-            "할인",
-            "적립"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2915/card_img/45262/2915card_1.png",
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 21
     },
     {
@@ -407,7 +407,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/466/card_img/37854/466card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 28
+        "rank": 29
     },
     {
         "id": "wo-6",
@@ -575,7 +575,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/54/card_img/20135/54card.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 46
+        "rank": 45
     },
     {
         "id": "wo-8",
@@ -647,7 +647,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 59
+        "rank": 60
     },
     {
         "id": "wo-10",
@@ -685,7 +685,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 63
+        "rank": 64
     },
     {
         "id": "hn-2",
@@ -855,7 +855,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2820/card_img/44248/2820card.png",
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 84
+        "rank": 83
     },
     {
         "id": "hd-9",
@@ -874,7 +874,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2938/card_img/46988/2938card.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 86
+        "rank": 85
     },
     {
         "id": "hn-4",
