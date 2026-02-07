@@ -638,6 +638,71 @@ const AITradingBattle = () => {
         g.patternLength = 40 + Math.floor(Math.random() * 20);
     }, []);
 
+    // ============ Trade & End Game ============
+    const closePosition = useCallback(() => {
+        const g = gameRef.current;
+        if (!g || !g.position) return;
+        let pnl;
+        if (g.position.type === 'long') pnl = (g.currentPrice - g.position.entry) * g.position.size;
+        else pnl = (g.position.entry - g.currentPrice) * g.position.size;
+        g.balance += pnl;
+        g.trades++;
+        if (pnl > 0) g.wins++;
+        showMsg(pnl > 0 ? `✅ 매도 완료! +${formatMoney(pnl)}` : `❌ 매도 완료! ${formatMoney(pnl)}`, pnl > 0 ? 'success' : 'error');
+        g.position = null;
+    }, [showMsg]);
+
+    const endGame = useCallback((options = {}) => {
+        const g = gameRef.current;
+        if (!g) return;
+
+        // Position check
+        if (g.position) {
+            if (options.delisted) {
+                // 상장폐지 시 포지션은 전액 손실 처리
+                g.position = null;
+            } else {
+                closePosition();
+            }
+        }
+
+        clearInterval(tickTimerRef.current);
+        clearInterval(countdownRef.current);
+        cancelAnimationFrame(animRef.current);
+
+        const finalBalance = options.delisted ? 0 : g.balance;
+        const profit = finalBalance - g.initBalance;
+        const pct = (profit / g.initBalance * 100);
+
+        setResultData({
+            profit,
+            pct: pct.toFixed(2),
+            trades: g.trades,
+            winRate: g.trades > 0 ? (g.wins / g.trades * 100).toFixed(0) : '0',
+            grade: options.delisted ? '💀 상장폐지' : getGrade(pct),
+            balance: finalBalance,
+            delisted: options.delisted
+        });
+
+        // Save (상장폐지 시엔 기록에 포함하지 않거나 하위에 기록)
+        let saved = [];
+        try { saved = JSON.parse(localStorage.getItem('tradingScores') || '[]'); } catch { }
+        saved.push({
+            balance: finalBalance,
+            pct: parseFloat(pct.toFixed(2)),
+            diff: 'normal',
+            date: new Date().toLocaleDateString(),
+            delisted: options.delisted
+        });
+        saved.sort((a, b) => b.balance - a.balance);
+        saved = saved.slice(0, 5);
+        localStorage.setItem('tradingScores', JSON.stringify(saved));
+        setScores(saved);
+
+        setRunning(false);
+        setShowResult(true);
+    }, [closePosition]);
+
     const priceTick = useCallback(() => {
         const g = gameRef.current;
         if (!g) return;
@@ -926,20 +991,6 @@ const AITradingBattle = () => {
         }
     }, [drawMainChart, drawVolumeChart, running]);
 
-    // ============ Trade ============
-    const closePosition = useCallback(() => {
-        const g = gameRef.current;
-        if (!g || !g.position) return;
-        let pnl;
-        if (g.position.type === 'long') pnl = (g.currentPrice - g.position.entry) * g.position.size;
-        else pnl = (g.position.entry - g.currentPrice) * g.position.size;
-        g.balance += pnl;
-        g.trades++;
-        if (pnl > 0) g.wins++;
-        showMsg(pnl > 0 ? `✅ 매도 완료! +${formatMoney(pnl)}` : `❌ 매도 완료! ${formatMoney(pnl)}`, pnl > 0 ? 'success' : 'error');
-        g.position = null;
-    }, [showMsg]);
-
     const handleTrade = useCallback((action) => {
         const g = gameRef.current;
         if (!g) return;
@@ -953,57 +1004,7 @@ const AITradingBattle = () => {
         }
     }, [closePosition, showMsg]);
 
-    // ============ End Game ============
-    const endGame = useCallback((options = {}) => {
-        const g = gameRef.current;
-        if (!g) return;
 
-        // Position check
-        if (g.position) {
-            if (options.delisted) {
-                // 상장폐지 시 포지션은 전액 손실 처리
-                g.position = null;
-            } else {
-                closePosition();
-            }
-        }
-
-        clearInterval(tickTimerRef.current);
-        clearInterval(countdownRef.current);
-        cancelAnimationFrame(animRef.current);
-
-        const finalBalance = options.delisted ? 0 : g.balance;
-        const profit = finalBalance - g.initBalance;
-        const pct = (profit / g.initBalance * 100);
-
-        setResultData({
-            profit,
-            pct: pct.toFixed(2),
-            trades: g.trades,
-            winRate: g.trades > 0 ? (g.wins / g.trades * 100).toFixed(0) : '0',
-            grade: options.delisted ? '💀 상장폐지' : getGrade(pct),
-            balance: finalBalance,
-            delisted: options.delisted
-        });
-
-        // Save (상장폐지 시엔 기록에 포함하지 않거나 하위에 기록)
-        let saved = [];
-        try { saved = JSON.parse(localStorage.getItem('tradingScores') || '[]'); } catch { }
-        saved.push({
-            balance: finalBalance,
-            pct: parseFloat(pct.toFixed(2)),
-            diff: 'normal',
-            date: new Date().toLocaleDateString(),
-            delisted: options.delisted
-        });
-        saved.sort((a, b) => b.balance - a.balance);
-        saved = saved.slice(0, 5);
-        localStorage.setItem('tradingScores', JSON.stringify(saved));
-        setScores(saved);
-
-        setRunning(false);
-        setShowResult(true);
-    }, [closePosition]);
 
     // ============ UI Sync Timer ============
     const syncUI = useCallback(() => {
