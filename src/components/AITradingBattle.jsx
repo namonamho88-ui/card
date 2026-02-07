@@ -4,22 +4,21 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 const styles = {
     body: {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        background: 'transparent', // 기존 앱 배경 사용을 위해 투명화
-        minHeight: 'auto',
+        background: 'transparent',
+        minHeight: '100%',
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        padding: 10,
+        flexDirection: 'column',
+        padding: '10px 10px 100px 10px', // Bottom padding for nav bar
         color: '#e0e0e0',
     },
     container: {
         background: '#1a1a2e',
         borderRadius: 16,
         padding: '16px 12px',
-        maxWidth: '100%', // 모바일 컨테이너에 맞춤
         width: '100%',
         boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
         border: '1px solid #333',
+        marginBottom: 20,
     },
     header: { textAlign: 'center', marginBottom: 12 },
     h1: {

@@ -144,9 +144,9 @@ function App() {
   }, [selectedIssuer]);
 
   return (
-    <div className="relative flex h-screen w-full flex-col max-w-[430px] mx-auto overflow-hidden shadow-2xl bg-white dark:bg-[#111111]">
-      {/* Header - Non-sticky stable flex child */}
-      <header className="shrink-0 bg-white/90 dark:bg-[#111111]/90 backdrop-blur-md px-5 py-4 flex items-center justify-between z-30 border-b border-toss-gray-100 dark:border-gray-800">
+    <div className="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto shadow-2xl bg-white dark:bg-[#111111]">
+      {/* Header - Sticky stable flex child */}
+      <header className="sticky top-0 shrink-0 bg-white/95 dark:bg-[#111111]/95 backdrop-blur-md px-5 py-4 flex items-center justify-between z-30 border-b border-toss-gray-100 dark:border-gray-800">
         <div className="flex items-center gap-1">
           <span className="material-symbols-outlined text-toss-gray-800 dark:text-white cursor-pointer text-2xl font-semibold">chevron_left</span>
         </div>
@@ -156,8 +156,8 @@ function App() {
         <div className="w-6"></div>
       </header>
 
-      {/* Conditional Content Wrapper - Constrained to remaining height */}
-      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+      {/* Conditional Content Wrapper */}
+      <div className="flex-1 flex flex-col">
         {activeMainTab === 'cards' ? (
           <>
             {/* Tabs Navigation (Issuers) - Non-sticky shrinking child */}
@@ -264,11 +264,11 @@ function App() {
             </main>
           </>
         ) : activeMainTab === 'financial' ? (
-          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111] overflow-hidden">
+          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111]">
             <FinancialRanking />
           </main>
         ) : (
-          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111] overflow-hidden">
+          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111]">
             <AITradingBattle />
           </main>
         )}
