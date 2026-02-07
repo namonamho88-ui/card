@@ -638,6 +638,13 @@ const AITradingBattle = () => {
         g.patternLength = 40 + Math.floor(Math.random() * 20);
     }, []);
 
+    const handleDelisting = useCallback(() => {
+        const g = gameRef.current;
+        if (!g) return;
+        g.currentPrice = 0;
+        endGame({ delisted: true });
+    }, [endGame]);
+
     // ============ Trade & End Game ============
     const closePosition = useCallback(() => {
         const g = gameRef.current;
@@ -657,9 +664,15 @@ const AITradingBattle = () => {
         if (!g) return;
 
         // Position check
+        let finalLoss = 0;
+        let hadPosition = false;
         if (g.position) {
+            hadPosition = true;
             if (options.delisted) {
-                // 상장폐지 시 포지션은 전액 손실 처리
+                // 상장폐지 시 포지션 가치는 0 (전액 손실)
+                const pnl = (0 - g.position.entry) * g.position.size;
+                g.balance += pnl;
+                finalLoss = Math.abs(pnl);
                 g.position = null;
             } else {
                 closePosition();
@@ -670,8 +683,7 @@ const AITradingBattle = () => {
         clearInterval(countdownRef.current);
         cancelAnimationFrame(animRef.current);
 
-        const finalBalance = options.delisted ? 0 : g.balance;
-        const profit = finalBalance - g.initBalance;
+        const profit = g.balance - g.initBalance;
         const pct = (profit / g.initBalance * 100);
 
         setResultData({
@@ -680,8 +692,10 @@ const AITradingBattle = () => {
             trades: g.trades,
             winRate: g.trades > 0 ? (g.wins / g.trades * 100).toFixed(0) : '0',
             grade: options.delisted ? '💀 상장폐지' : getGrade(pct),
-            balance: finalBalance,
-            delisted: options.delisted
+            balance: g.balance,
+            delisted: options.delisted,
+            hadPosition: hadPosition,
+            finalLoss: finalLoss
         });
 
         // Save (상장폐지 시엔 기록에 포함하지 않거나 하위에 기록)
@@ -707,10 +721,9 @@ const AITradingBattle = () => {
         const g = gameRef.current;
         if (!g) return;
 
-        // 1% 확률로 상장폐지 (0원으로 급락)
+        // 1. 1% probability for the price to crash to $0
         if (Math.random() < 0.01) {
-            g.currentPrice = 0;
-            endGame({ delisted: true });
+            handleDelisting();
             return;
         }
 
@@ -718,11 +731,12 @@ const AITradingBattle = () => {
         g.patternTick++;
 
         let newPrice = pat.gen(g.patternTick, g.patternLength, g.currentPrice, g.dm);
-        newPrice = Math.max(0, Math.min(50000, newPrice)); // 하한가 0원 설정
+        newPrice = Math.max(0, Math.min(50000, newPrice)); // 4. Update Math.max limit to 0
         g.currentPrice = newPrice;
 
-        if (newPrice === 0) {
-            endGame({ delisted: true });
+        // 2. If newPrice <= 0, trigger event immediately
+        if (newPrice <= 0) {
+            handleDelisting();
             return;
         }
 
@@ -1297,22 +1311,23 @@ const AITradingBattle = () => {
                 </div>
             )}
 
-            {/* Result Overlay */}
             {showResult && (
                 <div style={styles.overlay}>
                     <div style={styles.resultCard}>
                         {resultData.delisted ? (
                             <>
-                                <h2 style={{ fontSize: 28, marginBottom: 12, color: '#ff5252' }}>
-                                    🚨 상장폐지 발생!
+                                <h2 style={{ fontSize: 26, marginBottom: 12, color: '#ff5252' }}>
+                                    ⚠️ STOCK DELISTED
                                 </h2>
-                                <div style={{ fontSize: 20, fontWeight: 'bold', margin: '20px 0', color: '#ff5252', lineHeight: '1.4' }}>
-                                    회사가 파산하였습니다.<br />
+                                <div style={{ fontSize: 18, fontWeight: 'bold', margin: '20px 0', color: '#ff5252', lineHeight: '1.4' }}>
+                                    You lost everything!<br />
                                     모든 투자금을 잃었습니다.
                                 </div>
-                                <div style={{ fontSize: 32, fontWeight: 'bold', margin: '10px 0', color: '#ff5252' }}>
-                                    -{formatMoney(1000000)} {/* 전액 손실 표기 */}
-                                </div>
+                                {resultData.hadPosition && (
+                                    <div style={{ fontSize: 32, fontWeight: 'bold', margin: '10px 0', color: '#ff5252' }}>
+                                        -{formatMoney(resultData.finalLoss)}
+                                    </div>
+                                )}
                             </>
                         ) : (
                             <>
