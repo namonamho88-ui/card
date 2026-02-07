@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-07T13:57:57.364Z
+// Auto-generated card data - 2026-02-07T14:53:02.099Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -15,24 +15,6 @@ const ISSUER_COLORS = {
 };
 
 export const POPULAR_CARDS = [
-    {
-        "id": "ss-1",
-        "issuer": "삼성카드",
-        "name": "삼성 iD SELECT ALL 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "선택 옵션에 따른 할인 혜택(택 1)",
-            "생활 편의 영역 5%할인",
-            "디지털콘텐츠/멤버십 50%할인"
-        ],
-        "categories": [
-            "할인"
-        ],
-        "image": null,
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 2
-    },
     {
         "id": "sh-1",
         "issuer": "신한카드",
@@ -52,6 +34,24 @@ export const POPULAR_CARDS = [
         "image": null,
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 3
+    },
+    {
+        "id": "ss-1",
+        "issuer": "삼성카드",
+        "name": "삼성 iD SELECT ALL 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "선택 옵션에 따른 할인 혜택(택 1)",
+            "생활 편의 영역 5%할인",
+            "디지털콘텐츠/멤버십 50%할인"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": null,
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 2
     },
     {
         "id": "wo-1",
@@ -316,6 +316,24 @@ export const POPULAR_CARDS = [
         "rank": 21
     },
     {
+        "id": "ss-8",
+        "issuer": "삼성카드",
+        "name": "삼성 iD GLOBAL 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "해외 이용 2%할인",
+            "공항라운지 연 2회무료 이용",
+            "디지털콘텐츠 50%할인"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 23
+    },
+    {
         "id": "wo-4",
         "issuer": "우리카드",
         "name": "카드의정석 EVERY MILE SKYPASS",
@@ -332,24 +350,6 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 23
-    },
-    {
-        "id": "ss-8",
-        "issuer": "삼성카드",
-        "name": "삼성 iD GLOBAL 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "해외 이용 2%할인",
-            "공항라운지 연 2회무료 이용",
-            "디지털콘텐츠 50%할인"
-        ],
-        "categories": [
-            "할인"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 24
     },
     {
@@ -445,7 +445,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/716/card_img/22190/716card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 36
+        "rank": 35
     },
     {
         "id": "hd-2",
@@ -595,24 +595,6 @@ export const POPULAR_CARDS = [
         "rank": 49
     },
     {
-        "id": "sh-9",
-        "issuer": "신한카드",
-        "name": "신한카드 Point Plan+",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "국내 결제금액 최대 3%적립",
-            "주말 외식비 1천 포인트적립",
-            "OTT 최대 2천 포인트적립"
-        ],
-        "categories": [
-            "적립"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2731/card_img/36308/2731card.png",
-        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 57
-    },
-    {
         "id": "hn-1",
         "issuer": "하나카드",
         "name": "하나 스카이패스 아멕스 플래티늄 카드",
@@ -629,6 +611,24 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2237/card_img/20939/2237card.png",
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+        "rank": 57
+    },
+    {
+        "id": "sh-9",
+        "issuer": "신한카드",
+        "name": "신한카드 Point Plan+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "국내 결제금액 최대 3%적립",
+            "주말 외식비 1천 포인트적립",
+            "OTT 최대 2천 포인트적립"
+        ],
+        "categories": [
+            "적립"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2731/card_img/36308/2731card.png",
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 58
     },
     {
@@ -708,6 +708,24 @@ export const POPULAR_CARDS = [
         "rank": 66
     },
     {
+        "id": "sh-10",
+        "issuer": "신한카드",
+        "name": "신한카드 Edu Plan+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "학원비 최대 10%캐시백",
+            "3대 할인점 1%캐시백",
+            "메가박스 7천원할인"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 70
+    },
+    {
         "id": "hd-6",
         "issuer": "현대카드",
         "name": "에너지플러스 현대카드",
@@ -724,24 +742,6 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 70
-    },
-    {
-        "id": "sh-10",
-        "issuer": "신한카드",
-        "name": "신한카드 Edu Plan+",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "학원비 최대 10%캐시백",
-            "3대 할인점 1%캐시백",
-            "메가박스 7천원할인"
-        ],
-        "categories": [
-            "할인"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
-        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 71
     },
     {
@@ -931,7 +931,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 94
+        "rank": 93
     },
     {
         "id": "hd-10",
