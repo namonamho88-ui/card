@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-07T04:56:50.193Z
+// Auto-generated card data - 2026-02-07T07:47:44.379Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -150,24 +150,6 @@ export const POPULAR_CARDS = [
         "rank": 10
     },
     {
-        "id": "ss-4",
-        "issuer": "삼성카드",
-        "name": "삼성 iD SELECT ON 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "음식점 또는 온라인몰 금/토/일 10%할인",
-            "생활 편의 영역 5%할인",
-            "인앱 결제/디지털콘텐츠 50%할인"
-        ],
-        "categories": [
-            "할인"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2886/card_img/44215/2886card_1.png",
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 11
-    },
-    {
         "id": "sh-3",
         "issuer": "신한카드",
         "name": "신한카드 처음(ANNIVERSE)",
@@ -184,6 +166,24 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2759/card_img/37240/2759card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 11
+    },
+    {
+        "id": "ss-4",
+        "issuer": "삼성카드",
+        "name": "삼성 iD SELECT ON 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "음식점 또는 온라인몰 금/토/일 10%할인",
+            "생활 편의 영역 5%할인",
+            "인앱 결제/디지털콘텐츠 50%할인"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2886/card_img/44215/2886card_1.png",
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 12
     },
     {
@@ -221,7 +221,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2719/card_img/46400/2719card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 14
+        "rank": 15
     },
     {
         "id": "lo-2",
@@ -276,7 +276,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2915/card_img/45262/2915card_1.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 19
+        "rank": 18
     },
     {
         "id": "wo-3",
@@ -332,7 +332,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 22
+        "rank": 23
     },
     {
         "id": "ss-8",
@@ -350,7 +350,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 23
+        "rank": 24
     },
     {
         "id": "hd-1",
@@ -407,7 +407,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/466/card_img/37854/466card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 29
+        "rank": 30
     },
     {
         "id": "wo-6",
@@ -517,7 +517,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2692/card_img/33549/2692card.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 42
+        "rank": 41
     },
     {
         "id": "sh-8",
@@ -538,26 +538,6 @@ export const POPULAR_CARDS = [
         "rank": 43
     },
     {
-        "id": "wo-7",
-        "issuer": "우리카드",
-        "name": "카드의정석 TEN",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "커피 10%할인",
-            "편의점 10%할인",
-            "음식점/주점 1%할인"
-        ],
-        "categories": [
-            "카페",
-            "할인",
-            "편의점"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
-        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 44
-    },
-    {
         "id": "ss-9",
         "issuer": "삼성카드",
         "name": "삼성카드 스페셜마일리지(스카이패스)",
@@ -576,6 +556,26 @@ export const POPULAR_CARDS = [
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/54/card_img/20135/54card.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 45
+    },
+    {
+        "id": "wo-7",
+        "issuer": "우리카드",
+        "name": "카드의정석 TEN",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "커피 10%할인",
+            "편의점 10%할인",
+            "음식점/주점 1%할인"
+        ],
+        "categories": [
+            "카페",
+            "할인",
+            "편의점"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 46
     },
     {
         "id": "wo-8",
@@ -667,7 +667,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2688/card_img/33240/2688card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 61
+        "rank": 62
     },
     {
         "id": "hd-5",
@@ -804,24 +804,6 @@ export const POPULAR_CARDS = [
     {
         "id": "lo-3",
         "issuer": "롯데카드",
-        "name": "롯데 국민행복카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "어린이집보육료 10%할인",
-            "병원 5%할인",
-            "학원 10%할인"
-        ],
-        "categories": [
-            "할인"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/455/card_img/20971/455card.png",
-        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 81
-    },
-    {
-        "id": "lo-4",
-        "issuer": "롯데카드",
         "name": "LOCA LIKIT Eat",
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
@@ -836,6 +818,24 @@ export const POPULAR_CARDS = [
             "카페"
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
+        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+        "rank": 81
+    },
+    {
+        "id": "lo-4",
+        "issuer": "롯데카드",
+        "name": "롯데 국민행복카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "어린이집보육료 10%할인",
+            "병원 5%할인",
+            "학원 10%할인"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/455/card_img/20971/455card.png",
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 82
     },
@@ -911,7 +911,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2654/card_img/44245/2654card.png",
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 90
+        "rank": 91
     },
     {
         "id": "lo-5",
@@ -951,7 +951,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2228/card_img/21353/2228card.png",
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 99
+        "rank": 96
     },
     {
         "id": "hd-10",
