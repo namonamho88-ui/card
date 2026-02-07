@@ -664,26 +664,18 @@ const AITradingBattle = () => {
         if (!g) return;
 
         // Position check
-        let finalLoss = 0;
-        let hadPosition = false;
         if (g.position) {
-            hadPosition = true;
-            if (options.delisted) {
-                // 상장폐지 시 포지션 가치는 0 (전액 손실)
-                const pnl = (0 - g.position.entry) * g.position.size;
-                g.balance += pnl;
-                finalLoss = Math.abs(pnl);
-                g.position = null;
-            } else {
-                closePosition();
-            }
+            if (options.delisted) g.position = null;
+            else closePosition();
         }
 
         clearInterval(tickTimerRef.current);
         clearInterval(countdownRef.current);
         cancelAnimationFrame(animRef.current);
 
-        const profit = g.balance - g.initBalance;
+        // 상장폐지 시엔 전액 손실 (Balance = 0)
+        const finalBalance = options.delisted ? 0 : g.balance;
+        const profit = finalBalance - g.initBalance;
         const pct = (profit / g.initBalance * 100);
 
         setResultData({
@@ -692,13 +684,11 @@ const AITradingBattle = () => {
             trades: g.trades,
             winRate: g.trades > 0 ? (g.wins / g.trades * 100).toFixed(0) : '0',
             grade: options.delisted ? '💀 상장폐지' : getGrade(pct),
-            balance: g.balance,
+            balance: finalBalance,
             delisted: options.delisted,
-            hadPosition: hadPosition,
-            finalLoss: finalLoss
         });
 
-        // Save (상장폐지 시엔 기록에 포함하지 않거나 하위에 기록)
+        // Save
         let saved = [];
         try { saved = JSON.parse(localStorage.getItem('tradingScores') || '[]'); } catch { }
         saved.push({
