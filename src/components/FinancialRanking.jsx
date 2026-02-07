@@ -41,7 +41,7 @@ function FinancialRanking() {
     };
 
     return (
-        <div className="bg-white dark:bg-[#111111] flex-1 flex flex-col min-h-[500px]">
+        <div className="bg-white dark:bg-[#111111] flex-1 flex flex-col min-h-0 overflow-hidden">
             {/* Tab Navigation */}
             <div className="sticky top-[60px] z-20 bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800">
                 <div className="flex overflow-x-auto no-scrollbar px-5 gap-6 items-center h-12">
@@ -64,7 +64,7 @@ function FinancialRanking() {
             </div>
 
             {/* Main Content - List */}
-            <div className="px-5 py-4 space-y-1 flex-1">
+            <div className="px-5 py-4 space-y-1 flex-1 overflow-y-auto pb-24 no-scrollbar">
                 {error ? (
                     <div className="py-20 text-center">
                         <span className="material-symbols-outlined text-4xl text-toss-gray-200 mb-2">error</span>
