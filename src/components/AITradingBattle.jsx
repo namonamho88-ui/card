@@ -286,103 +286,103 @@ const getDiffMult = (diff) => {
 const PATTERNS = [
     {
         id: 'uptrend', name: '📈 강한 상승세', signal: 'buy',
-        gen: (i, n, p, dm) => p + (Math.random() * 2.5 - 0.3) * dm,
+        gen: (i, n, p, dm) => p + (Math.random() * 1.5 - 0.2) * dm,
     },
     {
         id: 'downtrend', name: '📉 강한 하락세', signal: 'sell',
-        gen: (i, n, p, dm) => p - (Math.random() * 2.5 - 0.3) * dm,
+        gen: (i, n, p, dm) => p - (Math.random() * 1.5 - 0.2) * dm,
     },
     {
         id: 'sideways', name: '➡️ 횡보', signal: 'neutral',
         gen: (i, n, p, dm) => {
-            const bias = p < 1000 ? 0.2 : 0; // Slight upward bias when very low
-            return p + (Math.random() * 2 - 1 + bias) * dm;
+            const bias = p < 1000 ? 0.2 : 0;
+            return p + (Math.random() * 1.2 - 0.6 + bias) * dm;
         },
     },
     {
         id: 'v_bottom', name: '✅ V자 반등', signal: 'buy',
-        gen: (i, n, p, dm) => i < n / 2 ? p - (Math.random() * 2.5 + 0.5) * dm : p + (Math.random() * 2.8 + 0.3) * dm,
+        gen: (i, n, p, dm) => i < n / 2 ? p - (Math.random() * 1.5 + 0.3) * dm : p + (Math.random() * 1.8 + 0.2) * dm,
     },
     {
         id: 'inv_v', name: '🔻 역V자 하락', signal: 'sell',
-        gen: (i, n, p, dm) => i < n / 2 ? p + (Math.random() * 2.5 + 0.5) * dm : p - (Math.random() * 2.8 + 0.3) * dm,
+        gen: (i, n, p, dm) => i < n / 2 ? p + (Math.random() * 1.5 + 0.3) * dm : p - (Math.random() * 1.8 + 0.2) * dm,
     },
     {
         id: 'double_bottom', name: '🔵 이중 바닥', signal: 'buy',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.3) return p - (Math.random() * 2 + 0.3) * dm;
-            if (ph < 0.45) return p + (Math.random() * 2 + 0.3) * dm;
-            if (ph < 0.7) return p - (Math.random() * 2 + 0.2) * dm;
-            return p + (Math.random() * 2.5 + 0.5) * dm;
+            if (ph < 0.3) return p - (Math.random() * 1.2 + 0.2) * dm;
+            if (ph < 0.45) return p + (Math.random() * 1.2 + 0.2) * dm;
+            if (ph < 0.7) return p - (Math.random() * 1.2 + 0.1) * dm;
+            return p + (Math.random() * 1.5 + 0.3) * dm;
         },
     },
     {
         id: 'double_top', name: '🔴 이중 천장', signal: 'sell',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.3) return p + (Math.random() * 2 + 0.3) * dm;
-            if (ph < 0.45) return p - (Math.random() * 2 + 0.3) * dm;
-            if (ph < 0.7) return p + (Math.random() * 2 + 0.2) * dm;
-            return p - (Math.random() * 2.5 + 0.5) * dm;
+            if (ph < 0.3) return p + (Math.random() * 1.2 + 0.2) * dm;
+            if (ph < 0.45) return p - (Math.random() * 1.2 + 0.2) * dm;
+            if (ph < 0.7) return p + (Math.random() * 1.2 + 0.1) * dm;
+            return p - (Math.random() * 1.5 + 0.3) * dm;
         },
     },
     {
         id: 'head_shoulders', name: '👤 헤드앤숄더', signal: 'sell',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.2) return p + (Math.random() * 1.8) * dm;
-            if (ph < 0.3) return p - (Math.random() * 1.5) * dm;
-            if (ph < 0.5) return p + (Math.random() * 2.5) * dm;
-            if (ph < 0.65) return p - (Math.random() * 2.2) * dm;
-            if (ph < 0.8) return p + (Math.random() * 1.5) * dm;
-            return p - (Math.random() * 2.5 + 0.5) * dm;
+            if (ph < 0.2) return p + (Math.random() * 1.2) * dm;
+            if (ph < 0.3) return p - (Math.random() * 1.0) * dm;
+            if (ph < 0.5) return p + (Math.random() * 1.8) * dm;
+            if (ph < 0.65) return p - (Math.random() * 1.5) * dm;
+            if (ph < 0.8) return p + (Math.random() * 1.0) * dm;
+            return p - (Math.random() * 1.8 + 0.3) * dm;
         },
     },
     {
         id: 'inv_head_shoulders', name: '🙃 역헤드앤숄더', signal: 'buy',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.2) return p - (Math.random() * 1.8) * dm;
-            if (ph < 0.3) return p + (Math.random() * 1.5) * dm;
-            if (ph < 0.5) return p - (Math.random() * 2.5) * dm;
-            if (ph < 0.65) return p + (Math.random() * 2.2) * dm;
-            if (ph < 0.8) return p - (Math.random() * 1.5) * dm;
-            return p + (Math.random() * 2.5 + 0.5) * dm;
+            if (ph < 0.2) return p - (Math.random() * 1.2) * dm;
+            if (ph < 0.3) return p + (Math.random() * 1.0) * dm;
+            if (ph < 0.5) return p - (Math.random() * 1.8) * dm;
+            if (ph < 0.65) return p + (Math.random() * 1.5) * dm;
+            if (ph < 0.8) return p - (Math.random() * 1.0) * dm;
+            return p + (Math.random() * 1.8 + 0.3) * dm;
         },
     },
     {
         id: 'ascending_triangle', name: '🔺 상승 삼각형', signal: 'buy',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            const osc = Math.sin(i * 0.5) * (dm * (1 - ph) * 5);
-            return p + (ph * dm * 0.8) + osc + (Math.random() - 0.4) * dm;
+            const osc = Math.sin(i * 0.5) * (dm * (1 - ph) * 3);
+            return p + (ph * dm * 0.5) + osc + (Math.random() - 0.4) * dm;
         },
     },
     {
         id: 'descending_triangle', name: '🔻 하락 삼각형', signal: 'sell',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            const osc = Math.sin(i * 0.5) * (dm * (1 - ph) * 5);
-            return p - (ph * dm * 0.8) + osc + (Math.random() - 0.6) * dm;
+            const osc = Math.sin(i * 0.5) * (dm * (1 - ph) * 3);
+            return p - (ph * dm * 0.5) + osc + (Math.random() - 0.6) * dm;
         },
     },
     {
         id: 'bull_flag', name: '🏁 상승 깃발', signal: 'buy',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.3) return p + (Math.random() * 3 + 0.5) * dm;
-            if (ph < 0.7) return p - (Math.random() * 0.8) * dm;
-            return p + (Math.random() * 2.5 + 0.3) * dm;
+            if (ph < 0.3) return p + (Math.random() * 2 + 0.3) * dm;
+            if (ph < 0.7) return p - (Math.random() * 0.5) * dm;
+            return p + (Math.random() * 1.8 + 0.2) * dm;
         },
     },
     {
         id: 'bear_flag', name: '🚩 하락 깃발', signal: 'sell',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.3) return p - (Math.random() * 3 + 0.5) * dm;
-            if (ph < 0.7) return p + (Math.random() * 0.8) * dm;
-            return p - (Math.random() * 2.5 + 0.3) * dm;
+            if (ph < 0.3) return p - (Math.random() * 2 + 0.3) * dm;
+            if (ph < 0.7) return p + (Math.random() * 0.5) * dm;
+            return p - (Math.random() * 1.8 + 0.2) * dm;
         },
     },
     {
@@ -390,58 +390,58 @@ const PATTERNS = [
         gen: (i, n, p, dm) => {
             const ph = i / n;
             if (ph < 0.5) {
-                const depth = Math.sin(ph * Math.PI) * dm * 5;
+                const depth = Math.sin(ph * Math.PI) * dm * 3;
                 return p - depth + (Math.random() - 0.5) * dm;
             }
-            if (ph < 0.75) return p - (Math.random() * 0.8) * dm;
-            return p + (Math.random() * 3 + 0.5) * dm;
+            if (ph < 0.75) return p - (Math.random() * 0.5) * dm;
+            return p + (Math.random() * 2 + 0.3) * dm;
         },
     },
     {
         id: 'spike_crash', name: '💥 스파이크 폭락', signal: 'sell',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.4) return p + (Math.random() * 2 - 0.5) * dm;
-            if (ph < 0.5) return p + (Math.random() * 8) * dm;
-            return p - (Math.random() * 6 + 2) * dm;
+            if (ph < 0.4) return p + (Math.random() * 1.2 - 0.3) * dm;
+            if (ph < 0.5) return p + (Math.random() * 4) * dm;
+            return p - (Math.random() * 3 + 1) * dm;
         },
     },
     {
         id: 'panic_sell', name: '💸 패닉 셀', signal: 'sell',
-        gen: (i, n, p, dm) => p - (Math.random() * 6 + 1) * dm,
+        gen: (i, n, p, dm) => p - (Math.random() * 3 + 0.5) * dm,
     },
     {
         id: 'to_the_moon', name: '🚀 투 더 문', signal: 'buy',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            return p + (Math.random() * ph * 12 + 0.5) * dm;
+            return p + (Math.random() * ph * 6 + 0.3) * dm;
         },
     },
     {
         id: 'dead_cat', name: '🐈 데드 캣 바운스', signal: 'sell',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.3) return p - (Math.random() * 5 + 1) * dm;
-            if (ph < 0.6) return p + (Math.random() * 2) * dm;
-            return p - (Math.random() * 4 + 0.5) * dm;
+            if (ph < 0.3) return p - (Math.random() * 2.5 + 0.5) * dm;
+            if (ph < 0.6) return p + (Math.random() * 1.2) * dm;
+            return p - (Math.random() * 2 + 0.3) * dm;
         }
     },
     {
         id: 'spring', name: '🧼 바닥 털기', signal: 'buy',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.2) return p - (Math.random() * 3 + 1) * dm; // Final shakeout dip
-            if (ph < 0.4) return p + (Math.random() * 2) * dm;
-            return p + (Math.random() * 5 + 2) * dm; // Power recovery
+            if (ph < 0.2) return p - (Math.random() * 1.5 + 0.5) * dm;
+            if (ph < 0.4) return p + (Math.random() * 1) * dm;
+            return p + (Math.random() * 3 + 1) * dm;
         }
     },
     {
         id: 'accumulation', name: '🏗️ 바닥 매집', signal: 'buy',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            const osc = Math.sin(i * 1.5) * dm * 3;
+            const osc = Math.sin(i * 1.5) * dm * 1.5;
             if (ph < 0.7) return p + osc + (Math.random() - 0.4) * dm;
-            return p + (Math.random() * 4 + 1) * dm; // Breakout
+            return p + (Math.random() * 2.5 + 0.5) * dm;
         }
     },
 ];
@@ -616,8 +616,8 @@ const AITradingBattle = () => {
             patterns,
             patternIdx: 0,
             patternTick: 0,
-            patternLength: 50,
-            dm: dm * 100, // 원화 단위에 맞게 변동폭 조정
+            patternLength: 70 + Math.floor(Math.random() * 40),
+            dm: dm * 50, // 원화 단위에 맞게 변동폭 조정
         };
     }, []);
 
@@ -694,7 +694,7 @@ const AITradingBattle = () => {
         const g = gameRef.current;
         g.patternIdx++;
         g.patternTick = 0;
-        g.patternLength = 40 + Math.floor(Math.random() * 20);
+        g.patternLength = 70 + Math.floor(Math.random() * 40);
     }, []);
 
     const priceTick = useCallback(() => {
