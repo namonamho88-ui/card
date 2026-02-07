@@ -54,22 +54,9 @@ const styles = {
     statValue: { fontSize: 14, fontWeight: 'bold', color: '#fff' },
     profit: { color: '#00e676' },
     loss: { color: '#ff5252' },
-    timerBox: {
-        position: 'absolute',
-        top: '20px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        background: 'rgba(22, 33, 62, 0.9)',
-        padding: '10px 20px',
-        borderRadius: '50px',
-        border: '2px solid #7b2ff7',
-        textAlign: 'center',
-        minWidth: 120,
-        zIndex: 50,
-        boxShadow: '0 0 20px rgba(123, 47, 247, 0.5)',
-    },
-    timerVal: { fontSize: 24, fontWeight: 'bold', color: '#ffab40', textShadow: '0 0 10px rgba(255,171,64,0.3)' },
-    timerDanger: { fontSize: 24, fontWeight: 'bold', color: '#ff5252', textShadow: '0 0 10px rgba(255,82,82,0.5)', animation: 'pulse 0.5s infinite' },
+    timerBox: { display: 'none' }, // 더 이상 사용하지 않음 (수익률 섹션으로 이동)
+    timerVal: { fontSize: 13, fontWeight: 'bold', color: '#ffab40', marginTop: 2 },
+    timerDanger: { fontSize: 13, fontWeight: 'bold', color: '#ff5252', marginTop: 2, animation: 'pulse 0.5s infinite' },
     infoBar: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -689,7 +676,7 @@ const AITradingBattle = () => {
             const price = maxP - (pRange / 5) * i;
             ctx.fillStyle = '#555';
             ctx.font = '10px monospace';
-            ctx.fillText(price.toFixed(0) + '원', w - pad.r + 5, y + 4);
+            ctx.fillText(formatMoney(price), w - pad.r + 5, y + 4);
         }
 
         const ind = indicatorsRef.current;
@@ -802,7 +789,7 @@ const AITradingBattle = () => {
             ctx.setLineDash([]);
             ctx.fillStyle = g.position.type === 'long' ? '#00e676' : '#ff5252';
             ctx.font = 'bold 10px monospace';
-            ctx.fillText((g.position.type === 'long' ? '매수' : '하락') + ' ' + g.position.entry.toFixed(0) + '원', pad.l + 4, ey - 4);
+            ctx.fillText((g.position.type === 'long' ? '매수' : '하락') + ' ' + formatMoney(g.position.entry), pad.l + 4, ey - 4);
         }
 
         // Current price tag
@@ -811,7 +798,7 @@ const AITradingBattle = () => {
         ctx.fillRect(w - pad.r, cpY - 10, pad.r, 20);
         ctx.fillStyle = '#000';
         ctx.font = 'bold 11px monospace';
-        ctx.fillText(g.currentPrice.toFixed(0) + '원', w - pad.r + 4, cpY + 4);
+        ctx.fillText(formatMoney(g.currentPrice), w - pad.r + 4, cpY + 4);
     }, []);
 
     const drawVolumeChart = useCallback(() => {
@@ -892,7 +879,7 @@ const AITradingBattle = () => {
         g.balance += pnl;
         g.trades++;
         if (pnl > 0) g.wins++;
-        showMsg(pnl > 0 ? `✅ 매도 완료! +${pnl.toFixed(0)}원` : `❌ 매도 완료! ${pnl.toFixed(0)}원`, pnl > 0 ? 'success' : 'error');
+        showMsg(pnl > 0 ? `✅ 매도 완료! +${formatMoney(pnl)}` : `❌ 매도 완료! ${formatMoney(pnl)}`, pnl > 0 ? 'success' : 'error');
         g.position = null;
     }, [showMsg]);
 
@@ -902,7 +889,7 @@ const AITradingBattle = () => {
         if (action === 'buy') {
             if (g.position) return; // Already in a position
             g.position = { type: 'long', entry: g.currentPrice, size: 100 };
-            showMsg('📈 매수 성공! 현재가: ' + g.currentPrice.toFixed(0) + '원', 'info');
+            showMsg('📈 매수 성공! 현재가: ' + formatMoney(g.currentPrice), 'info');
         } else if (action === 'sell') {
             if (!g.position) return; // No position to close
             closePosition();
@@ -1076,6 +1063,11 @@ const AITradingBattle = () => {
                             <div style={{ ...styles.statValue, ...profitColor }}>
                                 {(uiState.profitPct >= 0 ? '+' : '') + uiState.profitPct.toFixed(1) + '%'}
                             </div>
+                            {running && (
+                                <div style={uiState.timeLeft <= 10 ? styles.timerDanger : styles.timerVal}>
+                                    ⏱️ {uiState.timeLeft}s
+                                </div>
+                            )}
                         </div>
                         <div style={styles.statItem}>
                             <div style={styles.statLabel}>승률</div>
@@ -1084,16 +1076,6 @@ const AITradingBattle = () => {
                     </div>
 
                 </div>
-
-                {/* Centered Large Timer Overlay */}
-                {running && (
-                    <div style={styles.timerBox}>
-                        <div style={{ ...styles.statLabel, color: '#00d2ff', fontSize: 10, marginBottom: 2 }}>남은시간</div>
-                        <div style={uiState.timeLeft <= 10 ? styles.timerDanger : styles.timerVal}>
-                            {uiState.timeLeft}초
-                        </div>
-                    </div>
-                )}
 
                 {/* Pattern Info */}
                 {running && (
@@ -1166,12 +1148,12 @@ const AITradingBattle = () => {
                     <div style={styles.posInfo}>
                         <div>
                             <span style={styles.posLabel}>진입가: </span>
-                            <span style={styles.posVal}>{uiState.position.entry.toFixed(0)}원</span>
+                            <span style={styles.posVal}>{formatMoney(uiState.position.entry)}</span>
                         </div>
                         <div>
                             <span style={styles.posLabel}>손익: </span>
                             <span style={{ ...styles.posVal, color: uiState.positionPnL >= 0 ? '#00e676' : '#ff5252' }}>
-                                {(uiState.positionPnL >= 0 ? '+' : '') + uiState.positionPnL.toFixed(0) + '원'}
+                                {(uiState.positionPnL >= 0 ? '+' : '') + formatMoney(uiState.positionPnL)}
                             </span>
                         </div>
                     </div>
@@ -1215,7 +1197,7 @@ const AITradingBattle = () => {
                             <div key={i} style={styles.lbRow}>
                                 <span>{medals[i]} {s.diff}</span>
                                 <span style={{ color: s.pct >= 0 ? '#00e676' : '#ff5252', fontWeight: 'bold' }}>
-                                    {parseFloat(s.balance).toFixed(0)}원 ({s.pct >= 0 ? '+' : ''}{s.pct}%)
+                                    {formatMoney(s.balance)} ({s.pct >= 0 ? '+' : ''}{s.pct}%)
                                 </span>
                             </div>
                         ))
@@ -1251,7 +1233,7 @@ const AITradingBattle = () => {
                             {resultData.profit >= 0 ? '🎉 수익 달성!' : '😢 아쉬운 결과'}
                         </h2>
                         <div style={{ fontSize: 40, fontWeight: 'bold', margin: '10px 0', color: resultData.profit >= 0 ? '#00e676' : '#ff5252' }}>
-                            {(resultData.profit >= 0 ? '+' : '') + (resultData.profit || 0).toFixed(0) + '원'}
+                            {(resultData.profit >= 0 ? '+' : '') + formatMoney(resultData.profit || 0)}
                         </div>
                         <div style={{ color: '#888', fontSize: 14, margin: '4px 0' }}>
                             수익률: {resultData.pct}% | 등급: {resultData.grade}
