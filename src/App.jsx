@@ -145,8 +145,8 @@ function App() {
 
   return (
     <div className="relative flex h-screen w-full flex-col max-w-[430px] mx-auto overflow-hidden shadow-2xl bg-white dark:bg-[#111111]">
-      {/* Header */}
-      <header className="sticky top-0 z-30 bg-white/90 dark:bg-[#111111]/90 backdrop-blur-md px-5 py-4 flex items-center justify-between">
+      {/* Header - Non-sticky stable flex child */}
+      <header className="shrink-0 bg-white/90 dark:bg-[#111111]/90 backdrop-blur-md px-5 py-4 flex items-center justify-between z-30 border-b border-toss-gray-100 dark:border-gray-800">
         <div className="flex items-center gap-1">
           <span className="material-symbols-outlined text-toss-gray-800 dark:text-white cursor-pointer text-2xl font-semibold">chevron_left</span>
         </div>
@@ -156,12 +156,12 @@ function App() {
         <div className="w-6"></div>
       </header>
 
-      {/* Conditional Content: Card Ranking vs. Financial Ranking vs. Game */}
-      <div className="flex-1 flex flex-col">
+      {/* Conditional Content Wrapper - Constrained to remaining height */}
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {activeMainTab === 'cards' ? (
           <>
-            {/* Tabs Navigation (Issuers) */}
-            <div className="sticky top-[60px] z-20 bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800">
+            {/* Tabs Navigation (Issuers) - Non-sticky shrinking child */}
+            <div className="bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800 shrink-0 z-20">
               <div className="flex overflow-x-auto no-scrollbar px-5 gap-6 items-center h-12">
                 {ISSUERS.map(issuer => {
                   const shortName = issuer === '전체' ? '전체' : issuer.replace('카드', '');
@@ -187,8 +187,8 @@ function App() {
               </div>
             </div>
 
-            {/* Main Content - Card List */}
-            <main className="flex-1 bg-white dark:bg-[#111111] overflow-y-auto no-scrollbar pb-32">
+            {/* Main Content - Card List - Flex-1 and scrollable */}
+            <main className="flex-1 overflow-y-auto no-scrollbar pb-32">
               <div className="px-5 py-4 space-y-1">
                 {displayedCards.slice(0, 10).map((card, idx) => (
                   <div

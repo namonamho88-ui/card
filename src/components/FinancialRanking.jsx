@@ -64,8 +64,8 @@ function FinancialRanking() {
             </div>
 
             {/* Main Content - Scrollable List */}
-            <div className="flex-1 overflow-y-auto pb-24 no-scrollbar">
-                <div className="px-5 py-4 space-y-1">
+            <div className="flex-1 overflow-y-auto no-scrollbar pb-32">
+                <div className="px-5 py-2 space-y-1">
                     {error ? (
                         <div className="py-20 text-center">
                             <span className="material-symbols-outlined text-4xl text-toss-gray-200 mb-2">error</span>
