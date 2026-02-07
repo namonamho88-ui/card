@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-07T01:14:28.016Z
+// Auto-generated card data - 2026-02-07T01:43:27.213Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -54,44 +54,6 @@ export const POPULAR_CARDS = [
         "rank": 3
     },
     {
-        "id": "ss-2",
-        "issuer": "삼성카드",
-        "name": "삼성 iD SELECT ALL 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "선택 옵션에 따른 할인 혜택(택 1)",
-            "생활 편의 영역 5%할인",
-            "디지털콘텐츠/멤버십 50%할인"
-        ],
-        "categories": [
-            "할인"
-        ],
-        "image": null,
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 2
-    },
-    {
-        "id": "sh-2",
-        "issuer": "신한카드",
-        "name": "신한카드 Mr.Life",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "공과금 10%할인",
-            "마트,편의점 10%할인",
-            "식음료 10%할인"
-        ],
-        "categories": [
-            "할인",
-            "편의점",
-            "쇼핑"
-        ],
-        "image": null,
-        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 3
-    },
-    {
         "id": "wo-1",
         "issuer": "우리카드",
         "name": "카드의정석 SHOPPING+",
@@ -110,7 +72,7 @@ export const POPULAR_CARDS = [
         "rank": 4
     },
     {
-        "id": "ss-3",
+        "id": "ss-2",
         "issuer": "삼성카드",
         "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
         "annualFee": "1~3만원",
@@ -128,7 +90,7 @@ export const POPULAR_CARDS = [
         "rank": 5
     },
     {
-        "id": "ss-4",
+        "id": "ss-3",
         "issuer": "삼성카드",
         "name": "삼성카드 taptap O",
         "annualFee": "1~3만원",
@@ -168,7 +130,7 @@ export const POPULAR_CARDS = [
         "rank": 8
     },
     {
-        "id": "sh-3",
+        "id": "sh-2",
         "issuer": "신한카드",
         "name": "신한카드 Discount Plan+",
         "annualFee": "1~3만원",
@@ -188,141 +150,7 @@ export const POPULAR_CARDS = [
         "rank": 10
     },
     {
-        "id": "ss-5",
-        "issuer": "삼성카드",
-        "name": "삼성 iD SELECT ALL 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "선택 옵션에 따른 할인 혜택(택 1)",
-            "생활 편의 영역 5%할인",
-            "디지털콘텐츠/멤버십 50%할인"
-        ],
-        "categories": [
-            "할인"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2885/card_img/44212/2885card_1.png",
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 2
-    },
-    {
-        "id": "sh-4",
-        "issuer": "신한카드",
-        "name": "신한카드 Mr.Life",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "공과금 10%할인",
-            "마트,편의점 10%할인",
-            "식음료 10%할인"
-        ],
-        "categories": [
-            "할인",
-            "편의점",
-            "쇼핑"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/13/card_img/28201/13card.png",
-        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 3
-    },
-    {
-        "id": "wo-2",
-        "issuer": "우리카드",
-        "name": "카드의정석 SHOPPING+",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "온라인 쇼핑 10%청구할인",
-            "백화점・대형할인점・슈퍼마켓 등 10%청구할인"
-        ],
-        "categories": [
-            "쇼핑",
-            "할인"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2687/card_img/33239/2687card.png",
-        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 4
-    },
-    {
-        "id": "ss-6",
-        "issuer": "삼성카드",
-        "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "1,000원당 1마일기본적립",
-            "국내/해외 택1 옵션형 1마일특별적립",
-            "인천공항 라운지무료이용"
-        ],
-        "categories": [
-            "적립"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/49/card_img/42288/49card.png",
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 5
-    },
-    {
-        "id": "ss-7",
-        "issuer": "삼성카드",
-        "name": "삼성카드 taptap O",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "스타벅스 50%할인",
-            "대중교통 10%할인",
-            "CGV, 롯데시네마 5,000원할인"
-        ],
-        "categories": [
-            "카페",
-            "할인",
-            "대중교통"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/51/card_img/37691/51card.png",
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 7
-    },
-    {
-        "id": "lo-2",
-        "issuer": "롯데카드",
-        "name": "LOCA 365 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "아파트관리비, 공과금 10%할인",
-            "교통, 통신, 배달앱 10%할인",
-            "스트리밍 1,500원할인"
-        ],
-        "categories": [
-            "할인",
-            "대중교통",
-            "배달"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2330/card_img/24131/2330card.png",
-        "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 8
-    },
-    {
-        "id": "sh-5",
-        "issuer": "신한카드",
-        "name": "신한카드 Discount Plan+",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "카페 10%할인",
-            "쇼핑 10%할인",
-            "정기결제 최대 20%할인"
-        ],
-        "categories": [
-            "카페",
-            "할인",
-            "쇼핑"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2835/card_img/41600/2835card.png",
-        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 10
-    },
-    {
-        "id": "ss-8",
+        "id": "ss-4",
         "issuer": "삼성카드",
         "name": "삼성 iD SELECT ON 카드",
         "annualFee": "1~3만원",
@@ -340,7 +168,7 @@ export const POPULAR_CARDS = [
         "rank": 11
     },
     {
-        "id": "sh-6",
+        "id": "sh-3",
         "issuer": "신한카드",
         "name": "신한카드 처음(ANNIVERSE)",
         "annualFee": "1~3만원",
@@ -359,7 +187,7 @@ export const POPULAR_CARDS = [
         "rank": 12
     },
     {
-        "id": "ss-9",
+        "id": "ss-5",
         "issuer": "삼성카드",
         "name": "삼성 iD SIMPLE 카드",
         "annualFee": "1~3만원",
@@ -379,7 +207,7 @@ export const POPULAR_CARDS = [
         "rank": 13
     },
     {
-        "id": "wo-3",
+        "id": "wo-2",
         "issuer": "우리카드",
         "name": "카드의정석 EVERY DISCOUNT",
         "annualFee": "1~3만원",
@@ -396,7 +224,7 @@ export const POPULAR_CARDS = [
         "rank": 14
     },
     {
-        "id": "lo-3",
+        "id": "lo-2",
         "issuer": "롯데카드",
         "name": "LOCA LIKIT 1.2",
         "annualFee": "1~3만원",
@@ -413,7 +241,7 @@ export const POPULAR_CARDS = [
         "rank": 16
     },
     {
-        "id": "ss-10",
+        "id": "ss-6",
         "issuer": "삼성카드",
         "name": "taptap DIGITAL",
         "annualFee": "1~3만원",
@@ -432,7 +260,7 @@ export const POPULAR_CARDS = [
         "rank": 17
     },
     {
-        "id": "wo-4",
+        "id": "wo-3",
         "issuer": "우리카드",
         "name": "카드의정석2",
         "annualFee": "1~3만원",
@@ -449,7 +277,7 @@ export const POPULAR_CARDS = [
         "rank": 19
     },
     {
-        "id": "sh-7",
+        "id": "sh-4",
         "issuer": "신한카드",
         "name": "신한카드 Deep Oil",
         "annualFee": "1~3만원",
@@ -469,7 +297,26 @@ export const POPULAR_CARDS = [
         "rank": 20
     },
     {
-        "id": "wo-5",
+        "id": "ss-7",
+        "issuer": "삼성카드",
+        "name": "THE iD. 1st",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "프리미엄 영역 연간 최대 15만원할인 기프트",
+            "국내외 가맹점 1~3%빅포인트 적립",
+            "공항 라운지 연 3회무료 이용"
+        ],
+        "categories": [
+            "할인",
+            "적립"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2915/card_img/45262/2915card_1.png",
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 21
+    },
+    {
+        "id": "wo-4",
         "issuer": "우리카드",
         "name": "카드의정석 EVERY MILE SKYPASS",
         "annualFee": "1~3만원",
@@ -485,7 +332,25 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 24
+        "rank": 22
+    },
+    {
+        "id": "ss-8",
+        "issuer": "삼성카드",
+        "name": "삼성 iD GLOBAL 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "해외 이용 2%할인",
+            "공항라운지 연 2회무료 이용",
+            "디지털콘텐츠 50%할인"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 23
     },
     {
         "id": "hd-1",
@@ -507,7 +372,7 @@ export const POPULAR_CARDS = [
         "rank": 26
     },
     {
-        "id": "wo-6",
+        "id": "wo-5",
         "issuer": "우리카드",
         "name": "우리카드 MILE&POINT",
         "annualFee": "1~3만원",
@@ -526,7 +391,7 @@ export const POPULAR_CARDS = [
         "rank": 27
     },
     {
-        "id": "sh-8",
+        "id": "sh-5",
         "issuer": "신한카드",
         "name": "신한카드 Air One",
         "annualFee": "1~3만원",
@@ -542,10 +407,10 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/466/card_img/37854/466card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 29
+        "rank": 28
     },
     {
-        "id": "wo-7",
+        "id": "wo-6",
         "issuer": "우리카드",
         "name": "우리카드 7CORE",
         "annualFee": "1~3만원",
@@ -581,7 +446,7 @@ export const POPULAR_CARDS = [
         "rank": 36
     },
     {
-        "id": "sh-9",
+        "id": "sh-6",
         "issuer": "신한카드",
         "name": "메리어트 본보이™ 더 베스트 신한카드",
         "annualFee": "1~3만원",
@@ -599,7 +464,7 @@ export const POPULAR_CARDS = [
         "rank": 37
     },
     {
-        "id": "sh-10",
+        "id": "sh-7",
         "issuer": "신한카드",
         "name": "신한카드 Point Plan",
         "annualFee": "1~3만원",
@@ -655,7 +520,25 @@ export const POPULAR_CARDS = [
         "rank": 42
     },
     {
-        "id": "wo-8",
+        "id": "sh-8",
+        "issuer": "신한카드",
+        "name": "신한카드 The CLASSIC-S",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "이용금액 1%기본적립",
+            "이용금액 0.5%추가적립",
+            "해외, 면세점 2%추가적립"
+        ],
+        "categories": [
+            "적립"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/945/card_img/21598/945card.png",
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 43
+    },
+    {
+        "id": "wo-7",
         "issuer": "우리카드",
         "name": "카드의정석 TEN",
         "annualFee": "1~3만원",
@@ -675,7 +558,27 @@ export const POPULAR_CARDS = [
         "rank": 44
     },
     {
-        "id": "wo-9",
+        "id": "ss-9",
+        "issuer": "삼성카드",
+        "name": "삼성카드 스페셜마일리지(스카이패스)",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "1,000원당 스카이패스 1마일리지기본적립",
+            "아웃백스테이크하우스 30,000원결제일할인",
+            "1,000원당 스카이패스 1마일리지추가적립"
+        ],
+        "categories": [
+            "여행",
+            "적립",
+            "할인"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/54/card_img/20135/54card.png",
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 46
+    },
+    {
+        "id": "wo-8",
         "issuer": "우리카드",
         "name": "카드의정석 EVERY POINT",
         "annualFee": "1~3만원",
@@ -690,6 +593,24 @@ export const POPULAR_CARDS = [
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 48
+    },
+    {
+        "id": "sh-9",
+        "issuer": "신한카드",
+        "name": "신한카드 Point Plan+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "국내 결제금액 최대 3%적립",
+            "주말 외식비 1천 포인트적립",
+            "OTT 최대 2천 포인트적립"
+        ],
+        "categories": [
+            "적립"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2731/card_img/36308/2731card.png",
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 56
     },
     {
         "id": "hn-1",
@@ -711,7 +632,7 @@ export const POPULAR_CARDS = [
         "rank": 58
     },
     {
-        "id": "wo-10",
+        "id": "wo-9",
         "issuer": "우리카드",
         "name": "DA카드의정석Ⅱ",
         "annualFee": "1~3만원",
@@ -726,7 +647,27 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 60
+        "rank": 59
+    },
+    {
+        "id": "wo-10",
+        "issuer": "우리카드",
+        "name": "카드의정석 I&U+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "국내가맹점 1.0~0.7%청구할인",
+            "주유 60~100원/L청구할인",
+            "대중교통 10%청구할인"
+        ],
+        "categories": [
+            "할인",
+            "주유",
+            "대중교통"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2688/card_img/33240/2688card.png",
+        "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+        "rank": 61
     },
     {
         "id": "hd-5",
@@ -767,6 +708,24 @@ export const POPULAR_CARDS = [
         "rank": 66
     },
     {
+        "id": "sh-10",
+        "issuer": "신한카드",
+        "name": "신한카드 Edu Plan+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "학원비 최대 10%캐시백",
+            "3대 할인점 1%캐시백",
+            "메가박스 7천원할인"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 70
+    },
+    {
         "id": "hd-6",
         "issuer": "현대카드",
         "name": "에너지플러스 현대카드",
@@ -784,6 +743,26 @@ export const POPULAR_CARDS = [
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 71
+    },
+    {
+        "id": "ss-10",
+        "issuer": "삼성카드",
+        "name": "삼성 iD ON 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "많이쓰는 영역 자동맞춤 30%할인",
+            "교통/이동통신/스트리밍 10%할인",
+            "온라인간편결제/해외 3%·1%할인"
+        ],
+        "categories": [
+            "할인",
+            "대중교통",
+            "통신"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2235/card_img/28314/2235card.png",
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 72
     },
     {
         "id": "hd-7",
@@ -823,7 +802,7 @@ export const POPULAR_CARDS = [
         "rank": 77
     },
     {
-        "id": "lo-4",
+        "id": "lo-3",
         "issuer": "롯데카드",
         "name": "롯데 국민행복카드",
         "annualFee": "1~3만원",
@@ -841,7 +820,7 @@ export const POPULAR_CARDS = [
         "rank": 81
     },
     {
-        "id": "lo-5",
+        "id": "lo-4",
         "issuer": "롯데카드",
         "name": "LOCA LIKIT Eat",
         "annualFee": "1~3만원",
@@ -914,7 +893,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2529/card_img/29020/2529card.png",
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 88
+        "rank": 89
     },
     {
         "id": "hn-5",
@@ -935,7 +914,7 @@ export const POPULAR_CARDS = [
         "rank": 90
     },
     {
-        "id": "lo-6",
+        "id": "lo-5",
         "issuer": "롯데카드",
         "name": "LOCA LIKIT Play",
         "annualFee": "1~3만원",
@@ -955,7 +934,7 @@ export const POPULAR_CARDS = [
         "rank": 94
     },
     {
-        "id": "lo-7",
+        "id": "lo-6",
         "issuer": "롯데카드",
         "name": "LOCA LIKIT",
         "annualFee": "1~3만원",

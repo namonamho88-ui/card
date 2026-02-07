@@ -191,14 +191,14 @@ async function scrapeTop100(page) {
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
 
     try {
-        await page.waitForSelector('.chart_list > li, .ranking_list > li, li', { timeout: 10000 });
+        await page.waitForSelector('.chart_list li, .ranking_list li, li', { timeout: 10000 });
     } catch (e) {
         console.warn('Timeout waiting for list items.');
     }
 
     const cards = await page.evaluate(() => {
         const results = [];
-        const items = document.querySelectorAll('.chart_list > li, .ranking_list > li, li');
+        const items = document.querySelectorAll('.chart_list li, .ranking_list li, li');
 
         items.forEach((el, index) => {
             const nameEl = el.querySelector('.card_name, .name, .title, strong, p[class*="name"]');
@@ -256,6 +256,7 @@ async function runSync() {
 
     // 2. 필터링 및 상세 스크래핑
     const allCards = [];
+    const seenCardNames = new Set();
     const issuerBuckets = {};
     Object.keys(ISSUER_COLORS).forEach(k => issuerBuckets[k] = []);
 
@@ -266,6 +267,9 @@ async function runSync() {
 
     // 순차 처리 (병렬 처리 시 차단 위험 있으므로 얌전히 순차)
     for (const raw of rawCards) {
+        if (seenCardNames.has(raw.name)) continue;
+        seenCardNames.add(raw.name);
+
         let issuer = inferIssuer(raw.name);
 
         if (issuer === '기타' && raw.rawIssuer !== 'Unknown') {
