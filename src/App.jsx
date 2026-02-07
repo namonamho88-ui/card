@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { TRANSACTIONS } from './data/mockData';
-import { POPULAR_CARDS, ISSUERS, getCardsByIssuer } from './data/popularCards';
+import cardData from './data/popularCards.json';
+import { ISSUERS, getCardsByIssuer } from './utils/cardUtils';
+const { cards: POPULAR_CARDS } = cardData;
 import FinancialRanking from './components/FinancialRanking';
 import AITradingBattle from './components/AITradingBattle';
 import './index.css';
@@ -66,7 +68,7 @@ function App() {
       }
 
       // 프롬프트 최적화: 불필요한 공백 및 문구 제거하여 토큰 절약 (Aggressive Compression)
-      const allCards = Object.values(POPULAR_CARDS).flat();
+      const allCards = POPULAR_CARDS;
       // Format: Issuer Name(Fee/Perform):Benefit1,Benefit2...
       const cardContext = allCards.map(c =>
         `${c.issuer} ${c.name}(${c.annualFee}/${c.previousMonthSpending}):${c.benefits.join(',')}`

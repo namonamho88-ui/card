@@ -33,73 +33,6 @@ const ISSUER_KEYWORDS = {
     '하나카드': ['하나', '내맘대로', 'MULTI', 'Any', 'Jade', '원더', '트래블로그'],
 };
 
-// 3. 정적 헬퍼 함수
-const HELPER_FUNCTIONS = `
-// 카드사 목록 (제외 카드사 제거됨)
-export const ISSUERS = ['전체', '신한카드', '현대카드', '삼성카드', '우리카드', '하나카드', '롯데카드'];
-
-function shuffleArray(array) {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-}
-
-export function getCardsByIssuer(issuer) {
-    if (issuer === '전체') {
-        return shuffleArray(POPULAR_CARDS);
-    }
-    return POPULAR_CARDS.filter(card => card.issuer === issuer);
-}
-
-export function findCardByBenefits(query) {
-    const keywords = {
-        '카페': ['카페', '커피', '스타벅스', '이디야', '투썸', '할리스', '커피빈', '엔제리너스'],
-        '편의점': ['편의점', 'GS25', 'CU', '세븐일레븐'],
-        '주유': ['주유', '기름', '휘발유', '경유', '셀프주유'],
-        '대중교통': ['대중교통', '지하철', '버스', '교통', '택시', '따릉이', '킥보드', 'T머니'],
-        '쇼핑': ['쇼핑', '온라인', '쿠팡', '네이버', '11번가', 'G마켓', '옥션', '백화점', '아울렛'],
-        '배달': ['배달', '배민', '배달의민족', '쿠팡이츠', '요기요', '음식'],
-        '영화': ['영화', '시네마', 'CGV', '롯데시네마', '메가박스', 'IMAX', '4DX'],
-        '여행': ['여행', '항공', '비행기', '호텔', '숙박', '해외', '공항', '라운지', '마일리지'],
-        '뷰티': ['뷰티', '화장품', '헤어샵', '미용실'],
-        '패션': ['패션', '옷', '의류', '브랜드'],
-        '마트': ['마트', '이마트', '홈플러스', '롯데마트', '코스트코', '식료품'],
-        '자동차': ['자동차', '정비', '세차', '보험', '용품'],
-        '통신': ['통신', '통신비', '휴대폰', '인터넷'],
-        '디지털': ['디지털', '넷플릭스', '유튜브', '스트리밍']
-    };
-
-    const queryLower = query.toLowerCase();
-    const scoredCards = [];
-
-    POPULAR_CARDS.forEach(card => {
-        let score = 0;
-        card.benefits.forEach(benefit => {
-            const benefitLower = benefit.toLowerCase();
-            Object.entries(keywords).forEach(([category, words]) => {
-                words.forEach(word => {
-                    if (queryLower.includes(word.toLowerCase())) {
-                        if (benefitLower.includes(word.toLowerCase())) score += 10;
-                        if (card.categories.some(cat => cat.includes(category))) score += 5;
-                    }
-                });
-            });
-            if (benefitLower.includes(queryLower)) score += 15;
-            const discountMatch = benefit.match(/(\\d+)%/);
-            if (discountMatch) score += parseInt(discountMatch[1]) / 10;
-        });
-
-        if (score > 0) scoredCards.push({ card, score });
-    });
-
-    scoredCards.sort((a, b) => b.score - a.score);
-    return scoredCards.map(item => item.card);
-}
-`;
-
 function extractCategories(benefits) {
     const categories = new Set();
     const keywords = {
@@ -319,20 +252,15 @@ async function runSync() {
     Object.entries(issuerBuckets).forEach(([k, v]) => {
         console.log(`${k}: ${v.length} cards`);
     });
+    // 5. 결과 저장 (JSON으로 저장)
+    const outputPath = path.resolve(__dirname, '../src/data/popularCards.json');
+    const result = {
+        updatedAt: new Date().toISOString(),
+        cards: allCards
+    };
 
-    const targetPath = path.resolve(__dirname, '../src/data/popularCards.js');
-    const fileContent = `// Auto-generated card data - ${new Date().toISOString()}
-// This file is updated automatically by GitHub Actions running scripts/sync-cards.js
-
-const ISSUER_COLORS = ${JSON.stringify(ISSUER_COLORS, null, 4)};
-
-export const POPULAR_CARDS = ${JSON.stringify(allCards, null, 4)};
-
-${HELPER_FUNCTIONS}
-`;
-
-    fs.writeFileSync(targetPath, fileContent, 'utf-8');
-    console.log(`Successfully updated ${targetPath} with ${allCards.length} sorted cards.`);
+    fs.writeFileSync(outputPath, JSON.stringify(result, null, 4));
+    console.log(`Successfully updated ${outputPath} with ${allCards.length} sorted cards.`);
 }
 
 runSync();

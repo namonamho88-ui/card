@@ -31,9 +31,9 @@ jobs:
       run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
+          git add src/data/popularCards.json
           # 변경사항이 없을 때 에러로 중단되지 않도록 처리
           git commit -m "Data: Automatically updated card data" || echo "No changes to commit"
-          # 리모트의 최신 커밋을 가져와 내 변경사항을 그 위에 쌓음
-          git pull --rebase origin main
+          # 리모트의 최신 커밋을 가져와 내 변경사항을 그 위에 쌓음 (--autostash로 로컬 변경 유지)
+          git pull --rebase --autostash origin main
           git push origin main
