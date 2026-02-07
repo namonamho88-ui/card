@@ -62,8 +62,8 @@ const styles = {
         textAlign: 'center',
         minWidth: 60
     },
-    timerVal: { fontSize: 18, fontWeight: 'bold', color: '#ffab40' },
-    timerDanger: { fontSize: 18, fontWeight: 'bold', color: '#ff5252' },
+    timerVal: { fontSize: 24, fontWeight: 'bold', color: '#ffab40', textShadow: '0 0 10px rgba(255,171,64,0.3)' },
+    timerDanger: { fontSize: 24, fontWeight: 'bold', color: '#ff5252', textShadow: '0 0 10px rgba(255,82,82,0.5)', animation: 'pulse 0.5s infinite' },
     infoBar: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -568,7 +568,7 @@ const AITradingBattle = () => {
             position: null,
             trades: 0,
             wins: 0,
-            timeLeft: diffTimes[difficultyRef.current] || 90,
+            timeLeft: 60, // 모든 난이도 60초 통일
             candles: [],
             currentPrice: 10000,
             candleOpen: 10000,
@@ -1080,7 +1080,7 @@ const AITradingBattle = () => {
                     {running && (
                         <div style={styles.timerBox}>
                             <div style={styles.statLabel}>
-                                <span style={styles.liveDot} />LIVE
+                                <span style={styles.liveDot} />남은시간
                             </div>
                             <div style={uiState.timeLeft <= 10 ? styles.timerDanger : styles.timerVal}>
                                 {uiState.timeLeft}
