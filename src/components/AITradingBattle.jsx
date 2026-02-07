@@ -1236,7 +1236,9 @@ const AITradingBattle = () => {
                             3. 수익이 났을 때 <b>[매도 하기]</b> 버튼을 눌러 확정하세요.<br />
                             4. 제한 시간 내에 가장 높은 수익금을 달성하면 승리!<br />
                             <br />
-                            <small style={{ color: '#888' }}>※ 팁: '매수 신호'가 보일 때를 노려보세요.</small>
+                            <br />
+                            <small style={{ color: '#888' }}>※ 팁: '매수 신호'가 보일 때를 노려보세요.</small><br />
+                            <small style={{ color: '#00d2ff', fontWeight: 'bold' }}>💡 Tip : 직원들과 함께 게임진행 후 기록이 가장 낮은 사람이 커피 쏘기! ☕</small>
                         </div>
                         <button style={styles.resultBtn} onClick={() => setShowGuide(false)}>
                             이해했습니다
