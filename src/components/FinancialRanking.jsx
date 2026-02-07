@@ -41,9 +41,9 @@ function FinancialRanking() {
     };
 
     return (
-        <div className="bg-white dark:bg-[#111111] flex-1 flex flex-col min-h-0 overflow-hidden">
-            {/* Tab Navigation */}
-            <div className="sticky top-[60px] z-20 bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800">
+        <div className="bg-white dark:bg-[#111111] flex-1 flex flex-col min-h-0">
+            {/* Tab Navigation - Fixed at the top of the component */}
+            <div className="z-20 bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800 shrink-0">
                 <div className="flex overflow-x-auto no-scrollbar px-5 gap-6 items-center h-12">
                     {[
                         { id: 'kr', name: '국내 주식' },
@@ -63,45 +63,48 @@ function FinancialRanking() {
                 </div>
             </div>
 
-            {/* Main Content - List */}
-            <div className="px-5 py-4 space-y-1 flex-1 overflow-y-auto pb-24 no-scrollbar">
-                {error ? (
-                    <div className="py-20 text-center">
-                        <span className="material-symbols-outlined text-4xl text-toss-gray-200 mb-2">error</span>
-                        <p className="text-toss-gray-600 dark:text-gray-400 text-[15px]">{error}</p>
-                    </div>
-                ) : loading && data.length === 0 ? (
-                    <div className="py-20 text-center text-toss-gray-600 dark:text-gray-400">데이터를 불러오는 중...</div>
-                ) : (
-                    data.map((item, idx) => (
-                        <div
-                            key={item.id}
-                            className="flex items-center gap-4 py-4 active:bg-gray-50 dark:active:bg-white/5 transition-colors cursor-pointer group"
-                        >
-                            <span className={`text-toss-gray-800 dark:text-white text-lg font-bold w-4 text-center ${idx >= 3 ? 'text-opacity-50' : ''}`}>
-                                {idx + 1}
-                            </span>
-
-                            {/* Round Icon Container */}
-                            <div className="w-10 h-10 rounded-full bg-toss-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0 overflow-hidden border border-toss-gray-200 dark:border-gray-700">
-                                <span className="material-symbols-outlined text-toss-gray-600 dark:text-gray-400">
-                                    {tabIcons[activeTab]}
-                                </span>
-                            </div>
-
-                            <div className="flex-1 min-w-0">
-                                <p className="text-toss-gray-800 dark:text-white text-[16px] font-semibold truncate leading-snug">
-                                    {item.name}
-                                </p>
-                                <p className={`text-[13px] font-medium truncate ${item.isPositive ? 'text-red-500' : 'text-blue-500'}`}>
-                                    {item.price}원 ({item.isPositive ? '+' : ''}{item.change}%)
-                                </p>
-                            </div>
-
-                            <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-700">chevron_right</span>
+            {/* Main Content - Scrollable List */}
+            <div className="flex-1 overflow-y-auto pb-24 no-scrollbar">
+                <div className="px-5 py-4 space-y-1">
+                    {error ? (
+                        <div className="py-20 text-center">
+                            <span className="material-symbols-outlined text-4xl text-toss-gray-200 mb-2">error</span>
+                            <p className="text-toss-gray-600 dark:text-gray-400 text-[15px]">{error}</p>
                         </div>
-                    ))
-                )}
+                    ) : loading && data.length === 0 ? (
+                        <div className="py-20 text-center text-toss-gray-600 dark:text-gray-400">데이터를 불러오는 중...</div>
+                    ) : (
+                        data.map((item, idx) => (
+                            <div
+                                key={item.id}
+                                className="flex items-center gap-4 py-4 active:bg-gray-50 dark:active:bg-white/5 transition-colors cursor-pointer group"
+                            >
+                                <span className={`text-toss-gray-800 dark:text-white text-lg font-bold w-4 text-center ${idx >= 3 ? 'text-opacity-50' : ''}`}>
+                                    {idx + 1}
+                                </span>
+
+                                {/* Round Icon Container */}
+                                <div className="w-10 h-10 rounded-full bg-toss-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0 overflow-hidden border border-toss-gray-200 dark:border-gray-700">
+                                    <span className="material-symbols-outlined text-toss-gray-600 dark:text-gray-400">
+                                        {tabIcons[activeTab]}
+                                    </span>
+                                </div>
+
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-toss-gray-800 dark:text-white text-[16px] font-semibold truncate leading-snug">
+                                        {item.name}
+                                    </p>
+                                    <p className={`text-[13px] font-medium truncate ${item.isPositive ? 'text-red-500' : 'text-blue-500'}`}>
+                                        {item.price}원 ({item.isPositive ? '+' : ''}{item.change}%)
+                                    </p>
+                                </div>
+
+                                <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-700">chevron_right</span>
+                            </div>
+                        ))
+                    )}
+                    <div className="h-10" /> {/* Extra spacing at bottom of list */}
+                </div>
             </div>
         </div>
     );
