@@ -295,7 +295,10 @@ const PATTERNS = [
     },
     {
         id: 'sideways', name: '➡️ 횡보', signal: 'neutral',
-        gen: (i, n, p, dm) => p + (Math.random() * 2 - 1) * dm,
+        gen: (i, n, p, dm) => {
+            const bias = p < 1000 ? 0.2 : 0; // Slight upward bias when very low
+            return p + (Math.random() * 2 - 1 + bias) * dm;
+        },
     },
     {
         id: 'v_bottom', name: '✅ V자 반등', signal: 'buy',
@@ -422,6 +425,24 @@ const PATTERNS = [
             if (ph < 0.3) return p - (Math.random() * 5 + 1) * dm;
             if (ph < 0.6) return p + (Math.random() * 2) * dm;
             return p - (Math.random() * 4 + 0.5) * dm;
+        }
+    },
+    {
+        id: 'spring', name: '🧼 바닥 털기', signal: 'buy',
+        gen: (i, n, p, dm) => {
+            const ph = i / n;
+            if (ph < 0.2) return p - (Math.random() * 3 + 1) * dm; // Final shakeout dip
+            if (ph < 0.4) return p + (Math.random() * 2) * dm;
+            return p + (Math.random() * 5 + 2) * dm; // Power recovery
+        }
+    },
+    {
+        id: 'accumulation', name: '🏗️ 바닥 매집', signal: 'buy',
+        gen: (i, n, p, dm) => {
+            const ph = i / n;
+            const osc = Math.sin(i * 1.5) * dm * 3;
+            if (ph < 0.7) return p + osc + (Math.random() - 0.4) * dm;
+            return p + (Math.random() * 4 + 1) * dm; // Breakout
         }
     },
 ];
@@ -629,7 +650,7 @@ const AITradingBattle = () => {
         g.patternTick++;
 
         let newPrice = pat.gen(g.patternTick, g.patternLength, g.currentPrice, g.dm);
-        newPrice = Math.max(500, Math.min(50000, newPrice)); // Allow deeper drops and higher peaks
+        newPrice = Math.max(100, Math.min(50000, newPrice)); // Lower floor to 100 KRW
         g.currentPrice = newPrice;
 
         g.candleTick++;
