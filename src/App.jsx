@@ -151,7 +151,7 @@ function App() {
           <span className="material-symbols-outlined text-toss-gray-800 dark:text-white cursor-pointer text-2xl font-semibold">chevron_left</span>
         </div>
         <h1 className="text-toss-gray-800 dark:text-white text-lg font-bold">
-          {activeMainTab === 'cards' ? '카드사별 인기 TOP 10' : activeMainTab === 'financial' ? '실시간 금융 랭킹' : 'AI 트레이딩 배틀'}
+          {activeMainTab === 'cards' ? '카드사별 인기 TOP 10' : activeMainTab === 'financial' ? '실시간 금융 랭킹' : 'AI 트레이딩 게임'}
         </h1>
         <div className="w-6"></div>
       </header>
