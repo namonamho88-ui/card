@@ -4,6 +4,7 @@ function FinancialRanking() {
     const [activeTab, setActiveTab] = useState('kr'); // 'kr', 'global', 'crypto'
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const fetchData = async () => {
         try {
@@ -13,13 +14,16 @@ function FinancialRanking() {
                 'crypto': '/api/financial/crypto'
             }[activeTab];
 
-            // 서버 주소 (개발 환경에 따라 동적 변경 가능하게 수정 권장)
-            const response = await fetch(`http://localhost:3001${endpoint}`);
-            if (!response.ok) throw new Error('Network response was not ok');
+            // window.location.hostname를 사용하여 모바일/타기기에서도 접속 가능하게 수정
+            const hostname = window.location.hostname || 'localhost';
+            const response = await fetch(`http://${hostname}:3001${endpoint}`);
+            if (!response.ok) throw new Error('데이터를 가져오는 데 실패했습니다.');
             const result = await response.json();
             setData(result);
+            setError(null);
         } catch (error) {
             console.error('Fetch Error:', error);
+            setError('실시간 데이터를 불러올 수 없습니다. 서버 상태를 확인해주세요.');
         } finally {
             setLoading(false);
         }
@@ -40,7 +44,7 @@ function FinancialRanking() {
     };
 
     return (
-        <div className="bg-white dark:bg-[#111111]">
+        <div className="bg-white dark:bg-[#111111] flex-1 flex flex-col min-h-[500px]">
             {/* Tab Navigation */}
             <div className="sticky top-[60px] z-20 bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800">
                 <div className="flex overflow-x-auto no-scrollbar px-5 gap-6 items-center h-12">
@@ -63,8 +67,13 @@ function FinancialRanking() {
             </div>
 
             {/* Main Content - List */}
-            <div className="px-5 py-4 space-y-1">
-                {loading && data.length === 0 ? (
+            <div className="px-5 py-4 space-y-1 flex-1">
+                {error ? (
+                    <div className="py-20 text-center">
+                        <span className="material-symbols-outlined text-4xl text-toss-gray-200 mb-2">error</span>
+                        <p className="text-toss-gray-600 dark:text-gray-400 text-[15px]">{error}</p>
+                    </div>
+                ) : loading && data.length === 0 ? (
                     <div className="py-20 text-center text-toss-gray-600 dark:text-gray-400">데이터를 불러오는 중...</div>
                 ) : (
                     data.map((item, idx) => (

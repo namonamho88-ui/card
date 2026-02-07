@@ -221,20 +221,22 @@ function App() {
           </main>
         </>
       ) : (
-        <FinancialRanking />
+        <main className="flex-1 flex flex-col bg-white dark:bg-[#111111]">
+          <FinancialRanking />
+        </main>
       )}
 
       {/* Bottom Navigation Bar */}
       <nav className="fixed bottom-0 z-40 w-full max-w-[430px] bg-white/95 dark:bg-[#111111]/95 backdrop-blur-lg border-t border-toss-gray-100 dark:border-gray-800 flex justify-between items-center px-6 py-3">
-        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => setActiveMainTab('cards')}>
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('cards'); window.scrollTo(0, 0); }}>
           <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>home</span>
           <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>홈</span>
         </div>
-        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => setActiveMainTab('cards')}>
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('cards'); window.scrollTo(0, 0); }}>
           <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>credit_card</span>
           <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>카드비교</span>
         </div>
-        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => setActiveMainTab('financial')}>
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('financial'); window.scrollTo(0, 0); }}>
           <span className={`material-symbols-outlined ${activeMainTab === 'financial' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>show_chart</span>
           <span className={`text-[10px] ${activeMainTab === 'financial' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>금융랭킹</span>
         </div>
