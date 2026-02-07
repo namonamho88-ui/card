@@ -141,140 +141,222 @@ function App() {
   }, [selectedIssuer]);
 
   return (
-    <div className="app-container">
-      <header>
-        <h1>Cherry Picker Agent</h1>
-        <p className="tagline">당신의 소비를 스마트하게, 혜택은 극대화로.</p>
+    <div className="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto overflow-x-hidden shadow-2xl bg-white dark:bg-[#111111]">
+      {/* Header */}
+      <header className="sticky top-0 z-30 bg-white/90 dark:bg-[#111111]/90 backdrop-blur-md px-5 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-1">
+          <span className="material-symbols-outlined text-toss-gray-800 dark:text-white cursor-pointer text-2xl font-semibold">chevron_left</span>
+        </div>
+        <h1 className="text-toss-gray-800 dark:text-white text-lg font-bold">카드사별 인기 TOP 10</h1>
+        <div className="w-6"></div>
       </header>
 
-      {/* 카드사 탭 네비게이션 */}
-      <section className="card-catalog-section">
-        <h2 className="section-title">🏆 카드사별 인기 TOP10 카드 목록</h2>
-        <div className="tabs-container">
-          {ISSUERS.map(issuer => (
-            <button
-              key={issuer}
-              className={`tab-btn ${selectedIssuer === issuer ? 'active' : ''}`}
-              onClick={() => setSelectedIssuer(issuer)}
-            >
-              {issuer}
-            </button>
-          ))}
+      {/* Tabs Navigation */}
+      <div className="sticky top-[60px] z-20 bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800">
+        <div className="flex overflow-x-auto no-scrollbar px-5 gap-6 items-center h-12">
+          {ISSUERS.map(issuer => {
+            const shortName = issuer === '전체' ? '전체' : issuer.replace('카드', '');
+            const isActive = selectedIssuer === issuer;
+            return (
+              <button
+                key={issuer}
+                onClick={() => setSelectedIssuer(issuer)}
+                className={`flex flex-col items-center shrink-0 justify-center h-full border-b-2 transition-all ${isActive
+                    ? 'border-toss-gray-800 dark:border-white'
+                    : 'border-transparent'
+                  }`}
+              >
+                <p className={`text-[15px] tracking-tight ${isActive
+                    ? 'text-toss-gray-800 dark:text-white font-bold'
+                    : 'text-toss-gray-600 dark:text-gray-500 font-medium'
+                  }`}>
+                  {shortName}
+                </p>
+              </button>
+            );
+          })}
         </div>
+      </div>
 
-        {/* 카드 그리드 */}
-        <div className="catalog-cards-grid">
-          {displayedCards.map(card => (
+      {/* Main Content - Card List */}
+      <main className="flex-1 bg-white dark:bg-[#111111] px-5 py-4 space-y-1">
+        {displayedCards.slice(0, 10).map((card, idx) => (
+          <div
+            key={card.id}
+            onClick={() => setSelectedCard(card)}
+            className="flex items-center gap-4 py-4 active:bg-gray-50 dark:active:bg-white/5 transition-colors cursor-pointer group"
+          >
+            <span className={`text-toss-gray-800 dark:text-white text-lg font-bold w-4 text-center ${idx >= 3 ? 'text-opacity-50' : ''}`}>
+              {idx + 1}
+            </span>
+            {/* Card Image Graphic */}
             <div
-              key={card.id}
-              className="catalog-card-item"
-              style={{ background: card.color }}
-              onClick={() => setSelectedCard(card)}
+              className="bg-center bg-no-repeat aspect-[1.58/1] bg-cover rounded-sm h-10 w-16 shadow-sm flex items-center justify-center text-[6px] text-white p-1 text-center font-bold"
+              style={card.image
+                ? { backgroundImage: `url("${card.image}")` }
+                : { background: card.color }
+              }
             >
-              <div className="catalog-card-issuer">{card.issuer}</div>
-              <div className="catalog-card-name">{card.name}</div>
-              <div className="catalog-card-tags">
-                {/* 주요 혜택 2개만 #태그로 표시 */}
-                {card.benefits.slice(0, 2).map((benefit, idx) => (
-                  <span key={idx} className="card-tag">
-                    #{benefit.split(' ')[0]} {/* 혜택 문구가 길면 첫 단어만, 아니면 전체 */}
-                  </span>
-                ))}
-              </div>
+              {!card.image && <div className="truncate">{card.issuer}</div>}
             </div>
-          ))}
-        </div>
-      </section>
+            <div className="flex-1 min-w-0">
+              <p className="text-toss-gray-800 dark:text-white text-[16px] font-semibold truncate leading-snug">
+                {card.name}
+              </p>
+              <p className="text-toss-gray-600 dark:text-gray-400 text-[13px] font-medium truncate">
+                {card.benefits[0]}
+              </p>
+            </div>
+            <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-700">chevron_right</span>
+          </div>
+        ))}
+        <div className="h-20" />
+      </main>
 
-      {/* AI 챗봇 섹션 */}
-      <section className="chatbot-section" ref={chatbotSectionRef}>
-        <h2 className="section-title">🤖 AI 카드 추천</h2>
-        <div className="agent-container">
-          <div className="chat-history">
+      {/* Bottom Navigation Bar */}
+      <nav className="fixed bottom-0 z-40 w-full max-w-[430px] bg-white/95 dark:bg-[#111111]/95 backdrop-blur-lg border-t border-toss-gray-100 dark:border-gray-800 flex justify-between items-center px-6 py-3">
+        <div className="flex flex-col items-center gap-1 cursor-pointer">
+          <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">home</span>
+          <span className="text-[10px] text-toss-gray-600 dark:text-gray-400">홈</span>
+        </div>
+        <div className="flex flex-col items-center gap-1 cursor-pointer">
+          <span className="material-symbols-outlined text-primary font-bold">credit_card</span>
+          <span className="text-[10px] text-primary font-bold">카드비교</span>
+        </div>
+        <div className="flex flex-col items-center gap-1 cursor-pointer">
+          <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">pie_chart</span>
+          <span className="text-[10px] text-toss-gray-600 dark:text-gray-400">내소비</span>
+        </div>
+        <div className="flex flex-col items-center gap-1 cursor-pointer">
+          <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">redeem</span>
+          <span className="text-[10px] text-toss-gray-600 dark:text-gray-400">혜택</span>
+        </div>
+        <div className="flex flex-col items-center gap-1 cursor-pointer">
+          <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">menu</span>
+          <span className="text-[10px] text-toss-gray-600 dark:text-gray-400">전체</span>
+        </div>
+      </nav>
+
+      {/* Floating Chatbot Button */}
+      <div className="fixed bottom-24 right-6 z-30 sm:right-[calc(50%-215px+24px)]">
+        <button
+          onClick={scrollToChatbot}
+          className="bg-primary text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
+        >
+          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>smart_toy</span>
+        </button>
+      </div>
+
+      {/* AI Chatbot Section */}
+      <section className="bg-toss-gray-50 dark:bg-black p-5 pt-10" ref={chatbotSectionRef}>
+        <div className="bg-white dark:bg-[#1a1a1a] rounded-3xl p-5 shadow-sm border border-toss-gray-100 dark:border-gray-800">
+          <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-toss-gray-800 dark:text-white">
+            <span className="material-symbols-outlined text-primary">smart_toy</span>
+            AI 카드 추천
+          </h2>
+          <div className="h-[400px] overflow-y-auto mb-4 space-y-4 no-scrollbar">
             {messages.map((m, i) => (
-              <div key={i} className={`message ${m.role}`}>
-                <div dangerouslySetInnerHTML={{ __html: m.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
-                {m.recommendation && (
-                  <div className="recommendation-result">
-                    💡 Tip: {m.recommendation.name}는 혜택 조건이 매우 좋습니다.
-                  </div>
-                )}
+              <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-[15px] leading-relaxed ${m.role === 'user'
+                    ? 'bg-primary text-white rounded-tr-none'
+                    : 'bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-800 dark:text-gray-200 rounded-tl-none'
+                  }`}>
+                  <div dangerouslySetInnerHTML={{ __html: m.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                </div>
               </div>
             ))}
             <div ref={chatEndRef} />
           </div>
-          <div className="input-area">
+          <div className="relative">
             <input
               type="text"
-              placeholder="예: 영화를 자주 보는데 제일 혜택 좋은 카드는?"
+              placeholder="혜택 질문하기 (예: 카페 추천)"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+              className="w-full bg-toss-gray-100 dark:bg-gray-800 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-primary dark:text-white outline-none"
             />
-            <button onClick={handleSend}>전송</button>
+            <button
+              onClick={handleSend}
+              className="absolute right-2 top-2 bottom-2 bg-primary text-white px-5 rounded-xl font-bold text-sm"
+            >
+              보내기
+            </button>
           </div>
         </div>
+        <div className="h-20" />
       </section>
 
-      {/* 카드 상세 정보 모달 */}
+      {/* Card Detail Bottom Sheet */}
       {selectedCard && (
-        <div className="modal-overlay" onClick={() => setSelectedCard(null)}>
-          <div className="modal-content card-detail-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2>{selectedCard.issuer} {selectedCard.name}</h2>
-              <button className="close-btn" onClick={() => setSelectedCard(null)}>✕</button>
-            </div>
+        <div
+          className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-[2px] transition-all duration-300 animate-in fade-in"
+          onClick={() => setSelectedCard(null)}
+        >
+          <div
+            className="bg-white dark:bg-[#111111] rounded-t-[32px] p-8 w-full max-w-[430px] mx-auto shadow-[0_-8px_30px_rgb(0,0,0,0.12)] animate-in slide-in-from-bottom duration-500 ease-out"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Handle Bar */}
+            <div className="w-12 h-1.5 bg-toss-gray-200 dark:bg-gray-800 rounded-full mx-auto mb-8 cursor-pointer" onClick={() => setSelectedCard(null)} />
 
-            <div className="card-detail-body">
-              <div className="card-preview" style={{ background: selectedCard.color }}>
-                <div className="card-preview-issuer">{selectedCard.issuer}</div>
-                <div className="card-preview-name">{selectedCard.name}</div>
+            <div className="flex justify-between items-start mb-8">
+              <div className="flex-1">
+                <p className="text-primary font-bold text-sm mb-1 uppercase tracking-wider">{selectedCard.issuer}</p>
+                <h2 className="text-[28px] font-bold text-toss-gray-800 dark:text-white leading-tight tracking-tight">
+                  {selectedCard.name}
+                </h2>
               </div>
-
-              <div className="card-info-section">
-                <h3>💳 카드 정보</h3>
-                <div className="info-row">
-                  <span className="info-label">연회비</span>
-                  <span className="info-value">{selectedCard.annualFee}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">전월 실적</span>
-                  <span className="info-value">{selectedCard.previousMonthSpending}</span>
-                </div>
-              </div>
-
-              <div className="card-benefits-section">
-                <h3>✨ 주요 혜택</h3>
-                <ul className="benefits-list">
-                  {selectedCard.benefits.map((benefit, idx) => (
-                    <li key={idx} className="benefit-item-detail">{benefit}</li>
-                  ))}
-                </ul>
-              </div>
-
               <button
-                className="add-to-wallet-btn-detail"
-                onClick={() => {
-                  alert(`${selectedCard.name} 카드 신청 페이지로 이동합니다.`);
-                  setSelectedCard(null);
-                }}
+                className="w-10 h-10 flex items-center justify-center bg-toss-gray-100 dark:bg-gray-800 rounded-full text-toss-gray-600 dark:text-gray-400 hover:scale-105 transition-transform"
+                onClick={() => setSelectedCard(null)}
               >
-                카드 신청하기
+                <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
             </div>
+
+            {/* Quick Stats */}
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="bg-toss-gray-50 dark:bg-gray-900/50 p-5 rounded-[24px] border border-toss-gray-100 dark:border-gray-800/50">
+                <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2 font-medium">연회비</p>
+                <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">{selectedCard.annualFee}</p>
+              </div>
+              <div className="bg-toss-gray-50 dark:bg-gray-900/50 p-5 rounded-[24px] border border-toss-gray-100 dark:border-gray-800/50">
+                <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2 font-medium">전월 실적</p>
+                <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">{selectedCard.previousMonthSpending}</p>
+              </div>
+            </div>
+
+            {/* Benefits List */}
+            <div className="space-y-4 mb-10">
+              <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-4 px-1">주요 혜택</h3>
+              <div className="space-y-3">
+                {selectedCard.benefits.map((benefit, idx) => (
+                  <div key={idx} className="flex gap-4 items-center p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] transition-all hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-toss-gray-100 dark:hover:border-gray-700">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-primary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                    </div>
+                    <p className="text-[15px] font-semibold text-toss-gray-700 dark:text-gray-300 leading-snug">
+                      {benefit}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <button
+              onClick={() => {
+                alert(`${selectedCard.name} 카드 신청 페이지로 이동합니다.`);
+                setSelectedCard(null);
+              }}
+              className="w-full bg-primary text-white py-[18px] rounded-[22px] font-bold text-[18px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all transform mb-2"
+            >
+              카드 신청하기
+            </button>
           </div>
         </div>
       )}
-
-      {/* 플로팅 챗봇 버튼 */}
-      <div className="floating-chat-widget">
-        <button className="floating-chat-btn" onClick={scrollToChatbot} aria-label="챗봇 열기">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2C8.13 2 5 5.13 5 9C5 11.38 6.19 13.47 8 14.74V17C8 17.55 8.45 18 9 18H10C10.55 18 11 17.55 11 17V16H13V17C13 17.55 13.45 18 14 18H15C15.55 18 16 17.55 16 17V14.74C17.81 13.47 19 11.38 19 9C19 5.13 15.87 2 12 2ZM7 9C7 7.62 8.12 6.5 9.5 6.5C9.85 6.5 10.12 6.84 10.02 7.18C9.55 8.92 7.23 9.77 7.02 8.87C7 9.03 7 9.17 7 9ZM12 13.5C10.62 13.5 9.5 12.38 9.5 11C9.5 10.17 9.83 9 12 9C14.17 9 14.5 10.17 14.5 11C14.5 12.38 13.38 13.5 12 13.5ZM17 9C17 9.17 16.98 9.03 16.98 8.87C16.77 9.77 14.45 8.92 13.98 7.18C13.88 6.84 14.15 6.5 14.5 6.5C15.88 6.5 17 7.62 17 9Z" fill="currentColor" />
-          </svg>
-          <span className="tooltip">AI 추천받기</span>
-        </button>
-      </div>
     </div>
   );
 }

@@ -211,10 +211,15 @@ async function scrapeTop100(page) {
             const rank = parseInt(rankText) || (index + 1);
 
             let issuer = 'Unknown';
+            let image = null;
             const imgEl = el.querySelector('div.card_img img, .card_img img, .img img');
             if (imgEl) {
                 const alt = imgEl.getAttribute('alt');
                 if (alt) issuer = alt.split(' ')[0];
+                image = imgEl.getAttribute('src');
+                if (image && !image.startsWith('http')) {
+                    image = `https://www.card-gorilla.com${image}`;
+                }
             }
 
             // 디테일 페이지 URL 추출
@@ -225,6 +230,7 @@ async function scrapeTop100(page) {
                 rank,
                 name,
                 rawIssuer: issuer,
+                image,
                 detailUrl
             });
         });
@@ -294,6 +300,7 @@ async function runSync() {
                 previousMonthSpending: "30만원",
                 benefits: benefits,
                 categories: extractCategories(benefits),
+                image: raw.image,
                 color: ISSUER_COLORS[issuer],
                 rank: raw.rank
             };

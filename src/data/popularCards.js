@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-07T00:42:33.740Z
+// Auto-generated card data - 2026-02-07T01:14:28.016Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -29,23 +29,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
-        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 2
-    },
-    {
-        "id": "ss-2",
-        "issuer": "삼성카드",
-        "name": "삼성 iD SELECT ALL 카드",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "선택 옵션에 따른 할인 혜택(택 1)",
-            "생활 편의 영역 5%할인",
-            "디지털콘텐츠/멤버십 50%할인"
-        ],
-        "categories": [
-            "할인"
-        ],
+        "image": null,
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 2
     },
@@ -65,6 +49,45 @@ export const POPULAR_CARDS = [
             "편의점",
             "쇼핑"
         ],
+        "image": null,
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 3
+    },
+    {
+        "id": "ss-2",
+        "issuer": "삼성카드",
+        "name": "삼성 iD SELECT ALL 카드",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "선택 옵션에 따른 할인 혜택(택 1)",
+            "생활 편의 영역 5%할인",
+            "디지털콘텐츠/멤버십 50%할인"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": null,
+        "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+        "rank": 2
+    },
+    {
+        "id": "sh-2",
+        "issuer": "신한카드",
+        "name": "신한카드 Mr.Life",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "공과금 10%할인",
+            "마트,편의점 10%할인",
+            "식음료 10%할인"
+        ],
+        "categories": [
+            "할인",
+            "편의점",
+            "쇼핑"
+        ],
+        "image": null,
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 3
     },
@@ -82,6 +105,7 @@ export const POPULAR_CARDS = [
             "쇼핑",
             "할인"
         ],
+        "image": null,
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 4
     },
@@ -99,6 +123,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "적립"
         ],
+        "image": null,
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 5
     },
@@ -118,6 +143,7 @@ export const POPULAR_CARDS = [
             "할인",
             "대중교통"
         ],
+        "image": null,
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 7
     },
@@ -137,11 +163,12 @@ export const POPULAR_CARDS = [
             "대중교통",
             "배달"
         ],
+        "image": null,
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 8
     },
     {
-        "id": "sh-2",
+        "id": "sh-3",
         "issuer": "신한카드",
         "name": "신한카드 Discount Plan+",
         "annualFee": "1~3만원",
@@ -156,6 +183,7 @@ export const POPULAR_CARDS = [
             "할인",
             "쇼핑"
         ],
+        "image": null,
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 10
     },
@@ -173,11 +201,12 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2885/card_img/44212/2885card_1.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 2
     },
     {
-        "id": "sh-3",
+        "id": "sh-4",
         "issuer": "신한카드",
         "name": "신한카드 Mr.Life",
         "annualFee": "1~3만원",
@@ -192,6 +221,7 @@ export const POPULAR_CARDS = [
             "편의점",
             "쇼핑"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/13/card_img/28201/13card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 3
     },
@@ -209,6 +239,7 @@ export const POPULAR_CARDS = [
             "쇼핑",
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2687/card_img/33239/2687card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 4
     },
@@ -226,6 +257,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "적립"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/49/card_img/42288/49card.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 5
     },
@@ -245,6 +277,7 @@ export const POPULAR_CARDS = [
             "할인",
             "대중교통"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/51/card_img/37691/51card.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 7
     },
@@ -264,11 +297,12 @@ export const POPULAR_CARDS = [
             "대중교통",
             "배달"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2330/card_img/24131/2330card.png",
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 8
     },
     {
-        "id": "sh-4",
+        "id": "sh-5",
         "issuer": "신한카드",
         "name": "신한카드 Discount Plan+",
         "annualFee": "1~3만원",
@@ -283,6 +317,7 @@ export const POPULAR_CARDS = [
             "할인",
             "쇼핑"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2835/card_img/41600/2835card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 10
     },
@@ -300,11 +335,12 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2886/card_img/44215/2886card_1.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 11
     },
     {
-        "id": "sh-5",
+        "id": "sh-6",
         "issuer": "신한카드",
         "name": "신한카드 처음(ANNIVERSE)",
         "annualFee": "1~3만원",
@@ -318,6 +354,7 @@ export const POPULAR_CARDS = [
             "적립",
             "통신"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2759/card_img/37240/2759card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 12
     },
@@ -337,6 +374,7 @@ export const POPULAR_CARDS = [
             "쇼핑",
             "영화"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2376/card_img/27725/2376card.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 13
     },
@@ -353,8 +391,9 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2719/card_img/46400/2719card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 15
+        "rank": 14
     },
     {
         "id": "lo-3",
@@ -369,6 +408,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2261/card_img/21011/2261card.png",
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 16
     },
@@ -387,6 +427,7 @@ export const POPULAR_CARDS = [
             "할인",
             "편의점"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/657/card_img/27715/657card.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 17
     },
@@ -403,11 +444,12 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2848/card_img/45022/2848card_1.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 19
     },
     {
-        "id": "sh-6",
+        "id": "sh-7",
         "issuer": "신한카드",
         "name": "신한카드 Deep Oil",
         "annualFee": "1~3만원",
@@ -422,6 +464,7 @@ export const POPULAR_CARDS = [
             "카페",
             "편의점"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/39/card_img/31864/39card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 20
     },
@@ -440,8 +483,9 @@ export const POPULAR_CARDS = [
             "여행",
             "적립"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 23
+        "rank": 24
     },
     {
         "id": "hd-1",
@@ -458,6 +502,7 @@ export const POPULAR_CARDS = [
             "적립",
             "쇼핑"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2669/card_img/43704/2669card_5.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 26
     },
@@ -476,11 +521,12 @@ export const POPULAR_CARDS = [
             "여행",
             "적립"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2898/card_img/44541/2898card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 27
     },
     {
-        "id": "sh-7",
+        "id": "sh-8",
         "issuer": "신한카드",
         "name": "신한카드 Air One",
         "annualFee": "1~3만원",
@@ -494,6 +540,7 @@ export const POPULAR_CARDS = [
             "적립",
             "여행"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/466/card_img/37854/466card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 29
     },
@@ -513,6 +560,7 @@ export const POPULAR_CARDS = [
             "쇼핑",
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2851/card_img/43400/2851.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 31
     },
@@ -528,11 +576,12 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2646/card_img/39624/2646card_3.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 36
     },
     {
-        "id": "sh-8",
+        "id": "sh-9",
         "issuer": "신한카드",
         "name": "메리어트 본보이™ 더 베스트 신한카드",
         "annualFee": "1~3만원",
@@ -545,11 +594,12 @@ export const POPULAR_CARDS = [
         "categories": [
             "적립"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/716/card_img/22190/716card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 37
     },
     {
-        "id": "sh-9",
+        "id": "sh-10",
         "issuer": "신한카드",
         "name": "신한카드 Point Plan",
         "annualFee": "1~3만원",
@@ -562,6 +612,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "적립"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2666/card_img/32452/2666card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 38
     },
@@ -579,6 +630,7 @@ export const POPULAR_CARDS = [
             "할인",
             "쇼핑"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2844/card_img/43699/2844card.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 39
     },
@@ -598,25 +650,9 @@ export const POPULAR_CARDS = [
             "여행",
             "쇼핑"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2692/card_img/33549/2692card.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 42
-    },
-    {
-        "id": "sh-10",
-        "issuer": "신한카드",
-        "name": "신한카드 The CLASSIC-S",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "이용금액 1%기본적립",
-            "이용금액 0.5%추가적립",
-            "해외, 면세점 2%추가적립"
-        ],
-        "categories": [
-            "적립"
-        ],
-        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 43
     },
     {
         "id": "wo-8",
@@ -634,6 +670,7 @@ export const POPULAR_CARDS = [
             "할인",
             "편의점"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 44
     },
@@ -650,6 +687,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "적립"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 48
     },
@@ -668,6 +706,7 @@ export const POPULAR_CARDS = [
             "여행",
             "적립"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2237/card_img/20939/2237card.png",
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 58
     },
@@ -685,6 +724,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 60
     },
@@ -702,6 +742,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 63
     },
@@ -721,6 +762,7 @@ export const POPULAR_CARDS = [
             "할인",
             "쇼핑"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2904/card_img/44666/2904card.png",
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 66
     },
@@ -739,6 +781,7 @@ export const POPULAR_CARDS = [
             "주유",
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 71
     },
@@ -755,6 +798,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "적립"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2697/card_img/33888/2697card.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 75
     },
@@ -774,6 +818,7 @@ export const POPULAR_CARDS = [
             "할인",
             "통신"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2880/card_img/44410/2880card_1.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 77
     },
@@ -791,6 +836,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/455/card_img/20971/455card.png",
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 81
     },
@@ -810,6 +856,7 @@ export const POPULAR_CARDS = [
             "배달",
             "카페"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 82
     },
@@ -827,6 +874,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2820/card_img/44248/2820card.png",
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 84
     },
@@ -845,6 +893,7 @@ export const POPULAR_CARDS = [
             "쇼핑",
             "적립"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2938/card_img/46988/2938card.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 86
     },
@@ -863,6 +912,7 @@ export const POPULAR_CARDS = [
             "적립",
             "여행"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2529/card_img/29020/2529card.png",
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 88
     },
@@ -880,6 +930,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "할인"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2654/card_img/44245/2654card.png",
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 90
     },
@@ -899,6 +950,7 @@ export const POPULAR_CARDS = [
             "할인",
             "영화"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 94
     },
@@ -918,6 +970,7 @@ export const POPULAR_CARDS = [
             "할인",
             "영화"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2228/card_img/21353/2228card.png",
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 99
     },
@@ -934,6 +987,7 @@ export const POPULAR_CARDS = [
         "categories": [
             "적립"
         ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 100
     }
