@@ -36,5 +36,6 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Data: Automatically updated card data [$(date -u +'%Y-%m-%dT%H:%M:%SZ')]"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
