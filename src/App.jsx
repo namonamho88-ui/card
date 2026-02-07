@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { TRANSACTIONS } from './data/mockData';
-import { POPULAR_CARDS, ISSUERS, getCardsByIssuer, findCardByBenefits } from './data/popularCards';
+import { POPULAR_CARDS, ISSUERS, getCardsByIssuer } from './data/popularCards';
+import FinancialRanking from './components/FinancialRanking';
 import './index.css';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [selectedCard, setSelectedCard] = useState(null);
   const [selectedIssuer, setSelectedIssuer] = useState('전체');
+  const [activeMainTab, setActiveMainTab] = useState('cards'); // 'cards' or 'financial'
   const chatEndRef = useRef(null);
   const chatbotSectionRef = useRef(null); // 챗봇 섹션 참조
 
@@ -147,85 +149,94 @@ function App() {
         <div className="flex items-center gap-1">
           <span className="material-symbols-outlined text-toss-gray-800 dark:text-white cursor-pointer text-2xl font-semibold">chevron_left</span>
         </div>
-        <h1 className="text-toss-gray-800 dark:text-white text-lg font-bold">카드사별 인기 TOP 10</h1>
+        <h1 className="text-toss-gray-800 dark:text-white text-lg font-bold">
+          {activeMainTab === 'cards' ? '카드사별 인기 TOP 10' : '실시간 금융 랭킹'}
+        </h1>
         <div className="w-6"></div>
       </header>
 
-      {/* Tabs Navigation */}
-      <div className="sticky top-[60px] z-20 bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800">
-        <div className="flex overflow-x-auto no-scrollbar px-5 gap-6 items-center h-12">
-          {ISSUERS.map(issuer => {
-            const shortName = issuer === '전체' ? '전체' : issuer.replace('카드', '');
-            const isActive = selectedIssuer === issuer;
-            return (
-              <button
-                key={issuer}
-                onClick={() => setSelectedIssuer(issuer)}
-                className={`flex flex-col items-center shrink-0 justify-center h-full border-b-2 transition-all ${isActive
-                  ? 'border-toss-gray-800 dark:border-white'
-                  : 'border-transparent'
-                  }`}
-              >
-                <p className={`text-[15px] tracking-tight ${isActive
-                  ? 'text-toss-gray-800 dark:text-white font-bold'
-                  : 'text-toss-gray-600 dark:text-gray-500 font-medium'
-                  }`}>
-                  {shortName}
-                </p>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Main Content - Card List */}
-      <main className="flex-1 bg-white dark:bg-[#111111] px-5 py-4 space-y-1">
-        {displayedCards.slice(0, 10).map((card, idx) => (
-          <div
-            key={card.id}
-            onClick={() => setSelectedCard(card)}
-            className="flex items-center gap-4 py-4 active:bg-gray-50 dark:active:bg-white/5 transition-colors cursor-pointer group"
-          >
-            <span className={`text-toss-gray-800 dark:text-white text-lg font-bold w-4 text-center ${idx >= 3 ? 'text-opacity-50' : ''}`}>
-              {idx + 1}
-            </span>
-            {/* Card Image Graphic */}
-            <div
-              className="bg-center bg-no-repeat aspect-[1.58/1] bg-cover rounded-sm h-10 w-16 shadow-sm flex items-center justify-center text-[6px] text-white p-1 text-center font-bold"
-              style={card.image
-                ? { backgroundImage: `url("${card.image}")` }
-                : { background: card.color }
-              }
-            >
-              {!card.image && <div className="truncate">{card.issuer}</div>}
+      {/* Conditional Content: Card Ranking vs. Financial Ranking */}
+      {activeMainTab === 'cards' ? (
+        <>
+          {/* Tabs Navigation (Issuers) */}
+          <div className="sticky top-[60px] z-20 bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800">
+            <div className="flex overflow-x-auto no-scrollbar px-5 gap-6 items-center h-12">
+              {ISSUERS.map(issuer => {
+                const shortName = issuer === '전체' ? '전체' : issuer.replace('카드', '');
+                const isActive = selectedIssuer === issuer;
+                return (
+                  <button
+                    key={issuer}
+                    onClick={() => setSelectedIssuer(issuer)}
+                    className={`flex flex-col items-center shrink-0 justify-center h-full border-b-2 transition-all ${isActive
+                      ? 'border-toss-gray-800 dark:border-white'
+                      : 'border-transparent'
+                      }`}
+                  >
+                    <p className={`text-[15px] tracking-tight ${isActive
+                      ? 'text-toss-gray-800 dark:text-white font-bold'
+                      : 'text-toss-gray-600 dark:text-gray-500 font-medium'
+                      }`}>
+                      {shortName}
+                    </p>
+                  </button>
+                );
+              })}
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-toss-gray-800 dark:text-white text-[16px] font-semibold truncate leading-snug">
-                {card.name}
-              </p>
-              <p className="text-toss-gray-600 dark:text-gray-400 text-[13px] font-medium truncate">
-                {card.benefits[0]}
-              </p>
-            </div>
-            <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-700">chevron_right</span>
           </div>
-        ))}
-        <div className="h-20" />
-      </main>
+
+          {/* Main Content - Card List */}
+          <main className="flex-1 bg-white dark:bg-[#111111] px-5 py-4 space-y-1">
+            {displayedCards.slice(0, 10).map((card, idx) => (
+              <div
+                key={card.id}
+                onClick={() => setSelectedCard(card)}
+                className="flex items-center gap-4 py-4 active:bg-gray-50 dark:active:bg-white/5 transition-colors cursor-pointer group"
+              >
+                <span className={`text-toss-gray-800 dark:text-white text-lg font-bold w-4 text-center ${idx >= 3 ? 'text-opacity-50' : ''}`}>
+                  {idx + 1}
+                </span>
+                {/* Card Image Graphic */}
+                <div
+                  className="bg-center bg-no-repeat aspect-[1.58/1] bg-cover rounded-sm h-10 w-16 shadow-sm flex items-center justify-center text-[6px] text-white p-1 text-center font-bold"
+                  style={card.image
+                    ? { backgroundImage: `url("${card.image}")` }
+                    : { background: card.color }
+                  }
+                >
+                  {!card.image && <div className="truncate">{card.issuer}</div>}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-toss-gray-800 dark:text-white text-[16px] font-semibold truncate leading-snug">
+                    {card.name}
+                  </p>
+                  <p className="text-toss-gray-600 dark:text-gray-400 text-[13px] font-medium truncate">
+                    {card.benefits[0]}
+                  </p>
+                </div>
+                <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-700">chevron_right</span>
+              </div>
+            ))}
+            <div className="h-20" />
+          </main>
+        </>
+      ) : (
+        <FinancialRanking />
+      )}
 
       {/* Bottom Navigation Bar */}
       <nav className="fixed bottom-0 z-40 w-full max-w-[430px] bg-white/95 dark:bg-[#111111]/95 backdrop-blur-lg border-t border-toss-gray-100 dark:border-gray-800 flex justify-between items-center px-6 py-3">
-        <div className="flex flex-col items-center gap-1 cursor-pointer">
-          <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">home</span>
-          <span className="text-[10px] text-toss-gray-600 dark:text-gray-400">홈</span>
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => setActiveMainTab('cards')}>
+          <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>home</span>
+          <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>홈</span>
         </div>
-        <div className="flex flex-col items-center gap-1 cursor-pointer">
-          <span className="material-symbols-outlined text-primary font-bold">credit_card</span>
-          <span className="text-[10px] text-primary font-bold">카드비교</span>
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => setActiveMainTab('cards')}>
+          <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>credit_card</span>
+          <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>카드비교</span>
         </div>
-        <div className="flex flex-col items-center gap-1 cursor-pointer">
-          <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">pie_chart</span>
-          <span className="text-[10px] text-toss-gray-600 dark:text-gray-400">내소비</span>
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => setActiveMainTab('financial')}>
+          <span className={`material-symbols-outlined ${activeMainTab === 'financial' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>show_chart</span>
+          <span className={`text-[10px] ${activeMainTab === 'financial' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>금융랭킹</span>
         </div>
         <div className="flex flex-col items-center gap-1 cursor-pointer">
           <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">redeem</span>
