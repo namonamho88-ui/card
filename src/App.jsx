@@ -11,6 +11,8 @@ function App() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [selectedCard, setSelectedCard] = useState(null);
+  const [compareCards, setCompareCards] = useState([]);
+  const [showComparison, setShowComparison] = useState(false);
   const [selectedIssuer, setSelectedIssuer] = useState('전체');
   const [activeMainTab, setActiveMainTab] = useState('cards'); // 'cards', 'financial', or 'game'
   const chatEndRef = useRef(null);
@@ -143,22 +145,166 @@ function App() {
     return getCardsByIssuer(selectedIssuer);
   }, [selectedIssuer]);
 
+  // AI 비교 분석 로직 (Gemini API 활용)
+  const CardComparison = ({ card1, card2, onClear }) => {
+    const [analysis, setAnalysis] = useState('AI가 두 카드를 분석하고 있습니다...');
+    const [isAnalyzing, setIsAnalyzing] = useState(true);
+
+    useEffect(() => {
+      const fetchAnalysis = async () => {
+        try {
+          const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+          if (!apiKey) {
+            setAnalysis("⚠️ API 키가 설정되지 않았습니다. 분석을 진행할 수 없습니다.");
+            setIsAnalyzing(false);
+            return;
+          }
+
+          const prompt = `
+            다음 두 카드를 정밀 비교 분석해주세요:
+            
+            카드1: ${card1.name} (카드사: ${card1.issuer})
+            - 혜택: ${card1.benefits.join(', ')}
+            - 연회비: ${card1.annualFee}
+            - 전월실적: ${card1.previousMonthSpending}
+            
+            카드2: ${card2.name} (카드사: ${card2.issuer})
+            - 혜택: ${card2.benefits.join(', ')}
+            - 연회비: ${card2.annualFee}
+            - 전월실적: ${card2.previousMonthSpending}
+            
+            [분석 요청 사항]
+            1. 두 카드의 핵심 혜택 차이점 비교 (표 형식 지양, 서술형 및 불렛포인트 활용)
+            2. 각 카드가 유리한 구체적인 소비 패턴 (예: "주로 배달 앱을 쓰고 카페를 자주 가는 분이라면...")
+            3. 손익분기점 분석 (피킹률 관점에서 어떤 카드가 더 효율적인지)
+            4. 결론 및 사용자 맞춤 최종 추천
+            
+            마크다운 형식을 사용하여 아주 가독성 좋고 전문적으로 작성해줘.
+          `;
+
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: prompt }] }]
+            })
+          });
+
+          if (!response.ok) throw new Error("API 요청 실패");
+
+          const data = await response.json();
+          const result = data.candidates?.[0]?.content?.parts?.[0]?.text || "분석 결과를 가져오는데 실패했습니다.";
+          setAnalysis(result);
+        } catch (error) {
+          console.error("Comparison Error:", error);
+          setAnalysis("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        } finally {
+          setIsAnalyzing(false);
+        }
+      };
+
+      fetchAnalysis();
+    }, [card1, card2]);
+
+    return (
+      <div className="flex-1 overflow-y-auto no-scrollbar pb-10">
+        <div className="p-5">
+          {/* Header with Back Button */}
+          <div className="flex items-center gap-3 mb-6">
+            <button onClick={onClear} className="w-10 h-10 flex items-center justify-center bg-toss-gray-100 dark:bg-gray-800 rounded-full">
+              <span className="material-symbols-outlined text-[20px]">chevron_left</span>
+            </button>
+            <h2 className="text-xl font-bold dark:text-white">AI 카드 비교 분석</h2>
+          </div>
+
+          {/* VS Visualization */}
+          <div className="flex items-center justify-between mb-8 px-4">
+            <div className="text-center flex-1">
+              <div className="w-full aspect-[1.58/1] rounded-xl mx-auto mb-3 shadow-lg flex items-center justify-center text-[10px] text-white p-2 font-bold"
+                style={card1.image ? { backgroundImage: `url("${card1.image}")`, backgroundSize: 'cover' } : { background: card1.color }}>
+                {!card1.image && card1.name}
+              </div>
+              <p className="font-bold text-sm dark:text-white truncate">{card1.name}</p>
+              <p className="text-[11px] text-toss-gray-500 dark:text-gray-400">{card1.issuer}</p>
+            </div>
+            <div className="flex flex-col items-center mx-4">
+              <span className="text-2xl font-black text-primary italic">VS</span>
+            </div>
+            <div className="text-center flex-1">
+              <div className="w-full aspect-[1.58/1] rounded-xl mx-auto mb-3 shadow-lg flex items-center justify-center text-[10px] text-white p-2 font-bold"
+                style={card2.image ? { backgroundImage: `url("${card2.image}")`, backgroundSize: 'cover' } : { background: card2.color }}>
+                {!card2.image && card2.name}
+              </div>
+              <p className="font-bold text-sm dark:text-white truncate">{card2.name}</p>
+              <p className="text-[11px] text-toss-gray-500 dark:text-gray-400">{card2.issuer}</p>
+            </div>
+          </div>
+
+          {/* AI Analysis Box */}
+          <div className="bg-toss-gray-50 dark:bg-gray-900 rounded-[28px] p-6 border border-toss-gray-100 dark:border-gray-800">
+            <div className="flex items-center gap-2 mb-4 text-primary font-bold">
+              <span className="material-symbols-outlined text-[20px]">smart_toy</span>
+              <span>AI 분석 리포트</span>
+            </div>
+
+            {isAnalyzing ? (
+              <div className="flex flex-col items-center py-10 gap-3">
+                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-sm text-toss-gray-500 dark:text-gray-400">데이터를 정밀 분석 중입니다...</p>
+              </div>
+            ) : (
+              <div className="prose dark:prose-invert max-w-none text-[15px] leading-relaxed dark:text-gray-200">
+                <div dangerouslySetInnerHTML={{
+                  __html: analysis
+                    .replace(/\n/g, '<br/>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/^- (.*?)$/gm, '• $1')
+                }} />
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={onClear}
+            className="w-full mt-8 bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-800 dark:text-white py-[18px] rounded-[22px] font-bold text-[16px] transition-all active:scale-[0.98]"
+          >
+            다른 카드 비교하기
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto shadow-2xl bg-white dark:bg-[#111111]">
       {/* Header - Sticky stable flex child */}
       <header className="sticky top-0 shrink-0 bg-white/95 dark:bg-[#111111]/95 backdrop-blur-md px-5 py-4 flex items-center justify-between z-30 border-b border-toss-gray-100 dark:border-gray-800">
         <div className="flex items-center gap-1">
-          <span className="material-symbols-outlined text-toss-gray-800 dark:text-white cursor-pointer text-2xl font-semibold">chevron_left</span>
+          <span
+            className="material-symbols-outlined text-toss-gray-800 dark:text-white cursor-pointer text-2xl font-semibold"
+            onClick={() => showComparison ? setShowComparison(false) : null}
+          >
+            chevron_left
+          </span>
         </div>
         <h1 className="text-toss-gray-800 dark:text-white text-lg font-bold">
-          {activeMainTab === 'cards' ? '카드사별 인기 TOP 10' : activeMainTab === 'financial' ? '실시간 금융 랭킹' : 'AI 트레이딩'}
+          {showComparison ? 'AI 카드 비교' : (activeMainTab === 'cards' ? '카드사별 인기 TOP 10' : activeMainTab === 'financial' ? '실시간 금융 랭킹' : 'AI 트레이딩')}
         </h1>
         <div className="w-6"></div>
       </header>
 
       {/* Conditional Content Wrapper */}
       <div className="flex-1 flex flex-col">
-        {activeMainTab === 'cards' ? (
+        {showComparison ? (
+          <CardComparison
+            card1={compareCards[0]}
+            card2={compareCards[1]}
+            onClear={() => {
+              setShowComparison(false);
+              setCompareCards([]);
+            }}
+          />
+        ) : activeMainTab === 'cards' ? (
           <>
             {/* Tabs Navigation (Issuers) - Non-sticky shrinking child */}
             <div className="bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800 shrink-0 z-20">
@@ -372,16 +518,32 @@ function App() {
                 </div>
               </div>
 
-              {/* Action Button */}
-              <button
-                onClick={() => {
-                  alert(`${selectedCard.name} 카드 신청 페이지로 이동합니다.`);
-                  setSelectedCard(null);
-                }}
-                className="w-full bg-primary text-white py-[18px] rounded-[22px] font-bold text-[18px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all transform mb-2"
-              >
-                카드 신청하기
-              </button>
+              {/* Action Buttons */}
+              <div className="flex gap-3 mb-2">
+                <button
+                  onClick={() => {
+                    const newCompare = [...compareCards, selectedCard];
+                    setCompareCards(newCompare);
+                    setSelectedCard(null);
+                    if (newCompare.length >= 2) {
+                      setShowComparison(true);
+                      setActiveMainTab('cards'); // Ensure we are on cards tab visualization
+                    }
+                  }}
+                  className="flex-1 bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-800 dark:text-white py-[18px] rounded-[22px] font-bold text-[16px] transition-all active:scale-[0.98]"
+                >
+                  ⚖️ 비교함에 담기
+                </button>
+                <button
+                  onClick={() => {
+                    alert(`${selectedCard.name} 카드 신청 페이지로 이동합니다.`);
+                    setSelectedCard(null);
+                  }}
+                  className="flex-1 bg-primary text-white py-[18px] rounded-[22px] font-bold text-[16px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all transform"
+                >
+                  카드 신청하기
+                </button>
+              </div>
             </div>
           </div>
         )
