@@ -13,10 +13,7 @@ function FinancialRanking() {
                 'global': '/api/financial/stocks/global',
                 'crypto': '/api/financial/crypto'
             }[activeTab];
-
-            // window.location.hostname를 사용하여 모바일/타기기에서도 접속 가능하게 수정
-            const hostname = window.location.hostname || 'localhost';
-            const response = await fetch(`http://${hostname}:3001${endpoint}`);
+            const response = await fetch(endpoint);
             if (!response.ok) throw new Error('데이터를 가져오는 데 실패했습니다.');
             const result = await response.json();
             setData(result);

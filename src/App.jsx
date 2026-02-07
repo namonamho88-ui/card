@@ -151,7 +151,7 @@ function App() {
           <span className="material-symbols-outlined text-toss-gray-800 dark:text-white cursor-pointer text-2xl font-semibold">chevron_left</span>
         </div>
         <h1 className="text-toss-gray-800 dark:text-white text-lg font-bold">
-          {activeMainTab === 'cards' ? '카드사별 인기 TOP 10' : activeMainTab === 'financial' ? '실시간 금융 랭킹' : 'AI 트레이딩 게임'}
+          {activeMainTab === 'cards' ? '카드사별 인기 TOP 10' : activeMainTab === 'financial' ? '실시간 금융 랭킹' : 'AI 트레이딩'}
         </h1>
         <div className="w-6"></div>
       </header>
@@ -249,7 +249,7 @@ function App() {
         </div>
         <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('game'); window.scrollTo(0, 0); }}>
           <span className={`material-symbols-outlined ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>sports_esports</span>
-          <span className={`text-[10px] ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>게임</span>
+          <span className={`text-[10px] ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>AI게임</span>
         </div>
         <div className="flex flex-col items-center gap-1 cursor-pointer">
           <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">menu</span>
