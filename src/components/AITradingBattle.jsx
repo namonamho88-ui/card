@@ -645,647 +645,660 @@ const AITradingBattle = () => {
         g.position = null;
     }, [showMsg]);
 
-    // 결과 산출
-    const finalBalance = g.balance;
-    const profit = finalBalance - g.initBalance;
-    const pct = (profit / g.initBalance * 100);
+    const endGame = useCallback(() => {
+        const g = gameRef.current;
+        if (!g) return;
 
-    setResultData({
-        profit,
-        pct: pct.toFixed(2),
-        trades: g.trades,
-        winRate: g.trades > 0 ? (g.wins / g.trades * 100).toFixed(0) : '0',
-        grade: getGrade(pct),
-        balance: finalBalance
-    });
-
-    // Save
-    let saved = [];
-    try { saved = JSON.parse(localStorage.getItem('tradingScores') || '[]'); } catch { }
-    saved.push({
-        balance: finalBalance,
-        pct: parseFloat(pct.toFixed(2)),
-        diff: 'normal',
-        date: new Date().toLocaleDateString()
-    });
-    saved.sort((a, b) => b.balance - a.balance);
-    saved = saved.slice(0, 5);
-    localStorage.setItem('tradingScores', JSON.stringify(saved));
-    setScores(saved);
-
-    setRunning(false);
-    setShowResult(true);
-}, [closePosition]);
-
-const nextPattern = useCallback(() => {
-    const g = gameRef.current;
-    g.patternIdx++;
-    g.patternTick = 0;
-    g.patternLength = 40 + Math.floor(Math.random() * 20);
-}, []);
-
-const priceTick = useCallback(() => {
-    const g = gameRef.current;
-    if (!g) return;
-
-    const pat = getCurrentPattern();
-    g.patternTick++;
-
-    let newPrice = pat.gen(g.patternTick, g.patternLength, g.currentPrice, g.dm);
-    newPrice = Math.max(100, Math.min(50000, newPrice)); // Floor at 100
-    g.currentPrice = newPrice;
-
-    g.candleTick++;
-    g.candleHigh = Math.max(g.candleHigh, newPrice);
-    g.candleLow = Math.min(g.candleLow, newPrice);
-
-    if (g.candleTick >= g.ticksPerCandle) {
-        const vol = Math.abs(newPrice - g.candleOpen) * (50 + Math.random() * 100);
-        g.candles.push({ o: g.candleOpen, h: g.candleHigh, l: g.candleLow, c: newPrice, v: vol });
-        if (g.candles.length > 80) g.candles.shift();
-        g.candleOpen = newPrice;
-        g.candleHigh = newPrice;
-        g.candleLow = newPrice;
-        g.candleTick = 0;
-    }
-
-    if (g.patternTick >= g.patternLength) nextPattern();
-}, [getCurrentPattern, nextPattern, endGame]);
-
-// ============ Drawing ============
-const drawLineSeries = (ctx, data, len, pad, cw, toY, color, lw) => {
-    ctx.strokeStyle = color;
-    ctx.lineWidth = lw;
-    ctx.beginPath();
-    let started = false;
-    data.forEach((v, i) => {
-        if (v === null) return;
-        const x = pad.l + (i + 0.5) * (cw / len);
-        if (!started) { ctx.moveTo(x, toY(v)); started = true; }
-        else ctx.lineTo(x, toY(v));
-    });
-    ctx.stroke();
-};
-
-const drawMainChart = useCallback(() => {
-    const mc = mainCanvasRef.current;
-    if (!mc) return;
-    const ctx = mc.getContext('2d');
-    const g = gameRef.current;
-    if (!g) return;
-    const w = mc.width, h = mc.height;
-    ctx.clearRect(0, 0, w, h);
-
-    const candles = g.candles;
-    if (candles.length < 2) return;
-
-    const pad = { t: 20, b: 20, l: 10, r: 70 };
-    const cw = w - pad.l - pad.r;
-    const ch = h - pad.t - pad.b;
-
-    let allPrices = candles.flatMap((c) => [c.h, c.l]);
-    allPrices.push(g.candleHigh, g.candleLow);
-    let minP = Math.min(...allPrices);
-    let maxP = Math.max(...allPrices);
-    const range = maxP - minP || 1;
-    minP -= range * 0.05;
-    maxP += range * 0.05;
-    const pRange = maxP - minP;
-
-    const toY = (p) => pad.t + ch - ((p - minP) / pRange) * ch;
-    const barW = Math.max(3, cw / (candles.length + 1) - 2);
-
-    // Grid
-    ctx.strokeStyle = '#1a2332';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 5; i++) {
-        const y = pad.t + (ch / 5) * i;
-        ctx.beginPath();
-        ctx.moveTo(pad.l, y);
-        ctx.lineTo(w - pad.r, y);
-        ctx.stroke();
-        const price = maxP - (pRange / 5) * i;
-        ctx.fillStyle = '#555';
-        ctx.font = '10px monospace';
-        ctx.fillText(formatMoney(price), w - pad.r + 5, y + 4);
-    }
-
-    const ind = indicatorsRef.current;
-    const ct = chartTypeRef.current;
-
-    // Bollinger Bands
-    if (ind.bb && candles.length >= 20) {
-        const closes = candles.map((c) => c.c);
-        const ma20 = calcMA(closes, 20);
-        const upper = [], lower = [];
-        for (let i = 0; i < closes.length; i++) {
-            if (ma20[i] === null) { upper.push(null); lower.push(null); continue; }
-            const slice = closes.slice(Math.max(0, i - 19), i + 1);
-            const std = calcStd(slice);
-            upper.push(ma20[i] + std * 2);
-            lower.push(ma20[i] - std * 2);
+        // Position check
+        if (g.position) {
+            closePosition();
         }
-        ctx.fillStyle = 'rgba(123,47,247,0.08)';
-        ctx.beginPath();
-        let started = false;
-        for (let i = 0; i < candles.length; i++) {
-            if (upper[i] === null) continue;
-            const x = pad.l + (i + 0.5) * (cw / candles.length);
-            if (!started) { ctx.moveTo(x, toY(upper[i])); started = true; }
-            else ctx.lineTo(x, toY(upper[i]));
-        }
-        for (let i = candles.length - 1; i >= 0; i--) {
-            if (lower[i] === null) continue;
-            const x = pad.l + (i + 0.5) * (cw / candles.length);
-            ctx.lineTo(x, toY(lower[i]));
-        }
-        ctx.closePath();
-        ctx.fill();
-        drawLineSeries(ctx, upper, candles.length, pad, cw, toY, '#7b2ff755', 1);
-        drawLineSeries(ctx, lower, candles.length, pad, cw, toY, '#7b2ff755', 1);
-    }
 
-    // MA
-    if (ind.ma && candles.length >= 5) {
-        const closes = candles.map((c) => c.c);
-        const ma20 = calcMA(closes, 20);
-        drawLineSeries(ctx, ma20, candles.length, pad, cw, toY, '#ffab40', 2);
-    }
-
-    // Chart type
-    if (ct === 'candle') {
-        candles.forEach((c, i) => {
-            const x = pad.l + (i + 0.5) * (cw / candles.length);
-            const bull = c.c >= c.o;
-            const color = bull ? '#00e676' : '#ff5252';
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(x, toY(c.h));
-            ctx.lineTo(x, toY(c.l));
-            ctx.stroke();
-            const bodyTop = toY(Math.max(c.o, c.c));
-            const bodyBot = toY(Math.min(c.o, c.c));
-            const bodyH = Math.max(1, bodyBot - bodyTop);
-            ctx.fillStyle = color;
-            if (!bull) {
-                ctx.fillRect(x - barW / 2, bodyTop, barW, bodyH);
-            } else {
-                ctx.strokeRect(x - barW / 2, bodyTop, barW, bodyH);
-            }
-        });
-    } else if (ct === 'line') {
-        ctx.strokeStyle = '#00d2ff';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        candles.forEach((c, i) => {
-            const x = pad.l + (i + 0.5) * (cw / candles.length);
-            i === 0 ? ctx.moveTo(x, toY(c.c)) : ctx.lineTo(x, toY(c.c));
-        });
-        ctx.stroke();
-    } else if (ct === 'area') {
-        const grad = ctx.createLinearGradient(0, pad.t, 0, h - pad.b);
-        grad.addColorStop(0, 'rgba(0,210,255,0.3)');
-        grad.addColorStop(1, 'rgba(0,210,255,0)');
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.moveTo(pad.l + 0.5 * (cw / candles.length), h - pad.b);
-        candles.forEach((c, i) => {
-            const x = pad.l + (i + 0.5) * (cw / candles.length);
-            ctx.lineTo(x, toY(c.c));
-        });
-        ctx.lineTo(pad.l + (candles.length - 0.5) * (cw / candles.length), h - pad.b);
-        ctx.closePath();
-        ctx.fill();
-        ctx.strokeStyle = '#00d2ff';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        candles.forEach((c, i) => {
-            const x = pad.l + (i + 0.5) * (cw / candles.length);
-            i === 0 ? ctx.moveTo(x, toY(c.c)) : ctx.lineTo(x, toY(c.c));
-        });
-        ctx.stroke();
-    }
-
-    // Position entry line
-    if (g.position) {
-        const ey = toY(g.position.entry);
-        ctx.setLineDash([5, 3]);
-        ctx.strokeStyle = g.position.type === 'long' ? '#00e676' : '#ff5252';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(pad.l, ey);
-        ctx.lineTo(w - pad.r, ey);
-        ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = g.position.type === 'long' ? '#00e676' : '#ff5252';
-        ctx.font = 'bold 10px monospace';
-        ctx.fillText((g.position.type === 'long' ? '매수' : '하락') + ' ' + formatMoney(g.position.entry), pad.l + 4, ey - 4);
-    }
-
-    // Current price tag
-    const cpY = toY(g.currentPrice);
-    ctx.fillStyle = '#00d2ff';
-    ctx.fillRect(w - pad.r, cpY - 10, pad.r, 20);
-    ctx.fillStyle = '#000';
-    ctx.font = 'bold 11px monospace';
-    ctx.fillText(formatMoney(g.currentPrice), w - pad.r + 4, cpY + 4);
-}, []);
-
-const drawVolumeChart = useCallback(() => {
-    const vc = volCanvasRef.current;
-    if (!vc) return;
-    const ctx = vc.getContext('2d');
-    const g = gameRef.current;
-    if (!g) return;
-    const w = vc.width, h = vc.height;
-    ctx.clearRect(0, 0, w, h);
-
-    const candles = g.candles;
-    if (candles.length < 2) return;
-    const pad = { l: 10, r: 70 };
-    const cw = w - pad.l - pad.r;
-    const ind = indicatorsRef.current;
-
-    if (ind.rsi && candles.length >= 15) {
-        const closes = candles.map((c) => c.c);
-        const rsi = calcRSI(closes, 14);
-        const toRY = (v) => h - (v / 100) * h;
-        ctx.fillStyle = 'rgba(0,230,118,0.05)';
-        ctx.fillRect(pad.l, toRY(100), cw, toRY(70) - toRY(100));
-        ctx.fillStyle = 'rgba(255,82,82,0.05)';
-        ctx.fillRect(pad.l, toRY(30), cw, toRY(0) - toRY(30));
-        ctx.setLineDash([3, 3]);
-        ctx.strokeStyle = '#333';
-        ctx.beginPath();
-        ctx.moveTo(pad.l, toRY(70));
-        ctx.lineTo(w - pad.r, toRY(70));
-        ctx.moveTo(pad.l, toRY(30));
-        ctx.lineTo(w - pad.r, toRY(30));
-        ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.strokeStyle = '#00d2ff';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        let started = false;
-        rsi.forEach((v, i) => {
-            if (v === null) return;
-            const x = pad.l + (i + 0.5) * (cw / candles.length);
-            if (!started) { ctx.moveTo(x, toRY(v)); started = true; }
-            else ctx.lineTo(x, toRY(v));
-        });
-        ctx.stroke();
-        ctx.fillStyle = '#555';
-        ctx.font = '9px monospace';
-        ctx.fillText('RSI', w - pad.r + 4, 10);
-        return;
-    }
-
-    const maxV = Math.max(...candles.map((c) => c.v)) || 1;
-    const barW = Math.max(2, cw / candles.length - 1);
-    candles.forEach((c, i) => {
-        const x = pad.l + (i + 0.5) * (cw / candles.length);
-        const bh = (c.v / maxV) * (h - 4);
-        const bull = c.c >= c.o;
-        ctx.fillStyle = bull ? 'rgba(0,230,118,0.4)' : 'rgba(255,82,82,0.4)';
-        ctx.fillRect(x - barW / 2, h - bh, barW, bh);
-    });
-}, []);
-
-const drawAll = useCallback(() => {
-    drawMainChart();
-    drawVolumeChart();
-    if (gameRef.current && running) {
-        animRef.current = requestAnimationFrame(drawAll);
-    }
-}, [drawMainChart, drawVolumeChart, running]);
-
-const handleTrade = useCallback((action) => {
-    const g = gameRef.current;
-    if (!g) return;
-    if (action === 'buy') {
-        if (g.position) return; // Already in a position
-        g.position = { type: 'long', entry: g.currentPrice, size: 100 };
-        showMsg('📈 매수 성공! 현재가: ' + formatMoney(g.currentPrice), 'info');
-    } else if (action === 'sell') {
-        if (!g.position) return; // No position to close
-        closePosition();
-    }
-}, [closePosition, showMsg]);
-
-
-
-// ============ UI Sync Timer ============
-const syncUI = useCallback(() => {
-    const g = gameRef.current;
-    if (!g) return;
-    const pat = getCurrentPattern();
-    let posPnL = 0;
-    if (g.position) {
-        posPnL = g.position.type === 'long'
-            ? (g.currentPrice - g.position.entry) * g.position.size
-            : (g.position.entry - g.currentPrice) * g.position.size;
-    }
-    setUiState({
-        balance: g.balance,
-        profitPct: (g.balance - g.initBalance) / g.initBalance * 100,
-        trades: g.trades,
-        wins: g.wins,
-        winRate: g.trades > 0 ? (g.wins / g.trades * 100).toFixed(0) + '%' : '-',
-        timeLeft: g.timeLeft,
-        patternName: pat.name,
-        patternSignal: pat.signal,
-        position: g.position ? { ...g.position } : null,
-        currentPrice: g.currentPrice,
-        positionPnL: posPnL,
-    });
-}, [getCurrentPattern]);
-
-// ============ Start Game ============
-const startGame = useCallback(() => {
-    initGame();
-    setRunning(true);
-    setShowResult(false);
-    setShowGuide(false); // 게임 시작 시 가이드 숨기기
-    resizeCanvases();
-
-    const g = gameRef.current;
-
-    // Pre-generate candles
-    for (let i = 0; i < 30; i++) {
-        for (let t = 0; t < g.ticksPerCandle; t++) priceTick();
-    }
-
-    // Tick timer
-    tickTimerRef.current = setInterval(() => {
-        if (gameRef.current) priceTick();
-    }, 200);
-
-    // Countdown
-    countdownRef.current = setInterval(() => {
-        const gg = gameRef.current;
-        if (!gg) return;
-        gg.timeLeft--;
-        if (gg.timeLeft <= 0) {
-            endGame();
-        }
-    }, 1000);
-
-    // UI sync
-    const uiTimer = setInterval(() => {
-        if (!gameRef.current) { clearInterval(uiTimer); return; }
-        syncUI();
-    }, 250);
-
-    // Start draw loop
-    requestAnimationFrame(function loop() {
-        if (gameRef.current) {
-            drawMainChart();
-            drawVolumeChart();
-            animRef.current = requestAnimationFrame(loop);
-        }
-    });
-}, [initGame, priceTick, endGame, resizeCanvases, syncUI, drawMainChart, drawVolumeChart]);
-
-// Cleanup on unmount
-useEffect(() => {
-    return () => {
         clearInterval(tickTimerRef.current);
         clearInterval(countdownRef.current);
         cancelAnimationFrame(animRef.current);
-        clearTimeout(msgTimerRef.current);
+
+        // 결과 산출
+        const finalBalance = g.balance;
+        const profit = finalBalance - g.initBalance;
+        const pct = (profit / g.initBalance * 100);
+
+        setResultData({
+            profit,
+            pct: pct.toFixed(2),
+            trades: g.trades,
+            winRate: g.trades > 0 ? (g.wins / g.trades * 100).toFixed(0) : '0',
+            grade: getGrade(pct),
+            balance: finalBalance
+        });
+
+        // Save
+        let saved = [];
+        try { saved = JSON.parse(localStorage.getItem('tradingScores') || '[]'); } catch { }
+        saved.push({
+            balance: finalBalance,
+            pct: parseFloat(pct.toFixed(2)),
+            diff: 'normal',
+            date: new Date().toLocaleDateString()
+        });
+        saved.sort((a, b) => b.balance - a.balance);
+        saved = saved.slice(0, 5);
+        localStorage.setItem('tradingScores', JSON.stringify(saved));
+        setScores(saved);
+
+        setRunning(false);
+        setShowResult(true);
+    }, [closePosition]);
+
+    const nextPattern = useCallback(() => {
+        const g = gameRef.current;
+        g.patternIdx++;
+        g.patternTick = 0;
+        g.patternLength = 40 + Math.floor(Math.random() * 20);
+    }, []);
+
+    const priceTick = useCallback(() => {
+        const g = gameRef.current;
+        if (!g) return;
+
+        const pat = getCurrentPattern();
+        g.patternTick++;
+
+        let newPrice = pat.gen(g.patternTick, g.patternLength, g.currentPrice, g.dm);
+        newPrice = Math.max(100, Math.min(50000, newPrice)); // Floor at 100
+        g.currentPrice = newPrice;
+
+        g.candleTick++;
+        g.candleHigh = Math.max(g.candleHigh, newPrice);
+        g.candleLow = Math.min(g.candleLow, newPrice);
+
+        if (g.candleTick >= g.ticksPerCandle) {
+            const vol = Math.abs(newPrice - g.candleOpen) * (50 + Math.random() * 100);
+            g.candles.push({ o: g.candleOpen, h: g.candleHigh, l: g.candleLow, c: newPrice, v: vol });
+            if (g.candles.length > 80) g.candles.shift();
+            g.candleOpen = newPrice;
+            g.candleHigh = newPrice;
+            g.candleLow = newPrice;
+            g.candleTick = 0;
+        }
+
+        if (g.patternTick >= g.patternLength) nextPattern();
+    }, [getCurrentPattern, nextPattern, endGame]);
+
+    // ============ Drawing ============
+    const drawLineSeries = (ctx, data, len, pad, cw, toY, color, lw) => {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lw;
+        ctx.beginPath();
+        let started = false;
+        data.forEach((v, i) => {
+            if (v === null) return;
+            const x = pad.l + (i + 0.5) * (cw / len);
+            if (!started) { ctx.moveTo(x, toY(v)); started = true; }
+            else ctx.lineTo(x, toY(v));
+        });
+        ctx.stroke();
     };
-}, []);
 
-const toggleIndicator = (key) => {
-    setIndicators((prev) => ({ ...prev, [key]: !prev[key] }));
-};
+    const drawMainChart = useCallback(() => {
+        const mc = mainCanvasRef.current;
+        if (!mc) return;
+        const ctx = mc.getContext('2d');
+        const g = gameRef.current;
+        if (!g) return;
+        const w = mc.width, h = mc.height;
+        ctx.clearRect(0, 0, w, h);
 
-const profitColor = uiState.profitPct >= 0 ? styles.profit : styles.loss;
-const signalStyle = uiState.patternSignal === 'buy' ? styles.signalBuy : uiState.patternSignal === 'sell' ? styles.signalSell : styles.signalNeutral;
-const signalText = uiState.patternSignal === 'buy' ? '매수 신호' : uiState.patternSignal === 'sell' ? '매도 신호' : '관망';
-const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+        const candles = g.candles;
+        if (candles.length < 2) return;
 
-return (
-    <div style={styles.body}>
-        <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }`}</style>
-        <div style={styles.container}>
-            {/* Header */}
-            <div style={styles.header}>
-                <h1 style={styles.h1}>🤖 AI 트레이딩 Pro</h1>
-                <p style={styles.subtitle}>차트의 흐름을 읽고 매수/매도 타이밍을 잡으세요!</p>
-            </div>
+        const pad = { t: 20, b: 20, l: 10, r: 70 };
+        const cw = w - pad.l - pad.r;
+        const ch = h - pad.t - pad.b;
+
+        let allPrices = candles.flatMap((c) => [c.h, c.l]);
+        allPrices.push(g.candleHigh, g.candleLow);
+        let minP = Math.min(...allPrices);
+        let maxP = Math.max(...allPrices);
+        const range = maxP - minP || 1;
+        minP -= range * 0.05;
+        maxP += range * 0.05;
+        const pRange = maxP - minP;
+
+        const toY = (p) => pad.t + ch - ((p - minP) / pRange) * ch;
+        const barW = Math.max(3, cw / (candles.length + 1) - 2);
+
+        // Grid
+        ctx.strokeStyle = '#1a2332';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 5; i++) {
+            const y = pad.t + (ch / 5) * i;
+            ctx.beginPath();
+            ctx.moveTo(pad.l, y);
+            ctx.lineTo(w - pad.r, y);
+            ctx.stroke();
+            const price = maxP - (pRange / 5) * i;
+            ctx.fillStyle = '#555';
+            ctx.font = '10px monospace';
+            ctx.fillText(formatMoney(price), w - pad.r + 5, y + 4);
+        }
+
+        const ind = indicatorsRef.current;
+        const ct = chartTypeRef.current;
+
+        // Bollinger Bands
+        if (ind.bb && candles.length >= 20) {
+            const closes = candles.map((c) => c.c);
+            const ma20 = calcMA(closes, 20);
+            const upper = [], lower = [];
+            for (let i = 0; i < closes.length; i++) {
+                if (ma20[i] === null) { upper.push(null); lower.push(null); continue; }
+                const slice = closes.slice(Math.max(0, i - 19), i + 1);
+                const std = calcStd(slice);
+                upper.push(ma20[i] + std * 2);
+                lower.push(ma20[i] - std * 2);
+            }
+            ctx.fillStyle = 'rgba(123,47,247,0.08)';
+            ctx.beginPath();
+            let started = false;
+            for (let i = 0; i < candles.length; i++) {
+                if (upper[i] === null) continue;
+                const x = pad.l + (i + 0.5) * (cw / candles.length);
+                if (!started) { ctx.moveTo(x, toY(upper[i])); started = true; }
+                else ctx.lineTo(x, toY(upper[i]));
+            }
+            for (let i = candles.length - 1; i >= 0; i--) {
+                if (lower[i] === null) continue;
+                const x = pad.l + (i + 0.5) * (cw / candles.length);
+                ctx.lineTo(x, toY(lower[i]));
+            }
+            ctx.closePath();
+            ctx.fill();
+            drawLineSeries(ctx, upper, candles.length, pad, cw, toY, '#7b2ff755', 1);
+            drawLineSeries(ctx, lower, candles.length, pad, cw, toY, '#7b2ff755', 1);
+        }
+
+        // MA
+        if (ind.ma && candles.length >= 5) {
+            const closes = candles.map((c) => c.c);
+            const ma20 = calcMA(closes, 20);
+            drawLineSeries(ctx, ma20, candles.length, pad, cw, toY, '#ffab40', 2);
+        }
+
+        // Chart type
+        if (ct === 'candle') {
+            candles.forEach((c, i) => {
+                const x = pad.l + (i + 0.5) * (cw / candles.length);
+                const bull = c.c >= c.o;
+                const color = bull ? '#00e676' : '#ff5252';
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(x, toY(c.h));
+                ctx.lineTo(x, toY(c.l));
+                ctx.stroke();
+                const bodyTop = toY(Math.max(c.o, c.c));
+                const bodyBot = toY(Math.min(c.o, c.c));
+                const bodyH = Math.max(1, bodyBot - bodyTop);
+                ctx.fillStyle = color;
+                if (!bull) {
+                    ctx.fillRect(x - barW / 2, bodyTop, barW, bodyH);
+                } else {
+                    ctx.strokeRect(x - barW / 2, bodyTop, barW, bodyH);
+                }
+            });
+        } else if (ct === 'line') {
+            ctx.strokeStyle = '#00d2ff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            candles.forEach((c, i) => {
+                const x = pad.l + (i + 0.5) * (cw / candles.length);
+                i === 0 ? ctx.moveTo(x, toY(c.c)) : ctx.lineTo(x, toY(c.c));
+            });
+            ctx.stroke();
+        } else if (ct === 'area') {
+            const grad = ctx.createLinearGradient(0, pad.t, 0, h - pad.b);
+            grad.addColorStop(0, 'rgba(0,210,255,0.3)');
+            grad.addColorStop(1, 'rgba(0,210,255,0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.moveTo(pad.l + 0.5 * (cw / candles.length), h - pad.b);
+            candles.forEach((c, i) => {
+                const x = pad.l + (i + 0.5) * (cw / candles.length);
+                ctx.lineTo(x, toY(c.c));
+            });
+            ctx.lineTo(pad.l + (candles.length - 0.5) * (cw / candles.length), h - pad.b);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = '#00d2ff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            candles.forEach((c, i) => {
+                const x = pad.l + (i + 0.5) * (cw / candles.length);
+                i === 0 ? ctx.moveTo(x, toY(c.c)) : ctx.lineTo(x, toY(c.c));
+            });
+            ctx.stroke();
+        }
+
+        // Position entry line
+        if (g.position) {
+            const ey = toY(g.position.entry);
+            ctx.setLineDash([5, 3]);
+            ctx.strokeStyle = g.position.type === 'long' ? '#00e676' : '#ff5252';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(pad.l, ey);
+            ctx.lineTo(w - pad.r, ey);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = g.position.type === 'long' ? '#00e676' : '#ff5252';
+            ctx.font = 'bold 10px monospace';
+            ctx.fillText((g.position.type === 'long' ? '매수' : '하락') + ' ' + formatMoney(g.position.entry), pad.l + 4, ey - 4);
+        }
+
+        // Current price tag
+        const cpY = toY(g.currentPrice);
+        ctx.fillStyle = '#00d2ff';
+        ctx.fillRect(w - pad.r, cpY - 10, pad.r, 20);
+        ctx.fillStyle = '#000';
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText(formatMoney(g.currentPrice), w - pad.r + 4, cpY + 4);
+    }, []);
+
+    const drawVolumeChart = useCallback(() => {
+        const vc = volCanvasRef.current;
+        if (!vc) return;
+        const ctx = vc.getContext('2d');
+        const g = gameRef.current;
+        if (!g) return;
+        const w = vc.width, h = vc.height;
+        ctx.clearRect(0, 0, w, h);
+
+        const candles = g.candles;
+        if (candles.length < 2) return;
+        const pad = { l: 10, r: 70 };
+        const cw = w - pad.l - pad.r;
+        const ind = indicatorsRef.current;
+
+        if (ind.rsi && candles.length >= 15) {
+            const closes = candles.map((c) => c.c);
+            const rsi = calcRSI(closes, 14);
+            const toRY = (v) => h - (v / 100) * h;
+            ctx.fillStyle = 'rgba(0,230,118,0.05)';
+            ctx.fillRect(pad.l, toRY(100), cw, toRY(70) - toRY(100));
+            ctx.fillStyle = 'rgba(255,82,82,0.05)';
+            ctx.fillRect(pad.l, toRY(30), cw, toRY(0) - toRY(30));
+            ctx.setLineDash([3, 3]);
+            ctx.strokeStyle = '#333';
+            ctx.beginPath();
+            ctx.moveTo(pad.l, toRY(70));
+            ctx.lineTo(w - pad.r, toRY(70));
+            ctx.moveTo(pad.l, toRY(30));
+            ctx.lineTo(w - pad.r, toRY(30));
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.strokeStyle = '#00d2ff';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            let started = false;
+            rsi.forEach((v, i) => {
+                if (v === null) return;
+                const x = pad.l + (i + 0.5) * (cw / candles.length);
+                if (!started) { ctx.moveTo(x, toRY(v)); started = true; }
+                else ctx.lineTo(x, toRY(v));
+            });
+            ctx.stroke();
+            ctx.fillStyle = '#555';
+            ctx.font = '9px monospace';
+            ctx.fillText('RSI', w - pad.r + 4, 10);
+            return;
+        }
+
+        const maxV = Math.max(...candles.map((c) => c.v)) || 1;
+        const barW = Math.max(2, cw / candles.length - 1);
+        candles.forEach((c, i) => {
+            const x = pad.l + (i + 0.5) * (cw / candles.length);
+            const bh = (c.v / maxV) * (h - 4);
+            const bull = c.c >= c.o;
+            ctx.fillStyle = bull ? 'rgba(0,230,118,0.4)' : 'rgba(255,82,82,0.4)';
+            ctx.fillRect(x - barW / 2, h - bh, barW, bh);
+        });
+    }, []);
+
+    const drawAll = useCallback(() => {
+        drawMainChart();
+        drawVolumeChart();
+        if (gameRef.current && running) {
+            animRef.current = requestAnimationFrame(drawAll);
+        }
+    }, [drawMainChart, drawVolumeChart, running]);
+
+    const handleTrade = useCallback((action) => {
+        const g = gameRef.current;
+        if (!g) return;
+        if (action === 'buy') {
+            if (g.position) return; // Already in a position
+            g.position = { type: 'long', entry: g.currentPrice, size: 100 };
+            showMsg('📈 매수 성공! 현재가: ' + formatMoney(g.currentPrice), 'info');
+        } else if (action === 'sell') {
+            if (!g.position) return; // No position to close
+            closePosition();
+        }
+    }, [closePosition, showMsg]);
 
 
 
-            {/* Stats Bar */}
-            <div style={styles.topBar}>
-                <div style={styles.stats}>
-                    <div style={styles.statItem}>
-                        <div style={styles.statLabel}>자산</div>
-                        <div style={{ ...styles.statValue, ...profitColor }}>{formatMoney(uiState.balance)}</div>
-                    </div>
-                    <div style={styles.statItem}>
-                        <div style={styles.statLabel}>수익률</div>
-                        <div style={{ ...styles.statValue, ...profitColor }}>
-                            {(uiState.profitPct >= 0 ? '+' : '') + uiState.profitPct.toFixed(1) + '%'}
+    // ============ UI Sync Timer ============
+    const syncUI = useCallback(() => {
+        const g = gameRef.current;
+        if (!g) return;
+        const pat = getCurrentPattern();
+        let posPnL = 0;
+        if (g.position) {
+            posPnL = g.position.type === 'long'
+                ? (g.currentPrice - g.position.entry) * g.position.size
+                : (g.position.entry - g.currentPrice) * g.position.size;
+        }
+        setUiState({
+            balance: g.balance,
+            profitPct: (g.balance - g.initBalance) / g.initBalance * 100,
+            trades: g.trades,
+            wins: g.wins,
+            winRate: g.trades > 0 ? (g.wins / g.trades * 100).toFixed(0) + '%' : '-',
+            timeLeft: g.timeLeft,
+            patternName: pat.name,
+            patternSignal: pat.signal,
+            position: g.position ? { ...g.position } : null,
+            currentPrice: g.currentPrice,
+            positionPnL: posPnL,
+        });
+    }, [getCurrentPattern]);
+
+    // ============ Start Game ============
+    const startGame = useCallback(() => {
+        initGame();
+        setRunning(true);
+        setShowResult(false);
+        setShowGuide(false); // 게임 시작 시 가이드 숨기기
+        resizeCanvases();
+
+        const g = gameRef.current;
+
+        // Pre-generate candles
+        for (let i = 0; i < 30; i++) {
+            for (let t = 0; t < g.ticksPerCandle; t++) priceTick();
+        }
+
+        // Tick timer
+        tickTimerRef.current = setInterval(() => {
+            if (gameRef.current) priceTick();
+        }, 200);
+
+        // Countdown
+        countdownRef.current = setInterval(() => {
+            const gg = gameRef.current;
+            if (!gg) return;
+            gg.timeLeft--;
+            if (gg.timeLeft <= 0) {
+                endGame();
+            }
+        }, 1000);
+
+        // UI sync
+        const uiTimer = setInterval(() => {
+            if (!gameRef.current) { clearInterval(uiTimer); return; }
+            syncUI();
+        }, 250);
+
+        // Start draw loop
+        requestAnimationFrame(function loop() {
+            if (gameRef.current) {
+                drawMainChart();
+                drawVolumeChart();
+                animRef.current = requestAnimationFrame(loop);
+            }
+        });
+    }, [initGame, priceTick, endGame, resizeCanvases, syncUI, drawMainChart, drawVolumeChart]);
+
+    // Cleanup on unmount
+    useEffect(() => {
+        return () => {
+            clearInterval(tickTimerRef.current);
+            clearInterval(countdownRef.current);
+            cancelAnimationFrame(animRef.current);
+            clearTimeout(msgTimerRef.current);
+        };
+    }, []);
+
+    const toggleIndicator = (key) => {
+        setIndicators((prev) => ({ ...prev, [key]: !prev[key] }));
+    };
+
+    const profitColor = uiState.profitPct >= 0 ? styles.profit : styles.loss;
+    const signalStyle = uiState.patternSignal === 'buy' ? styles.signalBuy : uiState.patternSignal === 'sell' ? styles.signalSell : styles.signalNeutral;
+    const signalText = uiState.patternSignal === 'buy' ? '매수 신호' : uiState.patternSignal === 'sell' ? '매도 신호' : '관망';
+    const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+
+    return (
+        <div style={styles.body}>
+            <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }`}</style>
+            <div style={styles.container}>
+                {/* Header */}
+                <div style={styles.header}>
+                    <h1 style={styles.h1}>🤖 AI 트레이딩 Pro</h1>
+                    <p style={styles.subtitle}>차트의 흐름을 읽고 매수/매도 타이밍을 잡으세요!</p>
+                </div>
+
+
+
+                {/* Stats Bar */}
+                <div style={styles.topBar}>
+                    <div style={styles.stats}>
+                        <div style={styles.statItem}>
+                            <div style={styles.statLabel}>자산</div>
+                            <div style={{ ...styles.statValue, ...profitColor }}>{formatMoney(uiState.balance)}</div>
                         </div>
-                        {running && (
-                            <div style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginTop: 6,
-                                paddingTop: 6,
-                                borderTop: '1px solid rgba(255,255,255,0.1)',
-                                width: '100%'
-                            }}>
-                                <div style={uiState.timeLeft <= 10 ? styles.timerDanger : styles.timerVal}>
-                                    {uiState.timeLeft}s
-                                </div>
-                                <div style={{ fontSize: 9, color: '#888', marginTop: 2, fontWeight: 'normal' }}>남은시간</div>
+                        <div style={styles.statItem}>
+                            <div style={styles.statLabel}>수익률</div>
+                            <div style={{ ...styles.statValue, ...profitColor }}>
+                                {(uiState.profitPct >= 0 ? '+' : '') + uiState.profitPct.toFixed(1) + '%'}
                             </div>
+                            {running && (
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginTop: 6,
+                                    paddingTop: 6,
+                                    borderTop: '1px solid rgba(255,255,255,0.1)',
+                                    width: '100%'
+                                }}>
+                                    <div style={uiState.timeLeft <= 10 ? styles.timerDanger : styles.timerVal}>
+                                        {uiState.timeLeft}s
+                                    </div>
+                                    <div style={{ fontSize: 9, color: '#888', marginTop: 2, fontWeight: 'normal' }}>남은시간</div>
+                                </div>
+                            )}
+                        </div>
+                        <div style={styles.statItem}>
+                            <div style={styles.statLabel}>승률</div>
+                            <div style={styles.statValue}>{uiState.winRate}</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                {/* Pattern Info */}
+                {running && (
+                    <div style={styles.infoBar}>
+                        <span style={styles.patternBadge}>{uiState.patternName}</span>
+                        <span style={signalStyle}>{signalText}</span>
+                    </div>
+                )}
+
+                {/* Message */}
+                <div
+                    style={{
+                        ...styles.msgBase,
+                        ...(message.type === 'success' ? styles.msgSuccess : message.type === 'error' ? styles.msgError : styles.msgInfo),
+                        opacity: message.visible ? 1 : 0,
+                    }}
+                >
+                    {message.text}
+                </div>
+
+                {/* Chart */}
+                <div style={styles.chartWrapper}>
+                    <div style={styles.chartToolbar}>
+                        {['candle', 'line', 'area'].map((t) => {
+                            const labels = { candle: '캔들', line: '라인', area: '영역' };
+                            return (
+                                <button
+                                    key={t}
+                                    style={chartType === t ? styles.toolBtnActive : styles.toolBtn}
+                                    onClick={() => setChartType(t)}
+                                >
+                                    {labels[t]}
+                                </button>
+                            );
+                        })}
+                        {['ma', 'bb', 'rsi'].map((ind) => {
+                            const labels = { ma: '이평선(20)', bb: '볼린저밴드', rsi: '상대강도(RSI)' };
+                            return (
+                                <button
+                                    key={ind}
+                                    style={indicators[ind] ? styles.toolBtnActive : styles.toolBtn}
+                                    onClick={() => toggleIndicator(ind)}
+                                >
+                                    {labels[ind]}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <div style={styles.chartContainer}>
+                        <canvas ref={mainCanvasRef} />
+                    </div>
+                    <div style={styles.volContainer}>
+                        <canvas ref={volCanvasRef} />
+                    </div>
+                    <div style={styles.legendWrap}>
+                        {indicators.ma && (
+                            <div style={styles.legendItem}><span style={styles.legendDot('#ffab40')} />이평선(20)</div>
+                        )}
+                        {indicators.bb && (
+                            <div style={styles.legendItem}><span style={styles.legendDot('#7b2ff7')} />볼린저밴드</div>
+                        )}
+                        {indicators.rsi && (
+                            <div style={styles.legendItem}><span style={styles.legendDot('#00d2ff')} />상대강도(RSI)</div>
                         )}
                     </div>
-                    <div style={styles.statItem}>
-                        <div style={styles.statLabel}>승률</div>
-                        <div style={styles.statValue}>{uiState.winRate}</div>
-                    </div>
                 </div>
 
-            </div>
-
-            {/* Pattern Info */}
-            {running && (
-                <div style={styles.infoBar}>
-                    <span style={styles.patternBadge}>{uiState.patternName}</span>
-                    <span style={signalStyle}>{signalText}</span>
-                </div>
-            )}
-
-            {/* Message */}
-            <div
-                style={{
-                    ...styles.msgBase,
-                    ...(message.type === 'success' ? styles.msgSuccess : message.type === 'error' ? styles.msgError : styles.msgInfo),
-                    opacity: message.visible ? 1 : 0,
-                }}
-            >
-                {message.text}
-            </div>
-
-            {/* Chart */}
-            <div style={styles.chartWrapper}>
-                <div style={styles.chartToolbar}>
-                    {['candle', 'line', 'area'].map((t) => {
-                        const labels = { candle: '캔들', line: '라인', area: '영역' };
-                        return (
-                            <button
-                                key={t}
-                                style={chartType === t ? styles.toolBtnActive : styles.toolBtn}
-                                onClick={() => setChartType(t)}
-                            >
-                                {labels[t]}
-                            </button>
-                        );
-                    })}
-                    {['ma', 'bb', 'rsi'].map((ind) => {
-                        const labels = { ma: '이평선(20)', bb: '볼린저밴드', rsi: '상대강도(RSI)' };
-                        return (
-                            <button
-                                key={ind}
-                                style={indicators[ind] ? styles.toolBtnActive : styles.toolBtn}
-                                onClick={() => toggleIndicator(ind)}
-                            >
-                                {labels[ind]}
-                            </button>
-                        );
-                    })}
-                </div>
-                <div style={styles.chartContainer}>
-                    <canvas ref={mainCanvasRef} />
-                </div>
-                <div style={styles.volContainer}>
-                    <canvas ref={volCanvasRef} />
-                </div>
-                <div style={styles.legendWrap}>
-                    {indicators.ma && (
-                        <div style={styles.legendItem}><span style={styles.legendDot('#ffab40')} />이평선(20)</div>
-                    )}
-                    {indicators.bb && (
-                        <div style={styles.legendItem}><span style={styles.legendDot('#7b2ff7')} />볼린저밴드</div>
-                    )}
-                    {indicators.rsi && (
-                        <div style={styles.legendItem}><span style={styles.legendDot('#00d2ff')} />상대강도(RSI)</div>
-                    )}
-                </div>
-            </div>
-
-            {/* Position Info */}
-            {running && uiState.position && (
-                <div style={styles.posInfo}>
-                    <div>
-                        <span style={styles.posLabel}>진입가: </span>
-                        <span style={styles.posVal}>{formatMoney(uiState.position.entry)}</span>
-                    </div>
-                    <div>
-                        <span style={styles.posLabel}>손익: </span>
-                        <span style={{ ...styles.posVal, color: uiState.positionPnL >= 0 ? '#00e676' : '#ff5252' }}>
-                            {(uiState.positionPnL >= 0 ? '+' : '') + formatMoney(uiState.positionPnL)}
-                        </span>
-                    </div>
-                </div>
-            )}
-
-            {/* Controls */}
-            <div style={{ ...styles.controls, ...(running ? {} : styles.disabled) }}>
-                {!uiState.position ? (
-                    <button
-                        style={{ ...styles.tradeBtn, ...styles.buyBtn, flex: 1 }}
-                        onClick={() => handleTrade('buy')}
-                        disabled={!running}
-                    >
-                        📉 매수 하기
-                    </button>
-                ) : (
-                    <button
-                        style={{ ...styles.tradeBtn, ...styles.sellBtn, flex: 1 }}
-                        onClick={() => handleTrade('sell')}
-                        disabled={!running}
-                    >
-                        📈 매도 하기
-                    </button>
-                )}
-            </div>
-
-            {/* Start Button */}
-            {!running && (
-                <button style={styles.startBtn} onClick={startGame}>
-                    🚀 게임 시작
-                </button>
-            )}
-
-            {/* Leaderboard */}
-            <div style={styles.leaderboard}>
-                <div style={styles.lbTitle}>🏆 기록</div>
-                {scores.length === 0 ? (
-                    <div style={{ color: '#666', fontSize: 13 }}>기록이 없습니다</div>
-                ) : (
-                    scores.map((s, i) => (
-                        <div key={i} style={styles.lbRow}>
-                            <span>{medals[i]} {s.pct >= 0 ? '💰 수익' : '📉 손실'}</span>
-                            <span style={{ color: s.pct >= 0 ? '#00e676' : '#ff5252', fontWeight: 'bold' }}>
-                                {formatMoney(s.balance)} ({s.pct >= 0 ? '+' : ''}{s.pct}%)
+                {/* Position Info */}
+                {running && uiState.position && (
+                    <div style={styles.posInfo}>
+                        <div>
+                            <span style={styles.posLabel}>진입가: </span>
+                            <span style={styles.posVal}>{formatMoney(uiState.position.entry)}</span>
+                        </div>
+                        <div>
+                            <span style={styles.posLabel}>손익: </span>
+                            <span style={{ ...styles.posVal, color: uiState.positionPnL >= 0 ? '#00e676' : '#ff5252' }}>
+                                {(uiState.positionPnL >= 0 ? '+' : '') + formatMoney(uiState.positionPnL)}
                             </span>
                         </div>
-                    ))
+                    </div>
                 )}
+
+                {/* Controls */}
+                <div style={{ ...styles.controls, ...(running ? {} : styles.disabled) }}>
+                    {!uiState.position ? (
+                        <button
+                            style={{ ...styles.tradeBtn, ...styles.buyBtn, flex: 1 }}
+                            onClick={() => handleTrade('buy')}
+                            disabled={!running}
+                        >
+                            📉 매수 하기
+                        </button>
+                    ) : (
+                        <button
+                            style={{ ...styles.tradeBtn, ...styles.sellBtn, flex: 1 }}
+                            onClick={() => handleTrade('sell')}
+                            disabled={!running}
+                        >
+                            📈 매도 하기
+                        </button>
+                    )}
+                </div>
+
+                {/* Start Button */}
+                {!running && (
+                    <button style={styles.startBtn} onClick={startGame}>
+                        🚀 게임 시작
+                    </button>
+                )}
+
+                {/* Leaderboard */}
+                <div style={styles.leaderboard}>
+                    <div style={styles.lbTitle}>🏆 기록</div>
+                    {scores.length === 0 ? (
+                        <div style={{ color: '#666', fontSize: 13 }}>기록이 없습니다</div>
+                    ) : (
+                        scores.map((s, i) => (
+                            <div key={i} style={styles.lbRow}>
+                                <span>{medals[i]} {s.pct >= 0 ? '💰 수익' : '📉 손실'}</span>
+                                <span style={{ color: s.pct >= 0 ? '#00e676' : '#ff5252', fontWeight: 'bold' }}>
+                                    {formatMoney(s.balance)} ({s.pct >= 0 ? '+' : ''}{s.pct}%)
+                                </span>
+                            </div>
+                        ))
+                    )}
+                </div>
             </div>
+
+            {/* Guide Overlay */}
+            {showGuide && (
+                <div style={styles.overlay}>
+                    <div style={styles.resultCard}>
+                        <h2 style={{ fontSize: 22, color: '#00d2ff', marginBottom: 16 }}>🎮 게임 방법</h2>
+                        <div style={{ textAlign: 'left', fontSize: 13, lineHeight: '1.6', color: '#ccc', marginBottom: 20 }}>
+                            1. 실시간으로 변하는 <b>캔들 차트</b>의 패턴을 분석하세요.<br />
+                            2. 가격이 오를 것 같을 때 <b>[매수 하기]</b> 버튼을 누릅니다.<br />
+                            3. 수익이 났을 때 <b>[매도 하기]</b> 버튼을 눌러 확정하세요.<br />
+                            4. 제한 시간 내에 가장 높은 수익금을 달성하면 승리!<br />
+                            <br />
+                            <br />
+                            <small style={{ color: '#888' }}>※ 팁: '매수 신호'가 보일 때를 노려보세요.</small><br />
+                            <small style={{ color: '#00d2ff', fontWeight: 'bold' }}>💡 Tip : 직원들과 함께 게임진행 후 기록이 가장 낮은 사람이 커피 쏘기! ☕</small>
+                        </div>
+                        <button style={styles.resultBtn} onClick={() => setShowGuide(false)}>
+                            이해했습니다
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {showResult && (
+                <div style={styles.overlay}>
+                    <div style={styles.resultCard}>
+                        <h2 style={{ fontSize: 24, marginBottom: 12, color: resultData.profit >= 0 ? '#00e676' : '#ff5252' }}>
+                            {resultData.profit >= 0 ? '🎉 수익 달성!' : '😢 아쉬운 결과'}
+                        </h2>
+                        <div style={{ fontSize: 40, fontWeight: 'bold', margin: '10px 0', color: resultData.profit >= 0 ? '#00e676' : '#ff5252' }}>
+                            {(resultData.profit >= 0 ? '+' : '') + formatMoney(resultData.profit || 0)}
+                        </div>
+                        <div style={{ color: '#888', fontSize: 14, margin: '8px 0' }}>
+                            수익률: {resultData.pct}% | 등급: {resultData.grade}
+                        </div>
+                        <button style={styles.resultBtn} onClick={() => setShowResult(false)}>
+                            다시 도전
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
-
-        {/* Guide Overlay */}
-        {showGuide && (
-            <div style={styles.overlay}>
-                <div style={styles.resultCard}>
-                    <h2 style={{ fontSize: 22, color: '#00d2ff', marginBottom: 16 }}>🎮 게임 방법</h2>
-                    <div style={{ textAlign: 'left', fontSize: 13, lineHeight: '1.6', color: '#ccc', marginBottom: 20 }}>
-                        1. 실시간으로 변하는 <b>캔들 차트</b>의 패턴을 분석하세요.<br />
-                        2. 가격이 오를 것 같을 때 <b>[매수 하기]</b> 버튼을 누릅니다.<br />
-                        3. 수익이 났을 때 <b>[매도 하기]</b> 버튼을 눌러 확정하세요.<br />
-                        4. 제한 시간 내에 가장 높은 수익금을 달성하면 승리!<br />
-                        <br />
-                        <br />
-                        <small style={{ color: '#888' }}>※ 팁: '매수 신호'가 보일 때를 노려보세요.</small><br />
-                        <small style={{ color: '#00d2ff', fontWeight: 'bold' }}>💡 Tip : 직원들과 함께 게임진행 후 기록이 가장 낮은 사람이 커피 쏘기! ☕</small>
-                    </div>
-                    <button style={styles.resultBtn} onClick={() => setShowGuide(false)}>
-                        이해했습니다
-                    </button>
-                </div>
-            </div>
-        )}
-
-        {showResult && (
-            <div style={styles.overlay}>
-                <div style={styles.resultCard}>
-                    <h2 style={{ fontSize: 24, marginBottom: 12, color: resultData.profit >= 0 ? '#00e676' : '#ff5252' }}>
-                        {resultData.profit >= 0 ? '🎉 수익 달성!' : '😢 아쉬운 결과'}
-                    </h2>
-                    <div style={{ fontSize: 40, fontWeight: 'bold', margin: '10px 0', color: resultData.profit >= 0 ? '#00e676' : '#ff5252' }}>
-                        {(resultData.profit >= 0 ? '+' : '') + formatMoney(resultData.profit || 0)}
-                    </div>
-                    <div style={{ color: '#888', fontSize: 14, margin: '8px 0' }}>
-                        수익률: {resultData.pct}% | 등급: {resultData.grade}
-                    </div>
-                    <button style={styles.resultBtn} onClick={() => setShowResult(false)}>
-                        다시 도전
-                    </button>
-                </div>
-            </div>
-        )}
-    </div>
-);
+    );
 };
 
 export default AITradingBattle;
