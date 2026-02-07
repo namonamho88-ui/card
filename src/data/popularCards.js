@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-07T07:47:44.379Z
+// Auto-generated card data - 2026-02-07T13:57:57.364Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -430,22 +430,6 @@ export const POPULAR_CARDS = [
         "rank": 31
     },
     {
-        "id": "hd-2",
-        "issuer": "현대카드",
-        "name": "현대카드ZERO Edition3(할인형)",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "국내외 가맹점 0.8%할인"
-        ],
-        "categories": [
-            "할인"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2646/card_img/39624/2646card_3.png",
-        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 36
-    },
-    {
         "id": "sh-6",
         "issuer": "신한카드",
         "name": "메리어트 본보이™ 더 베스트 신한카드",
@@ -461,6 +445,22 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/716/card_img/22190/716card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+        "rank": 36
+    },
+    {
+        "id": "hd-2",
+        "issuer": "현대카드",
+        "name": "현대카드ZERO Edition3(할인형)",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "국내외 가맹점 0.8%할인"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2646/card_img/39624/2646card_3.png",
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 37
     },
     {
@@ -555,7 +555,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/54/card_img/20135/54card.png",
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-        "rank": 45
+        "rank": 44
     },
     {
         "id": "wo-7",
@@ -575,7 +575,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 46
+        "rank": 47
     },
     {
         "id": "wo-8",
@@ -592,7 +592,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 48
+        "rank": 49
     },
     {
         "id": "sh-9",
@@ -610,7 +610,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2731/card_img/36308/2731card.png",
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 56
+        "rank": 57
     },
     {
         "id": "hn-1",
@@ -647,7 +647,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 60
+        "rank": 62
     },
     {
         "id": "wo-10",
@@ -667,7 +667,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2688/card_img/33240/2688card.png",
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 62
+        "rank": 63
     },
     {
         "id": "hd-5",
@@ -708,24 +708,6 @@ export const POPULAR_CARDS = [
         "rank": 66
     },
     {
-        "id": "sh-10",
-        "issuer": "신한카드",
-        "name": "신한카드 Edu Plan+",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "학원비 최대 10%캐시백",
-            "3대 할인점 1%캐시백",
-            "메가박스 7천원할인"
-        ],
-        "categories": [
-            "할인"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
-        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 70
-    },
-    {
         "id": "hd-6",
         "issuer": "현대카드",
         "name": "에너지플러스 현대카드",
@@ -742,6 +724,24 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 70
+    },
+    {
+        "id": "sh-10",
+        "issuer": "신한카드",
+        "name": "신한카드 Edu Plan+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "학원비 최대 10%캐시백",
+            "3대 할인점 1%캐시백",
+            "메가박스 7천원할인"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
+        "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 71
     },
     {
@@ -840,24 +840,6 @@ export const POPULAR_CARDS = [
         "rank": 82
     },
     {
-        "id": "hn-3",
-        "issuer": "하나카드",
-        "name": "원더카드 2.0 FREE+",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "국내외가맹점 0.8%청구할인",
-            "간편결제 1.2%청구할인",
-            "영역별 월 최대 할인한도 12,000원"
-        ],
-        "categories": [
-            "할인"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2820/card_img/44248/2820card.png",
-        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 83
-    },
-    {
         "id": "hd-9",
         "issuer": "현대카드",
         "name": "현대카드MY BUSINESS M F&B",
@@ -874,6 +856,24 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2938/card_img/46988/2938card.png",
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 84
+    },
+    {
+        "id": "hn-3",
+        "issuer": "하나카드",
+        "name": "원더카드 2.0 FREE+",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "국내외가맹점 0.8%청구할인",
+            "간편결제 1.2%청구할인",
+            "영역별 월 최대 할인한도 12,000원"
+        ],
+        "categories": [
+            "할인"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2820/card_img/44248/2820card.png",
+        "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 85
     },
     {
@@ -911,7 +911,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2654/card_img/44245/2654card.png",
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 91
+        "rank": 90
     },
     {
         "id": "lo-5",
@@ -934,6 +934,23 @@ export const POPULAR_CARDS = [
         "rank": 94
     },
     {
+        "id": "hd-10",
+        "issuer": "현대카드",
+        "name": "네이버 현대카드 Edition2",
+        "annualFee": "1~3만원",
+        "previousMonthSpending": "30만원",
+        "benefits": [
+            "네이버 최대 7%적립",
+            "그외 국내외 가맹점 0.7%적립"
+        ],
+        "categories": [
+            "적립"
+        ],
+        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
+        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+        "rank": 98
+    },
+    {
         "id": "lo-6",
         "issuer": "롯데카드",
         "name": "LOCA LIKIT",
@@ -951,24 +968,7 @@ export const POPULAR_CARDS = [
         ],
         "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2228/card_img/21353/2228card.png",
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 96
-    },
-    {
-        "id": "hd-10",
-        "issuer": "현대카드",
-        "name": "네이버 현대카드 Edition2",
-        "annualFee": "1~3만원",
-        "previousMonthSpending": "30만원",
-        "benefits": [
-            "네이버 최대 7%적립",
-            "그외 국내외 가맹점 0.7%적립"
-        ],
-        "categories": [
-            "적립"
-        ],
-        "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
-        "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-        "rank": 100
+        "rank": 99
     }
 ];
 
