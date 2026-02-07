@@ -353,19 +353,16 @@ const PATTERNS = [
         id: 'ascending_triangle', name: '🔺 상승 삼각형', signal: 'buy',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            const base = 100 + ph * 15;
-            const osc = Math.sin(i * 0.5) * (10 - ph * 8);
-            return base + osc + (Math.random() - 0.4) * dm * 1.5;
+            const osc = Math.sin(i * 0.5) * (dm * (1 - ph) * 5);
+            return p + (ph * dm * 0.8) + osc + (Math.random() - 0.4) * dm;
         },
     },
     {
         id: 'descending_triangle', name: '🔻 하락 삼각형', signal: 'sell',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            const top = 120 - ph * 15;
-            const floor = 95;
-            const osc = Math.sin(i * 0.5) * (10 - ph * 8);
-            return (top + floor) / 2 + osc + (Math.random() - 0.6) * dm * 1.5;
+            const osc = Math.sin(i * 0.5) * (dm * (1 - ph) * 5);
+            return p - (ph * dm * 0.8) + osc + (Math.random() - 0.6) * dm;
         },
     },
     {
@@ -390,19 +387,42 @@ const PATTERNS = [
         id: 'cup_handle', name: '☕ 컵앤핸들', signal: 'buy',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.5) { const depth = Math.sin(ph * Math.PI) * 12; return 110 - depth + (Math.random() - 0.5) * dm; }
-            if (ph < 0.75) return p - (Math.random() * 0.6) * dm;
-            return p + (Math.random() * 2 + 0.5) * dm;
+            if (ph < 0.5) {
+                const depth = Math.sin(ph * Math.PI) * dm * 5;
+                return p - depth + (Math.random() - 0.5) * dm;
+            }
+            if (ph < 0.75) return p - (Math.random() * 0.8) * dm;
+            return p + (Math.random() * 3 + 0.5) * dm;
         },
     },
     {
         id: 'spike_crash', name: '💥 스파이크 폭락', signal: 'sell',
         gen: (i, n, p, dm) => {
             const ph = i / n;
-            if (ph < 0.4) return p + (Math.random() * 1.5 - 0.5) * dm;
-            if (ph < 0.5) return p + (Math.random() * 5) * dm;
-            return p - (Math.random() * 4 + 1) * dm;
+            if (ph < 0.4) return p + (Math.random() * 2 - 0.5) * dm;
+            if (ph < 0.5) return p + (Math.random() * 8) * dm;
+            return p - (Math.random() * 6 + 2) * dm;
         },
+    },
+    {
+        id: 'panic_sell', name: '💸 패닉 셀', signal: 'sell',
+        gen: (i, n, p, dm) => p - (Math.random() * 6 + 1) * dm,
+    },
+    {
+        id: 'to_the_moon', name: '🚀 투 더 문', signal: 'buy',
+        gen: (i, n, p, dm) => {
+            const ph = i / n;
+            return p + (Math.random() * ph * 12 + 0.5) * dm;
+        },
+    },
+    {
+        id: 'dead_cat', name: '🐈 데드 캣 바운스', signal: 'sell',
+        gen: (i, n, p, dm) => {
+            const ph = i / n;
+            if (ph < 0.3) return p - (Math.random() * 5 + 1) * dm;
+            if (ph < 0.6) return p + (Math.random() * 2) * dm;
+            return p - (Math.random() * 4 + 0.5) * dm;
+        }
     },
 ];
 
@@ -609,7 +629,7 @@ const AITradingBattle = () => {
         g.patternTick++;
 
         let newPrice = pat.gen(g.patternTick, g.patternLength, g.currentPrice, g.dm);
-        newPrice = Math.max(2000, Math.min(30000, newPrice)); // Adjust price range for KRW
+        newPrice = Math.max(500, Math.min(50000, newPrice)); // Allow deeper drops and higher peaks
         g.currentPrice = newPrice;
 
         g.candleTick++;
