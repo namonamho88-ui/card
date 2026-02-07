@@ -55,8 +55,16 @@ const styles = {
     profit: { color: '#00e676' },
     loss: { color: '#ff5252' },
     timerBox: { display: 'none' }, // 더 이상 사용하지 않음 (수익률 섹션으로 이동)
-    timerVal: { fontSize: 13, fontWeight: 'bold', color: '#ffab40', marginTop: 2 },
-    timerDanger: { fontSize: 13, fontWeight: 'bold', color: '#ff5252', marginTop: 2, animation: 'pulse 0.5s infinite' },
+    timerVal: { fontSize: 20, fontWeight: '800', color: '#ffab40', marginTop: 4, letterSpacing: '1px' },
+    timerDanger: {
+        fontSize: 24,
+        fontWeight: '900',
+        color: '#ff5252',
+        marginTop: 4,
+        animation: 'pulse 0.5s infinite',
+        textShadow: '0 0 15px rgba(255,82,82,0.8), 0 0 5px #fff',
+        letterSpacing: '1px'
+    },
     infoBar: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -1064,8 +1072,20 @@ const AITradingBattle = () => {
                                 {(uiState.profitPct >= 0 ? '+' : '') + uiState.profitPct.toFixed(1) + '%'}
                             </div>
                             {running && (
-                                <div style={uiState.timeLeft <= 10 ? styles.timerDanger : styles.timerVal}>
-                                    ⏱️ {uiState.timeLeft}s
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginTop: 6,
+                                    paddingTop: 6,
+                                    borderTop: '1px solid rgba(255,255,255,0.1)',
+                                    width: '100%'
+                                }}>
+                                    <div style={uiState.timeLeft <= 10 ? styles.timerDanger : styles.timerVal}>
+                                        {uiState.timeLeft}s
+                                    </div>
+                                    <div style={{ fontSize: 9, color: '#888', marginTop: 2, fontWeight: 'normal' }}>남은시간</div>
                                 </div>
                             )}
                         </div>
