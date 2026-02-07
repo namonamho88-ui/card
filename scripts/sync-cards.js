@@ -142,7 +142,7 @@ function inferIssuer(cardName) {
 
 async function scrapeCardDetail(page, detailUrl) {
     try {
-        await page.goto(`https://www.card-gorilla.com${detailUrl}`, { waitUntil: 'domcontentloaded', timeout: 10000 });
+        await page.goto(`https://www.card-gorilla.com${detailUrl}`, { waitUntil: 'networkidle2', timeout: 15000 });
 
         // 상세 혜택 추출 (Correct .bnf1 section with dl/dt/dd structure)
         const benefits = await page.evaluate(() => {

@@ -1,4 +1,4 @@
-// Auto-generated card data - 2026-02-06T19:52:26.077Z
+// Auto-generated card data - 2026-02-07T00:42:33.740Z
 // This file is updated automatically by GitHub Actions running scripts/sync-cards.js
 
 const ISSUER_COLORS = {
@@ -22,9 +22,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "선택 옵션에 따른 할인 혜택(택 1)",
+            "생활 편의 영역 5%할인",
+            "디지털콘텐츠/멤버십 50%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 2
     },
@@ -35,9 +39,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "선택 옵션에 따른 할인 혜택(택 1)",
+            "생활 편의 영역 5%할인",
+            "디지털콘텐츠/멤버십 50%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 2
     },
@@ -48,9 +56,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "공과금 10%할인",
+            "마트,편의점 10%할인",
+            "식음료 10%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인",
+            "편의점",
+            "쇼핑"
+        ],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 3
     },
@@ -61,9 +75,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "온라인 쇼핑 10%청구할인",
+            "백화점・대형할인점・슈퍼마켓 등 10%청구할인"
         ],
-        "categories": [],
+        "categories": [
+            "쇼핑",
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 4
     },
@@ -74,9 +92,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1,000원당 1마일기본적립",
+            "국내/해외 택1 옵션형 1마일특별적립",
+            "인천공항 라운지무료이용"
         ],
-        "categories": [],
+        "categories": [
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 5
     },
@@ -87,9 +109,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "스타벅스 50%할인",
+            "대중교통 10%할인",
+            "CGV, 롯데시네마 5,000원할인"
         ],
-        "categories": [],
+        "categories": [
+            "카페",
+            "할인",
+            "대중교통"
+        ],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 7
     },
@@ -100,9 +128,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "아파트관리비, 공과금 10%할인",
+            "교통, 통신, 배달앱 10%할인",
+            "스트리밍 1,500원할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인",
+            "대중교통",
+            "배달"
+        ],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 8
     },
@@ -113,9 +147,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "카페 10%할인",
+            "쇼핑 10%할인",
+            "정기결제 최대 20%할인"
         ],
-        "categories": [],
+        "categories": [
+            "카페",
+            "할인",
+            "쇼핑"
+        ],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 10
     },
@@ -126,9 +166,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "선택 옵션에 따른 할인 혜택(택 1)",
+            "생활 편의 영역 5%할인",
+            "디지털콘텐츠/멤버십 50%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 2
     },
@@ -139,9 +183,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "공과금 10%할인",
+            "마트,편의점 10%할인",
+            "식음료 10%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인",
+            "편의점",
+            "쇼핑"
+        ],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 3
     },
@@ -152,9 +202,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "온라인 쇼핑 10%청구할인",
+            "백화점・대형할인점・슈퍼마켓 등 10%청구할인"
         ],
-        "categories": [],
+        "categories": [
+            "쇼핑",
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 4
     },
@@ -165,9 +219,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "1,000원당 1마일기본적립",
+            "국내/해외 택1 옵션형 1마일특별적립",
+            "인천공항 라운지무료이용"
         ],
-        "categories": [],
+        "categories": [
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 5
     },
@@ -178,9 +236,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "스타벅스 50%할인",
+            "대중교통 10%할인",
+            "CGV, 롯데시네마 5,000원할인"
         ],
-        "categories": [],
+        "categories": [
+            "카페",
+            "할인",
+            "대중교통"
+        ],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 7
     },
@@ -191,9 +255,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "아파트관리비, 공과금 10%할인",
+            "교통, 통신, 배달앱 10%할인",
+            "스트리밍 1,500원할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인",
+            "대중교통",
+            "배달"
+        ],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 8
     },
@@ -204,9 +274,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "카페 10%할인",
+            "쇼핑 10%할인",
+            "정기결제 최대 20%할인"
         ],
-        "categories": [],
+        "categories": [
+            "카페",
+            "할인",
+            "쇼핑"
+        ],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 10
     },
@@ -217,9 +293,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "음식점 또는 온라인몰 금/토/일 10%할인",
+            "생활 편의 영역 5%할인",
+            "인앱 결제/디지털콘텐츠 50%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 11
     },
@@ -230,9 +310,14 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "음식·생활·패션 5%적립",
+            "통신·구독·멤버십 최대 20%적립",
+            "소비관리 보너스 매월 최대 1만P"
         ],
-        "categories": [],
+        "categories": [
+            "적립",
+            "통신"
+        ],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 12
     },
@@ -243,9 +328,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내 외 가맹점 0.7%·1%할인",
+            "온라인쇼핑몰 멤버십 50%할인",
+            "영화 3,000원할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인",
+            "쇼핑",
+            "영화"
+        ],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 13
     },
@@ -256,11 +347,14 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외 가맹점 0.8%청구할인",
+            "국내 온라인 간편결제 2%청구할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 14
+        "rank": 15
     },
     {
         "id": "lo-3",
@@ -269,9 +363,12 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외 가맹점 1.2%할인",
+            "온라인 1.5%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 16
     },
@@ -282,9 +379,14 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "온라인간편결제 5%할인",
+            "스트리밍 50%할인",
+            "편의점 10%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인",
+            "편의점"
+        ],
         "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
         "rank": 17
     },
@@ -295,9 +397,12 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외 가맹점 1.2%할인",
+            "분기별 이용실적에 따라 최대 15,000원청구할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 19
     },
@@ -308,9 +413,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "4개정유사 10%할인",
+            "차량서비스 10%할인",
+            "편의점/커피/택시 5%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인",
+            "카페",
+            "편의점"
+        ],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 20
     },
@@ -321,11 +432,16 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "SKYPASS 최대 2마일리지적립",
+            "해외이용수수료 0.3%면제",
+            "국내 공항라운지 동반 1인 동시 이용"
         ],
-        "categories": [],
+        "categories": [
+            "여행",
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 22
+        "rank": 23
     },
     {
         "id": "hd-1",
@@ -334,9 +450,14 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외 가맹점 1.5%적립",
+            "온라인 쇼핑몰・일반음식점 5%적립",
+            "해외 가맹점 5%적립"
         ],
-        "categories": [],
+        "categories": [
+            "적립",
+            "쇼핑"
+        ],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 26
     },
@@ -347,9 +468,14 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내 이용 1,500원당 1마일리지적립",
+            "해외 이용 1,500원당 최대 2마일리지적립",
+            "항공 마일리지와 포인트 동시 적립"
         ],
-        "categories": [],
+        "categories": [
+            "여행",
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 27
     },
@@ -360,11 +486,16 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내/해외 1,000원당 1마일적립",
+            "항공/면세 2배적립",
+            "해외 2배적립"
         ],
-        "categories": [],
+        "categories": [
+            "적립",
+            "여행"
+        ],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-        "rank": 28
+        "rank": 29
     },
     {
         "id": "wo-7",
@@ -373,9 +504,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "온라인쇼핑, 대형마트, 커피 10%청구 할인",
+            "배달앱 10%청구 할인",
+            "교육, 병원, 주유 10%청구 할인"
         ],
-        "categories": [],
+        "categories": [
+            "카페",
+            "쇼핑",
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 31
     },
@@ -386,9 +523,11 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외 가맹점 0.8%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 36
     },
@@ -399,9 +538,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "메리어트 참여호텔 무료숙박권제공",
+            "메리어트 참여호텔 이용시 5P/1천원적립",
+            "메리어트 본보이™ 멤버십 골드엘리트제공"
         ],
-        "categories": [],
+        "categories": [
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 37
     },
@@ -412,9 +555,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내 가맹점 최대 3%적립",
+            "주말 외식비 1천 포인트적립",
+            "도시가스/전기요금 1천 포인트적립"
         ],
-        "categories": [],
+        "categories": [
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 38
     },
@@ -425,9 +572,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외 가맹점 0.8%청구 할인",
+            "온라인몰/대형마트 1.6%청구 할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인",
+            "쇼핑"
+        ],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 39
     },
@@ -438,9 +589,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외 가맹점 1.5%적립",
+            "교육·병원·여행·골프 5%적립",
+            "쇼핑·호텔·여행 15만원권 바우처제공"
         ],
-        "categories": [],
+        "categories": [
+            "적립",
+            "여행",
+            "쇼핑"
+        ],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 42
     },
@@ -451,9 +608,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "이용금액 1%기본적립",
+            "이용금액 0.5%추가적립",
+            "해외, 면세점 2%추가적립"
         ],
-        "categories": [],
+        "categories": [
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
         "rank": 43
     },
@@ -464,9 +625,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "커피 10%할인",
+            "편의점 10%할인",
+            "음식점/주점 1%할인"
         ],
-        "categories": [],
+        "categories": [
+            "카페",
+            "할인",
+            "편의점"
+        ],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 44
     },
@@ -477,11 +644,14 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외 가맹점 0.8%적립",
+            "간편결제 2%추가 적립"
         ],
-        "categories": [],
+        "categories": [
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-        "rank": 49
+        "rank": 48
     },
     {
         "id": "hn-1",
@@ -490,9 +660,14 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내 이용금액 1,000원 당 1마일리지적립",
+            "해외 이용금액 1,000원 당 2마일리지적립",
+            "인천공항 라운지 무료서비스제공"
         ],
-        "categories": [],
+        "categories": [
+            "여행",
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 58
     },
@@ -503,9 +678,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "모든가맹점 0.8%할인",
+            "생활업종 1.3%할인",
+            "국내 공항라운지 무료이용"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
         "rank": 60
     },
@@ -516,9 +695,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내 가맹점 0.7%청구 할인",
+            "해외 온·오프라인 가맹점 2%청구 할인",
+            "국제브랜드 및 해외서비스 수수료 100%청구 할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 63
     },
@@ -529,9 +712,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "관리비, 통신비 10%할인 (월 최대 5만 원 할인)",
+            "마트, 병원비, 학원업종 10%할인 (월 최대 5만 원 할인)",
+            "커피, 골프, 보험 10%할인 (월 최대 5만 원 할인)"
         ],
-        "categories": [],
+        "categories": [
+            "통신",
+            "할인",
+            "쇼핑"
+        ],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 66
     },
@@ -542,9 +731,14 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "GS칼텍스 반경 5km 최저가 주유보장",
+            "에너지플러스 앱 '바로주유' 결제 시 추가 5%청구 할인",
+            "주차·세차·정비 업종 5%청구 할인"
         ],
-        "categories": [],
+        "categories": [
+            "주유",
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 71
     },
@@ -555,9 +749,12 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외 가맹점 1%적립",
+            "공항라운지 무료이용"
         ],
-        "categories": [],
+        "categories": [
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 75
     },
@@ -568,9 +765,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "주유소, 충전소 10%청구 할인",
+            "차량 정비소, 세차장 10%청구 할인",
+            "이동통신 요금, 아파트 관리비, 도시가스 요금 5%청구 할인"
         ],
-        "categories": [],
+        "categories": [
+            "주유",
+            "할인",
+            "통신"
+        ],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 77
     },
@@ -581,9 +784,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "어린이집보육료 10%할인",
+            "병원 5%할인",
+            "학원 10%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 81
     },
@@ -594,9 +801,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "음식점 60%할인",
+            "배달앱 60%할인",
+            "커피 60%할인"
         ],
-        "categories": [],
+        "categories": [
+            "할인",
+            "배달",
+            "카페"
+        ],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 82
     },
@@ -607,9 +820,13 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외가맹점 0.8%청구할인",
+            "간편결제 1.2%청구할인",
+            "영역별 월 최대 할인한도 12,000원"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
         "rank": 84
     },
@@ -620,9 +837,14 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "대형마트, 슈퍼마켓 5%적립",
+            "전기・도시가스 요금, 4대 보험 5%적립",
+            "국내외 가맹점 1.5%적립"
         ],
-        "categories": [],
+        "categories": [
+            "쇼핑",
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 86
     },
@@ -633,11 +855,16 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "국내외가맹점 1%적립",
+            "해외 가맹점 3%적립 (월 적립한도 5만 하나머니)",
+            "항공/면세점/여행 3%적립 (월 적립한도 5만 하나머니)"
         ],
-        "categories": [],
+        "categories": [
+            "적립",
+            "여행"
+        ],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 89
+        "rank": 88
     },
     {
         "id": "hn-5",
@@ -646,11 +873,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "넷플릭스・디즈니플러스 등 40%청구할인",
+            "아파트관리비・전기세・가스비 10%청구할인",
+            "영역별 월 최대 할인한도 15,000원"
         ],
-        "categories": [],
+        "categories": [
+            "할인"
+        ],
         "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-        "rank": 91
+        "rank": 90
     },
     {
         "id": "lo-6",
@@ -659,9 +890,15 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "주유소 60%할인",
+            "영화 60%할인",
+            "구독서비스 60%할인"
         ],
-        "categories": [],
+        "categories": [
+            "주유",
+            "할인",
+            "영화"
+        ],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
         "rank": 94
     },
@@ -672,11 +909,17 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "스타벅스 최대 60%할인",
+            "영화 50%할인",
+            "이동통신 10%할인"
         ],
-        "categories": [],
+        "categories": [
+            "카페",
+            "할인",
+            "영화"
+        ],
         "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-        "rank": 98
+        "rank": 99
     },
     {
         "id": "hd-10",
@@ -685,9 +928,12 @@ export const POPULAR_CARDS = [
         "annualFee": "1~3만원",
         "previousMonthSpending": "30만원",
         "benefits": [
-            "상세 혜택 홈페이지 참조"
+            "네이버 최대 7%적립",
+            "그외 국내외 가맹점 0.7%적립"
         ],
-        "categories": [],
+        "categories": [
+            "적립"
+        ],
         "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
         "rank": 100
     }
