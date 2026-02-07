@@ -721,20 +721,20 @@ const AITradingBattle = () => {
         const g = gameRef.current;
         if (!g) return;
 
-        // 1. 1% probability for the price to crash to $0
-        if (Math.random() < 0.01) {
-            handleDelisting();
-            return;
-        }
-
         const pat = getCurrentPattern();
         g.patternTick++;
 
         let newPrice = pat.gen(g.patternTick, g.patternLength, g.currentPrice, g.dm);
-        newPrice = Math.max(0, Math.min(50000, newPrice)); // 4. Update Math.max limit to 0
+
+        // 1. 가격이 0원으로 내려갈 확률을 1%로 설정
+        if (Math.random() < 0.01) {
+            newPrice = 0;
+        }
+
+        newPrice = Math.max(0, Math.min(50000, newPrice));
         g.currentPrice = newPrice;
 
-        // 2. If newPrice <= 0, trigger event immediately
+        // 2. 0원이 된 경우만 상장폐지 이벤트 발생
         if (newPrice <= 0) {
             handleDelisting();
             return;
@@ -1323,9 +1323,9 @@ const AITradingBattle = () => {
                                     You lost everything!<br />
                                     모든 투자금을 잃었습니다.
                                 </div>
-                                {resultData.hadPosition && (
+                                {resultData.delisted && (
                                     <div style={{ fontSize: 32, fontWeight: 'bold', margin: '10px 0', color: '#ff5252' }}>
-                                        -{formatMoney(resultData.finalLoss)}
+                                        -{formatMoney(1000000)}
                                     </div>
                                 )}
                             </>
