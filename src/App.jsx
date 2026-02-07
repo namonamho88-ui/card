@@ -258,54 +258,58 @@ function App() {
       </nav>
 
       {/* Floating Chatbot Button */}
-      <div className="fixed bottom-24 right-6 z-30 sm:right-[calc(50%-215px+24px)]">
-        <button
-          onClick={scrollToChatbot}
-          className="bg-primary text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
-        >
-          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>smart_toy</span>
-        </button>
-      </div>
+      {activeMainTab === 'cards' && (
+        <div className="fixed bottom-24 right-6 z-30 sm:right-[calc(50%-215px+24px)]">
+          <button
+            onClick={scrollToChatbot}
+            className="bg-primary text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
+          >
+            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>smart_toy</span>
+          </button>
+        </div>
+      )}
 
       {/* AI Chatbot Section */}
-      <section className="bg-toss-gray-50 dark:bg-black p-5 pt-10" ref={chatbotSectionRef}>
-        <div className="bg-white dark:bg-[#1a1a1a] rounded-3xl p-5 shadow-sm border border-toss-gray-100 dark:border-gray-800">
-          <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-toss-gray-800 dark:text-white">
-            <span className="material-symbols-outlined text-primary">smart_toy</span>
-            AI 카드 추천
-          </h2>
-          <div className="h-[400px] overflow-y-auto mb-4 space-y-4 no-scrollbar">
-            {messages.map((m, i) => (
-              <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-[15px] leading-relaxed ${m.role === 'user'
-                  ? 'bg-primary text-white rounded-tr-none'
-                  : 'bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-800 dark:text-gray-200 rounded-tl-none'
-                  }`}>
-                  <div dangerouslySetInnerHTML={{ __html: m.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+      {activeMainTab === 'cards' && (
+        <section className="bg-toss-gray-50 dark:bg-black p-5 pt-10" ref={chatbotSectionRef}>
+          <div className="bg-white dark:bg-[#1a1a1a] rounded-3xl p-5 shadow-sm border border-toss-gray-100 dark:border-gray-800">
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-toss-gray-800 dark:text-white">
+              <span className="material-symbols-outlined text-primary">smart_toy</span>
+              AI 카드 추천
+            </h2>
+            <div className="h-[400px] overflow-y-auto mb-4 space-y-4 no-scrollbar">
+              {messages.map((m, i) => (
+                <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-[15px] leading-relaxed ${m.role === 'user'
+                    ? 'bg-primary text-white rounded-tr-none'
+                    : 'bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-800 dark:text-gray-200 rounded-tl-none'
+                    }`}>
+                    <div dangerouslySetInnerHTML={{ __html: m.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                  </div>
                 </div>
-              </div>
-            ))}
-            <div ref={chatEndRef} />
+              ))}
+              <div ref={chatEndRef} />
+            </div>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="혜택 질문하기 (예: 카페 추천)"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                className="w-full bg-toss-gray-100 dark:bg-gray-800 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-primary dark:text-white outline-none"
+              />
+              <button
+                onClick={handleSend}
+                className="absolute right-2 top-2 bottom-2 bg-primary text-white px-5 rounded-xl font-bold text-sm"
+              >
+                보내기
+              </button>
+            </div>
           </div>
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="혜택 질문하기 (예: 카페 추천)"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-              className="w-full bg-toss-gray-100 dark:bg-gray-800 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-primary dark:text-white outline-none"
-            />
-            <button
-              onClick={handleSend}
-              className="absolute right-2 top-2 bottom-2 bg-primary text-white px-5 rounded-xl font-bold text-sm"
-            >
-              보내기
-            </button>
-          </div>
-        </div>
-        <div className="h-20" />
-      </section>
+          <div className="h-20" />
+        </section>
+      )}
 
       {/* Card Detail Bottom Sheet */}
       {selectedCard && (

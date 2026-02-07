@@ -55,12 +55,18 @@ const styles = {
     profit: { color: '#00e676' },
     loss: { color: '#ff5252' },
     timerBox: {
-        background: '#16213e',
-        padding: '8px 12px',
-        borderRadius: 10,
-        border: '1px solid #333',
+        position: 'absolute',
+        top: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: 'rgba(22, 33, 62, 0.9)',
+        padding: '10px 20px',
+        borderRadius: '50px',
+        border: '2px solid #7b2ff7',
         textAlign: 'center',
-        minWidth: 60
+        minWidth: 120,
+        zIndex: 50,
+        boxShadow: '0 0 20px rgba(123, 47, 247, 0.5)',
     },
     timerVal: { fontSize: 24, fontWeight: 'bold', color: '#ffab40', textShadow: '0 0 10px rgba(255,171,64,0.3)' },
     timerDanger: { fontSize: 24, fontWeight: 'bold', color: '#ff5252', textShadow: '0 0 10px rgba(255,82,82,0.5)', animation: 'pulse 0.5s infinite' },
@@ -1077,17 +1083,17 @@ const AITradingBattle = () => {
                         </div>
                     </div>
 
-                    {running && (
-                        <div style={styles.timerBox}>
-                            <div style={styles.statLabel}>
-                                <span style={styles.liveDot} />남은시간
-                            </div>
-                            <div style={uiState.timeLeft <= 10 ? styles.timerDanger : styles.timerVal}>
-                                {uiState.timeLeft}
-                            </div>
-                        </div>
-                    )}
                 </div>
+
+                {/* Centered Large Timer Overlay */}
+                {running && (
+                    <div style={styles.timerBox}>
+                        <div style={{ ...styles.statLabel, color: '#00d2ff', fontSize: 10, marginBottom: 2 }}>남은시간</div>
+                        <div style={uiState.timeLeft <= 10 ? styles.timerDanger : styles.timerVal}>
+                            {uiState.timeLeft}초
+                        </div>
+                    </div>
+                )}
 
                 {/* Pattern Info */}
                 {running && (
