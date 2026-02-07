@@ -457,7 +457,7 @@ const getGrade = (pct) => {
     return '💀 파산 위기';
 };
 
-const formatMoney = (v) => '$' + v.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const formatMoney = (v) => v.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
 
 // ============ 메인 컴포넌트 ============
 const AITradingBattle = () => {
@@ -467,6 +467,7 @@ const AITradingBattle = () => {
     const [indicators, setIndicators] = useState({ ma: false, bb: false, rsi: false });
     const [running, setRunning] = useState(false);
     const [showResult, setShowResult] = useState(false);
+    const [showGuide, setShowGuide] = useState(true); // 가이드 모달 추가
     const [message, setMessage] = useState({ text: '', type: '', visible: false });
     const [scores, setScores] = useState([]);
 
@@ -481,7 +482,7 @@ const AITradingBattle = () => {
 
     // For forcing UI stat updates at controlled rate
     const [uiState, setUiState] = useState({
-        balance: 10000,
+        balance: 1000000,
         profitPct: 0,
         trades: 0,
         wins: 0,
@@ -490,7 +491,7 @@ const AITradingBattle = () => {
         patternName: '-',
         patternSignal: 'neutral',
         position: null,
-        currentPrice: 100,
+        currentPrice: 10000,
         positionPnL: 0,
     });
     const [resultData, setResultData] = useState({});
@@ -562,24 +563,24 @@ const AITradingBattle = () => {
         const patterns = shuffleArray(PATTERNS);
 
         gameRef.current = {
-            balance: 10000,
-            initBalance: 10000,
+            balance: 1000000,
+            initBalance: 1000000,
             position: null,
             trades: 0,
             wins: 0,
             timeLeft: diffTimes[difficultyRef.current] || 90,
             candles: [],
-            currentPrice: 100,
-            candleOpen: 100,
-            candleHigh: 100,
-            candleLow: 100,
+            currentPrice: 10000,
+            candleOpen: 10000,
+            candleHigh: 10000,
+            candleLow: 10000,
             ticksPerCandle: 8,
             candleTick: 0,
             patterns,
             patternIdx: 0,
             patternTick: 0,
             patternLength: 50,
-            dm,
+            dm: dm * 100, // 원화 단위에 맞게 변동폭 조정
         };
     }, []);
 
@@ -607,7 +608,7 @@ const AITradingBattle = () => {
         g.patternTick++;
 
         let newPrice = pat.gen(g.patternTick, g.patternLength, g.currentPrice, g.dm);
-        newPrice = Math.max(20, Math.min(300, newPrice));
+        newPrice = Math.max(2000, Math.min(30000, newPrice)); // Adjust price range for KRW
         g.currentPrice = newPrice;
 
         g.candleTick++;
@@ -682,7 +683,7 @@ const AITradingBattle = () => {
             const price = maxP - (pRange / 5) * i;
             ctx.fillStyle = '#555';
             ctx.font = '10px monospace';
-            ctx.fillText('$' + price.toFixed(1), w - pad.r + 5, y + 4);
+            ctx.fillText(price.toFixed(0) + '원', w - pad.r + 5, y + 4);
         }
 
         const ind = indicatorsRef.current;
@@ -795,7 +796,7 @@ const AITradingBattle = () => {
             ctx.setLineDash([]);
             ctx.fillStyle = g.position.type === 'long' ? '#00e676' : '#ff5252';
             ctx.font = 'bold 10px monospace';
-            ctx.fillText((g.position.type === 'long' ? 'LONG' : 'SHORT') + ' $' + g.position.entry.toFixed(2), pad.l + 4, ey - 4);
+            ctx.fillText((g.position.type === 'long' ? '매수' : '하락') + ' ' + g.position.entry.toFixed(0) + '원', pad.l + 4, ey - 4);
         }
 
         // Current price tag
@@ -804,7 +805,7 @@ const AITradingBattle = () => {
         ctx.fillRect(w - pad.r, cpY - 10, pad.r, 20);
         ctx.fillStyle = '#000';
         ctx.font = 'bold 11px monospace';
-        ctx.fillText('$' + g.currentPrice.toFixed(2), w - pad.r + 4, cpY + 4);
+        ctx.fillText(g.currentPrice.toFixed(0) + '원', w - pad.r + 4, cpY + 4);
     }, []);
 
     const drawVolumeChart = useCallback(() => {
@@ -885,24 +886,20 @@ const AITradingBattle = () => {
         g.balance += pnl;
         g.trades++;
         if (pnl > 0) g.wins++;
-        showMsg(pnl > 0 ? `✅ 수익 실현! +$${pnl.toFixed(2)}` : `❌ 손실 확정! $${pnl.toFixed(2)}`, pnl > 0 ? 'success' : 'error');
+        showMsg(pnl > 0 ? `✅ 매도 완료! +${pnl.toFixed(0)}원` : `❌ 매도 완료! ${pnl.toFixed(0)}원`, pnl > 0 ? 'success' : 'error');
         g.position = null;
     }, [showMsg]);
 
     const handleTrade = useCallback((action) => {
         const g = gameRef.current;
         if (!g) return;
-        if (action === 'close') {
-            closePosition();
-            return;
-        }
-        if (g.position) closePosition();
-        if (action === 'long') {
+        if (action === 'buy') {
+            if (g.position) return; // Already in a position
             g.position = { type: 'long', entry: g.currentPrice, size: 100 };
-            showMsg('📈 롱 포지션 진입 @ $' + g.currentPrice.toFixed(2), 'info');
-        } else if (action === 'short') {
-            g.position = { type: 'short', entry: g.currentPrice, size: 100 };
-            showMsg('📉 숏 포지션 진입 @ $' + g.currentPrice.toFixed(2), 'info');
+            showMsg('📈 매수 성공! 현재가: ' + g.currentPrice.toFixed(0) + '원', 'info');
+        } else if (action === 'sell') {
+            if (!g.position) return; // No position to close
+            closePosition();
         }
     }, [closePosition, showMsg]);
 
@@ -973,6 +970,7 @@ const AITradingBattle = () => {
         initGame();
         setRunning(true);
         setShowResult(false);
+        setShowGuide(false); // 게임 시작 시 가이드 숨기기
         resizeCanvases();
 
         const g = gameRef.current;
@@ -1038,8 +1036,8 @@ const AITradingBattle = () => {
             <div style={styles.container}>
                 {/* Header */}
                 <div style={styles.header}>
-                    <h1 style={styles.h1}>🤖 AI 트레이딩 배틀 Pro</h1>
-                    <p style={styles.subtitle}>15가지 차트 패턴을 읽고 타이밍을 잡아라!</p>
+                    <h1 style={styles.h1}>🤖 AI 트레이딩 Pro</h1>
+                    <p style={styles.subtitle}>차트의 흐름을 읽고 매수/매도 타이밍을 잡으세요!</p>
                 </div>
 
                 {/* Difficulty */}
@@ -1126,7 +1124,7 @@ const AITradingBattle = () => {
                             );
                         })}
                         {['ma', 'bb', 'rsi'].map((ind) => {
-                            const labels = { ma: 'MA', bb: '볼린저', rsi: 'RSI' };
+                            const labels = { ma: '이평선(20)', bb: '볼린저밴드', rsi: '상대강도(RSI)' };
                             return (
                                 <button
                                     key={ind}
@@ -1146,13 +1144,13 @@ const AITradingBattle = () => {
                     </div>
                     <div style={styles.legendWrap}>
                         {indicators.ma && (
-                            <div style={styles.legendItem}><span style={styles.legendDot('#ffab40')} />MA20</div>
+                            <div style={styles.legendItem}><span style={styles.legendDot('#ffab40')} />이평선(20)</div>
                         )}
                         {indicators.bb && (
                             <div style={styles.legendItem}><span style={styles.legendDot('#7b2ff7')} />볼린저밴드</div>
                         )}
                         {indicators.rsi && (
-                            <div style={styles.legendItem}><span style={styles.legendDot('#00d2ff')} />RSI</div>
+                            <div style={styles.legendItem}><span style={styles.legendDot('#00d2ff')} />상대강도(RSI)</div>
                         )}
                     </div>
                 </div>
@@ -1162,12 +1160,12 @@ const AITradingBattle = () => {
                     <div style={styles.posInfo}>
                         <div>
                             <span style={styles.posLabel}>진입가: </span>
-                            <span style={styles.posVal}>${uiState.position.entry.toFixed(2)}</span>
+                            <span style={styles.posVal}>{uiState.position.entry.toFixed(0)}원</span>
                         </div>
                         <div>
                             <span style={styles.posLabel}>손익: </span>
                             <span style={{ ...styles.posVal, color: uiState.positionPnL >= 0 ? '#00e676' : '#ff5252' }}>
-                                {(uiState.positionPnL >= 0 ? '+' : '') + '$' + uiState.positionPnL.toFixed(1)}
+                                {(uiState.positionPnL >= 0 ? '+' : '') + uiState.positionPnL.toFixed(0) + '원'}
                             </span>
                         </div>
                     </div>
@@ -1175,29 +1173,23 @@ const AITradingBattle = () => {
 
                 {/* Controls */}
                 <div style={{ ...styles.controls, ...(running ? {} : styles.disabled) }}>
-                    <button
-                        style={{ ...styles.tradeBtn, ...styles.buyBtn }}
-                        onClick={() => handleTrade('long')}
-                        disabled={!running}
-                    >
-                        📉 LONG
-                    </button>
-                    {uiState.position && (
+                    {!uiState.position ? (
                         <button
-                            style={{ ...styles.tradeBtn, ...styles.closeBtn }}
-                            onClick={() => handleTrade('close')}
+                            style={{ ...styles.tradeBtn, ...styles.buyBtn, flex: 1 }}
+                            onClick={() => handleTrade('buy')}
                             disabled={!running}
                         >
-                            CLOSE
+                            📉 매수 하기
+                        </button>
+                    ) : (
+                        <button
+                            style={{ ...styles.tradeBtn, ...styles.sellBtn, flex: 1 }}
+                            onClick={() => handleTrade('sell')}
+                            disabled={!running}
+                        >
+                            📈 매도 하기
                         </button>
                     )}
-                    <button
-                        style={{ ...styles.tradeBtn, ...styles.sellBtn }}
-                        onClick={() => handleTrade('short')}
-                        disabled={!running}
-                    >
-                        📈 SHORT
-                    </button>
                 </div>
 
                 {/* Start Button */}
@@ -1217,13 +1209,33 @@ const AITradingBattle = () => {
                             <div key={i} style={styles.lbRow}>
                                 <span>{medals[i]} {s.diff}</span>
                                 <span style={{ color: s.pct >= 0 ? '#00e676' : '#ff5252', fontWeight: 'bold' }}>
-                                    ${parseFloat(s.balance).toFixed(0)} ({s.pct >= 0 ? '+' : ''}{s.pct}%)
+                                    {parseFloat(s.balance).toFixed(0)}원 ({s.pct >= 0 ? '+' : ''}{s.pct}%)
                                 </span>
                             </div>
                         ))
                     )}
                 </div>
             </div>
+
+            {/* Guide Overlay */}
+            {showGuide && (
+                <div style={styles.overlay}>
+                    <div style={styles.resultCard}>
+                        <h2 style={{ fontSize: 22, color: '#00d2ff', marginBottom: 16 }}>🎮 게임 방법</h2>
+                        <div style={{ textAlign: 'left', fontSize: 13, lineHeight: '1.6', color: '#ccc', marginBottom: 20 }}>
+                            1. 실시간으로 변하는 <b>캔들 차트</b>의 패턴을 분석하세요.<br />
+                            2. 가격이 오를 것 같을 때 <b>[매수 하기]</b> 버튼을 누릅니다.<br />
+                            3. 수익이 났을 때 <b>[매도 하기]</b> 버튼을 눌러 확정하세요.<br />
+                            4. 제한 시간 내에 가장 높은 수익금을 달성하면 승리!<br />
+                            <br />
+                            <small style={{ color: '#888' }}>※ 팁: '매수 신호'가 보일 때를 노려보세요.</small>
+                        </div>
+                        <button style={styles.resultBtn} onClick={() => setShowGuide(false)}>
+                            이해했습니다
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* Result Overlay */}
             {showResult && (
@@ -1233,7 +1245,7 @@ const AITradingBattle = () => {
                             {resultData.profit >= 0 ? '🎉 수익 달성!' : '😢 아쉬운 결과'}
                         </h2>
                         <div style={{ fontSize: 40, fontWeight: 'bold', margin: '10px 0', color: resultData.profit >= 0 ? '#00e676' : '#ff5252' }}>
-                            {(resultData.profit >= 0 ? '+' : '') + '$' + (resultData.profit || 0).toFixed(0)}
+                            {(resultData.profit >= 0 ? '+' : '') + (resultData.profit || 0).toFixed(0) + '원'}
                         </div>
                         <div style={{ color: '#888', fontSize: 14, margin: '4px 0' }}>
                             수익률: {resultData.pct}% | 등급: {resultData.grade}
