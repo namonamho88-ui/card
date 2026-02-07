@@ -263,130 +263,129 @@ function App() {
               </section>
             </main>
           </>
-          </>
-      ) : activeMainTab === 'financial' ? (
-      <main className="flex-1 flex flex-col bg-white dark:bg-[#111111] overflow-hidden">
-        <FinancialRanking />
-      </main>
-      ) : (
-      <main className="flex-1 flex flex-col bg-white dark:bg-[#111111] overflow-hidden">
-        <AITradingBattle />
-      </main>
+        ) : activeMainTab === 'financial' ? (
+          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111] overflow-hidden">
+            <FinancialRanking />
+          </main>
+        ) : (
+          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111] overflow-hidden">
+            <AITradingBattle />
+          </main>
         )}
-    </div>
-
-      {/* Bottom Navigation Bar */ }
-  <nav className="fixed bottom-0 z-40 w-full max-w-[430px] bg-white/95 dark:bg-[#111111]/95 backdrop-blur-lg border-t border-toss-gray-100 dark:border-gray-800 flex justify-between items-center px-6 py-3">
-    <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('cards'); window.scrollTo(0, 0); }}>
-      <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>home</span>
-      <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>홈</span>
-    </div>
-    <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('cards'); window.scrollTo(0, 0); }}>
-      <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>credit_card</span>
-      <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>카드비교</span>
-    </div>
-    <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('financial'); window.scrollTo(0, 0); }}>
-      <span className={`material-symbols-outlined ${activeMainTab === 'financial' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>show_chart</span>
-      <span className={`text-[10px] ${activeMainTab === 'financial' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>금융랭킹</span>
-    </div>
-    <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('game'); window.scrollTo(0, 0); }}>
-      <span className={`material-symbols-outlined ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>sports_esports</span>
-      <span className={`text-[10px] ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>AI게임</span>
-    </div>
-    <div className="flex flex-col items-center gap-1 cursor-pointer">
-      <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">menu</span>
-      <span className="text-[10px] text-toss-gray-600 dark:text-gray-400">전체</span>
-    </div>
-  </nav>
-
-  {/* Floating Chatbot Button */ }
-  {
-    activeMainTab === 'cards' && (
-      <div className="fixed bottom-24 right-6 z-30 sm:right-[calc(50%-215px+24px)]">
-        <button
-          onClick={scrollToChatbot}
-          className="bg-primary text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
-        >
-          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>smart_toy</span>
-        </button>
       </div>
-    )
-  }
 
+      {/* Bottom Navigation Bar */}
+      <nav className="fixed bottom-0 z-40 w-full max-w-[430px] bg-white/95 dark:bg-[#111111]/95 backdrop-blur-lg border-t border-toss-gray-100 dark:border-gray-800 flex justify-between items-center px-6 py-3">
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('cards'); window.scrollTo(0, 0); }}>
+          <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>home</span>
+          <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>홈</span>
+        </div>
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('cards'); window.scrollTo(0, 0); }}>
+          <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>credit_card</span>
+          <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>카드비교</span>
+        </div>
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('financial'); window.scrollTo(0, 0); }}>
+          <span className={`material-symbols-outlined ${activeMainTab === 'financial' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>show_chart</span>
+          <span className={`text-[10px] ${activeMainTab === 'financial' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>금융랭킹</span>
+        </div>
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('game'); window.scrollTo(0, 0); }}>
+          <span className={`material-symbols-outlined ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>sports_esports</span>
+          <span className={`text-[10px] ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>AI게임</span>
+        </div>
+        <div className="flex flex-col items-center gap-1 cursor-pointer">
+          <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">menu</span>
+          <span className="text-[10px] text-toss-gray-600 dark:text-gray-400">전체</span>
+        </div>
+      </nav>
 
-
-  {/* Card Detail Bottom Sheet */ }
-  {
-    selectedCard && (
-      <div
-        className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-[2px] transition-all duration-300 animate-in fade-in"
-        onClick={() => setSelectedCard(null)}
-      >
-        <div
-          className="bg-white dark:bg-[#111111] rounded-t-[32px] p-8 w-full max-w-[430px] mx-auto shadow-[0_-8px_30px_rgb(0,0,0,0.12)] animate-in slide-in-from-bottom duration-500 ease-out"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Handle Bar */}
-          <div className="w-12 h-1.5 bg-toss-gray-200 dark:bg-gray-800 rounded-full mx-auto mb-8 cursor-pointer" onClick={() => setSelectedCard(null)} />
-
-          <div className="flex justify-between items-start mb-8">
-            <div className="flex-1">
-              <p className="text-primary font-bold text-sm mb-1 uppercase tracking-wider">{selectedCard.issuer}</p>
-              <h2 className="text-[28px] font-bold text-toss-gray-800 dark:text-white leading-tight tracking-tight">
-                {selectedCard.name}
-              </h2>
-            </div>
+      {/* Floating Chatbot Button */}
+      {
+        activeMainTab === 'cards' && (
+          <div className="fixed bottom-24 right-6 z-30 sm:right-[calc(50%-215px+24px)]">
             <button
-              className="w-10 h-10 flex items-center justify-center bg-toss-gray-100 dark:bg-gray-800 rounded-full text-toss-gray-600 dark:text-gray-400 hover:scale-105 transition-transform"
-              onClick={() => setSelectedCard(null)}
+              onClick={scrollToChatbot}
+              className="bg-primary text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
             >
-              <span className="material-symbols-outlined text-[20px]">close</span>
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>smart_toy</span>
             </button>
           </div>
+        )
+      }
 
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            <div className="bg-toss-gray-50 dark:bg-gray-900/50 p-5 rounded-[24px] border border-toss-gray-100 dark:border-gray-800/50">
-              <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2 font-medium">연회비</p>
-              <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">{selectedCard.annualFee}</p>
-            </div>
-            <div className="bg-toss-gray-50 dark:bg-gray-900/50 p-5 rounded-[24px] border border-toss-gray-100 dark:border-gray-800/50">
-              <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2 font-medium">전월 실적</p>
-              <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">{selectedCard.previousMonthSpending}</p>
-            </div>
-          </div>
 
-          {/* Benefits List */}
-          <div className="space-y-4 mb-10">
-            <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-4 px-1">주요 혜택</h3>
-            <div className="space-y-3">
-              {selectedCard.benefits.map((benefit, idx) => (
-                <div key={idx} className="flex gap-4 items-center p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] transition-all hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-toss-gray-100 dark:hover:border-gray-700">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-primary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                  </div>
-                  <p className="text-[15px] font-semibold text-toss-gray-700 dark:text-gray-300 leading-snug">
-                    {benefit}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Action Button */}
-          <button
-            onClick={() => {
-              alert(`${selectedCard.name} 카드 신청 페이지로 이동합니다.`);
-              setSelectedCard(null);
-            }}
-            className="w-full bg-primary text-white py-[18px] rounded-[22px] font-bold text-[18px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all transform mb-2"
+      {/* Card Detail Bottom Sheet */}
+      {
+        selectedCard && (
+          <div
+            className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-[2px] transition-all duration-300 animate-in fade-in"
+            onClick={() => setSelectedCard(null)}
           >
-            카드 신청하기
-          </button>
-        </div>
-      </div>
-    )
-  }
+            <div
+              className="bg-white dark:bg-[#111111] rounded-t-[32px] p-8 w-full max-w-[430px] mx-auto shadow-[0_-8px_30px_rgb(0,0,0,0.12)] animate-in slide-in-from-bottom duration-500 ease-out"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Handle Bar */}
+              <div className="w-12 h-1.5 bg-toss-gray-200 dark:bg-gray-800 rounded-full mx-auto mb-8 cursor-pointer" onClick={() => setSelectedCard(null)} />
+
+              <div className="flex justify-between items-start mb-8">
+                <div className="flex-1">
+                  <p className="text-primary font-bold text-sm mb-1 uppercase tracking-wider">{selectedCard.issuer}</p>
+                  <h2 className="text-[28px] font-bold text-toss-gray-800 dark:text-white leading-tight tracking-tight">
+                    {selectedCard.name}
+                  </h2>
+                </div>
+                <button
+                  className="w-10 h-10 flex items-center justify-center bg-toss-gray-100 dark:bg-gray-800 rounded-full text-toss-gray-600 dark:text-gray-400 hover:scale-105 transition-transform"
+                  onClick={() => setSelectedCard(null)}
+                >
+                  <span className="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="bg-toss-gray-50 dark:bg-gray-900/50 p-5 rounded-[24px] border border-toss-gray-100 dark:border-gray-800/50">
+                  <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2 font-medium">연회비</p>
+                  <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">{selectedCard.annualFee}</p>
+                </div>
+                <div className="bg-toss-gray-50 dark:bg-gray-900/50 p-5 rounded-[24px] border border-toss-gray-100 dark:border-gray-800/50">
+                  <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2 font-medium">전월 실적</p>
+                  <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">{selectedCard.previousMonthSpending}</p>
+                </div>
+              </div>
+
+              {/* Benefits List */}
+              <div className="space-y-4 mb-10">
+                <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-4 px-1">주요 혜택</h3>
+                <div className="space-y-3">
+                  {selectedCard.benefits.map((benefit, idx) => (
+                    <div key={idx} className="flex gap-4 items-center p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] transition-all hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-toss-gray-100 dark:hover:border-gray-700">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-primary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                      </div>
+                      <p className="text-[15px] font-semibold text-toss-gray-700 dark:text-gray-300 leading-snug">
+                        {benefit}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <button
+                onClick={() => {
+                  alert(`${selectedCard.name} 카드 신청 페이지로 이동합니다.`);
+                  setSelectedCard(null);
+                }}
+                className="w-full bg-primary text-white py-[18px] rounded-[22px] font-bold text-[18px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all transform mb-2"
+              >
+                카드 신청하기
+              </button>
+            </div>
+          </div>
+        )
+      }
     </div >
   );
 }
