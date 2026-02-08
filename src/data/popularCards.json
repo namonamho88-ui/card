@@ -1,5 +1,5 @@
 {
-    "updatedAt": "2026-02-08T06:53:13.504Z",
+    "updatedAt": "2026-02-08T12:53:13.899Z",
     "cards": [
         {
             "id": "ss-1",
@@ -229,25 +229,6 @@
         {
             "id": "ss-6",
             "issuer": "삼성카드",
-            "name": "taptap DIGITAL",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "온라인간편결제 5%할인",
-                "스트리밍 50%할인",
-                "편의점 10%할인"
-            ],
-            "categories": [
-                "할인",
-                "편의점"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/657/card_img/27715/657card.png",
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 17
-        },
-        {
-            "id": "ss-7",
-            "issuer": "삼성카드",
             "name": "THE iD. 1st",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
@@ -261,6 +242,25 @@
                 "적립"
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2915/card_img/45262/2915card_1.png",
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 17
+        },
+        {
+            "id": "ss-7",
+            "issuer": "삼성카드",
+            "name": "taptap DIGITAL",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "온라인간편결제 5%할인",
+                "스트리밍 50%할인",
+                "편의점 10%할인"
+            ],
+            "categories": [
+                "할인",
+                "편의점"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/657/card_img/27715/657card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
             "rank": 18
         },
@@ -393,7 +393,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/466/card_img/37854/466card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 30
+            "rank": 29
         },
         {
             "id": "wo-6",
@@ -413,7 +413,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2851/card_img/43400/2851.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 31
+            "rank": 32
         },
         {
             "id": "sh-6",
@@ -541,7 +541,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/54/card_img/20135/54card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 44
+            "rank": 43
         },
         {
             "id": "wo-7",
@@ -597,7 +597,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2237/card_img/20939/2237card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 57
+            "rank": 55
         },
         {
             "id": "sh-9",
@@ -615,7 +615,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2731/card_img/36308/2731card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 58
+            "rank": 57
         },
         {
             "id": "hd-5",
@@ -633,7 +633,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 63
+            "rank": 62
         },
         {
             "id": "wo-9",
@@ -654,26 +654,6 @@
             "rank": 64
         },
         {
-            "id": "wo-10",
-            "issuer": "우리카드",
-            "name": "카드의정석 I&U+",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내가맹점 1.0~0.7%청구할인",
-                "주유 60~100원/L청구할인",
-                "대중교통 10%청구할인"
-            ],
-            "categories": [
-                "할인",
-                "주유",
-                "대중교통"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2688/card_img/33240/2688card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 65
-        },
-        {
             "id": "hn-2",
             "issuer": "하나카드",
             "name": "토스뱅크 하나카드 Day",
@@ -691,6 +671,26 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2904/card_img/44666/2904card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+            "rank": 65
+        },
+        {
+            "id": "wo-10",
+            "issuer": "우리카드",
+            "name": "카드의정석 I&U+",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내가맹점 1.0~0.7%청구할인",
+                "주유 60~100원/L청구할인",
+                "대중교통 10%청구할인"
+            ],
+            "categories": [
+                "할인",
+                "주유",
+                "대중교통"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2688/card_img/33240/2688card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
             "rank": 66
         },
         {
@@ -788,6 +788,25 @@
             "rank": 76
         },
         {
+            "id": "hd-9",
+            "issuer": "현대카드",
+            "name": "현대카드MY BUSINESS M F&B",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "대형마트, 슈퍼마켓 5%적립",
+                "전기・도시가스 요금, 4대 보험 5%적립",
+                "국내외 가맹점 1.5%적립"
+            ],
+            "categories": [
+                "쇼핑",
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2938/card_img/46988/2938card.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 81
+        },
+        {
             "id": "lo-3",
             "issuer": "롯데카드",
             "name": "LOCA LIKIT Eat",
@@ -808,43 +827,6 @@
             "rank": 82
         },
         {
-            "id": "hd-9",
-            "issuer": "현대카드",
-            "name": "현대카드MY BUSINESS M F&B",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "대형마트, 슈퍼마켓 5%적립",
-                "전기・도시가스 요금, 4대 보험 5%적립",
-                "국내외 가맹점 1.5%적립"
-            ],
-            "categories": [
-                "쇼핑",
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2938/card_img/46988/2938card.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 83
-        },
-        {
-            "id": "lo-4",
-            "issuer": "롯데카드",
-            "name": "롯데 국민행복카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "어린이집보육료 10%할인",
-                "병원 5%할인",
-                "학원 10%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/455/card_img/20971/455card.png",
-            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 84
-        },
-        {
             "id": "hn-3",
             "issuer": "하나카드",
             "name": "원더카드 2.0 FREE+",
@@ -863,6 +845,24 @@
             "rank": 85
         },
         {
+            "id": "lo-4",
+            "issuer": "롯데카드",
+            "name": "롯데 국민행복카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "어린이집보육료 10%할인",
+                "병원 5%할인",
+                "학원 10%할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/455/card_img/20971/455card.png",
+            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+            "rank": 86
+        },
+        {
             "id": "hn-4",
             "issuer": "하나카드",
             "name": "트래블로그 신용카드",
@@ -879,7 +879,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2529/card_img/29020/2529card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 89
+            "rank": 88
         },
         {
             "id": "hn-5",
@@ -897,7 +897,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2654/card_img/44245/2654card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 90
+            "rank": 91
         },
         {
             "id": "lo-5",
