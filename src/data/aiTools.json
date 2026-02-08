@@ -1,0 +1,514 @@
+{
+    "updatedAt": "2026-02-08T00:00:00Z",
+    "insight": "",
+    "categories": [
+        {
+            "id": "chatbot",
+            "name": "AI 챗봇 & 어시스턴트",
+            "icon": "smart_toy",
+            "emoji": "🤖",
+            "desc": "대화형 AI 서비스",
+            "tools": [
+                {
+                    "name": "ChatGPT",
+                    "company": "OpenAI",
+                    "url": "https://chatgpt.com",
+                    "desc": "가장 대중적인 대화형 AI. 텍스트·이미지·코드 등 범용 작업 지원",
+                    "pricing": "무료 / Plus $20",
+                    "tags": [
+                        "대화",
+                        "코딩",
+                        "분석"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Claude",
+                    "company": "Anthropic",
+                    "url": "https://claude.ai",
+                    "desc": "장문 분석에 강한 AI. 20만 토큰 컨텍스트 지원",
+                    "pricing": "무료 / Pro $20",
+                    "tags": [
+                        "대화",
+                        "문서분석",
+                        "코딩"
+                    ],
+                    "trending": true
+                },
+                {
+                    "name": "Gemini",
+                    "company": "Google",
+                    "url": "https://gemini.google.com",
+                    "desc": "Google 생태계 연동 AI. 검색·Gmail·Docs 통합",
+                    "pricing": "무료 / Advanced $20",
+                    "tags": [
+                        "대화",
+                        "검색",
+                        "Google연동"
+                    ],
+                    "trending": true
+                },
+                {
+                    "name": "DeepSeek",
+                    "company": "DeepSeek",
+                    "url": "https://chat.deepseek.com",
+                    "desc": "중국발 오픈소스 AI. 추론 능력이 뛰어난 R1 모델 공개",
+                    "pricing": "무료",
+                    "tags": [
+                        "대화",
+                        "추론",
+                        "오픈소스"
+                    ],
+                    "trending": true
+                },
+                {
+                    "name": "Perplexity",
+                    "company": "Perplexity AI",
+                    "url": "https://perplexity.ai",
+                    "desc": "AI 기반 검색엔진. 출처를 명시하며 답변",
+                    "pricing": "무료 / Pro $20",
+                    "tags": [
+                        "검색",
+                        "리서치"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Copilot",
+                    "company": "Microsoft",
+                    "url": "https://copilot.microsoft.com",
+                    "desc": "MS 365 통합 AI. Word·Excel·PPT에서 바로 사용",
+                    "pricing": "무료 / Pro $20",
+                    "tags": [
+                        "대화",
+                        "Office연동"
+                    ],
+                    "trending": false
+                }
+            ]
+        },
+        {
+            "id": "image",
+            "name": "이미지 생성 & 편집",
+            "icon": "image",
+            "emoji": "🎨",
+            "desc": "텍스트로 이미지를 생성하거나 편집하는 AI",
+            "tools": [
+                {
+                    "name": "Midjourney",
+                    "company": "Midjourney",
+                    "url": "https://midjourney.com",
+                    "desc": "최고 품질의 AI 이미지 생성. Discord 기반",
+                    "pricing": "Basic $10~",
+                    "tags": [
+                        "이미지생성",
+                        "아트"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "DALL-E 3",
+                    "company": "OpenAI",
+                    "url": "https://openai.com/dall-e-3",
+                    "desc": "ChatGPT 내장 이미지 생성. 텍스트 이해도 최고",
+                    "pricing": "ChatGPT Plus 포함",
+                    "tags": [
+                        "이미지생성"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Stable Diffusion",
+                    "company": "Stability AI",
+                    "url": "https://stability.ai",
+                    "desc": "오픈소스 이미지 생성 모델. 로컬 실행 가능",
+                    "pricing": "무료 (오픈소스)",
+                    "tags": [
+                        "이미지생성",
+                        "오픈소스"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Canva AI",
+                    "company": "Canva",
+                    "url": "https://canva.com",
+                    "desc": "디자인 툴 + AI 이미지 생성·편집 통합",
+                    "pricing": "무료 / Pro $13",
+                    "tags": [
+                        "디자인",
+                        "이미지편집"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Remove.bg",
+                    "company": "Kaleido",
+                    "url": "https://remove.bg",
+                    "desc": "AI 배경 제거. 5초만에 누끼 따기",
+                    "pricing": "무료 (저해상도)",
+                    "tags": [
+                        "배경제거",
+                        "편집"
+                    ],
+                    "trending": false
+                }
+            ]
+        },
+        {
+            "id": "video",
+            "name": "영상 생성 & 편집",
+            "icon": "movie",
+            "emoji": "🎬",
+            "desc": "AI로 영상을 생성하거나 편집하는 도구",
+            "tools": [
+                {
+                    "name": "Sora",
+                    "company": "OpenAI",
+                    "url": "https://sora.com",
+                    "desc": "텍스트→영상 생성. 최대 1분 고품질 영상",
+                    "pricing": "ChatGPT Plus 포함",
+                    "tags": [
+                        "영상생성"
+                    ],
+                    "trending": true
+                },
+                {
+                    "name": "Runway",
+                    "company": "Runway",
+                    "url": "https://runwayml.com",
+                    "desc": "영상 생성·편집 올인원. Gen-3 Alpha 모델",
+                    "pricing": "무료체험 / $12~",
+                    "tags": [
+                        "영상생성",
+                        "영상편집"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "CapCut",
+                    "company": "ByteDance",
+                    "url": "https://capcut.com",
+                    "desc": "AI 자막·편집 기능 내장 무료 영상 편집기",
+                    "pricing": "무료 / Pro $8",
+                    "tags": [
+                        "영상편집",
+                        "자막"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Vrew",
+                    "company": "Voyager X",
+                    "url": "https://vrew.voyagerx.com",
+                    "desc": "한국어 AI 자막·더빙 전문 영상 편집기",
+                    "pricing": "무료 / Pro",
+                    "tags": [
+                        "영상편집",
+                        "자막",
+                        "한국어"
+                    ],
+                    "trending": false
+                }
+            ]
+        },
+        {
+            "id": "writing",
+            "name": "글쓰기 & 문서 작성",
+            "icon": "edit_note",
+            "emoji": "✍️",
+            "desc": "AI가 글쓰기를 도와주는 서비스",
+            "tools": [
+                {
+                    "name": "Notion AI",
+                    "company": "Notion",
+                    "url": "https://notion.so",
+                    "desc": "노션 문서 내에서 AI 글쓰기·요약·번역 지원",
+                    "pricing": "무료 / $10 추가",
+                    "tags": [
+                        "문서작성",
+                        "요약"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Jasper",
+                    "company": "Jasper AI",
+                    "url": "https://jasper.ai",
+                    "desc": "마케팅 콘텐츠 특화 AI 글쓰기",
+                    "pricing": "$49~",
+                    "tags": [
+                        "마케팅",
+                        "카피라이팅"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Grammarly",
+                    "company": "Grammarly",
+                    "url": "https://grammarly.com",
+                    "desc": "AI 영문법 교정 + 글쓰기 보조",
+                    "pricing": "무료 / Premium $12",
+                    "tags": [
+                        "교정",
+                        "영어"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "DeepL",
+                    "company": "DeepL",
+                    "url": "https://deepl.com",
+                    "desc": "최고 품질 AI 번역기. 한국어 지원 우수",
+                    "pricing": "무료 / Pro $9",
+                    "tags": [
+                        "번역"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Gamma",
+                    "company": "Gamma",
+                    "url": "https://gamma.app",
+                    "desc": "AI로 프레젠테이션·문서 자동 생성",
+                    "pricing": "무료 / Plus $10",
+                    "tags": [
+                        "PPT",
+                        "프레젠테이션"
+                    ],
+                    "trending": true
+                }
+            ]
+        },
+        {
+            "id": "coding",
+            "name": "코딩 & 개발",
+            "icon": "code",
+            "emoji": "💻",
+            "desc": "AI가 코딩을 도와주는 개발 도구",
+            "tools": [
+                {
+                    "name": "GitHub Copilot",
+                    "company": "GitHub / OpenAI",
+                    "url": "https://github.com/features/copilot",
+                    "desc": "VS Code 코드 자동완성. 가장 널리 쓰이는 AI 코딩 도구",
+                    "pricing": "무료 / Pro $10",
+                    "tags": [
+                        "코드자동완성",
+                        "IDE"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Cursor",
+                    "company": "Cursor",
+                    "url": "https://cursor.com",
+                    "desc": "AI 네이티브 코드 에디터. Claude/GPT 내장",
+                    "pricing": "무료 / Pro $20",
+                    "tags": [
+                        "코드에디터",
+                        "AI네이티브"
+                    ],
+                    "trending": true
+                },
+                {
+                    "name": "Claude Code",
+                    "company": "Anthropic",
+                    "url": "https://docs.anthropic.com/en/docs/claude-code",
+                    "desc": "터미널 기반 에이전틱 코딩 도구",
+                    "pricing": "API 종량제",
+                    "tags": [
+                        "터미널",
+                        "에이전트"
+                    ],
+                    "trending": true
+                },
+                {
+                    "name": "Replit",
+                    "company": "Replit",
+                    "url": "https://replit.com",
+                    "desc": "브라우저 기반 AI 코딩 환경. 바로 배포 가능",
+                    "pricing": "무료 / Pro $25",
+                    "tags": [
+                        "온라인IDE",
+                        "배포"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "v0",
+                    "company": "Vercel",
+                    "url": "https://v0.dev",
+                    "desc": "AI가 UI 컴포넌트를 자동 생성 (React/Tailwind)",
+                    "pricing": "무료 / Premium $20",
+                    "tags": [
+                        "UI생성",
+                        "프론트엔드"
+                    ],
+                    "trending": true
+                }
+            ]
+        },
+        {
+            "id": "audio",
+            "name": "음성 & 음악",
+            "icon": "mic",
+            "emoji": "🎵",
+            "desc": "음성 인식, 합성, 음악 생성 AI",
+            "tools": [
+                {
+                    "name": "ElevenLabs",
+                    "company": "ElevenLabs",
+                    "url": "https://elevenlabs.io",
+                    "desc": "최고 품질 AI 음성 합성. 보이스 클로닝 지원",
+                    "pricing": "무료 / $5~",
+                    "tags": [
+                        "음성합성",
+                        "TTS"
+                    ],
+                    "trending": true
+                },
+                {
+                    "name": "Whisper",
+                    "company": "OpenAI",
+                    "url": "https://openai.com/research/whisper",
+                    "desc": "오픈소스 음성 인식(STT). 다국어 지원",
+                    "pricing": "무료 (오픈소스)",
+                    "tags": [
+                        "음성인식",
+                        "STT",
+                        "오픈소스"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Suno",
+                    "company": "Suno",
+                    "url": "https://suno.com",
+                    "desc": "텍스트로 노래 전체를 AI 생성 (가사+멜로디+보컬)",
+                    "pricing": "무료 / Pro $10",
+                    "tags": [
+                        "음악생성"
+                    ],
+                    "trending": true
+                },
+                {
+                    "name": "Clova Note",
+                    "company": "NAVER",
+                    "url": "https://clovanote.naver.com",
+                    "desc": "한국어 회의록 자동 작성. 녹음→텍스트 변환",
+                    "pricing": "무료 (월 300분)",
+                    "tags": [
+                        "회의록",
+                        "STT",
+                        "한국어"
+                    ],
+                    "trending": false
+                }
+            ]
+        },
+        {
+            "id": "productivity",
+            "name": "업무 생산성",
+            "icon": "work",
+            "emoji": "⚡",
+            "desc": "업무 효율을 높여주는 AI 도구",
+            "tools": [
+                {
+                    "name": "Otter.ai",
+                    "company": "Otter",
+                    "url": "https://otter.ai",
+                    "desc": "영어 회의 자동 녹취·요약. Zoom/Teams 연동",
+                    "pricing": "무료 / Pro $17",
+                    "tags": [
+                        "회의록",
+                        "요약"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Zapier AI",
+                    "company": "Zapier",
+                    "url": "https://zapier.com",
+                    "desc": "7,000+ 앱 자동화 연결. AI가 워크플로우 추천",
+                    "pricing": "무료 / $20~",
+                    "tags": [
+                        "자동화",
+                        "워크플로우"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Beautiful.ai",
+                    "company": "Beautiful.ai",
+                    "url": "https://beautiful.ai",
+                    "desc": "AI가 레이아웃을 자동 조정하는 PPT 제작 도구",
+                    "pricing": "$12~",
+                    "tags": [
+                        "PPT",
+                        "디자인"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Liner",
+                    "company": "Liner",
+                    "url": "https://getliner.com",
+                    "desc": "한국 스타트업의 AI 검색·요약 도구",
+                    "pricing": "무료 / Pro",
+                    "tags": [
+                        "검색",
+                        "요약",
+                        "한국어"
+                    ],
+                    "trending": false
+                }
+            ]
+        },
+        {
+            "id": "data",
+            "name": "데이터 분석",
+            "icon": "analytics",
+            "emoji": "📊",
+            "desc": "데이터를 분석하고 시각화하는 AI",
+            "tools": [
+                {
+                    "name": "Julius AI",
+                    "company": "Julius",
+                    "url": "https://julius.ai",
+                    "desc": "Excel/CSV 업로드 → AI가 분석·차트 생성",
+                    "pricing": "무료 / $20",
+                    "tags": [
+                        "데이터분석",
+                        "차트"
+                    ],
+                    "trending": true
+                },
+                {
+                    "name": "ChatGPT Data Analysis",
+                    "company": "OpenAI",
+                    "url": "https://chatgpt.com",
+                    "desc": "ChatGPT에 파일 업로드 시 Python으로 분석 실행",
+                    "pricing": "Plus $20",
+                    "tags": [
+                        "데이터분석",
+                        "Python"
+                    ],
+                    "trending": false
+                },
+                {
+                    "name": "Rows AI",
+                    "company": "Rows",
+                    "url": "https://rows.com",
+                    "desc": "AI가 내장된 스프레드시트. 자연어로 수식 생성",
+                    "pricing": "무료 / $6~",
+                    "tags": [
+                        "스프레드시트",
+                        "수식"
+                    ],
+                    "trending": false
+                }
+            ]
+        }
+    ]
+}
