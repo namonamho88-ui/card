@@ -241,12 +241,24 @@ export default function EuljiroFoodRanking() {
             {error && !loading && (
                 <div className="px-5 py-12 text-center">
                     <span className="material-symbols-outlined text-4xl text-toss-gray-200 mb-3">error_outline</span>
-                    <p className="text-toss-gray-600 dark:text-gray-400 text-[15px] mb-4">{error}</p>
+                    <p className="text-toss-gray-600 dark:text-gray-400 text-[15px] mb-4 whitespace-pre-line">{error}</p>
                     <button
-                        onClick={() => fetchRanking(selectedArea, true)}
+                        onClick={() => {
+                            setError(null);
+                            // 기본 데이터로 복귀
+                            const mockData = MOCK_RESTAURANTS[selectedArea] || [];
+                            const enriched = mockData.map(r => ({
+                                ...r,
+                                icon: getCategoryIcon(r.category),
+                                color: getCategoryColor(r.category)
+                            }));
+                            setRestaurants(enriched);
+                            setIsUsingMockData(true);
+                            setLastUpdated(null);
+                        }}
                         className="bg-primary text-white px-6 py-3 rounded-2xl font-bold text-sm"
                     >
-                        다시 시도
+                        기본 데이터로 돌아가기
                     </button>
                 </div>
             )}
