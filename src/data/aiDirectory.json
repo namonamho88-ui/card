@@ -1,0 +1,30 @@
+{
+    "updatedAt": null,
+    "categories": {
+        "자연어 처리 (NLP)": {
+            "icon": "💬",
+            "description": "텍스트를 이해하고 생성하는 AI 기술",
+            "tasks": []
+        },
+        "이미지 & 비전": {
+            "icon": "👁️",
+            "description": "이미지와 영상을 이해하고 생성하는 AI 기술",
+            "tasks": []
+        },
+        "음성 & 오디오": {
+            "icon": "🎵",
+            "description": "음성 인식, 합성, 오디오 처리 AI 기술",
+            "tasks": []
+        },
+        "멀티모달": {
+            "icon": "🔗",
+            "description": "텍스트+이미지+음성 등 여러 형태를 결합하는 AI",
+            "tasks": []
+        },
+        "강화학습 & 기타": {
+            "icon": "🎮",
+            "description": "환경과 상호작용하며 학습하는 AI 및 기타 기술",
+            "tasks": []
+        }
+    }
+}
