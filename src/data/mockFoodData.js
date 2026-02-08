@@ -61,3 +61,20 @@ export const MOCK_RESTAURANTS = {
         { rank: 10, name: '루프탑카페', category: '카페', signature: '시그니처커피', priceRange: '0.6~1.5만원', rating: 4.5, reviewCount: '1,500+', address: '익선동', openHours: '11:00~23:00', closedDay: '연중무휴', waitTime: '15~30분', tags: ['루프탑', '야경', '데이트'], description: '익선동 루프탑 카페, 서울 전망과 함께하는 커피' }
     ]
 };
+
+// 카테고리 필터 정의
+export const FOOD_CATEGORIES = [
+    { id: 'all', label: '전체', icon: '🍽️', keywords: [] },
+    { id: 'korean', label: '한식', icon: '🍚', keywords: ['한식', '국밥', '냉면', '육개장', '갈비탕', '해장국', '김치찌개', '소금구이'] },
+    { id: 'japanese', label: '일식', icon: '🍣', keywords: ['일식', '오마카세', '덴동', '돈까스', '히레카츠', '라멘'] },
+    { id: 'chinese', label: '중식', icon: '🥟', keywords: ['중식', '양꼬치', '마라'] },
+    { id: 'western', label: '양식', icon: '🍝', keywords: ['양식', '이탈리안', '파스타', '피자', '트러플', '로제', '마르게리타', '고르곤졸라'] },
+    { id: 'cafe', label: '카페', icon: '☕', keywords: ['카페', '커피', '라떼', '아메리카노', '핸드드립', '아인슈페너', '쑥라떼', '오곡라떼', '에스프레소', '로스터리'] },
+    { id: 'dessert', label: '디저트', icon: '🍰', keywords: ['디저트', '케이크', '베이커리', '크루아상', '소금빵', '티라미수', '젤라또', '빙수', '팥빙수'] },
+    { id: 'bar', label: '술집·바', icon: '🍺', keywords: ['술집', '바', '생맥주', '수제맥주', '막걸리', '와인', '크래프트'] },
+    { id: 'brunch', label: '브런치', icon: '🥞', keywords: ['브런치', '에그베네딕트', '샐러드', '건강식'] },
+    { id: 'snack', label: '분식', icon: '🍜', keywords: ['분식', '떡볶이', '국수', '비빔국수'] },
+    { id: 'burger', label: '버거', icon: '🍔', keywords: ['버거', '수제버거', '패티', '한우버거'] },
+    { id: 'asian', label: '아시안', icon: '🍛', keywords: ['태국', '팟타이', '멕시칸', '타코', '베트남'] }
+];
+
