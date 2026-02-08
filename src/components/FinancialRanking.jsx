@@ -1,15 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MOCK_KR_STOCKS, US_STOCK_SYMBOLS, CRYPTO_IDS } from '../data/mockFinancialData';
+import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
 
 const FINNHUB_KEY = import.meta.env.VITE_FINNHUB_API_KEY;
 const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const NEWS_CACHE_KEY = 'financial_news_cache';
-
-// ✅ 변경 1: 모델명을 유효한 최신 모델로 교체
-// gemini-2.5-flash-lite: 무료 티어에서 가장 높은 RPM, 가장 저렴
-// gemini-2.0-flash: 검색 grounding 지원 (2026-03-31 deprecated 예정)
-// gemini-2.5-flash: 안정 버전, 검색 grounding 지원
-const GEMINI_MODEL = 'gemini-2.5-flash-lite'; // 또는 'gemini-2.5-flash'
 
 function getTodayKey() {
     const d = new Date();
@@ -21,94 +16,6 @@ const TABS = [
     { id: 'us', label: '해외주식', icon: '🇺🇸' },
     { id: 'crypto', label: '가상화폐', icon: '₿' },
 ];
-
-// ✅ 변경 2: Exponential Backoff + 재시도 로직
-async function geminiRequest(prompt, { maxRetries = 3, useSearch = false } = {}) {
-    if (!GEMINI_KEY) throw new Error('No API key');
-
-    const tools = useSearch ? [{ google_search: {} }] : [];
-
-    for (let attempt = 0; attempt < maxRetries; attempt++) {
-        try {
-            const res = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                        ...(tools.length > 0 && { tools }),
-                        generationConfig: { temperature: 0.2 }
-                    })
-                }
-            );
-
-            if (res.status === 429) {
-                // 429: 지수 백오프로 대기 후 재시도
-                const waitMs = Math.min(1000 * Math.pow(2, attempt) + Math.random() * 1000, 30000);
-                console.warn(`Gemini 429 - Retry ${attempt + 1}/${maxRetries} after ${Math.round(waitMs)}ms`);
-                await new Promise(r => setTimeout(r, waitMs));
-                continue;
-            }
-
-            if (!res.ok) throw new Error(`API ${res.status}`);
-
-            const json = await res.json();
-            const raw = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
-            return raw;
-        } catch (e) {
-            if (attempt === maxRetries - 1) throw e;
-            const waitMs = 1000 * Math.pow(2, attempt);
-            await new Promise(r => setTimeout(r, waitMs));
-        }
-    }
-    throw new Error('Max retries exceeded');
-}
-
-// ✅ 변경 3: JSON 파싱 유틸리티
-function extractJSON(raw) {
-    let jsonStr = raw;
-    const codeBlock = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
-    if (codeBlock) {
-        jsonStr = codeBlock[1].trim();
-    } else {
-        // 배열 또는 객체 매칭
-        const arr = raw.match(/\[[\s\S]*\]/);
-        const obj = raw.match(/\{[\s\S]*\}/);
-        if (arr) jsonStr = arr[0];
-        else if (obj) jsonStr = obj[0];
-    }
-    return JSON.parse(jsonStr);
-}
-
-// ✅ 변경 4: 요청 큐 (동시 Gemini 호출 방지)
-const requestQueue = [];
-let isProcessing = false;
-
-async function enqueueGeminiRequest(fn) {
-    return new Promise((resolve, reject) => {
-        requestQueue.push({ fn, resolve, reject });
-        processQueue();
-    });
-}
-
-async function processQueue() {
-    if (isProcessing || requestQueue.length === 0) return;
-    isProcessing = true;
-    const { fn, resolve, reject } = requestQueue.shift();
-    try {
-        const result = await fn();
-        resolve(result);
-    } catch (e) {
-        reject(e);
-    } finally {
-        isProcessing = false;
-        // 큐의 다음 요청 사이에 1초 딜레이
-        if (requestQueue.length > 0) {
-            setTimeout(processQueue, 1000);
-        }
-    }
-}
 
 export default function FinancialRanking() {
     const [activeTab, setActiveTab] = useState('kr');
