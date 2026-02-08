@@ -141,6 +141,10 @@ export default function FinancialRanking() {
                     })
                 }
             );
+            if (res.status === 429) {
+                console.warn('Gemini API Rate Limit Exceeded (429) - Using mock or cache');
+                return;
+            }
             if (!res.ok) return;
             const json = await res.json();
             const raw = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
@@ -198,6 +202,16 @@ export default function FinancialRanking() {
                     })
                 }
             );
+            if (res.status === 429) {
+                setNewsData({
+                    summary: '현재 요청이 너무 많습니다. 잠시 후 다시 시도해주세요.',
+                    sentiment: '중립',
+                    items: [
+                        { title: 'API 할당량 초과', type: '중립', detail: 'Google AI Studio의 무료 할당량을 모두 소모했습니다. 잠시 후 다시 시도하거나 API 설정을 확인해주세요.' }
+                    ]
+                });
+                return;
+            }
             if (!res.ok) throw new Error('API Error');
             const json = await res.json();
             const raw = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
@@ -277,8 +291,8 @@ export default function FinancialRanking() {
                                 key={tab.id}
                                 onClick={() => { setActiveTab(tab.id); setSelectedItem(null); }}
                                 className={`flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[14px] font-semibold transition-all border ${isActive
-                                        ? 'bg-primary text-white border-primary'
-                                        : 'bg-white dark:bg-[#1a1a1a] text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700'
+                                    ? 'bg-primary text-white border-primary'
+                                    : 'bg-white dark:bg-[#1a1a1a] text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700'
                                     }`}
                             >
                                 <span>{tab.icon}</span>
@@ -492,13 +506,13 @@ export default function FinancialRanking() {
                                 <div className="space-y-3">
                                     {/* 종합 의견 */}
                                     <div className={`p-4 rounded-2xl border ${newsData.sentiment === '긍정' ? 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800'
-                                            : newsData.sentiment === '부정' ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800'
-                                                : 'bg-toss-gray-50 dark:bg-gray-900/50 border-toss-gray-200 dark:border-gray-700'
+                                        : newsData.sentiment === '부정' ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800'
+                                            : 'bg-toss-gray-50 dark:bg-gray-900/50 border-toss-gray-200 dark:border-gray-700'
                                         }`}>
                                         <div className="flex items-center gap-2 mb-1">
                                             <span className={`text-[13px] font-bold px-2 py-0.5 rounded-full ${newsData.sentiment === '긍정' ? 'bg-red-100 dark:bg-red-900/30 text-red-600'
-                                                    : newsData.sentiment === '부정' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600'
-                                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
+                                                : newsData.sentiment === '부정' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600'
+                                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
                                                 }`}>
                                                 {newsData.sentiment === '긍정' ? '🔥 긍정' : newsData.sentiment === '부정' ? '❄️ 부정' : '➖ 중립'}
                                             </span>
@@ -512,8 +526,8 @@ export default function FinancialRanking() {
                                     {newsData.items?.map((n, i) => (
                                         <div key={i} className="flex items-start gap-3 p-3 bg-toss-gray-50 dark:bg-gray-900/50 rounded-xl">
                                             <span className={`text-[12px] font-bold px-1.5 py-0.5 rounded shrink-0 mt-0.5 ${n.type === '호재' ? 'bg-red-100 dark:bg-red-900/20 text-red-500'
-                                                    : n.type === '악재' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-500'
-                                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+                                                : n.type === '악재' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-500'
+                                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
                                                 }`}>
                                                 {n.type}
                                             </span>
