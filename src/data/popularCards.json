@@ -1,5 +1,5 @@
 {
-    "updatedAt": "2026-02-08T02:35:06.864Z",
+    "updatedAt": "2026-02-08T06:53:13.504Z",
     "cards": [
         {
             "id": "ss-1",
@@ -302,6 +302,24 @@
             "rank": 21
         },
         {
+            "id": "ss-8",
+            "issuer": "삼성카드",
+            "name": "삼성 iD GLOBAL 카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "해외 이용 2%할인",
+                "공항라운지 연 2회무료 이용",
+                "디지털콘텐츠 50%할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 22
+        },
+        {
             "id": "wo-4",
             "issuer": "우리카드",
             "name": "카드의정석 EVERY MILE SKYPASS",
@@ -318,24 +336,6 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 22
-        },
-        {
-            "id": "ss-8",
-            "issuer": "삼성카드",
-            "name": "삼성 iD GLOBAL 카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "해외 이용 2%할인",
-                "공항라운지 연 2회무료 이용",
-                "디지털콘텐츠 50%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
             "rank": 23
         },
         {
@@ -561,7 +561,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 47
+            "rank": 48
         },
         {
             "id": "wo-8",
@@ -713,24 +713,6 @@
             "rank": 70
         },
         {
-            "id": "sh-10",
-            "issuer": "신한카드",
-            "name": "신한카드 Edu Plan+",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "학원비 최대 10%캐시백",
-                "3대 할인점 1%캐시백",
-                "메가박스 7천원할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 71
-        },
-        {
             "id": "ss-10",
             "issuer": "삼성카드",
             "name": "삼성 iD ON 카드",
@@ -748,6 +730,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2235/card_img/28314/2235card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 71
+        },
+        {
+            "id": "sh-10",
+            "issuer": "신한카드",
+            "name": "신한카드 Edu Plan+",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "학원비 최대 10%캐시백",
+                "3대 할인점 1%캐시백",
+                "메가박스 7천원할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 72
         },
         {
@@ -785,7 +785,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2880/card_img/44410/2880card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 77
+            "rank": 76
         },
         {
             "id": "lo-3",
@@ -805,7 +805,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 81
+            "rank": 82
         },
         {
             "id": "hd-9",
@@ -917,7 +917,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 91
+            "rank": 93
         },
         {
             "id": "hd-10",
