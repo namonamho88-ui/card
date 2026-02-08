@@ -531,7 +531,7 @@ ${cardContext}
                   }}
                   className="flex-1 bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-800 dark:text-white py-[18px] rounded-[22px] font-bold text-[16px] transition-all active:scale-[0.98]"
                 >
-                  ⚖️ 비교함에 담기
+                  ⚖️ 비교함에 담기 <br />(AI기반 비교 분석)
                 </button>
                 <button
                   onClick={() => {
