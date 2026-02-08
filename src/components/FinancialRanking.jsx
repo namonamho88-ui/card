@@ -5,16 +5,109 @@ const FINNHUB_KEY = import.meta.env.VITE_FINNHUB_API_KEY;
 const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const NEWS_CACHE_KEY = 'financial_news_cache';
 
+// ✅ 변경 1: 모델명을 유효한 최신 모델로 교체
+// gemini-2.5-flash-lite: 무료 티어에서 가장 높은 RPM, 가장 저렴
+// gemini-2.0-flash: 검색 grounding 지원 (2026-03-31 deprecated 예정)
+// gemini-2.5-flash: 안정 버전, 검색 grounding 지원
+const GEMINI_MODEL = 'gemini-2.5-flash-lite'; // 또는 'gemini-2.5-flash'
+
+function getTodayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
 const TABS = [
     { id: 'kr', label: '국내주식', icon: '🇰🇷' },
     { id: 'us', label: '해외주식', icon: '🇺🇸' },
     { id: 'crypto', label: '가상화폐', icon: '₿' },
 ];
 
-// ── 오늘 날짜 키 ──
-function getTodayKey() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+// ✅ 변경 2: Exponential Backoff + 재시도 로직
+async function geminiRequest(prompt, { maxRetries = 3, useSearch = false } = {}) {
+    if (!GEMINI_KEY) throw new Error('No API key');
+
+    const tools = useSearch ? [{ google_search: {} }] : [];
+
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+        try {
+            const res = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+                        ...(tools.length > 0 && { tools }),
+                        generationConfig: { temperature: 0.2 }
+                    })
+                }
+            );
+
+            if (res.status === 429) {
+                // 429: 지수 백오프로 대기 후 재시도
+                const waitMs = Math.min(1000 * Math.pow(2, attempt) + Math.random() * 1000, 30000);
+                console.warn(`Gemini 429 - Retry ${attempt + 1}/${maxRetries} after ${Math.round(waitMs)}ms`);
+                await new Promise(r => setTimeout(r, waitMs));
+                continue;
+            }
+
+            if (!res.ok) throw new Error(`API ${res.status}`);
+
+            const json = await res.json();
+            const raw = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            return raw;
+        } catch (e) {
+            if (attempt === maxRetries - 1) throw e;
+            const waitMs = 1000 * Math.pow(2, attempt);
+            await new Promise(r => setTimeout(r, waitMs));
+        }
+    }
+    throw new Error('Max retries exceeded');
+}
+
+// ✅ 변경 3: JSON 파싱 유틸리티
+function extractJSON(raw) {
+    let jsonStr = raw;
+    const codeBlock = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (codeBlock) {
+        jsonStr = codeBlock[1].trim();
+    } else {
+        // 배열 또는 객체 매칭
+        const arr = raw.match(/\[[\s\S]*\]/);
+        const obj = raw.match(/\{[\s\S]*\}/);
+        if (arr) jsonStr = arr[0];
+        else if (obj) jsonStr = obj[0];
+    }
+    return JSON.parse(jsonStr);
+}
+
+// ✅ 변경 4: 요청 큐 (동시 Gemini 호출 방지)
+const requestQueue = [];
+let isProcessing = false;
+
+async function enqueueGeminiRequest(fn) {
+    return new Promise((resolve, reject) => {
+        requestQueue.push({ fn, resolve, reject });
+        processQueue();
+    });
+}
+
+async function processQueue() {
+    if (isProcessing || requestQueue.length === 0) return;
+    isProcessing = true;
+    const { fn, resolve, reject } = requestQueue.shift();
+    try {
+        const result = await fn();
+        resolve(result);
+    } catch (e) {
+        reject(e);
+    } finally {
+        isProcessing = false;
+        // 큐의 다음 요청 사이에 1초 딜레이
+        if (requestQueue.length > 0) {
+            setTimeout(processQueue, 1000);
+        }
+    }
 }
 
 export default function FinancialRanking() {
@@ -31,7 +124,7 @@ export default function FinancialRanking() {
     const isMountedRef = useRef(true);
 
     // ══════════════════════════════════════════
-    // 1. 해외주식 (Finnhub) - 10초마다 실시간
+    // 1. 해외주식 (Finnhub) - 동일
     // ══════════════════════════════════════════
     const fetchUSStocks = useCallback(async () => {
         if (!FINNHUB_KEY) return;
@@ -52,7 +145,7 @@ export default function FinancialRanking() {
                         name: s.name,
                         nameKr: s.nameKr,
                         sector: s.sector,
-                        price: data.c,           // current
+                        price: data.c,
                         change: data.c && data.pc ? ((data.c - data.pc) / data.pc * 100) : 0,
                         high: data.h,
                         low: data.l,
@@ -74,7 +167,7 @@ export default function FinancialRanking() {
     }, []);
 
     // ══════════════════════════════════════════
-    // 2. 가상화폐 (CoinGecko) - 10초마다 실시간
+    // 2. 가상화폐 (CoinGecko) - 동일
     // ══════════════════════════════════════════
     const fetchCrypto = useCallback(async () => {
         try {
@@ -108,141 +201,119 @@ export default function FinancialRanking() {
     }, []);
 
     // ══════════════════════════════════════════
-    // 3. 국내주식 (Gemini + Mock) - 매일 1회
+    // 3. 국내주식 (Gemini) - ✅ 캐시 강화 + 큐
     // ══════════════════════════════════════════
     const fetchKRStocks = useCallback(async () => {
         const cacheKey = `kr_stocks_${getTodayKey()}`;
+
+        // 캐시 확인
         try {
             const cached = localStorage.getItem(cacheKey);
             if (cached) {
-                const { data } = JSON.parse(cached);
-                if (data?.length > 0) { setKrStocks(data); return; }
+                const { data, timestamp } = JSON.parse(cached);
+                // ✅ 캐시가 12시간 이내면 사용 (더 넉넉하게)
+                if (data?.length > 0 && Date.now() - timestamp < 12 * 60 * 60 * 1000) {
+                    setKrStocks(data);
+                    return;
+                }
             }
         } catch (e) { }
 
         if (!GEMINI_KEY) return;
 
         try {
-            const prompt = `
-        오늘 한국 주식시장(KOSPI, KOSDAQ) 시가총액 TOP 10 종목의 현재 정보를 알려주세요.
-        반드시 JSON 배열만 출력:
-        [{"symbol":"005930","name":"삼성전자","price":72400,"change":1.12,"volume":"18,234,567","marketCap":"432조","sector":"반도체"}]
-        change는 전일 대비 등락률(%)입니다.
-      `;
-            const res = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_KEY}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                        tools: [{ google_search: {} }],
-                        generationConfig: { temperature: 0.2 }
-                    })
-                }
+            const raw = await enqueueGeminiRequest(() =>
+                geminiRequest(
+                    `오늘 한국 주식시장(KOSPI, KOSDAQ) 시가총액 TOP 10 종목의 현재 정보를 알려주세요.
+반드시 JSON 배열만 출력:
+[{"symbol":"005930","name":"삼성전자","price":72400,"change":1.12,"volume":"18,234,567","marketCap":"432조","sector":"반도체"}]
+change는 전일 대비 등락률(%)입니다.`,
+                    { useSearch: true }
+                )
             );
-            if (res.status === 429) {
-                console.warn('Gemini API Rate Limit Exceeded (429) - Using mock or cache');
-                return;
-            }
-            if (!res.ok) return;
-            const json = await res.json();
-            const raw = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
-            let jsonStr = raw;
-            const m = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
-            if (m) jsonStr = m[1].trim();
-            else { const a = raw.match(/\[[\s\S]*\]/); if (a) jsonStr = a[0]; }
 
-            const parsed = JSON.parse(jsonStr);
+            const parsed = extractJSON(raw);
             if (Array.isArray(parsed) && parsed.length > 0) {
-                setKrStocks(parsed.slice(0, 10));
-                localStorage.setItem(cacheKey, JSON.stringify({ data: parsed.slice(0, 10), timestamp: Date.now() }));
+                const data = parsed.slice(0, 10);
+                setKrStocks(data);
+                localStorage.setItem(cacheKey, JSON.stringify({ data, timestamp: Date.now() }));
             }
         } catch (e) {
             console.warn('KR stocks Gemini error:', e.message);
+            // ✅ 실패 시 Mock 데이터 유지 (이미 초기값)
         }
     }, []);
 
     // ══════════════════════════════════════════
-    // 4. 뉴스/호재 분석 (Gemini) - 매일 1회, 클릭 시
+    // 4. 뉴스/호재 분석 - ✅ 캐시 강화 + 큐 + Fallback
     // ══════════════════════════════════════════
     const fetchNews = useCallback(async (item) => {
         const key = `${NEWS_CACHE_KEY}_${item.symbol || item.id}_${getTodayKey()}`;
+
+        // ✅ 캐시 확인 (하루 단위)
         try {
             const cached = localStorage.getItem(key);
-            if (cached) { setNewsData(JSON.parse(cached)); return; }
+            if (cached) {
+                setNewsData(JSON.parse(cached));
+                return;
+            }
         } catch (e) { }
 
-        if (!GEMINI_KEY) { setNewsData({ summary: '뉴스를 불러올 수 없습니다.', items: [] }); return; }
+        if (!GEMINI_KEY) {
+            setNewsData({ summary: 'API 키가 설정되지 않았습니다.', sentiment: '중립', items: [] });
+            return;
+        }
 
         setNewsLoading(true);
         try {
             const stockName = item.nameKr || item.name;
-            const prompt = `
-        "${stockName}" (${item.symbol || item.id})에 대한 오늘의 투자 뉴스 및 호재/악재를 분석해주세요.
-        반드시 JSON만 출력:
-        {
-          "summary": "한줄 종합 의견 (50자 이내)",
-          "sentiment": "긍정 또는 부정 또는 중립",
-          "items": [
-            {"title": "뉴스 제목", "type": "호재 또는 악재 또는 중립", "detail": "한줄 설명"}
-          ]
-        }
-        items는 최대 5개.
-      `;
-            const res = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_KEY}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                        tools: [{ google_search: {} }],
-                        generationConfig: { temperature: 0.3 }
-                    })
-                }
+            const raw = await enqueueGeminiRequest(() =>
+                geminiRequest(
+                    `"${stockName}" (${item.symbol || item.id})에 대한 오늘의 투자 뉴스 및 호재/악재를 분석해주세요.
+반드시 JSON만 출력:
+{
+  "summary": "한줄 종합 의견 (50자 이내)",
+  "sentiment": "긍정 또는 부정 또는 중립",
+  "items": [
+    {"title": "뉴스 제목", "type": "호재 또는 악재 또는 중립", "detail": "한줄 설명"}
+  ]
+}
+items는 최대 5개.`,
+                    { useSearch: true }
+                )
             );
-            if (res.status === 429) {
-                setNewsData({
-                    summary: '현재 요청이 너무 많습니다. 잠시 후 다시 시도해주세요.',
-                    sentiment: '중립',
-                    items: [
-                        { title: 'API 할당량 초과', type: '중립', detail: 'Google AI Studio의 무료 할당량을 모두 소모했습니다. 잠시 후 다시 시도하거나 API 설정을 확인해주세요.' }
-                    ]
-                });
-                return;
-            }
-            if (!res.ok) throw new Error('API Error');
-            const json = await res.json();
-            const raw = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
-            let jsonStr = raw;
-            const m = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
-            if (m) jsonStr = m[1].trim();
-            else { const a = raw.match(/\{[\s\S]*\}/); if (a) jsonStr = a[0]; }
 
-            const parsed = JSON.parse(jsonStr);
+            const parsed = extractJSON(raw);
             localStorage.setItem(key, JSON.stringify(parsed));
             setNewsData(parsed);
         } catch (e) {
             console.warn('News fetch error:', e.message);
-            setNewsData({ summary: '분석 정보를 불러오지 못했습니다.', sentiment: '중립', items: [] });
+            setNewsData({
+                summary: '분석 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
+                sentiment: '중립',
+                items: [
+                    {
+                        title: 'API 요청 제한',
+                        type: '중립',
+                        detail: '일일 무료 할당량을 초과했습니다. 캐시된 데이터가 없어 표시할 수 없습니다.'
+                    }
+                ]
+            });
         } finally {
             setNewsLoading(false);
         }
     }, []);
 
     // ══════════════════════════════════════════
-    // 10초 인터벌 관리
+    // 인터벌 관리 (동일)
     // ══════════════════════════════════════════
     useEffect(() => {
         isMountedRef.current = true;
 
-        // 초기 로드
-        if (activeTab === 'us') { fetchUSStocks(); }
-        else if (activeTab === 'crypto') { fetchCrypto(); }
-        else { fetchKRStocks(); }
+        if (activeTab === 'us') fetchUSStocks();
+        else if (activeTab === 'crypto') fetchCrypto();
+        else fetchKRStocks();
 
-        // 10초 인터벌 (해외주식, 가상화폐만)
         if (activeTab === 'us' || activeTab === 'crypto') {
             intervalRef.current = setInterval(() => {
                 if (activeTab === 'us') fetchUSStocks();
@@ -256,12 +327,10 @@ export default function FinancialRanking() {
         };
     }, [activeTab, fetchUSStocks, fetchCrypto, fetchKRStocks]);
 
-    // ── 현재 데이터 ──
     const currentData = activeTab === 'kr' ? krStocks
         : activeTab === 'us' ? usStocks
             : cryptos;
 
-    // ── 가격 포맷 ──
     function formatPrice(price, tab) {
         if (!price) return '-';
         if (tab === 'us') return `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -326,7 +395,7 @@ export default function FinancialRanking() {
                 </div>
             </div>
 
-            {/* 로딩 (해외/코인 첫 로드) */}
+            {/* 로딩 */}
             {currentData.length === 0 && (activeTab === 'us' || activeTab === 'crypto') && (
                 <div className="px-5 py-4 space-y-1">
                     {Array.from({ length: 5 }).map((_, i) => (
@@ -356,12 +425,10 @@ export default function FinancialRanking() {
                                 onClick={() => { setSelectedItem(item); setNewsData(null); fetchNews(item); }}
                                 className="flex items-center gap-4 py-4 active:bg-gray-50 dark:active:bg-white/5 transition-colors cursor-pointer"
                             >
-                                {/* 순위 */}
                                 <span className={`text-lg font-bold w-4 text-center ${idx < 3 ? 'text-primary' : 'text-toss-gray-400 dark:text-gray-600'}`}>
                                     {idx + 1}
                                 </span>
 
-                                {/* 아이콘 */}
                                 <div className="w-10 h-10 rounded-full flex items-center justify-center bg-toss-gray-100 dark:bg-gray-800 overflow-hidden shrink-0">
                                     {activeTab === 'crypto' && item.image ? (
                                         <img src={item.image} alt={item.name} className="w-7 h-7" />
@@ -372,7 +439,6 @@ export default function FinancialRanking() {
                                     )}
                                 </div>
 
-                                {/* 이름 */}
                                 <div className="flex-1 min-w-0">
                                     <p className="text-toss-gray-800 dark:text-white text-[15px] font-semibold truncate">
                                         {item.nameKr || item.name}
@@ -382,13 +448,11 @@ export default function FinancialRanking() {
                                     </p>
                                 </div>
 
-                                {/* 가격 + 변동 */}
                                 <div className="flex flex-col items-end shrink-0">
                                     <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white">
                                         {formatPrice(item.price, activeTab)}
                                     </p>
-                                    <p className={`text-[13px] font-semibold ${isUp ? 'text-red-500' : isDown ? 'text-blue-500' : 'text-toss-gray-400'
-                                        }`}>
+                                    <p className={`text-[13px] font-semibold ${isUp ? 'text-red-500' : isDown ? 'text-blue-500' : 'text-toss-gray-400'}`}>
                                         {isUp ? '▲' : isDown ? '▼' : '-'} {Math.abs(changeVal).toFixed(2)}%
                                     </p>
                                 </div>
@@ -396,7 +460,6 @@ export default function FinancialRanking() {
                         );
                     })}
 
-                    {/* 안내 */}
                     <div className="mt-6 p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-2xl">
                         <div className="flex items-center gap-2 mb-1">
                             <span className="material-symbols-outlined text-[16px] text-primary">
@@ -417,7 +480,7 @@ export default function FinancialRanking() {
                 </div>
             )}
 
-            {/* ══ 상세 바텀시트 ══ */}
+            {/* 상세 바텀시트 */}
             {selectedItem && (
                 <div
                     className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-[2px]"
@@ -430,7 +493,6 @@ export default function FinancialRanking() {
                         <div className="w-12 h-1.5 bg-toss-gray-200 dark:bg-gray-800 rounded-full mx-auto mb-6 cursor-pointer"
                             onClick={() => setSelectedItem(null)} />
 
-                        {/* 헤더 */}
                         <div className="flex justify-between items-start mb-5">
                             <div className="flex-1">
                                 <p className="text-primary font-bold text-sm mb-1">
@@ -448,19 +510,16 @@ export default function FinancialRanking() {
                             </button>
                         </div>
 
-                        {/* 가격 */}
                         <div className="bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] p-5 mb-5">
                             <p className="text-[28px] font-bold text-toss-gray-800 dark:text-white mb-1">
                                 {formatPrice(selectedItem.price, activeTab)}
                             </p>
-                            <p className={`text-[16px] font-semibold ${Number(selectedItem.change) > 0 ? 'text-red-500' : Number(selectedItem.change) < 0 ? 'text-blue-500' : 'text-gray-400'
-                                }`}>
+                            <p className={`text-[16px] font-semibold ${Number(selectedItem.change) > 0 ? 'text-red-500' : Number(selectedItem.change) < 0 ? 'text-blue-500' : 'text-gray-400'}`}>
                                 {Number(selectedItem.change) > 0 ? '▲' : Number(selectedItem.change) < 0 ? '▼' : '-'}{' '}
                                 {Math.abs(Number(selectedItem.change)).toFixed(2)}% 오늘
                             </p>
                         </div>
 
-                        {/* 상세 정보 */}
                         <div className="grid grid-cols-2 gap-3 mb-6">
                             {activeTab === 'us' && (
                                 <>
@@ -488,7 +547,6 @@ export default function FinancialRanking() {
                             )}
                         </div>
 
-                        {/* ⭐ AI 뉴스/호재 분석 */}
                         <div className="mb-6">
                             <div className="flex items-center gap-2 mb-3">
                                 <span className="material-symbols-outlined text-primary text-[20px]">smart_toy</span>
@@ -504,7 +562,6 @@ export default function FinancialRanking() {
                                 </div>
                             ) : newsData ? (
                                 <div className="space-y-3">
-                                    {/* 종합 의견 */}
                                     <div className={`p-4 rounded-2xl border ${newsData.sentiment === '긍정' ? 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800'
                                         : newsData.sentiment === '부정' ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800'
                                             : 'bg-toss-gray-50 dark:bg-gray-900/50 border-toss-gray-200 dark:border-gray-700'
@@ -522,7 +579,6 @@ export default function FinancialRanking() {
                                         </p>
                                     </div>
 
-                                    {/* 뉴스 아이템 */}
                                     {newsData.items?.map((n, i) => (
                                         <div key={i} className="flex items-start gap-3 p-3 bg-toss-gray-50 dark:bg-gray-900/50 rounded-xl">
                                             <span className={`text-[12px] font-bold px-1.5 py-0.5 rounded shrink-0 mt-0.5 ${n.type === '호재' ? 'bg-red-100 dark:bg-red-900/20 text-red-500'
