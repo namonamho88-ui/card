@@ -5,6 +5,7 @@ import { ISSUERS, getCardsByIssuer } from './utils/cardUtils';
 const { cards: POPULAR_CARDS } = cardData;
 import FinancialRanking from './components/FinancialRanking';
 import AITradingBattle from './components/AITradingBattle';
+import EuljiroFoodRanking from './components/EuljiroFoodRanking';
 import './index.css';
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
   const [compareCards, setCompareCards] = useState([]);
   const [showComparison, setShowComparison] = useState(false);
   const [selectedIssuer, setSelectedIssuer] = useState('전체');
-  const [activeMainTab, setActiveMainTab] = useState('cards'); // 'cards', 'financial', or 'game'
+  const [activeMainTab, setActiveMainTab] = useState('cards'); // 'cards', 'food', 'financial', or 'game'
   const chatEndRef = useRef(null);
   const chatbotSectionRef = useRef(null); // 챗봇 섹션 참조
 
@@ -325,7 +326,12 @@ function App() {
           </span>
         </div>
         <h1 className="text-toss-gray-800 dark:text-white text-lg font-bold">
-          {showComparison ? 'AI 카드 비교' : (activeMainTab === 'cards' ? '카드사별 인기 TOP 10' : activeMainTab === 'financial' ? '실시간 금융 랭킹' : 'AI 트레이딩')}
+          {showComparison ? 'AI 카드 비교' : (
+            activeMainTab === 'cards' ? '카드사별 인기 TOP 10'
+              : activeMainTab === 'food' ? '맛집 랭킹 TOP 10'
+                : activeMainTab === 'financial' ? '실시간 금융 랭킹'
+                  : 'AI 트레이딩'
+          )}
         </h1>
         <div className="w-6"></div>
       </header>
@@ -446,6 +452,10 @@ function App() {
               </section>
             </main>
           </>
+        ) : activeMainTab === 'food' ? (
+          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111]">
+            <EuljiroFoodRanking />
+          </main>
         ) : activeMainTab === 'financial' ? (
           <main className="flex-1 flex flex-col bg-white dark:bg-[#111111]">
             <FinancialRanking />
@@ -459,22 +469,27 @@ function App() {
 
       {/* Bottom Navigation Bar */}
       <nav className="fixed bottom-0 z-40 w-full max-w-[430px] bg-white/95 dark:bg-[#111111]/95 backdrop-blur-lg border-t border-toss-gray-100 dark:border-gray-800 flex justify-between items-center px-6 py-3">
-        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('cards'); window.scrollTo(0, 0); }}>
-          <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>home</span>
-          <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>홈</span>
-        </div>
+        {/* 홈 (카드) */}
         <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('cards'); window.scrollTo(0, 0); }}>
           <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>credit_card</span>
-          <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>카드비교</span>
+          <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>카드추천</span>
         </div>
+        {/* ⭐ 맛집 (NEW) */}
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('food'); window.scrollTo(0, 0); }}>
+          <span className={`material-symbols-outlined ${activeMainTab === 'food' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>restaurant</span>
+          <span className={`text-[10px] ${activeMainTab === 'food' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>맛집랭킹</span>
+        </div>
+        {/* 금융 랭킹 */}
         <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('financial'); window.scrollTo(0, 0); }}>
           <span className={`material-symbols-outlined ${activeMainTab === 'financial' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>show_chart</span>
           <span className={`text-[10px] ${activeMainTab === 'financial' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>금융랭킹</span>
         </div>
+        {/* AI 게임 */}
         <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('game'); window.scrollTo(0, 0); }}>
           <span className={`material-symbols-outlined ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>sports_esports</span>
           <span className={`text-[10px] ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>AI게임</span>
         </div>
+        {/* 전체 */}
         <div className="flex flex-col items-center gap-1 cursor-pointer">
           <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-600">menu</span>
           <span className="text-[10px] text-toss-gray-600 dark:text-gray-400">전체</span>
