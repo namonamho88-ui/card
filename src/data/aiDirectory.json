@@ -1,46 +1,2856 @@
 {
-    "updatedAt": "2026-02-08T15:00:00Z",
-    "insight": "Gemini가 생성한 오늘의 AI 트렌드 요약...",
-    "daily": {
-        "newProducts": [
-            {
-                "name": "ToolName",
-                "tagline": "한줄 소개",
-                "url": "https://...",
-                "votesCount": 324,
-                "category": "AI 챗봇",
-                "launchedAt": "2026-02-08"
-            }
-        ],
-        "trendingPapers": [
-            {
-                "title": "논문 제목",
-                "summary": "요약",
-                "upvotes": 42,
-                "url": "https://huggingface.co/papers/..."
-            }
-        ]
-    },
-    "directory": [
+  "updatedAt": "2026-02-08T08:20:55.926Z",
+  "categories": {
+    "자연어 처리 (NLP)": {
+      "icon": "💬",
+      "description": "텍스트를 이해하고 생성하는 AI 기술",
+      "tasks": [
         {
-            "id": "chatbot",
-            "name": "AI 챗봇 & 어시스턴트",
-            "emoji": "🤖",
-            "icon": "smart_toy",
-            "desc": "대화형 AI 서비스",
-            "tools": [
-                {
-                    "name": "ChatGPT",
-                    "company": "OpenAI",
-                    "url": "https://chatgpt.com",
-                    "desc": "가장 대중적인 대화형 AI",
-                    "pricing": "무료 / Plus $20",
-                    "tags": [
-                        "대화",
-                        "코딩"
-                    ]
-                }
-            ]
+          "tag": "text-generation",
+          "label": "텍스트 생성",
+          "desc": "ChatGPT, Claude 등 대화형 AI",
+          "icon": "chat",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "deepseek-ai/DeepSeek-R1",
+              "downloads": 454866,
+              "likes": 12996,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1"
+            },
+            {
+              "id": "meta-llama/Meta-Llama-3-8B",
+              "downloads": 1821616,
+              "likes": 6446,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/meta-llama/Meta-Llama-3-8B"
+            },
+            {
+              "id": "meta-llama/Llama-3.1-8B-Instruct",
+              "downloads": 6301194,
+              "likes": 5402,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct"
+            },
+            {
+              "id": "bigscience/bloom",
+              "downloads": 3665,
+              "likes": 4980,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/bigscience/bloom"
+            },
+            {
+              "id": "meta-llama/Llama-2-7b-chat-hf",
+              "downloads": 439942,
+              "likes": 4701,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/meta-llama/Llama-2-7b-chat-hf"
+            }
+          ],
+          "popular": [
+            {
+              "id": "Qwen/Qwen2.5-7B-Instruct",
+              "downloads": 10551465,
+              "likes": 1059,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct"
+            },
+            {
+              "id": "Qwen/Qwen2.5-3B-Instruct",
+              "downloads": 10201608,
+              "likes": 399,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct"
+            },
+            {
+              "id": "Qwen/Qwen3-0.6B",
+              "downloads": 9591163,
+              "likes": 1050,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen3-0.6B"
+            },
+            {
+              "id": "openai-community/gpt2",
+              "downloads": 7472492,
+              "likes": 3107,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openai-community/gpt2"
+            },
+            {
+              "id": "Qwen/Qwen2.5-1.5B-Instruct",
+              "downloads": 6428349,
+              "likes": 608,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct"
+            }
+          ]
+        },
+        {
+          "tag": "text-classification",
+          "label": "텍스트 분류",
+          "desc": "감성 분석, 스팸 필터링",
+          "icon": "label",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "ProsusAI/finbert",
+              "downloads": 2848891,
+              "likes": 1078,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/ProsusAI/finbert"
+            },
+            {
+              "id": "BAAI/bge-reranker-v2-m3",
+              "downloads": 3683508,
+              "likes": 879,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/BAAI/bge-reranker-v2-m3"
+            },
+            {
+              "id": "distilbert/distilbert-base-uncased-finetuned-sst-2-english",
+              "downloads": 4065280,
+              "likes": 872,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english"
+            },
+            {
+              "id": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+              "downloads": 4084391,
+              "likes": 764,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest"
+            },
+            {
+              "id": "SamLowe/roberta-base-go_emotions",
+              "downloads": 553096,
+              "likes": 651,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/SamLowe/roberta-base-go_emotions"
+            }
+          ],
+          "popular": [
+            {
+              "id": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+              "downloads": 4084391,
+              "likes": 764,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest"
+            },
+            {
+              "id": "distilbert/distilbert-base-uncased-finetuned-sst-2-english",
+              "downloads": 4065280,
+              "likes": 872,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english"
+            },
+            {
+              "id": "BAAI/bge-reranker-v2-m3",
+              "downloads": 3683508,
+              "likes": 879,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/BAAI/bge-reranker-v2-m3"
+            },
+            {
+              "id": "ProsusAI/finbert",
+              "downloads": 2848891,
+              "likes": 1078,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/ProsusAI/finbert"
+            },
+            {
+              "id": "microsoft/deberta-xlarge-mnli",
+              "downloads": 1696654,
+              "likes": 21,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/deberta-xlarge-mnli"
+            }
+          ]
+        },
+        {
+          "tag": "summarization",
+          "label": "요약",
+          "desc": "긴 문서를 핵심만 추출",
+          "icon": "summarize",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "facebook/bart-large-cnn",
+              "downloads": 2770499,
+              "likes": 1530,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/facebook/bart-large-cnn"
+            },
+            {
+              "id": "csebuetnlp/mT5_multilingual_XLSum",
+              "downloads": 6220,
+              "likes": 322,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum"
+            },
+            {
+              "id": "sshleifer/distilbart-cnn-12-6",
+              "downloads": 729411,
+              "likes": 309,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/sshleifer/distilbart-cnn-12-6"
+            },
+            {
+              "id": "Falconsai/text_summarization",
+              "downloads": 22001,
+              "likes": 281,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Falconsai/text_summarization"
+            },
+            {
+              "id": "philschmid/bart-large-cnn-samsum",
+              "downloads": 140149,
+              "likes": 267,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/philschmid/bart-large-cnn-samsum"
+            }
+          ],
+          "popular": [
+            {
+              "id": "facebook/bart-large-cnn",
+              "downloads": 2770499,
+              "likes": 1530,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/facebook/bart-large-cnn"
+            },
+            {
+              "id": "sshleifer/distilbart-cnn-12-6",
+              "downloads": 729411,
+              "likes": 309,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/sshleifer/distilbart-cnn-12-6"
+            },
+            {
+              "id": "google/pegasus-xsum",
+              "downloads": 207761,
+              "likes": 214,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google/pegasus-xsum"
+            },
+            {
+              "id": "philschmid/bart-large-cnn-samsum",
+              "downloads": 140149,
+              "likes": 267,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/philschmid/bart-large-cnn-samsum"
+            },
+            {
+              "id": "yatharth97/T5-base-10K-summarization",
+              "downloads": 60003,
+              "likes": 2,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/yatharth97/T5-base-10K-summarization"
+            }
+          ]
+        },
+        {
+          "tag": "translation",
+          "label": "번역",
+          "desc": "다국어 자동 번역",
+          "icon": "translate",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "facebook/nllb-200-distilled-600M",
+              "downloads": 428366,
+              "likes": 850,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/facebook/nllb-200-distilled-600M"
+            },
+            {
+              "id": "google-t5/t5-base",
+              "downloads": 2667095,
+              "likes": 764,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google-t5/t5-base"
+            },
+            {
+              "id": "tencent/HY-MT1.5-1.8B",
+              "downloads": 20765,
+              "likes": 556,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/tencent/HY-MT1.5-1.8B"
+            },
+            {
+              "id": "tencent/Hunyuan-MT-7B",
+              "downloads": 10055,
+              "likes": 549,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/tencent/Hunyuan-MT-7B"
+            },
+            {
+              "id": "Helsinki-NLP/opus-mt-zh-en",
+              "downloads": 123077,
+              "likes": 547,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Helsinki-NLP/opus-mt-zh-en"
+            }
+          ],
+          "popular": [
+            {
+              "id": "google-t5/t5-small",
+              "downloads": 2979857,
+              "likes": 525,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google-t5/t5-small"
+            },
+            {
+              "id": "google-t5/t5-base",
+              "downloads": 2667095,
+              "likes": 764,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google-t5/t5-base"
+            },
+            {
+              "id": "Helsinki-NLP/opus-mt-nl-en",
+              "downloads": 904350,
+              "likes": 9,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Helsinki-NLP/opus-mt-nl-en"
+            },
+            {
+              "id": "google-t5/t5-3b",
+              "downloads": 903109,
+              "likes": 51,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google-t5/t5-3b"
+            },
+            {
+              "id": "Helsinki-NLP/opus-mt-fr-en",
+              "downloads": 796075,
+              "likes": 50,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Helsinki-NLP/opus-mt-fr-en"
+            }
+          ]
+        },
+        {
+          "tag": "question-answering",
+          "label": "질의응답",
+          "desc": "문서 기반 질문에 답변",
+          "icon": "help",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "deepset/roberta-base-squad2",
+              "downloads": 734301,
+              "likes": 936,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/deepset/roberta-base-squad2"
+            },
+            {
+              "id": "FlagAlpha/Llama2-Chinese-13b-Chat",
+              "downloads": 872,
+              "likes": 275,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/FlagAlpha/Llama2-Chinese-13b-Chat"
+            },
+            {
+              "id": "distilbert/distilbert-base-cased-distilled-squad",
+              "downloads": 188922,
+              "likes": 266,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/distilbert/distilbert-base-cased-distilled-squad"
+            },
+            {
+              "id": "timpal0l/mdeberta-v3-base-squad2",
+              "downloads": 60026,
+              "likes": 257,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/timpal0l/mdeberta-v3-base-squad2"
+            },
+            {
+              "id": "FlagAlpha/Llama2-Chinese-7b-Chat",
+              "downloads": 956,
+              "likes": 221,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/FlagAlpha/Llama2-Chinese-7b-Chat"
+            }
+          ],
+          "popular": [
+            {
+              "id": "ahotrod/electra_large_discriminator_squad2_512",
+              "downloads": 830407,
+              "likes": 6,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/ahotrod/electra_large_discriminator_squad2_512"
+            },
+            {
+              "id": "deepset/roberta-base-squad2",
+              "downloads": 734301,
+              "likes": 936,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/deepset/roberta-base-squad2"
+            },
+            {
+              "id": "google-bert/bert-large-uncased-whole-word-masking-finetuned-squad",
+              "downloads": 314154,
+              "likes": 183,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google-bert/bert-large-uncased-whole-word-masking-finetuned-squad"
+            },
+            {
+              "id": "deepset/tinyroberta-squad2",
+              "downloads": 258708,
+              "likes": 113,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/deepset/tinyroberta-squad2"
+            },
+            {
+              "id": "distilbert/distilbert-base-cased-distilled-squad",
+              "downloads": 188922,
+              "likes": 266,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/distilbert/distilbert-base-cased-distilled-squad"
+            }
+          ]
+        },
+        {
+          "tag": "token-classification",
+          "label": "개체명 인식",
+          "desc": "사람·장소·조직 등 추출",
+          "icon": "sell",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "dslim/bert-base-NER",
+              "downloads": 2644415,
+              "likes": 692,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/dslim/bert-base-NER"
+            },
+            {
+              "id": "iiiorg/piiranha-v1-detect-personal-information",
+              "downloads": 26917,
+              "likes": 232,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/iiiorg/piiranha-v1-detect-personal-information"
+            },
+            {
+              "id": "blaze999/Medical-NER",
+              "downloads": 19189,
+              "likes": 225,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/blaze999/Medical-NER"
+            },
+            {
+              "id": "FacebookAI/xlm-roberta-large-finetuned-conll03-english",
+              "downloads": 94959,
+              "likes": 182,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/FacebookAI/xlm-roberta-large-finetuned-conll03-english"
+            },
+            {
+              "id": "d4data/biomedical-ner-all",
+              "downloads": 67821,
+              "likes": 181,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/d4data/biomedical-ner-all"
+            }
+          ],
+          "popular": [
+            {
+              "id": "dslim/bert-base-NER",
+              "downloads": 2644415,
+              "likes": 692,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/dslim/bert-base-NER"
+            },
+            {
+              "id": "w11wo/indonesian-roberta-base-posp-tagger",
+              "downloads": 2590606,
+              "likes": 10,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/w11wo/indonesian-roberta-base-posp-tagger"
+            },
+            {
+              "id": "oliverguhr/fullstop-punctuation-multilang-large",
+              "downloads": 1424848,
+              "likes": 174,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/oliverguhr/fullstop-punctuation-multilang-large"
+            },
+            {
+              "id": "KB/bert-base-swedish-cased-ner",
+              "downloads": 1321333,
+              "likes": 11,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/KB/bert-base-swedish-cased-ner"
+            },
+            {
+              "id": "dbmdz/bert-large-cased-finetuned-conll03-english",
+              "downloads": 901881,
+              "likes": 94,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/dbmdz/bert-large-cased-finetuned-conll03-english"
+            }
+          ]
+        },
+        {
+          "tag": "sentence-similarity",
+          "label": "문장 유사도",
+          "desc": "두 문장의 의미적 유사도 비교",
+          "icon": "compare",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "sentence-transformers/all-MiniLM-L6-v2",
+              "downloads": 151373219,
+              "likes": 4435,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"
+            },
+            {
+              "id": "BAAI/bge-m3",
+              "downloads": 12860769,
+              "likes": 2724,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/BAAI/bge-m3"
+            },
+            {
+              "id": "google/embeddinggemma-300m",
+              "downloads": 1156395,
+              "likes": 1455,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google/embeddinggemma-300m"
+            },
+            {
+              "id": "sentence-transformers/all-mpnet-base-v2",
+              "downloads": 23052130,
+              "likes": 1239,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/sentence-transformers/all-mpnet-base-v2"
+            },
+            {
+              "id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+              "downloads": 17934093,
+              "likes": 1126,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+            }
+          ],
+          "popular": [
+            {
+              "id": "sentence-transformers/all-MiniLM-L6-v2",
+              "downloads": 151373219,
+              "likes": 4435,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"
+            },
+            {
+              "id": "sentence-transformers/all-mpnet-base-v2",
+              "downloads": 23052130,
+              "likes": 1239,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/sentence-transformers/all-mpnet-base-v2"
+            },
+            {
+              "id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+              "downloads": 17934093,
+              "likes": 1126,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+            },
+            {
+              "id": "BAAI/bge-m3",
+              "downloads": 12860769,
+              "likes": 2724,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/BAAI/bge-m3"
+            },
+            {
+              "id": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+              "downloads": 5837731,
+              "likes": 445,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+            }
+          ]
+        },
+        {
+          "tag": "fill-mask",
+          "label": "빈칸 채우기",
+          "desc": "문맥 이해하여 빈칸 예측",
+          "icon": "edit_note",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "google-bert/bert-base-uncased",
+              "downloads": 44269526,
+              "likes": 2561,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google-bert/bert-base-uncased"
+            },
+            {
+              "id": "google-bert/bert-base-chinese",
+              "downloads": 1501624,
+              "likes": 1376,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google-bert/bert-base-chinese"
+            },
+            {
+              "id": "answerdotai/ModernBERT-base",
+              "downloads": 860199,
+              "likes": 992,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/answerdotai/ModernBERT-base"
+            },
+            {
+              "id": "distilbert/distilbert-base-uncased",
+              "downloads": 6180481,
+              "likes": 830,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
+            },
+            {
+              "id": "FacebookAI/xlm-roberta-base",
+              "downloads": 17776130,
+              "likes": 784,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/FacebookAI/xlm-roberta-base"
+            }
+          ],
+          "popular": [
+            {
+              "id": "google-bert/bert-base-uncased",
+              "downloads": 44269526,
+              "likes": 2561,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google-bert/bert-base-uncased"
+            },
+            {
+              "id": "FacebookAI/roberta-large",
+              "downloads": 19863337,
+              "likes": 264,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/FacebookAI/roberta-large"
+            },
+            {
+              "id": "FacebookAI/xlm-roberta-base",
+              "downloads": 17776130,
+              "likes": 784,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/FacebookAI/xlm-roberta-base"
+            },
+            {
+              "id": "FacebookAI/roberta-base",
+              "downloads": 8759182,
+              "likes": 561,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/FacebookAI/roberta-base"
+            },
+            {
+              "id": "distilbert/distilbert-base-uncased",
+              "downloads": 6180481,
+              "likes": 830,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/distilbert/distilbert-base-uncased"
+            }
+          ]
+        },
+        {
+          "tag": "zero-shot-classification",
+          "label": "제로샷 분류",
+          "desc": "학습 없이 새 카테고리 분류",
+          "icon": "auto_awesome",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "facebook/bart-large-mnli",
+              "downloads": 3464117,
+              "likes": 1527,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/facebook/bart-large-mnli"
+            },
+            {
+              "id": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+              "downloads": 52071,
+              "likes": 346,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
+            },
+            {
+              "id": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+              "downloads": 104395,
+              "likes": 289,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli"
+            },
+            {
+              "id": "joeddav/xlm-roberta-large-xnli",
+              "downloads": 92680,
+              "likes": 282,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/joeddav/xlm-roberta-large-xnli"
+            },
+            {
+              "id": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+              "downloads": 53711,
+              "likes": 222,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli"
+            }
+          ],
+          "popular": [
+            {
+              "id": "facebook/bart-large-mnli",
+              "downloads": 3464117,
+              "likes": 1527,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/facebook/bart-large-mnli"
+            },
+            {
+              "id": "MoritzLaurer/deberta-v3-large-zeroshot-v2.0",
+              "downloads": 237414,
+              "likes": 122,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v2.0"
+            },
+            {
+              "id": "valhalla/distilbart-mnli-12-3",
+              "downloads": 191276,
+              "likes": 20,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/valhalla/distilbart-mnli-12-3"
+            },
+            {
+              "id": "joeddav/bart-large-mnli-yahoo-answers",
+              "downloads": 157810,
+              "likes": 13,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/joeddav/bart-large-mnli-yahoo-answers"
+            },
+            {
+              "id": "MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli",
+              "downloads": 128677,
+              "likes": 117,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli"
+            }
+          ]
         }
-    ]
+      ]
+    },
+    "이미지 & 비전": {
+      "icon": "👁️",
+      "description": "이미지와 영상을 이해하고 생성하는 AI 기술",
+      "tasks": [
+        {
+          "tag": "text-to-image",
+          "label": "텍스트→이미지",
+          "desc": "Stable Diffusion, DALL-E 등",
+          "icon": "image",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "black-forest-labs/FLUX.1-dev",
+              "downloads": 815002,
+              "likes": 12273,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/black-forest-labs/FLUX.1-dev"
+            },
+            {
+              "id": "stabilityai/stable-diffusion-xl-base-1.0",
+              "downloads": 2036040,
+              "likes": 7412,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0"
+            },
+            {
+              "id": "CompVis/stable-diffusion-v1-4",
+              "downloads": 802679,
+              "likes": 6974,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/CompVis/stable-diffusion-v1-4"
+            },
+            {
+              "id": "stabilityai/stable-diffusion-3-medium",
+              "downloads": 6351,
+              "likes": 4907,
+              "library": "diffusion-single-file",
+              "lastModified": null,
+              "url": "https://huggingface.co/stabilityai/stable-diffusion-3-medium"
+            },
+            {
+              "id": "black-forest-labs/FLUX.1-schnell",
+              "downloads": 657024,
+              "likes": 4600,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/black-forest-labs/FLUX.1-schnell"
+            }
+          ],
+          "popular": [
+            {
+              "id": "stabilityai/stable-diffusion-xl-base-1.0",
+              "downloads": 2036040,
+              "likes": 7412,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0"
+            },
+            {
+              "id": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+              "downloads": 1485358,
+              "likes": 1007,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5"
+            },
+            {
+              "id": "black-forest-labs/FLUX.1-dev",
+              "downloads": 815002,
+              "likes": 12273,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/black-forest-labs/FLUX.1-dev"
+            },
+            {
+              "id": "CompVis/stable-diffusion-v1-4",
+              "downloads": 802679,
+              "likes": 6974,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/CompVis/stable-diffusion-v1-4"
+            },
+            {
+              "id": "crynux-network/sdxl-turbo",
+              "downloads": 734656,
+              "likes": 2,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/crynux-network/sdxl-turbo"
+            }
+          ]
+        },
+        {
+          "tag": "image-classification",
+          "label": "이미지 분류",
+          "desc": "사진 속 대상 식별",
+          "icon": "photo_library",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "Falconsai/nsfw_image_detection",
+              "downloads": 59159797,
+              "likes": 979,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Falconsai/nsfw_image_detection"
+            },
+            {
+              "id": "google/vit-base-patch16-224",
+              "downloads": 3890941,
+              "likes": 933,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google/vit-base-patch16-224"
+            },
+            {
+              "id": "microsoft/resnet-50",
+              "downloads": 159994,
+              "likes": 476,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/resnet-50"
+            },
+            {
+              "id": "nateraw/vit-age-classifier",
+              "downloads": 267875,
+              "likes": 146,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/nateraw/vit-age-classifier"
+            },
+            {
+              "id": "dima806/facial_emotions_image_detection",
+              "downloads": 55407,
+              "likes": 117,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/dima806/facial_emotions_image_detection"
+            }
+          ],
+          "popular": [
+            {
+              "id": "Falconsai/nsfw_image_detection",
+              "downloads": 59159797,
+              "likes": 979,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Falconsai/nsfw_image_detection"
+            },
+            {
+              "id": "dima806/fairface_age_image_detection",
+              "downloads": 33374598,
+              "likes": 59,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/dima806/fairface_age_image_detection"
+            },
+            {
+              "id": "timm/mobilenetv3_small_100.lamb_in1k",
+              "downloads": 24737812,
+              "likes": 49,
+              "library": "timm",
+              "lastModified": null,
+              "url": "https://huggingface.co/timm/mobilenetv3_small_100.lamb_in1k"
+            },
+            {
+              "id": "timm/resnet50.a1_in1k",
+              "downloads": 4638957,
+              "likes": 39,
+              "library": "timm",
+              "lastModified": null,
+              "url": "https://huggingface.co/timm/resnet50.a1_in1k"
+            },
+            {
+              "id": "timm/mobilenetv3_large_100.ra_in1k",
+              "downloads": 4422515,
+              "likes": 36,
+              "library": "timm",
+              "lastModified": null,
+              "url": "https://huggingface.co/timm/mobilenetv3_large_100.ra_in1k"
+            }
+          ]
+        },
+        {
+          "tag": "object-detection",
+          "label": "객체 탐지",
+          "desc": "사진에서 물체 위치 인식",
+          "icon": "center_focus_strong",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "facebook/detr-resnet-50",
+              "downloads": 531529,
+              "likes": 927,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/facebook/detr-resnet-50"
+            },
+            {
+              "id": "microsoft/table-transformer-detection",
+              "downloads": 1420396,
+              "likes": 397,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/table-transformer-detection"
+            },
+            {
+              "id": "foduucom/stockmarket-pattern-detection-yolov8",
+              "downloads": 8017,
+              "likes": 393,
+              "library": "ultralytics",
+              "lastModified": null,
+              "url": "https://huggingface.co/foduucom/stockmarket-pattern-detection-yolov8"
+            },
+            {
+              "id": "Ultralytics/YOLOv8",
+              "downloads": 5657,
+              "likes": 306,
+              "library": "ultralytics",
+              "lastModified": null,
+              "url": "https://huggingface.co/Ultralytics/YOLOv8"
+            },
+            {
+              "id": "hustvl/yolos-tiny",
+              "downloads": 50027,
+              "likes": 278,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/hustvl/yolos-tiny"
+            }
+          ],
+          "popular": [
+            {
+              "id": "microsoft/table-transformer-detection",
+              "downloads": 1420396,
+              "likes": 397,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/table-transformer-detection"
+            },
+            {
+              "id": "microsoft/table-transformer-structure-recognition",
+              "downloads": 1239084,
+              "likes": 207,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/table-transformer-structure-recognition"
+            },
+            {
+              "id": "PekingU/rtdetr_r101vd_coco_o365",
+              "downloads": 723514,
+              "likes": 13,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/PekingU/rtdetr_r101vd_coco_o365"
+            },
+            {
+              "id": "hustvl/yolos-small",
+              "downloads": 636647,
+              "likes": 71,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/hustvl/yolos-small"
+            },
+            {
+              "id": "facebook/detr-resnet-50",
+              "downloads": 531529,
+              "likes": 927,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/facebook/detr-resnet-50"
+            }
+          ]
+        },
+        {
+          "tag": "image-segmentation",
+          "label": "이미지 분할",
+          "desc": "픽셀 단위로 영역 구분",
+          "icon": "grid_on",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "briaai/RMBG-1.4",
+              "downloads": 1005521,
+              "likes": 1937,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/briaai/RMBG-1.4"
+            },
+            {
+              "id": "briaai/RMBG-2.0",
+              "downloads": 420977,
+              "likes": 1068,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/briaai/RMBG-2.0"
+            },
+            {
+              "id": "ZhengPeng7/BiRefNet",
+              "downloads": 923217,
+              "likes": 522,
+              "library": "birefnet",
+              "lastModified": null,
+              "url": "https://huggingface.co/ZhengPeng7/BiRefNet"
+            },
+            {
+              "id": "mattmdjaga/segformer_b2_clothes",
+              "downloads": 251182,
+              "likes": 483,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/mattmdjaga/segformer_b2_clothes"
+            },
+            {
+              "id": "PramaLLC/BEN2",
+              "downloads": 30987,
+              "likes": 227,
+              "library": "ben2",
+              "lastModified": null,
+              "url": "https://huggingface.co/PramaLLC/BEN2"
+            }
+          ],
+          "popular": [
+            {
+              "id": "CIDAS/clipseg-rd64-refined",
+              "downloads": 1639234,
+              "likes": 135,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/CIDAS/clipseg-rd64-refined"
+            },
+            {
+              "id": "Xenova/segformer-b0-finetuned-ade-512-512",
+              "downloads": 1024427,
+              "likes": 1,
+              "library": "transformers.js",
+              "lastModified": null,
+              "url": "https://huggingface.co/Xenova/segformer-b0-finetuned-ade-512-512"
+            },
+            {
+              "id": "briaai/RMBG-1.4",
+              "downloads": 1005521,
+              "likes": 1937,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/briaai/RMBG-1.4"
+            },
+            {
+              "id": "ZhengPeng7/BiRefNet",
+              "downloads": 923217,
+              "likes": 522,
+              "library": "birefnet",
+              "lastModified": null,
+              "url": "https://huggingface.co/ZhengPeng7/BiRefNet"
+            },
+            {
+              "id": "nvidia/segformer-b0-finetuned-ade-512-512",
+              "downloads": 524228,
+              "likes": 179,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/nvidia/segformer-b0-finetuned-ade-512-512"
+            }
+          ]
+        },
+        {
+          "tag": "image-to-text",
+          "label": "이미지→텍스트",
+          "desc": "이미지 설명 자동 생성",
+          "icon": "description",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "Salesforce/blip-image-captioning-large",
+              "downloads": 691499,
+              "likes": 1451,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Salesforce/blip-image-captioning-large"
+            },
+            {
+              "id": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+              "downloads": 211116,
+              "likes": 1216,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct"
+            },
+            {
+              "id": "adept/fuyu-8b",
+              "downloads": 43608,
+              "likes": 1017,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/adept/fuyu-8b"
+            },
+            {
+              "id": "nlpconnect/vit-gpt2-image-captioning",
+              "downloads": 657456,
+              "likes": 924,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/nlpconnect/vit-gpt2-image-captioning"
+            },
+            {
+              "id": "Salesforce/blip-image-captioning-base",
+              "downloads": 2207967,
+              "likes": 841,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Salesforce/blip-image-captioning-base"
+            }
+          ],
+          "popular": [
+            {
+              "id": "Salesforce/blip-image-captioning-base",
+              "downloads": 2207967,
+              "likes": 841,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Salesforce/blip-image-captioning-base"
+            },
+            {
+              "id": "Qwen/Qwen3-VL-235B-A22B-Thinking",
+              "downloads": 2014844,
+              "likes": 371,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen3-VL-235B-A22B-Thinking"
+            },
+            {
+              "id": "numind/NuMarkdown-8B-Thinking",
+              "downloads": 1187395,
+              "likes": 435,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/numind/NuMarkdown-8B-Thinking"
+            },
+            {
+              "id": "Salesforce/blip-image-captioning-large",
+              "downloads": 691499,
+              "likes": 1451,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Salesforce/blip-image-captioning-large"
+            },
+            {
+              "id": "nlpconnect/vit-gpt2-image-captioning",
+              "downloads": 657456,
+              "likes": 924,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/nlpconnect/vit-gpt2-image-captioning"
+            }
+          ]
+        },
+        {
+          "tag": "image-to-image",
+          "label": "이미지 변환",
+          "desc": "스타일 변환, 초해상도",
+          "icon": "transform",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "black-forest-labs/FLUX.1-Kontext-dev",
+              "downloads": 139841,
+              "likes": 2537,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/black-forest-labs/FLUX.1-Kontext-dev"
+            },
+            {
+              "id": "Qwen/Qwen-Image-Edit",
+              "downloads": 45981,
+              "likes": 2300,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen-Image-Edit"
+            },
+            {
+              "id": "stabilityai/stable-diffusion-xl-refiner-1.0",
+              "downloads": 337428,
+              "likes": 2021,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0"
+            },
+            {
+              "id": "black-forest-labs/FLUX.2-dev",
+              "downloads": 152704,
+              "likes": 1337,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/black-forest-labs/FLUX.2-dev"
+            },
+            {
+              "id": "timbrooks/instruct-pix2pix",
+              "downloads": 43166,
+              "likes": 1169,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/timbrooks/instruct-pix2pix"
+            }
+          ],
+          "popular": [
+            {
+              "id": "caidas/swin2SR-classical-sr-x2-64",
+              "downloads": 636843,
+              "likes": 41,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/caidas/swin2SR-classical-sr-x2-64"
+            },
+            {
+              "id": "lightx2v/Qwen-Image-Edit-2511-Lightning",
+              "downloads": 361537,
+              "likes": 362,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/lightx2v/Qwen-Image-Edit-2511-Lightning"
+            },
+            {
+              "id": "stabilityai/stable-diffusion-xl-refiner-1.0",
+              "downloads": 337428,
+              "likes": 2021,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0"
+            },
+            {
+              "id": "autoweeb/Qwen-Image-Edit-2509-Photo-to-Anime",
+              "downloads": 238262,
+              "likes": 115,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/autoweeb/Qwen-Image-Edit-2509-Photo-to-Anime"
+            },
+            {
+              "id": "black-forest-labs/FLUX.2-dev",
+              "downloads": 152704,
+              "likes": 1337,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/black-forest-labs/FLUX.2-dev"
+            }
+          ]
+        },
+        {
+          "tag": "text-to-video",
+          "label": "텍스트→영상",
+          "desc": "텍스트로 영상 자동 생성",
+          "icon": "movie",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "tencent/HunyuanVideo",
+              "downloads": 1365,
+              "likes": 2112,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/tencent/HunyuanVideo"
+            },
+            {
+              "id": "Wan-AI/Wan2.1-T2V-14B",
+              "downloads": 48304,
+              "likes": 1460,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Wan-AI/Wan2.1-T2V-14B"
+            },
+            {
+              "id": "genmo/mochi-1-preview",
+              "downloads": 2497,
+              "likes": 1300,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/genmo/mochi-1-preview"
+            },
+            {
+              "id": "ByteDance/AnimateDiff-Lightning",
+              "downloads": 6035,
+              "likes": 973,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/ByteDance/AnimateDiff-Lightning"
+            },
+            {
+              "id": "rain1011/pyramid-flow-sd3",
+              "downloads": 0,
+              "likes": 838,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/rain1011/pyramid-flow-sd3"
+            }
+          ],
+          "popular": [
+            {
+              "id": "QuantStack/Wan2.2-T2V-A14B-GGUF",
+              "downloads": 150372,
+              "likes": 219,
+              "library": "gguf",
+              "lastModified": null,
+              "url": "https://huggingface.co/QuantStack/Wan2.2-T2V-A14B-GGUF"
+            },
+            {
+              "id": "tencent/HunyuanVideo-1.5",
+              "downloads": 143158,
+              "likes": 565,
+              "library": "HunyuanVideo-1.5",
+              "lastModified": null,
+              "url": "https://huggingface.co/tencent/HunyuanVideo-1.5"
+            },
+            {
+              "id": "Wan-AI/Wan2.2-T2V-A14B-Diffusers",
+              "downloads": 128741,
+              "likes": 109,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Wan-AI/Wan2.2-T2V-A14B-Diffusers"
+            },
+            {
+              "id": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+              "downloads": 91701,
+              "likes": 104,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Wan-AI/Wan2.1-T2V-1.3B-Diffusers"
+            },
+            {
+              "id": "Wan-AI/Wan2.1-T2V-14B",
+              "downloads": 48304,
+              "likes": 1460,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Wan-AI/Wan2.1-T2V-14B"
+            }
+          ]
+        },
+        {
+          "tag": "depth-estimation",
+          "label": "깊이 추정",
+          "desc": "2D 이미지에서 3D 깊이 추정",
+          "icon": "layers",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "apple/DepthPro",
+              "downloads": 4121,
+              "likes": 498,
+              "library": "depth-pro",
+              "lastModified": null,
+              "url": "https://huggingface.co/apple/DepthPro"
+            },
+            {
+              "id": "Intel/dpt-large",
+              "downloads": 54190,
+              "likes": 199,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Intel/dpt-large"
+            },
+            {
+              "id": "depth-anything/Depth-Anything-V2-Large",
+              "downloads": 87546,
+              "likes": 150,
+              "library": "depth-anything-v2",
+              "lastModified": null,
+              "url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Large"
+            },
+            {
+              "id": "prs-eth/marigold-depth-v1-0",
+              "downloads": 43555,
+              "likes": 139,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/prs-eth/marigold-depth-v1-0"
+            },
+            {
+              "id": "tencent/DepthCrafter",
+              "downloads": 16829,
+              "likes": 105,
+              "library": "DepthCrafter",
+              "lastModified": null,
+              "url": "https://huggingface.co/tencent/DepthCrafter"
+            }
+          ],
+          "popular": [
+            {
+              "id": "Intel/zoedepth-nyu-kitti",
+              "downloads": 1665935,
+              "likes": 13,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Intel/zoedepth-nyu-kitti"
+            },
+            {
+              "id": "LiheYoung/depth-anything-large-hf",
+              "downloads": 600699,
+              "likes": 60,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/LiheYoung/depth-anything-large-hf"
+            },
+            {
+              "id": "Intel/dpt-hybrid-midas",
+              "downloads": 493545,
+              "likes": 103,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Intel/dpt-hybrid-midas"
+            },
+            {
+              "id": "depth-anything/Depth-Anything-V2-Small-hf",
+              "downloads": 478324,
+              "likes": 28,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf"
+            },
+            {
+              "id": "depth-anything/Depth-Anything-V2-Base-hf",
+              "downloads": 422894,
+              "likes": 2,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Base-hf"
+            }
+          ]
+        },
+        {
+          "tag": "text-to-3d",
+          "label": "텍스트→3D",
+          "desc": "텍스트로 3D 모델 생성",
+          "icon": "view_in_ar",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "stabilityai/stable-zero123",
+              "downloads": 0,
+              "likes": 754,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/stabilityai/stable-zero123"
+            },
+            {
+              "id": "tencent/HY-Motion-1.0",
+              "downloads": 687,
+              "likes": 364,
+              "library": "HY-Motion-1.0",
+              "lastModified": null,
+              "url": "https://huggingface.co/tencent/HY-Motion-1.0"
+            },
+            {
+              "id": "openai/shap-e",
+              "downloads": 3137,
+              "likes": 258,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openai/shap-e"
+            },
+            {
+              "id": "Zhengyi/LLaMA-Mesh",
+              "downloads": 322,
+              "likes": 179,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Zhengyi/LLaMA-Mesh"
+            },
+            {
+              "id": "ashawkey/LGM",
+              "downloads": 0,
+              "likes": 151,
+              "library": "pytorch",
+              "lastModified": null,
+              "url": "https://huggingface.co/ashawkey/LGM"
+            }
+          ],
+          "popular": [
+            {
+              "id": "microsoft/TRELLIS-text-large",
+              "downloads": 19666,
+              "likes": 11,
+              "library": "trellis",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/TRELLIS-text-large"
+            },
+            {
+              "id": "microsoft/TRELLIS-text-xlarge",
+              "downloads": 9413,
+              "likes": 57,
+              "library": "trellis",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/TRELLIS-text-xlarge"
+            },
+            {
+              "id": "openai/shap-e",
+              "downloads": 3137,
+              "likes": 258,
+              "library": "diffusers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openai/shap-e"
+            },
+            {
+              "id": "AvaLovelace/BrickGPT",
+              "downloads": 2997,
+              "likes": 15,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/AvaLovelace/BrickGPT"
+            },
+            {
+              "id": "bartowski/LLaMA-Mesh-GGUF",
+              "downloads": 795,
+              "likes": 34,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/bartowski/LLaMA-Mesh-GGUF"
+            }
+          ]
+        }
+      ]
+    },
+    "음성 & 오디오": {
+      "icon": "🎵",
+      "description": "음성 인식, 합성, 오디오 처리 AI 기술",
+      "tasks": [
+        {
+          "tag": "automatic-speech-recognition",
+          "label": "음성 인식 (STT)",
+          "desc": "음성을 텍스트로 변환",
+          "icon": "mic",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "openai/whisper-large-v3",
+              "downloads": 6222219,
+              "likes": 5372,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openai/whisper-large-v3"
+            },
+            {
+              "id": "openai/whisper-large-v3-turbo",
+              "downloads": 3031508,
+              "likes": 2805,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openai/whisper-large-v3-turbo"
+            },
+            {
+              "id": "openai/whisper-large-v2",
+              "downloads": 80680,
+              "likes": 1780,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openai/whisper-large-v2"
+            },
+            {
+              "id": "microsoft/Phi-4-multimodal-instruct",
+              "downloads": 301653,
+              "likes": 1570,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/Phi-4-multimodal-instruct"
+            },
+            {
+              "id": "pyannote/speaker-diarization-3.1",
+              "downloads": 12716871,
+              "likes": 1519,
+              "library": "pyannote-audio",
+              "lastModified": null,
+              "url": "https://huggingface.co/pyannote/speaker-diarization-3.1"
+            }
+          ],
+          "popular": [
+            {
+              "id": "pyannote/speaker-diarization-3.1",
+              "downloads": 12716871,
+              "likes": 1519,
+              "library": "pyannote-audio",
+              "lastModified": null,
+              "url": "https://huggingface.co/pyannote/speaker-diarization-3.1"
+            },
+            {
+              "id": "openai/whisper-large-v3",
+              "downloads": 6222219,
+              "likes": 5372,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openai/whisper-large-v3"
+            },
+            {
+              "id": "jonatasgrosman/wav2vec2-large-xlsr-53-russian",
+              "downloads": 4257530,
+              "likes": 64,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/jonatasgrosman/wav2vec2-large-xlsr-53-russian"
+            },
+            {
+              "id": "jonatasgrosman/wav2vec2-large-xlsr-53-chinese-zh-cn",
+              "downloads": 3266566,
+              "likes": 124,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/jonatasgrosman/wav2vec2-large-xlsr-53-chinese-zh-cn"
+            },
+            {
+              "id": "openai/whisper-large-v3-turbo",
+              "downloads": 3031508,
+              "likes": 2805,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openai/whisper-large-v3-turbo"
+            }
+          ]
+        },
+        {
+          "tag": "text-to-speech",
+          "label": "음성 합성 (TTS)",
+          "desc": "텍스트를 음성으로 변환",
+          "icon": "record_voice_over",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "hexgrad/Kokoro-82M",
+              "downloads": 5363093,
+              "likes": 5670,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/hexgrad/Kokoro-82M"
+            },
+            {
+              "id": "coqui/XTTS-v2",
+              "downloads": 6597453,
+              "likes": 3381,
+              "library": "coqui",
+              "lastModified": null,
+              "url": "https://huggingface.co/coqui/XTTS-v2"
+            },
+            {
+              "id": "nari-labs/Dia-1.6B",
+              "downloads": 73197,
+              "likes": 2827,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/nari-labs/Dia-1.6B"
+            },
+            {
+              "id": "sesame/csm-1b",
+              "downloads": 84702,
+              "likes": 2329,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/sesame/csm-1b"
+            },
+            {
+              "id": "microsoft/VibeVoice-1.5B",
+              "downloads": 315726,
+              "likes": 2208,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/VibeVoice-1.5B"
+            }
+          ],
+          "popular": [
+            {
+              "id": "coqui/XTTS-v2",
+              "downloads": 6597453,
+              "likes": 3381,
+              "library": "coqui",
+              "lastModified": null,
+              "url": "https://huggingface.co/coqui/XTTS-v2"
+            },
+            {
+              "id": "hexgrad/Kokoro-82M",
+              "downloads": 5363093,
+              "likes": 5670,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/hexgrad/Kokoro-82M"
+            },
+            {
+              "id": "myshell-ai/MeloTTS-English",
+              "downloads": 860304,
+              "likes": 304,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/myshell-ai/MeloTTS-English"
+            },
+            {
+              "id": "SWivid/F5-TTS",
+              "downloads": 656358,
+              "likes": 1151,
+              "library": "f5-tts",
+              "lastModified": null,
+              "url": "https://huggingface.co/SWivid/F5-TTS"
+            },
+            {
+              "id": "ResembleAI/chatterbox",
+              "downloads": 587637,
+              "likes": 1467,
+              "library": "chatterbox",
+              "lastModified": null,
+              "url": "https://huggingface.co/ResembleAI/chatterbox"
+            }
+          ]
+        },
+        {
+          "tag": "audio-classification",
+          "label": "오디오 분류",
+          "desc": "소리 종류 자동 식별",
+          "icon": "music_note",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+              "downloads": 369286,
+              "likes": 338,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/MIT/ast-finetuned-audioset-10-10-0.4593"
+            },
+            {
+              "id": "ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition",
+              "downloads": 63287,
+              "likes": 241,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
+            },
+            {
+              "id": "speechbrain/emotion-recognition-wav2vec2-IEMOCAP",
+              "downloads": 582820,
+              "likes": 173,
+              "library": "speechbrain",
+              "lastModified": null,
+              "url": "https://huggingface.co/speechbrain/emotion-recognition-wav2vec2-IEMOCAP"
+            },
+            {
+              "id": "audeering/wav2vec2-large-robust-12-ft-emotion-msp-dim",
+              "downloads": 819475,
+              "likes": 147,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/audeering/wav2vec2-large-robust-12-ft-emotion-msp-dim"
+            },
+            {
+              "id": "speechbrain/lang-id-voxlingua107-ecapa",
+              "downloads": 1469910,
+              "likes": 140,
+              "library": "speechbrain",
+              "lastModified": null,
+              "url": "https://huggingface.co/speechbrain/lang-id-voxlingua107-ecapa"
+            }
+          ],
+          "popular": [
+            {
+              "id": "laion/clap-htsat-fused",
+              "downloads": 17704393,
+              "likes": 51,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/laion/clap-htsat-fused"
+            },
+            {
+              "id": "OpenMuQ/MuQ-large-msd-iter",
+              "downloads": 7314764,
+              "likes": 16,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/OpenMuQ/MuQ-large-msd-iter"
+            },
+            {
+              "id": "speechbrain/lang-id-voxlingua107-ecapa",
+              "downloads": 1469910,
+              "likes": 140,
+              "library": "speechbrain",
+              "lastModified": null,
+              "url": "https://huggingface.co/speechbrain/lang-id-voxlingua107-ecapa"
+            },
+            {
+              "id": "audeering/wav2vec2-large-robust-12-ft-emotion-msp-dim",
+              "downloads": 819475,
+              "likes": 147,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/audeering/wav2vec2-large-robust-12-ft-emotion-msp-dim"
+            },
+            {
+              "id": "audeering/wav2vec2-large-robust-24-ft-age-gender",
+              "downloads": 633549,
+              "likes": 48,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/audeering/wav2vec2-large-robust-24-ft-age-gender"
+            }
+          ]
+        },
+        {
+          "tag": "audio-to-audio",
+          "label": "오디오 변환",
+          "desc": "노이즈 제거, 음성 분리",
+          "icon": "graphic_eq",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "nvidia/personaplex-7b-v1",
+              "downloads": 190473,
+              "likes": 1700,
+              "library": "moshi",
+              "lastModified": null,
+              "url": "https://huggingface.co/nvidia/personaplex-7b-v1"
+            },
+            {
+              "id": "LiquidAI/LFM2-Audio-1.5B",
+              "downloads": 195,
+              "likes": 345,
+              "library": "liquid-audio",
+              "lastModified": null,
+              "url": "https://huggingface.co/LiquidAI/LFM2-Audio-1.5B"
+            },
+            {
+              "id": "LiquidAI/LFM2.5-Audio-1.5B",
+              "downloads": 2198,
+              "likes": 338,
+              "library": "liquid-audio",
+              "lastModified": null,
+              "url": "https://huggingface.co/LiquidAI/LFM2.5-Audio-1.5B"
+            },
+            {
+              "id": "fishaudio/fish-agent-v0.1-3b",
+              "downloads": 12,
+              "likes": 270,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/fishaudio/fish-agent-v0.1-3b"
+            },
+            {
+              "id": "ArkanDash/rvc-genshin-impact",
+              "downloads": 0,
+              "likes": 231,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact"
+            }
+          ],
+          "popular": [
+            {
+              "id": "nvidia/bigvgan_v2_22khz_80band_256x",
+              "downloads": 1784357,
+              "likes": 25,
+              "library": "PyTorch",
+              "lastModified": null,
+              "url": "https://huggingface.co/nvidia/bigvgan_v2_22khz_80band_256x"
+            },
+            {
+              "id": "nvidia/bigvgan_v2_44khz_128band_512x",
+              "downloads": 771734,
+              "likes": 67,
+              "library": "PyTorch",
+              "lastModified": null,
+              "url": "https://huggingface.co/nvidia/bigvgan_v2_44khz_128band_512x"
+            },
+            {
+              "id": "nvidia/personaplex-7b-v1",
+              "downloads": 190473,
+              "likes": 1700,
+              "library": "moshi",
+              "lastModified": null,
+              "url": "https://huggingface.co/nvidia/personaplex-7b-v1"
+            },
+            {
+              "id": "neuphonic/neucodec",
+              "downloads": 65429,
+              "likes": 98,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/neuphonic/neucodec"
+            },
+            {
+              "id": "Qwen/Qwen3-TTS-Tokenizer-12Hz",
+              "downloads": 57786,
+              "likes": 40,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen3-TTS-Tokenizer-12Hz"
+            }
+          ]
+        }
+      ]
+    },
+    "멀티모달": {
+      "icon": "🔗",
+      "description": "텍스트+이미지+음성 등 여러 형태를 결합하는 AI",
+      "tasks": [
+        {
+          "tag": "any-to-any",
+          "label": "범용 멀티모달",
+          "desc": "입출력 형태를 자유롭게 조합",
+          "icon": "hub",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "deepseek-ai/Janus-Pro-7B",
+              "downloads": 19937,
+              "likes": 3559,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/deepseek-ai/Janus-Pro-7B"
+            },
+            {
+              "id": "Qwen/Qwen2.5-Omni-7B",
+              "downloads": 252202,
+              "likes": 1857,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen2.5-Omni-7B"
+            },
+            {
+              "id": "openbmb/MiniCPM-o-2_6",
+              "downloads": 89016,
+              "likes": 1282,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openbmb/MiniCPM-o-2_6"
+            },
+            {
+              "id": "ByteDance-Seed/BAGEL-7B-MoT",
+              "downloads": 588,
+              "likes": 1177,
+              "library": "bagel-mot",
+              "lastModified": null,
+              "url": "https://huggingface.co/ByteDance-Seed/BAGEL-7B-MoT"
+            },
+            {
+              "id": "Qwen/Qwen3-Omni-30B-A3B-Instruct",
+              "downloads": 614166,
+              "likes": 834,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Instruct"
+            }
+          ],
+          "popular": [
+            {
+              "id": "Qwen/Qwen3-Omni-30B-A3B-Instruct",
+              "downloads": 614166,
+              "likes": 834,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Instruct"
+            },
+            {
+              "id": "Qwen/Qwen2.5-Omni-7B",
+              "downloads": 252202,
+              "likes": 1857,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen2.5-Omni-7B"
+            },
+            {
+              "id": "Qwen/Qwen2.5-Omni-3B",
+              "downloads": 227520,
+              "likes": 328,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen2.5-Omni-3B"
+            },
+            {
+              "id": "openbmb/MiniCPM-o-2_6",
+              "downloads": 89016,
+              "likes": 1282,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openbmb/MiniCPM-o-2_6"
+            },
+            {
+              "id": "deepseek-community/Janus-Pro-1B",
+              "downloads": 54201,
+              "likes": 5,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/deepseek-community/Janus-Pro-1B"
+            }
+          ]
+        },
+        {
+          "tag": "image-text-to-text",
+          "label": "이미지+텍스트→답변",
+          "desc": "GPT-4V 등 이미지 이해 AI",
+          "icon": "visibility",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "deepseek-ai/DeepSeek-OCR",
+              "downloads": 3041110,
+              "likes": 3137,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/deepseek-ai/DeepSeek-OCR"
+            },
+            {
+              "id": "google/gemma-3-27b-it",
+              "downloads": 1647480,
+              "likes": 1857,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google/gemma-3-27b-it"
+            },
+            {
+              "id": "moonshotai/Kimi-K2.5",
+              "downloads": 404508,
+              "likes": 1847,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/moonshotai/Kimi-K2.5"
+            },
+            {
+              "id": "microsoft/Florence-2-large",
+              "downloads": 753558,
+              "likes": 1751,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/Florence-2-large"
+            },
+            {
+              "id": "microsoft/OmniParser",
+              "downloads": 318,
+              "likes": 1705,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/microsoft/OmniParser"
+            }
+          ],
+          "popular": [
+            {
+              "id": "Qwen/Qwen2.5-VL-3B-Instruct",
+              "downloads": 21544364,
+              "likes": 604,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct"
+            },
+            {
+              "id": "Qwen/Qwen2.5-VL-7B-Instruct",
+              "downloads": 3366961,
+              "likes": 1446,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct"
+            },
+            {
+              "id": "vikhyatk/moondream2",
+              "downloads": 3107994,
+              "likes": 1369,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/vikhyatk/moondream2"
+            },
+            {
+              "id": "deepseek-ai/DeepSeek-OCR",
+              "downloads": 3041110,
+              "likes": 3137,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/deepseek-ai/DeepSeek-OCR"
+            },
+            {
+              "id": "Qwen/Qwen3-VL-8B-Instruct",
+              "downloads": 2630868,
+              "likes": 733,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct"
+            }
+          ]
+        },
+        {
+          "tag": "visual-question-answering",
+          "label": "시각 질의응답",
+          "desc": "이미지에 대한 질문 답변",
+          "icon": "contact_support",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "openbmb/MiniCPM-V-2",
+              "downloads": 62214,
+              "likes": 487,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openbmb/MiniCPM-V-2"
+            },
+            {
+              "id": "dandelin/vilt-b32-finetuned-vqa",
+              "downloads": 74839,
+              "likes": 419,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/dandelin/vilt-b32-finetuned-vqa"
+            },
+            {
+              "id": "google/deplot",
+              "downloads": 6169,
+              "likes": 313,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google/deplot"
+            },
+            {
+              "id": "internlm/internlm-xcomposer2d5-7b",
+              "downloads": 808,
+              "likes": 209,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/internlm/internlm-xcomposer2d5-7b"
+            },
+            {
+              "id": "openbmb/MiniCPM-V",
+              "downloads": 613,
+              "likes": 195,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openbmb/MiniCPM-V"
+            }
+          ],
+          "popular": [
+            {
+              "id": "Salesforce/blip-vqa-base",
+              "downloads": 513202,
+              "likes": 187,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Salesforce/blip-vqa-base"
+            },
+            {
+              "id": "dandelin/vilt-b32-finetuned-vqa",
+              "downloads": 74839,
+              "likes": 419,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/dandelin/vilt-b32-finetuned-vqa"
+            },
+            {
+              "id": "openbmb/MiniCPM-V-2",
+              "downloads": 62214,
+              "likes": 487,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/openbmb/MiniCPM-V-2"
+            },
+            {
+              "id": "Salesforce/blip-vqa-capfilt-large",
+              "downloads": 22732,
+              "likes": 53,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Salesforce/blip-vqa-capfilt-large"
+            },
+            {
+              "id": "google/deplot",
+              "downloads": 6169,
+              "likes": 313,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/google/deplot"
+            }
+          ]
+        },
+        {
+          "tag": "document-question-answering",
+          "label": "문서 질의응답",
+          "desc": "PDF/문서 내용 질문 답변",
+          "icon": "article",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "impira/layoutlm-document-qa",
+              "downloads": 162830,
+              "likes": 1155,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/impira/layoutlm-document-qa"
+            },
+            {
+              "id": "eachadea/ggml-vicuna-13b-1.1",
+              "downloads": 0,
+              "likes": 358,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/eachadea/ggml-vicuna-13b-1.1"
+            },
+            {
+              "id": "naver-clova-ix/donut-base-finetuned-docvqa",
+              "downloads": 10632,
+              "likes": 270,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/naver-clova-ix/donut-base-finetuned-docvqa"
+            },
+            {
+              "id": "impira/layoutlm-invoices",
+              "downloads": 760,
+              "likes": 222,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/impira/layoutlm-invoices"
+            },
+            {
+              "id": "nikravan/glm-4vq",
+              "downloads": 133,
+              "likes": 36,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/nikravan/glm-4vq"
+            }
+          ],
+          "popular": [
+            {
+              "id": "impira/layoutlm-document-qa",
+              "downloads": 162830,
+              "likes": 1155,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/impira/layoutlm-document-qa"
+            },
+            {
+              "id": "naver-clova-ix/donut-base-finetuned-docvqa",
+              "downloads": 10632,
+              "likes": 270,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/naver-clova-ix/donut-base-finetuned-docvqa"
+            },
+            {
+              "id": "tiennvcs/layoutlmv2-base-uncased-finetuned-docvqa",
+              "downloads": 1129,
+              "likes": 14,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/tiennvcs/layoutlmv2-base-uncased-finetuned-docvqa"
+            },
+            {
+              "id": "impira/layoutlm-invoices",
+              "downloads": 760,
+              "likes": 222,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/impira/layoutlm-invoices"
+            },
+            {
+              "id": "zpm/Llama-3.1-PersianQA",
+              "downloads": 529,
+              "likes": 19,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/zpm/Llama-3.1-PersianQA"
+            }
+          ]
+        },
+        {
+          "tag": "video-text-to-text",
+          "label": "영상 이해",
+          "desc": "영상 내용을 텍스트로 설명",
+          "icon": "videocam",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "lmms-lab/LLaVA-Video-7B-Qwen2",
+              "downloads": 101658,
+              "likes": 123,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/lmms-lab/LLaVA-Video-7B-Qwen2"
+            },
+            {
+              "id": "llava-hf/LLaVA-NeXT-Video-7B-hf",
+              "downloads": 78855,
+              "likes": 122,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/llava-hf/LLaVA-NeXT-Video-7B-hf"
+            },
+            {
+              "id": "zai-org/cogvlm2-llama3-caption",
+              "downloads": 567,
+              "likes": 112,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/zai-org/cogvlm2-llama3-caption"
+            },
+            {
+              "id": "OpenGVLab/InternVideo2_5_Chat_8B",
+              "downloads": 2057,
+              "likes": 88,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/OpenGVLab/InternVideo2_5_Chat_8B"
+            },
+            {
+              "id": "Kwai-Keye/Keye-VL-8B-Preview",
+              "downloads": 51607,
+              "likes": 82,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Kwai-Keye/Keye-VL-8B-Preview"
+            }
+          ],
+          "popular": [
+            {
+              "id": "lmms-lab/LLaVA-Video-7B-Qwen2",
+              "downloads": 101658,
+              "likes": 123,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/lmms-lab/LLaVA-Video-7B-Qwen2"
+            },
+            {
+              "id": "llava-hf/LLaVA-NeXT-Video-7B-hf",
+              "downloads": 78855,
+              "likes": 122,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/llava-hf/LLaVA-NeXT-Video-7B-hf"
+            },
+            {
+              "id": "DAMO-NLP-SG/VideoLLaMA3-7B",
+              "downloads": 78358,
+              "likes": 73,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/DAMO-NLP-SG/VideoLLaMA3-7B"
+            },
+            {
+              "id": "Kwai-Keye/Keye-VL-8B-Preview",
+              "downloads": 51607,
+              "likes": 82,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Kwai-Keye/Keye-VL-8B-Preview"
+            },
+            {
+              "id": "Kwai-Keye/Keye-VL-1_5-8B",
+              "downloads": 44200,
+              "likes": 64,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Kwai-Keye/Keye-VL-1_5-8B"
+            }
+          ]
+        }
+      ]
+    },
+    "강화학습 & 기타": {
+      "icon": "🎮",
+      "description": "환경과 상호작용하며 학습하는 AI 및 기타 기술",
+      "tasks": [
+        {
+          "tag": "reinforcement-learning",
+          "label": "강화학습",
+          "desc": "게임, 로봇, 의사결정 최적화",
+          "icon": "sports_esports",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "ValueFX9507/Tifa-Deepsex-14b-CoT-GGUF-Q4",
+              "downloads": 1820,
+              "likes": 821,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/ValueFX9507/Tifa-Deepsex-14b-CoT-GGUF-Q4"
+            },
+            {
+              "id": "nvidia/NitroGen",
+              "downloads": 0,
+              "likes": 495,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/nvidia/NitroGen"
+            },
+            {
+              "id": "ValueFX9507/Tifa-DeepsexV2-7b-MGRPO-GGUF-Q4",
+              "downloads": 961,
+              "likes": 227,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/ValueFX9507/Tifa-DeepsexV2-7b-MGRPO-GGUF-Q4"
+            },
+            {
+              "id": "ValueFX9507/Tifa-Deepsex-14b-CoT",
+              "downloads": 318,
+              "likes": 218,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/ValueFX9507/Tifa-Deepsex-14b-CoT"
+            },
+            {
+              "id": "ValueFX9507/Tifa-DeepsexV2-7b-MGRPO-GGUF-Q8",
+              "downloads": 4408,
+              "likes": 192,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/ValueFX9507/Tifa-DeepsexV2-7b-MGRPO-GGUF-Q8"
+            }
+          ],
+          "popular": [
+            {
+              "id": "TianheWu/VisualQuality-R1-7B",
+              "downloads": 16144,
+              "likes": 9,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/TianheWu/VisualQuality-R1-7B"
+            },
+            {
+              "id": "mradermacher/HER-32B-i1-GGUF",
+              "downloads": 13658,
+              "likes": 0,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/mradermacher/HER-32B-i1-GGUF"
+            },
+            {
+              "id": "mradermacher/ASTRA-14B-Thinking-v1-i1-GGUF",
+              "downloads": 5798,
+              "likes": 0,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/mradermacher/ASTRA-14B-Thinking-v1-i1-GGUF"
+            },
+            {
+              "id": "mradermacher/HER-32B-ACL-i1-GGUF",
+              "downloads": 5776,
+              "likes": 0,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/mradermacher/HER-32B-ACL-i1-GGUF"
+            },
+            {
+              "id": "mradermacher/DeepHermes-Egregore-8B-131K-i1-GGUF",
+              "downloads": 5541,
+              "likes": 1,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/mradermacher/DeepHermes-Egregore-8B-131K-i1-GGUF"
+            }
+          ]
+        },
+        {
+          "tag": "tabular-classification",
+          "label": "테이블 분류",
+          "desc": "정형 데이터 분류 예측",
+          "icon": "table_chart",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "Prior-Labs/tabpfn_2_5",
+              "downloads": 128170,
+              "likes": 151,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/Prior-Labs/tabpfn_2_5"
+            },
+            {
+              "id": "Prior-Labs/TabPFN-v2-clf",
+              "downloads": 14853,
+              "likes": 72,
+              "library": "tabpfn",
+              "lastModified": null,
+              "url": "https://huggingface.co/Prior-Labs/TabPFN-v2-clf"
+            },
+            {
+              "id": "SAP/sap-rpt-1-oss",
+              "downloads": 123327,
+              "likes": 70,
+              "library": "sap-rpt-1-oss",
+              "lastModified": null,
+              "url": "https://huggingface.co/SAP/sap-rpt-1-oss"
+            },
+            {
+              "id": "keras-io/tab_transformer",
+              "downloads": 16,
+              "likes": 43,
+              "library": "tf-keras",
+              "lastModified": null,
+              "url": "https://huggingface.co/keras-io/tab_transformer"
+            },
+            {
+              "id": "autogluon/mitra-classifier",
+              "downloads": 121214,
+              "likes": 36,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/autogluon/mitra-classifier"
+            }
+          ],
+          "popular": [
+            {
+              "id": "alana89/TabSTAR",
+              "downloads": 5856335,
+              "likes": 21,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/alana89/TabSTAR"
+            },
+            {
+              "id": "Prior-Labs/tabpfn_2_5",
+              "downloads": 128170,
+              "likes": 151,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/Prior-Labs/tabpfn_2_5"
+            },
+            {
+              "id": "SAP/sap-rpt-1-oss",
+              "downloads": 123327,
+              "likes": 70,
+              "library": "sap-rpt-1-oss",
+              "lastModified": null,
+              "url": "https://huggingface.co/SAP/sap-rpt-1-oss"
+            },
+            {
+              "id": "autogluon/mitra-classifier",
+              "downloads": 121214,
+              "likes": 36,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/autogluon/mitra-classifier"
+            },
+            {
+              "id": "Prior-Labs/TabPFN-v2-clf",
+              "downloads": 14853,
+              "likes": 72,
+              "library": "tabpfn",
+              "lastModified": null,
+              "url": "https://huggingface.co/Prior-Labs/TabPFN-v2-clf"
+            }
+          ]
+        },
+        {
+          "tag": "tabular-regression",
+          "label": "테이블 회귀",
+          "desc": "정형 데이터 수치 예측",
+          "icon": "trending_up",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "keras-io/timeseries-anomaly-detection",
+              "downloads": 27,
+              "likes": 78,
+              "library": "tf-keras",
+              "lastModified": null,
+              "url": "https://huggingface.co/keras-io/timeseries-anomaly-detection"
+            },
+            {
+              "id": "Prior-Labs/TabPFN-v2-reg",
+              "downloads": 78462,
+              "likes": 43,
+              "library": "tabpfn",
+              "lastModified": null,
+              "url": "https://huggingface.co/Prior-Labs/TabPFN-v2-reg"
+            },
+            {
+              "id": "autogluon/mitra-regressor",
+              "downloads": 269476,
+              "likes": 29,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/autogluon/mitra-regressor"
+            },
+            {
+              "id": "autogluon/tabpfn-mix-1.0-regressor",
+              "downloads": 3252,
+              "likes": 15,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/autogluon/tabpfn-mix-1.0-regressor"
+            },
+            {
+              "id": "smares/ESMCBA",
+              "downloads": 0,
+              "likes": 13,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/smares/ESMCBA"
+            }
+          ],
+          "popular": [
+            {
+              "id": "autogluon/mitra-regressor",
+              "downloads": 269476,
+              "likes": 29,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/autogluon/mitra-regressor"
+            },
+            {
+              "id": "Prior-Labs/TabPFN-v2-reg",
+              "downloads": 78462,
+              "likes": 43,
+              "library": "tabpfn",
+              "lastModified": null,
+              "url": "https://huggingface.co/Prior-Labs/TabPFN-v2-reg"
+            },
+            {
+              "id": "autogluon/tabpfn-mix-1.0-regressor",
+              "downloads": 3252,
+              "likes": 15,
+              "library": null,
+              "lastModified": null,
+              "url": "https://huggingface.co/autogluon/tabpfn-mix-1.0-regressor"
+            },
+            {
+              "id": "keras-io/timeseries-anomaly-detection",
+              "downloads": 27,
+              "likes": 78,
+              "library": "tf-keras",
+              "lastModified": null,
+              "url": "https://huggingface.co/keras-io/timeseries-anomaly-detection"
+            },
+            {
+              "id": "pcoloc/autotrain-dragino-7-7-1860763606",
+              "downloads": 13,
+              "likes": 0,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/pcoloc/autotrain-dragino-7-7-1860763606"
+            }
+          ]
+        },
+        {
+          "tag": "feature-extraction",
+          "label": "임베딩 추출",
+          "desc": "데이터를 벡터로 변환",
+          "icon": "data_array",
+          "totalModels": "1,000+",
+          "trending": [
+            {
+              "id": "intfloat/multilingual-e5-large",
+              "downloads": 3599656,
+              "likes": 1139,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/intfloat/multilingual-e5-large"
+            },
+            {
+              "id": "jinaai/jina-embeddings-v3",
+              "downloads": 5244251,
+              "likes": 1128,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/jinaai/jina-embeddings-v3"
+            },
+            {
+              "id": "Qwen/Qwen3-Embedding-0.6B",
+              "downloads": 2705199,
+              "likes": 868,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B"
+            },
+            {
+              "id": "mixedbread-ai/mxbai-embed-large-v1",
+              "downloads": 1454017,
+              "likes": 766,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1"
+            },
+            {
+              "id": "jinaai/jina-embeddings-v2-base-en",
+              "downloads": 116611,
+              "likes": 730,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/jinaai/jina-embeddings-v2-base-en"
+            }
+          ],
+          "popular": [
+            {
+              "id": "jinaai/jina-embeddings-v3",
+              "downloads": 5244251,
+              "likes": 1128,
+              "library": "transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/jinaai/jina-embeddings-v3"
+            },
+            {
+              "id": "BAAI/bge-small-en-v1.5",
+              "downloads": 4456064,
+              "likes": 409,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/BAAI/bge-small-en-v1.5"
+            },
+            {
+              "id": "BAAI/bge-large-en-v1.5",
+              "downloads": 4381393,
+              "likes": 625,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/BAAI/bge-large-en-v1.5"
+            },
+            {
+              "id": "BAAI/bge-base-en-v1.5",
+              "downloads": 3741548,
+              "likes": 401,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/BAAI/bge-base-en-v1.5"
+            },
+            {
+              "id": "intfloat/multilingual-e5-large",
+              "downloads": 3599656,
+              "likes": 1139,
+              "library": "sentence-transformers",
+              "lastModified": null,
+              "url": "https://huggingface.co/intfloat/multilingual-e5-large"
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
