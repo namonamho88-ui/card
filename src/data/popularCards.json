@@ -1,5 +1,5 @@
 {
-    "updatedAt": "2026-02-07T19:07:32.586Z",
+    "updatedAt": "2026-02-08T02:35:06.864Z",
     "cards": [
         {
             "id": "ss-1",
@@ -302,24 +302,6 @@
             "rank": 21
         },
         {
-            "id": "ss-8",
-            "issuer": "삼성카드",
-            "name": "삼성 iD GLOBAL 카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "해외 이용 2%할인",
-                "공항라운지 연 2회무료 이용",
-                "디지털콘텐츠 50%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 22
-        },
-        {
             "id": "wo-4",
             "issuer": "우리카드",
             "name": "카드의정석 EVERY MILE SKYPASS",
@@ -336,6 +318,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 22
+        },
+        {
+            "id": "ss-8",
+            "issuer": "삼성카드",
+            "name": "삼성 iD GLOBAL 카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "해외 이용 2%할인",
+                "공항라운지 연 2회무료 이용",
+                "디지털콘텐츠 50%할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
             "rank": 23
         },
         {
@@ -521,7 +521,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/945/card_img/21598/945card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 43
+            "rank": 42
         },
         {
             "id": "ss-9",
@@ -578,7 +578,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 49
+            "rank": 50
         },
         {
             "id": "hn-1",
@@ -618,26 +618,6 @@
             "rank": 58
         },
         {
-            "id": "wo-9",
-            "issuer": "우리카드",
-            "name": "카드의정석 I&U+",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내가맹점 1.0~0.7%청구할인",
-                "주유 60~100원/L청구할인",
-                "대중교통 10%청구할인"
-            ],
-            "categories": [
-                "할인",
-                "주유",
-                "대중교통"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2688/card_img/33240/2688card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 62
-        },
-        {
             "id": "hd-5",
             "issuer": "현대카드",
             "name": "현대카드T",
@@ -656,7 +636,7 @@
             "rank": 63
         },
         {
-            "id": "wo-10",
+            "id": "wo-9",
             "issuer": "우리카드",
             "name": "DA카드의정석Ⅱ",
             "annualFee": "1~3만원",
@@ -672,6 +652,26 @@
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
             "rank": 64
+        },
+        {
+            "id": "wo-10",
+            "issuer": "우리카드",
+            "name": "카드의정석 I&U+",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내가맹점 1.0~0.7%청구할인",
+                "주유 60~100원/L청구할인",
+                "대중교통 10%청구할인"
+            ],
+            "categories": [
+                "할인",
+                "주유",
+                "대중교통"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2688/card_img/33240/2688card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 65
         },
         {
             "id": "hn-2",
@@ -824,7 +824,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2938/card_img/46988/2938card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 82
+            "rank": 83
         },
         {
             "id": "lo-4",
@@ -917,7 +917,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 92
+            "rank": 91
         },
         {
             "id": "hd-10",
