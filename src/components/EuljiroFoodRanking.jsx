@@ -3,7 +3,23 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { MOCK_RESTAURANTS, FOOD_CATEGORIES } from '../data/mockFoodData';
 
 const CACHE_KEY = 'euljiro_food_ranking';
-const CACHE_DURATION = 24 * 60 * 60 * 1000;
+
+// ⭐ 오늘 날짜 문자열 (캐시 키에 사용)
+function getTodayKey() {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+}
+
+// 캐시가 오늘 것인지 확인
+function isTodayCache(timestamp) {
+    if (!timestamp) return false;
+    const cached = new Date(timestamp);
+    const now = new Date();
+    return cached.getFullYear() === now.getFullYear()
+        && cached.getMonth() === now.getMonth()
+        && cached.getDate() === now.getDate();
+}
+
 const AREAS = ['을지로', '성수동', '망원동', '연남동', '익선동'];
 
 export default function EuljiroFoodRanking() {
@@ -15,10 +31,9 @@ export default function EuljiroFoodRanking() {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
     const [isUsingMockData, setIsUsingMockData] = useState(true);
-    const [cooldown, setCooldown] = useState(0);
     const fetchingRef = useRef(false);
 
-    // ── ⭐ 카테고리 필터링 (API 호출 없이 클라이언트에서 처리) ──
+    // ── 카테고리 필터링 (API 호출 없음) ──
     const restaurants = useMemo(() => {
         if (selectedCategory === 'all') return allRestaurants;
         const cat = FOOD_CATEGORIES.find(c => c.id === selectedCategory);
@@ -28,15 +43,21 @@ export default function EuljiroFoodRanking() {
         );
     }, [allRestaurants, selectedCategory]);
 
-    // ── Mock 데이터 초기 로드 (또는 캐시 확인) ──
-    useEffect(() => {
-        // 캐시 먼저 확인
+    // ── ⭐ 하루 1회 자동 업데이트 로직 ──
+    const fetchDailyRanking = useCallback(async (area, category) => {
+        if (fetchingRef.current) return;
+
+        const catId = category || 'all';
+        const cacheKey = catId === 'all'
+            ? `${CACHE_KEY}_${area}_${getTodayKey()}`
+            : `${CACHE_KEY}_${area}_${catId}_${getTodayKey()}`;
+
+        // 1) 오늘 캐시가 있으면 그대로 사용 (API 호출 안 함)
         try {
-            const cacheKey = `${CACHE_KEY}_${selectedArea}`;
             const cached = localStorage.getItem(cacheKey);
             if (cached) {
                 const { data, timestamp } = JSON.parse(cached);
-                if (Date.now() - timestamp < CACHE_DURATION && data?.length > 0) {
+                if (isTodayCache(timestamp) && data?.length > 0) {
                     setAllRestaurants(data);
                     setLastUpdated(new Date(timestamp));
                     setIsUsingMockData(false);
@@ -45,66 +66,22 @@ export default function EuljiroFoodRanking() {
             }
         } catch (e) { }
 
-        // 캐시 없으면 mock
-        const mockData = MOCK_RESTAURANTS[selectedArea] || [];
-        setAllRestaurants(mockData.map(r => ({
-            ...r,
-            icon: getCategoryIcon(r.category),
-            color: getCategoryColor(r.category)
-        })));
-        setLastUpdated(null);
-        setIsUsingMockData(true);
-    }, [selectedArea]);
-
-    // ── 쿨다운 타이머 ──
-    useEffect(() => {
-        if (cooldown <= 0) return;
-        const timer = setInterval(() => {
-            setCooldown(prev => (prev <= 1 ? 0 : prev - 1));
-        }, 1000);
-        return () => clearInterval(timer);
-    }, [cooldown]);
-
-    // ── ⭐ 실시간 업데이트 (카테고리 반영된 프롬프트) ──
-    const fetchRealTimeRanking = useCallback(async () => {
-        if (fetchingRef.current || cooldown > 0) return;
+        // 2) 오늘 캐시가 없으면 → API 1회 호출
         fetchingRef.current = true;
-
-        // 카테고리별 캐시 키
-        const cacheKey = selectedCategory === 'all'
-            ? `${CACHE_KEY}_${selectedArea}`
-            : `${CACHE_KEY}_${selectedArea}_${selectedCategory}`;
-
-        // 캐시 확인
-        try {
-            const cached = localStorage.getItem(cacheKey);
-            if (cached) {
-                const { data, timestamp } = JSON.parse(cached);
-                if (Date.now() - timestamp < CACHE_DURATION && data?.length > 0) {
-                    setAllRestaurants(data);
-                    setLastUpdated(new Date(timestamp));
-                    setIsUsingMockData(false);
-                    fetchingRef.current = false;
-                    return;
-                }
-            }
-        } catch (e) { }
-
         setLoading(true);
         setError(null);
 
         try {
             const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-            if (!apiKey) throw new Error('API 키가 설정되지 않았습니다.');
+            if (!apiKey) throw new Error('API_KEY_MISSING');
 
-            // ⭐ 카테고리에 따라 프롬프트 변경
-            const catInfo = FOOD_CATEGORIES.find(c => c.id === selectedCategory);
-            const categoryQuery = selectedCategory === 'all'
+            const catInfo = FOOD_CATEGORIES.find(c => c.id === catId);
+            const categoryQuery = catId === 'all'
                 ? '모든 음식 종류를 포함하여'
                 : `"${catInfo.label}" 카테고리(${catInfo.keywords.slice(0, 5).join(', ')} 등)에 해당하는 음식점만`;
 
             const prompt = `
-        ${selectedArea} 지역에서 ${categoryQuery} 맛집 인기 랭킹 TOP 10을 조사해주세요.
+        ${area} 지역에서 ${categoryQuery} 맛집 인기 랭킹 TOP 10을 조사해주세요.
         
         네이버 플레이스, 구글 리뷰, 블로그 후기 등을 종합하여
         현재 가장 인기 있고 평점 높은 맛집 10곳을 선정해주세요.
@@ -172,31 +149,31 @@ export default function EuljiroFoodRanking() {
                 color: getCategoryColor(r.category)
             }));
 
+            // ⭐ 오늘 날짜 캐시 저장
             const now = Date.now();
             localStorage.setItem(cacheKey, JSON.stringify({ data: enriched, timestamp: now }));
+
+            // 어제 캐시 정리
+            cleanOldCache(area, catId);
 
             setAllRestaurants(enriched);
             setLastUpdated(new Date(now));
             setIsUsingMockData(false);
             setError(null);
-            setCooldown(30); // 성공 후 30초 쿨다운
 
         } catch (err) {
             console.error('Fetch ranking error:', err);
 
             if (err.message === 'RATE_LIMIT') {
-                setError('⚠️ API 요청 제한에 도달했습니다.\n잠시 후 다시 시도해주세요.');
-                setCooldown(60); // 429 시 60초 쿨다운
-            } else if (err.message === 'PARSE_ERROR') {
-                setError('데이터를 불러오지 못했습니다. 기본 데이터를 사용합니다.');
-            } else if (err.message.includes('API 키')) {
-                setError('API 키가 설정되지 않았습니다. 기본 데이터를 사용합니다.');
+                setError('API 요청 제한에 도달했습니다. 기본 데이터를 표시합니다.');
+            } else if (err.message === 'API_KEY_MISSING') {
+                setError(null); // 키 없으면 조용히 mock 사용
             } else {
-                setError('맛집 정보를 불러오는 중 오류가 발생했습니다.');
+                setError('데이터를 불러오지 못했습니다. 기본 데이터를 표시합니다.');
             }
 
             // mock fallback
-            const mockData = MOCK_RESTAURANTS[selectedArea] || [];
+            const mockData = MOCK_RESTAURANTS[area] || [];
             setAllRestaurants(mockData.map(r => ({
                 ...r,
                 icon: getCategoryIcon(r.category),
@@ -208,7 +185,60 @@ export default function EuljiroFoodRanking() {
             setLoading(false);
             fetchingRef.current = false;
         }
-    }, [selectedArea, selectedCategory, cooldown]);
+    }, []);
+
+    // ⭐ 어제 캐시 자동 정리
+    function cleanOldCache(area, catId) {
+        try {
+            const todayKey = getTodayKey();
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key?.startsWith(CACHE_KEY) && !key.includes(todayKey)) {
+                    localStorage.removeItem(key);
+                }
+            }
+        } catch (e) { }
+    }
+
+    // ── 지역/카테고리 변경 시 자동 로드 ──
+    useEffect(() => {
+        // 먼저 mock 데이터로 즉시 표시
+        const mockData = MOCK_RESTAURANTS[selectedArea] || [];
+        const enriched = mockData.map(r => ({
+            ...r,
+            icon: getCategoryIcon(r.category),
+            color: getCategoryColor(r.category)
+        }));
+        setAllRestaurants(enriched);
+        setIsUsingMockData(true);
+        setLastUpdated(null);
+
+        // 그 다음 오늘 캐시 확인 → 없으면 API 호출
+        fetchDailyRanking(selectedArea, selectedCategory);
+    }, [selectedArea, fetchDailyRanking]);
+
+    // 카테고리 변경 시에도 해당 캐시 확인
+    useEffect(() => {
+        if (selectedCategory !== 'all') {
+            fetchDailyRanking(selectedArea, selectedCategory);
+        }
+    }, [selectedCategory, selectedArea, fetchDailyRanking]);
+
+    // ── 업데이트 시간 표시 헬퍼 ──
+    function getUpdateTimeDisplay() {
+        if (isUsingMockData) return '기본 맛집 데이터';
+        if (!lastUpdated) return '데이터 로딩 중...';
+
+        const today = new Date();
+        const isToday = lastUpdated.getDate() === today.getDate()
+            && lastUpdated.getMonth() === today.getMonth();
+
+        const time = lastUpdated.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+
+        return isToday
+            ? `오늘 ${time} 업데이트`
+            : `${lastUpdated.toLocaleDateString('ko-KR')} ${time} 업데이트`;
+    }
 
     return (
         <div className="flex-1 overflow-y-auto no-scrollbar">
@@ -234,7 +264,7 @@ export default function EuljiroFoodRanking() {
                 </div>
             </div>
 
-            {/* ── ⭐ 카테고리 필터 칩 (새로 추가) ── */}
+            {/* 카테고리 필터 칩 */}
             <div className="bg-white dark:bg-[#111111] shrink-0">
                 <div className="flex overflow-x-auto no-scrollbar px-5 py-3 gap-2">
                     {FOOD_CATEGORIES.map(cat => {
@@ -269,32 +299,21 @@ export default function EuljiroFoodRanking() {
                 </div>
             </div>
 
-            {/* 업데이트 정보 */}
+            {/* ⭐ 업데이트 정보 (버튼 제거 → 안내 문구로 변경) */}
             <div className="px-5 pt-3 pb-2 flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
                     <span className="material-symbols-outlined text-primary text-[18px]">restaurant</span>
                     <p className="text-[13px] text-toss-gray-600 dark:text-gray-400">
-                        {isUsingMockData
-                            ? `기본 데이터 · ${restaurants.length}곳`
-                            : lastUpdated
-                                ? `실시간 ${lastUpdated.toLocaleDateString('ko-KR')} ${lastUpdated.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} · ${restaurants.length}곳`
-                                : '데이터 로딩 중...'
-                        }
+                        {getUpdateTimeDisplay()} · {restaurants.length}곳
                     </p>
                 </div>
-                <button
-                    onClick={fetchRealTimeRanking}
-                    disabled={loading || cooldown > 0}
-                    className="flex items-center gap-1 text-[13px] text-primary font-medium disabled:opacity-40"
-                >
-                    <span className={`material-symbols-outlined text-[16px] ${loading ? 'animate-spin' : ''}`}>
-                        {loading ? 'progress_activity' : 'sync'}
-                    </span>
-                    {cooldown > 0 ? `${cooldown}초 후 가능` : 'AI 업데이트'}
-                </button>
+                <div className="flex items-center gap-1 text-[12px] text-toss-gray-400 dark:text-gray-600">
+                    <span className="material-symbols-outlined text-[14px]">schedule</span>
+                    매일 자동 업데이트
+                </div>
             </div>
 
-            {/* ── 로딩 상태 ── */}
+            {/* 로딩 */}
             {loading && (
                 <div className="px-5 py-4 space-y-1">
                     {Array.from({ length: 5 }).map((_, i) => (
@@ -307,37 +326,23 @@ export default function EuljiroFoodRanking() {
                             </div>
                         </div>
                     ))}
+                    <p className="text-center text-[13px] text-toss-gray-400 dark:text-gray-600 pt-2">
+                        오늘의 맛집 랭킹을 불러오고 있습니다...
+                    </p>
                 </div>
             )}
 
-            {/* ── 에러 상태 ── */}
+            {/* 에러 배너 (인라인) */}
             {error && !loading && (
                 <div className="mx-5 mb-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl p-4">
-                    <div className="flex items-center gap-2 mb-1">
-                        <span className="material-symbols-outlined text-amber-500 text-[18px]">warning</span>
-                        <span className="text-[13px] font-bold text-amber-700 dark:text-amber-400">알림</span>
+                    <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-amber-500 text-[16px]">info</span>
+                        <p className="text-[12px] text-amber-600 dark:text-amber-500">{error}</p>
                     </div>
-                    <p className="text-[12px] text-amber-600 dark:text-amber-500 whitespace-pre-line leading-relaxed">{error}</p>
-                    <button
-                        onClick={() => {
-                            setError(null);
-                            const mockData = MOCK_RESTAURANTS[selectedArea] || [];
-                            setAllRestaurants(mockData.map(r => ({
-                                ...r,
-                                icon: getCategoryIcon(r.category),
-                                color: getCategoryColor(r.category)
-                            })));
-                            setIsUsingMockData(true);
-                            setLastUpdated(null);
-                        }}
-                        className="mt-2 text-[12px] text-amber-700 dark:text-amber-400 font-bold underline"
-                    >
-                        기본 데이터로 돌아가기
-                    </button>
                 </div>
             )}
 
-            {/* ── ⭐ 카테고리 필터 결과 없음 ── */}
+            {/* 카테고리 필터 결과 없음 */}
             {!loading && restaurants.length === 0 && selectedCategory !== 'all' && (
                 <div className="px-5 py-16 text-center">
                     <span className="text-5xl block mb-4">
@@ -346,23 +351,13 @@ export default function EuljiroFoodRanking() {
                     <p className="text-toss-gray-800 dark:text-white text-[17px] font-bold mb-2">
                         {selectedArea} {FOOD_CATEGORIES.find(c => c.id === selectedCategory)?.label} 맛집
                     </p>
-                    <p className="text-toss-gray-600 dark:text-gray-400 text-[14px] mb-6">
-                        기본 데이터에 해당 카테고리가 없습니다.<br />AI 검색으로 찾아보세요!
+                    <p className="text-toss-gray-600 dark:text-gray-400 text-[14px]">
+                        해당 카테고리의 맛집 정보가 아직 없습니다.<br />내일 업데이트 시 반영될 수 있습니다.
                     </p>
-                    <button
-                        onClick={fetchRealTimeRanking}
-                        disabled={loading || cooldown > 0}
-                        className="bg-primary text-white px-6 py-3 rounded-2xl font-bold text-[14px] disabled:opacity-40"
-                    >
-                        {cooldown > 0
-                            ? `${cooldown}초 후 가능`
-                            : `🔍 ${FOOD_CATEGORIES.find(c => c.id === selectedCategory)?.label} 맛집 AI 검색`
-                        }
-                    </button>
                 </div>
             )}
 
-            {/* ── 맛집 리스트 ── */}
+            {/* 맛집 리스트 */}
             {!loading && restaurants.length > 0 && (
                 <div className="px-5 py-2 space-y-1 pb-32">
                     {restaurants.slice(0, 10).map((r, idx) => (
@@ -408,22 +403,26 @@ export default function EuljiroFoodRanking() {
                         </div>
                     ))}
 
-                    {/* AI 출처 안내 */}
+                    {/* 안내 */}
                     <div className="mt-6 p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-2xl">
                         <div className="flex items-center gap-2 mb-1">
-                            <span className="material-symbols-outlined text-[16px] text-primary">{isUsingMockData ? 'restaurant_menu' : 'smart_toy'}</span>
-                            <span className="text-[12px] font-bold text-primary">{isUsingMockData ? '기본 맛집 데이터' : 'AI Powered by Gemini'}</span>
+                            <span className="material-symbols-outlined text-[16px] text-primary">
+                                {isUsingMockData ? 'restaurant_menu' : 'smart_toy'}
+                            </span>
+                            <span className="text-[12px] font-bold text-primary">
+                                {isUsingMockData ? '기본 맛집 데이터' : 'AI Powered by Gemini'}
+                            </span>
                         </div>
                         <p className="text-[11px] text-toss-gray-600 dark:text-gray-500 leading-relaxed">
                             {isUsingMockData
-                                ? '카테고리를 선택하면 기본 데이터에서 필터링됩니다. "AI 업데이트"를 누르면 해당 카테고리의 실시간 맛집을 검색합니다.'
-                                : '네이버 플레이스, 구글 리뷰, 블로그 후기를 AI가 종합 분석한 결과입니다. 24시간 동안 캐시됩니다.'}
+                                ? '신뢰할 수 있는 기본 맛집 정보입니다. 매일 정각에 AI가 최신 정보로 자동 업데이트합니다.'
+                                : '네이버 플레이스, 구글 리뷰, 블로그 후기를 AI가 종합 분석한 결과입니다. 매일 정각에 자동 업데이트됩니다.'}
                         </p>
                     </div>
                 </div>
             )}
 
-            {/* ── 맛집 상세 바텀시트 ── */}
+            {/* 맛집 상세 바텀시트 */}
             {selectedRestaurant && (
                 <div
                     className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-[2px]"
