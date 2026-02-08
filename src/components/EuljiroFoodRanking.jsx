@@ -1,6 +1,6 @@
-// src/components/EuljiroFoodRanking.jsx
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { MOCK_RESTAURANTS, FOOD_CATEGORIES } from '../data/mockFoodData';
+import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
 
 const CACHE_KEY = 'euljiro_food_ranking';
 
@@ -99,9 +99,6 @@ export default function EuljiroFoodRanking() {
         setIsUpdating(true); // 작은 인디케이터만 표시
 
         try {
-            const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-            if (!apiKey) return;
-
             const prompt = `
         ${area} 지역에서 모든 음식 종류를 포함하여 맛집 인기 랭킹 TOP 10을 조사해주세요.
         
@@ -128,37 +125,11 @@ export default function EuljiroFoodRanking() {
         ]
       `;
 
-            const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                        tools: [{ google_search: {} }],
-                        generationConfig: {
-                            temperature: 0.3,
-                            responseMimeType: "text/plain"
-                        }
-                    })
-                }
+            const rawText = await enqueueGeminiRequest(() =>
+                geminiRequest(prompt, { useSearch: true })
             );
 
-            if (!response.ok) return; // 실패해도 조용히 무시 (기존 데이터 유지)
-
-            const data = await response.json();
-            const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-            let jsonStr = rawText;
-            const jsonMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
-            if (jsonMatch) {
-                jsonStr = jsonMatch[1].trim();
-            } else {
-                const arrayMatch = rawText.match(/\[[\s\S]*\]/);
-                if (arrayMatch) jsonStr = arrayMatch[0];
-            }
-
-            const parsed = JSON.parse(jsonStr);
+            const parsed = extractJSON(rawText);
             if (!Array.isArray(parsed) || parsed.length === 0) return;
 
             const enriched = parsed.slice(0, 10).map((r, idx) => ({
