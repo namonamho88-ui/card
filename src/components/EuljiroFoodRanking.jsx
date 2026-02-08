@@ -1,41 +1,54 @@
 // src/components/EuljiroFoodRanking.jsx
 import React, { useState, useEffect, useCallback } from 'react';
+import { MOCK_RESTAURANTS } from '../data/mockFoodData';
 
 const CACHE_KEY = 'euljiro_food_ranking';
-const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6시간 (ms)
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24시간 (ms)
 
 // 지역 탭 목록
 const AREAS = ['을지로', '성수동', '망원동', '연남동', '익선동'];
 
 export default function EuljiroFoodRanking() {
     const [restaurants, setRestaurants] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false); //Changed to false - we have mock data
     const [error, setError] = useState(null);
     const [lastUpdated, setLastUpdated] = useState(null);
     const [selectedArea, setSelectedArea] = useState('을지로');
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+    const [isUsingMockData, setIsUsingMockData] = useState(true);
 
-    // ── Gemini + Google Search Grounding으로 맛집 데이터 가져오기 ──
-    const fetchRanking = useCallback(async (area, forceRefresh = false) => {
-        const cacheKey = `${CACHE_KEY}_${area}`;
+    // ── Load mock data initially ──
+    useEffect(() => {
+        const mockData = MOCK_RESTAURANTS[selectedArea] || [];
+        const enriched = mockData.map(r => ({
+            ...r,
+            icon: getCategoryIcon(r.category),
+            color: getCategoryColor(r.category)
+        }));
+        setRestaurants(enriched);
+        setLastUpdated(null); // No update time for mock data
+        setIsUsingMockData(true);
+    }, [selectedArea]);
 
-        // 1) 캐시 확인 (6시간 이내면 캐시 사용)
-        if (!forceRefresh) {
-            try {
-                const cached = localStorage.getItem(cacheKey);
-                if (cached) {
-                    const { data, timestamp } = JSON.parse(cached);
-                    const age = Date.now() - timestamp;
-                    if (age < CACHE_DURATION) {
-                        setRestaurants(data);
-                        setLastUpdated(new Date(timestamp));
-                        setLoading(false);
-                        return;
-                    }
+    // ── Gemini + Google Search Grounding으로 실시간 맛집 데이터 가져오기 (선택적) ──
+    const fetchRealTimeRanking = useCallback(async () => {
+        const cacheKey = `${CACHE_KEY}_${selectedArea}`;
+
+        // 1) 캐시 확인 (24시간 이내면 캐시 사용)
+        try {
+            const cached = localStorage.getItem(cacheKey);
+            if (cached) {
+                const { data, timestamp } = JSON.parse(cached);
+                const age = Date.now() - timestamp;
+                if (age < CACHE_DURATION) {
+                    setRestaurants(data);
+                    setLastUpdated(new Date(timestamp));
+                    setIsUsingMockData(false);
+                    return;
                 }
-            } catch (e) {
-                console.warn('Cache read error:', e);
             }
+        } catch (e) {
+            console.warn('Cache read error:', e);
         }
 
         // 2) Gemini API 호출 (Google Search Grounding 활용)
@@ -49,7 +62,7 @@ export default function EuljiroFoodRanking() {
             }
 
             const prompt = `
-        ${area} 맛집 인기 랭킹 TOP 10을 조사해주세요.
+        ${selectedArea} 맛집 인기 랭킹 TOP 10을 조사해주세요.
         
         네이버 플레이스, 구글 리뷰, 블로그 후기 등을 종합하여
         현재 가장 인기 있고 평점 높은 맛집 10곳을 선정해주세요.
@@ -81,9 +94,9 @@ export default function EuljiroFoodRanking() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                        tools: [{ google_search: {} }], // ⭐ Google Search Grounding 핵심!
+                        tools: [{ google_search: {} }],
                         generationConfig: {
-                            temperature: 0.3, // 낮은 temperature로 일관성 확보
+                            temperature: 0.3,
                             responseMimeType: "text/plain"
                         }
                     })
@@ -98,13 +111,12 @@ export default function EuljiroFoodRanking() {
             const data = await response.json();
             const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-            // JSON 파싱 (```json ... ``` 블록 처리)
+            // JSON 파싱
             let jsonStr = rawText;
             const jsonMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
             if (jsonMatch) {
                 jsonStr = jsonMatch[1].trim();
             } else {
-                // JSON 배열 직접 추출
                 const arrayMatch = rawText.match(/\[[\s\S]*\]/);
                 if (arrayMatch) {
                     jsonStr = arrayMatch[0];
@@ -131,35 +143,34 @@ export default function EuljiroFoodRanking() {
 
             setRestaurants(enriched);
             setLastUpdated(new Date(now));
+            setIsUsingMockData(false);
             setLoading(false);
 
         } catch (err) {
             console.error('Fetch ranking error:', err);
 
             if (err.message === 'RATE_LIMIT') {
-                setError('요청이 많아 잠시 후 다시 시도해주세요.');
+                setError('⚠️ API 요청 제한에 도달했습니다.\n잠시 후 다시 시도하거나 기본 데이터를 사용해주세요.');
             } else if (err.message === 'PARSE_ERROR') {
-                setError('데이터를 불러오지 못했습니다. 다시 시도해주세요.');
+                setError('데이터를 불러오지 못했습니다. 기본 데이터를 사용합니다.');
+            } else if (err.message.includes('API 키')) {
+                setError('API 키가 설정되지 않았습니다. 기본 데이터를 사용합니다.');
             } else {
                 setError('맛집 정보를 불러오는 중 오류가 발생했습니다.');
             }
             setLoading(false);
+
+            // 에러 시 mock 데이터로 복귀
+            const mockData = MOCK_RESTAURANTS[selectedArea] || [];
+            const enriched = mockData.map(r => ({
+                ...r,
+                icon: getCategoryIcon(r.category),
+                color: getCategoryColor(r.category)
+            }));
+            setRestaurants(enriched);
+            setIsUsingMockData(true);
         }
-    }, []);
-
-    // 지역 변경 시 데이터 로드
-    useEffect(() => {
-        fetchRanking(selectedArea);
-    }, [selectedArea, fetchRanking]);
-
-    // ── 6시간 자동 갱신 타이머 ──
-    useEffect(() => {
-        const interval = setInterval(() => {
-            fetchRanking(selectedArea, true);
-        }, CACHE_DURATION);
-
-        return () => clearInterval(interval);
-    }, [selectedArea, fetchRanking]);
+    }, [selectedArea]);
 
     return (
         <div className="flex-1 overflow-y-auto no-scrollbar">
@@ -176,8 +187,8 @@ export default function EuljiroFoodRanking() {
                                     }`}
                             >
                                 <p className={`text-[15px] tracking-tight ${isActive
-                                        ? 'text-toss-gray-800 dark:text-white font-bold'
-                                        : 'text-toss-gray-600 dark:text-gray-500 font-medium'
+                                    ? 'text-toss-gray-800 dark:text-white font-bold'
+                                    : 'text-toss-gray-600 dark:text-gray-500 font-medium'
                                     }`}>
                                     {area}
                                 </p>
@@ -192,19 +203,21 @@ export default function EuljiroFoodRanking() {
                 <div className="flex items-center gap-1.5">
                     <span className="material-symbols-outlined text-primary text-[18px]">restaurant</span>
                     <p className="text-[13px] text-toss-gray-600 dark:text-gray-400">
-                        {lastUpdated
-                            ? `${lastUpdated.toLocaleDateString('ko-KR')} ${lastUpdated.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 기준`
-                            : '데이터 로딩 중...'
+                        {isUsingMockData
+                            ? '기본 맛집 데이터'
+                            : lastUpdated
+                                ? `실시간 ${lastUpdated.toLocaleDateString('ko-KR')} ${lastUpdated.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}`
+                                : '데이터 로딩 중...'
                         }
                     </p>
                 </div>
                 <button
-                    onClick={() => fetchRanking(selectedArea, true)}
+                    onClick={fetchRealTimeRanking}
                     disabled={loading}
                     className="flex items-center gap-1 text-[13px] text-primary font-medium disabled:opacity-40"
                 >
-                    <span className={`material-symbols-outlined text-[16px] ${loading ? 'animate-spin' : ''}`}>refresh</span>
-                    새로고침
+                    <span className={`material-symbols-outlined text-[16px] ${loading ? 'animate-spin' : ''}`}>{loading ? 'progress_activity' : 'sync'}</span>
+                    실시간 업데이트
                 </button>
             </div>
 
@@ -249,8 +262,8 @@ export default function EuljiroFoodRanking() {
                         >
                             {/* 순위 */}
                             <span className={`text-lg font-bold w-4 text-center ${idx < 3
-                                    ? 'text-primary'
-                                    : 'text-toss-gray-800 dark:text-white text-opacity-50'
+                                ? 'text-primary'
+                                : 'text-toss-gray-800 dark:text-white text-opacity-50'
                                 }`}>
                                 {idx + 1}
                             </span>
@@ -292,11 +305,14 @@ export default function EuljiroFoodRanking() {
                     {/* AI 출처 안내 */}
                     <div className="mt-6 p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-2xl">
                         <div className="flex items-center gap-2 mb-1">
-                            <span className="material-symbols-outlined text-[16px] text-primary">smart_toy</span>
-                            <span className="text-[12px] font-bold text-primary">AI Powered by Gemini</span>
+                            <span className="material-symbols-outlined text-[16px] text-primary">{isUsingMockData ? 'restaurant_menu' : 'smart_toy'}</span>
+                            <span className="text-[12px] font-bold text-primary">{isUsingMockData ? '기본 맛집 데이터' : 'AI Powered by Gemini'}</span>
                         </div>
                         <p className="text-[11px] text-toss-gray-600 dark:text-gray-500 leading-relaxed">
-                            네이버 플레이스, 구글 리뷰, 블로그 후기를 AI가 종합 분석한 결과입니다. 6시간마다 자동 업데이트됩니다.
+                            {isUsingMockData
+                                ? '신뢰할 수 있는 맛집 정보를 제공합니다. "실시간 업데이트" 버튼을 누르면 AI가 최신 정보를 검색합니다.'
+                                : '네이버 플레이스, 구글 리뷰, 블로그 후기를 AI가 종합 분석한 결과입니다. 24시간 동안 캐시됩니다.'
+                            }
                         </p>
                     </div>
                 </div>
