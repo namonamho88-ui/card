@@ -1,5 +1,5 @@
 {
-    "updatedAt": "2026-02-08T12:53:13.899Z",
+    "updatedAt": "2026-02-08T18:39:55.022Z",
     "cards": [
         {
             "id": "ss-1",
@@ -265,23 +265,6 @@
             "rank": 18
         },
         {
-            "id": "wo-3",
-            "issuer": "우리카드",
-            "name": "카드의정석2",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 1.2%할인",
-                "분기별 이용실적에 따라 최대 15,000원청구할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2848/card_img/45022/2848card_1.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 20
-        },
-        {
             "id": "sh-4",
             "issuer": "신한카드",
             "name": "신한카드 Deep Oil",
@@ -299,25 +282,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/39/card_img/31864/39card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 21
+            "rank": 20
         },
         {
-            "id": "ss-8",
-            "issuer": "삼성카드",
-            "name": "삼성 iD GLOBAL 카드",
+            "id": "wo-3",
+            "issuer": "우리카드",
+            "name": "카드의정석2",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "해외 이용 2%할인",
-                "공항라운지 연 2회무료 이용",
-                "디지털콘텐츠 50%할인"
+                "국내외 가맹점 1.2%할인",
+                "분기별 이용실적에 따라 최대 15,000원청구할인"
             ],
             "categories": [
                 "할인"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 22
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2848/card_img/45022/2848card_1.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 21
         },
         {
             "id": "wo-4",
@@ -336,26 +318,25 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 23
+            "rank": 22
         },
         {
-            "id": "hd-1",
-            "issuer": "현대카드",
-            "name": "현대카드 M",
+            "id": "ss-8",
+            "issuer": "삼성카드",
+            "name": "삼성 iD GLOBAL 카드",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "국내외 가맹점 1.5%적립",
-                "온라인 쇼핑몰・일반음식점 5%적립",
-                "해외 가맹점 5%적립"
+                "해외 이용 2%할인",
+                "공항라운지 연 2회무료 이용",
+                "디지털콘텐츠 50%할인"
             ],
             "categories": [
-                "적립",
-                "쇼핑"
+                "할인"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2669/card_img/43704/2669card_5.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 26
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 23
         },
         {
             "id": "wo-5",
@@ -374,6 +355,25 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2898/card_img/44541/2898card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 26
+        },
+        {
+            "id": "hd-1",
+            "issuer": "현대카드",
+            "name": "현대카드 M",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 1.5%적립",
+                "온라인 쇼핑몰・일반음식점 5%적립",
+                "해외 가맹점 5%적립"
+            ],
+            "categories": [
+                "적립",
+                "쇼핑"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2669/card_img/43704/2669card_5.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
             "rank": 27
         },
         {
@@ -393,7 +393,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/466/card_img/37854/466card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 29
+            "rank": 28
         },
         {
             "id": "wo-6",
@@ -431,7 +431,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/716/card_img/22190/716card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 36
+            "rank": 35
         },
         {
             "id": "hd-2",
@@ -447,7 +447,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2646/card_img/39624/2646card_3.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 37
+            "rank": 36
         },
         {
             "id": "sh-7",
@@ -824,7 +824,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 82
+            "rank": 83
         },
         {
             "id": "hn-3",
@@ -842,7 +842,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2820/card_img/44248/2820card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 85
+            "rank": 84
         },
         {
             "id": "lo-4",
@@ -917,7 +917,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 93
+            "rank": 94
         },
         {
             "id": "hd-10",
