@@ -1,6 +1,24 @@
 {
-    "updatedAt": "2026-02-12T07:03:45.328Z",
+    "updatedAt": "2026-02-12T13:10:13.540Z",
     "cards": [
+        {
+            "id": "ss-1",
+            "issuer": "삼성카드",
+            "name": "삼성 iD SELECT ALL 카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "선택 옵션에 따른 할인 혜택(택 1)",
+                "생활 편의 영역 5%할인",
+                "디지털콘텐츠/멤버십 50%할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": null,
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 2
+        },
         {
             "id": "sh-1",
             "issuer": "신한카드",
@@ -20,24 +38,6 @@
             "image": null,
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 1
-        },
-        {
-            "id": "ss-1",
-            "issuer": "삼성카드",
-            "name": "삼성 iD SELECT ALL 카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "선택 옵션에 따른 할인 혜택(택 1)",
-                "생활 편의 영역 5%할인",
-                "디지털콘텐츠/멤버십 50%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": null,
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 2
         },
         {
             "id": "ss-2",
@@ -336,7 +336,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2848/card_img/45022/2848card_1.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 23
+            "rank": 24
         },
         {
             "id": "hd-1",
@@ -430,6 +430,24 @@
             "rank": 31
         },
         {
+            "id": "sh-7",
+            "issuer": "신한카드",
+            "name": "신한카드 Point Plan",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내 가맹점 최대 3%적립",
+                "주말 외식비 1천 포인트적립",
+                "도시가스/전기요금 1천 포인트적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2666/card_img/32452/2666card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 33
+        },
+        {
             "id": "wo-6",
             "issuer": "우리카드",
             "name": "우리카드 7CORE",
@@ -447,24 +465,6 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2851/card_img/43400/2851.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 32
-        },
-        {
-            "id": "sh-7",
-            "issuer": "신한카드",
-            "name": "신한카드 Point Plan",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내 가맹점 최대 3%적립",
-                "주말 외식비 1천 포인트적립",
-                "도시가스/전기요금 1천 포인트적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2666/card_img/32452/2666card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 34
         },
         {
@@ -506,6 +506,24 @@
             "rank": 39
         },
         {
+            "id": "sh-8",
+            "issuer": "신한카드",
+            "name": "신한카드 The CLASSIC-S",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "이용금액 1%기본적립",
+                "이용금액 0.5%추가적립",
+                "해외, 면세점 2%추가적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/945/card_img/21598/945card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 40
+        },
+        {
             "id": "hd-4",
             "issuer": "현대카드",
             "name": "현대카드 Summit",
@@ -523,24 +541,6 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2692/card_img/33549/2692card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 40
-        },
-        {
-            "id": "sh-8",
-            "issuer": "신한카드",
-            "name": "신한카드 The CLASSIC-S",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "이용금액 1%기본적립",
-                "이용금액 0.5%추가적립",
-                "해외, 면세점 2%추가적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/945/card_img/21598/945card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 41
         },
         {
@@ -616,7 +616,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 59
+            "rank": 60
         },
         {
             "id": "hn-2",
@@ -653,7 +653,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 65
+            "rank": 64
         },
         {
             "id": "wo-9",
@@ -671,7 +671,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 66
+            "rank": 65
         },
         {
             "id": "wo-10",
@@ -731,7 +731,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 71
+            "rank": 72
         },
         {
             "id": "hd-6",
@@ -773,6 +773,23 @@
         {
             "id": "hd-7",
             "issuer": "현대카드",
+            "name": "현대카드 MX Black Edition2",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 1%적립",
+                "공항라운지 무료이용"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2697/card_img/33888/2697card.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 76
+        },
+        {
+            "id": "hd-8",
+            "issuer": "현대카드",
             "name": "현대카드O",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
@@ -788,24 +805,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2880/card_img/44410/2880card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 75
-        },
-        {
-            "id": "hd-8",
-            "issuer": "현대카드",
-            "name": "현대카드 MX Black Edition2",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 1%적립",
-                "공항라운지 무료이용"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2697/card_img/33888/2697card.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 78
+            "rank": 77
         },
         {
             "id": "hn-3",
@@ -823,7 +823,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2654/card_img/44245/2654card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 85
+            "rank": 84
         },
         {
             "id": "lo-4",
@@ -848,6 +848,23 @@
         {
             "id": "hd-9",
             "issuer": "현대카드",
+            "name": "네이버 현대카드 Edition2",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "네이버 최대 7%적립",
+                "그외 국내외 가맹점 0.7%적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 89
+        },
+        {
+            "id": "hd-10",
+            "issuer": "현대카드",
             "name": "현대카드Z family Edition2",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
@@ -862,7 +879,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2683/card_img/39649/2680card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 91
+            "rank": 93
         },
         {
             "id": "lo-5",
@@ -882,23 +899,6 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 92
-        },
-        {
-            "id": "hd-10",
-            "issuer": "현대카드",
-            "name": "네이버 현대카드 Edition2",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "네이버 최대 7%적립",
-                "그외 국내외 가맹점 0.7%적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
             "rank": 94
         },
         {
@@ -918,7 +918,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2529/card_img/29020/2529card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 100
+            "rank": 96
         }
     ]
 }
