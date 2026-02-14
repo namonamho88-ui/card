@@ -1,5 +1,5 @@
 {
-    "updatedAt": "2026-02-13T18:53:15.913Z",
+    "updatedAt": "2026-02-14T02:03:48.257Z",
     "cards": [
         {
             "id": "ss-1",
@@ -336,7 +336,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2848/card_img/45022/2848card_1.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 24
+            "rank": 23
         },
         {
             "id": "hd-1",
@@ -427,7 +427,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2646/card_img/39624/2646card_3.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 31
+            "rank": 32
         },
         {
             "id": "wo-6",
@@ -486,6 +486,24 @@
             "rank": 37
         },
         {
+            "id": "sh-8",
+            "issuer": "신한카드",
+            "name": "신한카드 The CLASSIC-S",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "이용금액 1%기본적립",
+                "이용금액 0.5%추가적립",
+                "해외, 면세점 2%추가적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/945/card_img/21598/945card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 39
+        },
+        {
             "id": "ss-9",
             "issuer": "삼성카드",
             "name": "삼성카드 스페셜마일리지(스카이패스)",
@@ -503,24 +521,6 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/54/card_img/20135/54card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 39
-        },
-        {
-            "id": "sh-8",
-            "issuer": "신한카드",
-            "name": "신한카드 The CLASSIC-S",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "이용금액 1%기본적립",
-                "이용금액 0.5%추가적립",
-                "해외, 면세점 2%추가적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/945/card_img/21598/945card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 40
         },
         {
@@ -636,7 +636,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2904/card_img/44666/2904card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 62
+            "rank": 61
         },
         {
             "id": "wo-8",
@@ -899,7 +899,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2683/card_img/39649/2680card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 95
+            "rank": 94
         },
         {
             "id": "hn-4",
@@ -918,7 +918,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2529/card_img/29020/2529card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 100
+            "rank": 96
         }
     ]
 }
