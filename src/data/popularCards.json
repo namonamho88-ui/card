@@ -1,6 +1,20 @@
 {
-    "updatedAt": "2026-02-15T02:14:59.371Z",
+    "updatedAt": "2026-02-15T06:55:03.711Z",
     "cards": [
+        {
+            "id": "sh-1",
+            "issuer": "신한카드",
+            "name": "신한카드 Mr.Life",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "상세 혜택 홈페이지 참조"
+            ],
+            "categories": [],
+            "image": null,
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 1
+        },
         {
             "id": "ss-1",
             "issuer": "삼성카드",
@@ -18,26 +32,6 @@
             "image": null,
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
             "rank": 2
-        },
-        {
-            "id": "sh-1",
-            "issuer": "신한카드",
-            "name": "신한카드 Mr.Life",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "공과금 10%할인",
-                "마트,편의점 10%할인",
-                "식음료 10%할인"
-            ],
-            "categories": [
-                "할인",
-                "편의점",
-                "쇼핑"
-            ],
-            "image": null,
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 1
         },
         {
             "id": "ss-2",
@@ -284,7 +278,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 19
+            "rank": 20
         },
         {
             "id": "wo-3",
@@ -560,7 +554,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2237/card_img/20939/2237card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 53
+            "rank": 52
         },
         {
             "id": "sh-9",
@@ -733,6 +727,24 @@
             "rank": 72
         },
         {
+            "id": "sh-10",
+            "issuer": "신한카드",
+            "name": "신한카드 Edu Plan+",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "학원비 최대 10%캐시백",
+                "3대 할인점 1%캐시백",
+                "메가박스 7천원할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 73
+        },
+        {
             "id": "lo-3",
             "issuer": "롯데카드",
             "name": "LOCA LIKIT Eat",
@@ -750,24 +762,6 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 73
-        },
-        {
-            "id": "sh-10",
-            "issuer": "신한카드",
-            "name": "신한카드 Edu Plan+",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "학원비 최대 10%캐시백",
-                "3대 할인점 1%캐시백",
-                "메가박스 7천원할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 74
         },
         {
@@ -823,7 +817,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2654/card_img/44245/2654card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 84
+            "rank": 85
+        },
+        {
+            "id": "hd-9",
+            "issuer": "현대카드",
+            "name": "네이버 현대카드 Edition2",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "네이버 최대 7%적립",
+                "그외 국내외 가맹점 0.7%적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 89
         },
         {
             "id": "lo-4",
@@ -843,24 +854,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2228/card_img/21353/2228card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 89
-        },
-        {
-            "id": "hd-9",
-            "issuer": "현대카드",
-            "name": "네이버 현대카드 Edition2",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "네이버 최대 7%적립",
-                "그외 국내외 가맹점 0.7%적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 91
+            "rank": 92
         },
         {
             "id": "hn-4",
@@ -882,6 +876,25 @@
             "rank": 94
         },
         {
+            "id": "hd-10",
+            "issuer": "현대카드",
+            "name": "현대카드Z family Edition2",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "온라인쇼핑 10%할인",
+                "병원/약국 10%할인",
+                "생활요금 10%할인"
+            ],
+            "categories": [
+                "쇼핑",
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2683/card_img/39649/2680card.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 96
+        },
+        {
             "id": "lo-5",
             "issuer": "롯데카드",
             "name": "LOCA LIKIT Play",
@@ -899,26 +912,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 95
-        },
-        {
-            "id": "hd-10",
-            "issuer": "현대카드",
-            "name": "현대카드Z family Edition2",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "온라인쇼핑 10%할인",
-                "병원/약국 10%할인",
-                "생활요금 10%할인"
-            ],
-            "categories": [
-                "쇼핑",
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2683/card_img/39649/2680card.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 97
+            "rank": 99
         }
     ]
 }
