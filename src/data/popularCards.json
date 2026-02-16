@@ -1,5 +1,5 @@
 {
-    "updatedAt": "2026-02-15T18:39:03.442Z",
+    "updatedAt": "2026-02-16T02:10:34.818Z",
     "cards": [
         {
             "id": "sh-1",
@@ -40,24 +40,6 @@
             "rank": 2
         },
         {
-            "id": "ss-2",
-            "issuer": "삼성카드",
-            "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "1,000원당 1마일기본적립",
-                "국내/해외 택1 옵션형 1마일특별적립",
-                "인천공항 라운지무료이용"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": null,
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 3
-        },
-        {
             "id": "wo-1",
             "issuer": "우리카드",
             "name": "카드의정석 SHOPPING+",
@@ -73,6 +55,24 @@
             ],
             "image": null,
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 3
+        },
+        {
+            "id": "ss-2",
+            "issuer": "삼성카드",
+            "name": "삼성카드 & MILEAGE PLATINUM (스카이패스)",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "1,000원당 1마일기본적립",
+                "국내/해외 택1 옵션형 1마일특별적립",
+                "인천공항 라운지무료이용"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": null,
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
             "rank": 4
         },
         {
@@ -96,26 +96,6 @@
             "rank": 5
         },
         {
-            "id": "sh-2",
-            "issuer": "신한카드",
-            "name": "신한카드 Discount Plan+",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "카페 10%할인",
-                "쇼핑 10%할인",
-                "정기결제 최대 20%할인"
-            ],
-            "categories": [
-                "카페",
-                "할인",
-                "쇼핑"
-            ],
-            "image": null,
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 7
-        },
-        {
             "id": "ss-4",
             "issuer": "삼성카드",
             "name": "삼성 iD SIMPLE 카드",
@@ -133,42 +113,23 @@
             ],
             "image": null,
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 8
+            "rank": 6
         },
         {
-            "id": "lo-1",
-            "issuer": "롯데카드",
-            "name": "LOCA 365 카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "아파트관리비, 공과금 10%할인",
-                "교통, 통신, 배달앱 10%할인",
-                "스트리밍 1,500원할인"
-            ],
-            "categories": [
-                "할인",
-                "대중교통",
-                "배달"
-            ],
-            "image": null,
-            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 9
-        },
-        {
-            "id": "sh-3",
+            "id": "sh-2",
             "issuer": "신한카드",
-            "name": "신한카드 처음(ANNIVERSE)",
+            "name": "신한카드 Discount Plan+",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "음식·생활·패션 5%적립",
-                "통신·구독·멤버십 최대 20%적립",
-                "소비관리 보너스 매월 최대 1만P"
+                "카페 10%할인",
+                "쇼핑 10%할인",
+                "정기결제 최대 20%할인"
             ],
             "categories": [
-                "적립",
-                "통신"
+                "카페",
+                "할인",
+                "쇼핑"
             ],
             "image": null,
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
@@ -190,7 +151,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2886/card_img/44215/2886card_1.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 13
+            "rank": 11
         },
         {
             "id": "ss-6",
@@ -208,6 +169,62 @@
                 "적립"
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2915/card_img/45262/2915card_1.png",
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 12
+        },
+        {
+            "id": "lo-1",
+            "issuer": "롯데카드",
+            "name": "LOCA 365 카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "아파트관리비, 공과금 10%할인",
+                "교통, 통신, 배달앱 10%할인",
+                "스트리밍 1,500원할인"
+            ],
+            "categories": [
+                "할인",
+                "대중교통",
+                "배달"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2330/card_img/24131/2330card.png",
+            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+            "rank": 13
+        },
+        {
+            "id": "wo-2",
+            "issuer": "우리카드",
+            "name": "카드의정석 EVERY DISCOUNT",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%청구할인",
+                "국내 온라인 간편결제 2%청구할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2719/card_img/46400/2719card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 14
+        },
+        {
+            "id": "ss-7",
+            "issuer": "삼성카드",
+            "name": "taptap DIGITAL",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "온라인간편결제 5%할인",
+                "스트리밍 50%할인",
+                "편의점 10%할인"
+            ],
+            "categories": [
+                "할인",
+                "편의점"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/657/card_img/27715/657card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
             "rank": 15
         },
@@ -229,23 +246,60 @@
             "rank": 16
         },
         {
-            "id": "ss-7",
-            "issuer": "삼성카드",
-            "name": "taptap DIGITAL",
+            "id": "sh-3",
+            "issuer": "신한카드",
+            "name": "신한카드 처음(ANNIVERSE)",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "온라인간편결제 5%할인",
-                "스트리밍 50%할인",
-                "편의점 10%할인"
+                "음식·생활·패션 5%적립",
+                "통신·구독·멤버십 최대 20%적립",
+                "소비관리 보너스 매월 최대 1만P"
             ],
             "categories": [
-                "할인",
-                "편의점"
+                "적립",
+                "통신"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/657/card_img/27715/657card.png",
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2759/card_img/37240/2759card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 17
+        },
+        {
+            "id": "ss-8",
+            "issuer": "삼성카드",
+            "name": "삼성 iD GLOBAL 카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "해외 이용 2%할인",
+                "공항라운지 연 2회무료 이용",
+                "디지털콘텐츠 50%할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 19
+        },
+        {
+            "id": "wo-3",
+            "issuer": "우리카드",
+            "name": "카드의정석 EVERY MILE SKYPASS",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "SKYPASS 최대 2마일리지적립",
+                "해외이용수수료 0.3%면제",
+                "국내 공항라운지 동반 1인 동시 이용"
+            ],
+            "categories": [
+                "여행",
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 20
         },
         {
             "id": "sh-4",
@@ -265,60 +319,6 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/39/card_img/31864/39card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 18
-        },
-        {
-            "id": "wo-2",
-            "issuer": "우리카드",
-            "name": "카드의정석 EVERY MILE SKYPASS",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "SKYPASS 최대 2마일리지적립",
-                "해외이용수수료 0.3%면제",
-                "국내 공항라운지 동반 1인 동시 이용"
-            ],
-            "categories": [
-                "여행",
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 20
-        },
-        {
-            "id": "ss-8",
-            "issuer": "삼성카드",
-            "name": "삼성 iD GLOBAL 카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "해외 이용 2%할인",
-                "공항라운지 연 2회무료 이용",
-                "디지털콘텐츠 50%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 21
-        },
-        {
-            "id": "wo-3",
-            "issuer": "우리카드",
-            "name": "카드의정석 EVERY DISCOUNT",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 0.8%청구할인",
-                "국내 온라인 간편결제 2%청구할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2719/card_img/46400/2719card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
             "rank": 22
         },
         {
@@ -336,157 +336,10 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2848/card_img/45022/2848card_1.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 24
-        },
-        {
-            "id": "hd-1",
-            "issuer": "현대카드",
-            "name": "현대카드 M",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 1.5%적립",
-                "온라인 쇼핑몰・일반음식점 5%적립",
-                "해외 가맹점 5%적립"
-            ],
-            "categories": [
-                "적립",
-                "쇼핑"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2669/card_img/43704/2669card_5.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 25
+            "rank": 23
         },
         {
             "id": "sh-5",
-            "issuer": "신한카드",
-            "name": "신한카드 Air One",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내/해외 1,000원당 1마일적립",
-                "항공/면세 2배적립",
-                "해외 2배적립"
-            ],
-            "categories": [
-                "적립",
-                "여행"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/466/card_img/37854/466card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 27
-        },
-        {
-            "id": "wo-5",
-            "issuer": "우리카드",
-            "name": "우리카드 MILE&POINT",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내 이용 1,500원당 1마일리지적립",
-                "해외 이용 1,500원당 최대 2마일리지적립",
-                "항공 마일리지와 포인트 동시 적립"
-            ],
-            "categories": [
-                "여행",
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2898/card_img/44541/2898card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 29
-        },
-        {
-            "id": "sh-6",
-            "issuer": "신한카드",
-            "name": "메리어트 본보이™ 더 베스트 신한카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "메리어트 참여호텔 무료숙박권제공",
-                "메리어트 참여호텔 이용시 5P/1천원적립",
-                "메리어트 본보이™ 멤버십 골드엘리트제공"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/716/card_img/22190/716card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 30
-        },
-        {
-            "id": "hd-2",
-            "issuer": "현대카드",
-            "name": "현대카드ZERO Edition3(할인형)",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 0.8%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2646/card_img/39624/2646card_3.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 31
-        },
-        {
-            "id": "wo-6",
-            "issuer": "우리카드",
-            "name": "우리카드 7CORE",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "온라인쇼핑, 대형마트, 커피 10%청구 할인",
-                "배달앱 10%청구 할인",
-                "교육, 병원, 주유 10%청구 할인"
-            ],
-            "categories": [
-                "카페",
-                "쇼핑",
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2851/card_img/43400/2851.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 34
-        },
-        {
-            "id": "sh-7",
-            "issuer": "신한카드",
-            "name": "신한카드 Point Plan",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내 가맹점 최대 3%적립",
-                "주말 외식비 1천 포인트적립",
-                "도시가스/전기요금 1천 포인트적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2666/card_img/32452/2666card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 35
-        },
-        {
-            "id": "hd-3",
-            "issuer": "현대카드",
-            "name": "현대카드 ZERO Up",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 0.8%청구 할인",
-                "온라인몰/대형마트 1.6%청구 할인"
-            ],
-            "categories": [
-                "할인",
-                "쇼핑"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2844/card_img/43699/2844card.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 37
-        },
-        {
-            "id": "sh-8",
             "issuer": "신한카드",
             "name": "신한카드 The CLASSIC-S",
             "annualFee": "1~3만원",
@@ -501,7 +354,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/945/card_img/21598/945card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 39
+            "rank": 24
         },
         {
             "id": "ss-9",
@@ -521,7 +374,116 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/54/card_img/20135/54card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 40
+            "rank": 27
+        },
+        {
+            "id": "hd-1",
+            "issuer": "현대카드",
+            "name": "현대카드 ZERO Up",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%청구 할인",
+                "온라인몰/대형마트 1.6%청구 할인"
+            ],
+            "categories": [
+                "할인",
+                "쇼핑"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2844/card_img/43699/2844card.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 28
+        },
+        {
+            "id": "hd-2",
+            "issuer": "현대카드",
+            "name": "현대카드 M",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 1.5%적립",
+                "온라인 쇼핑몰・일반음식점 5%적립",
+                "해외 가맹점 5%적립"
+            ],
+            "categories": [
+                "적립",
+                "쇼핑"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2669/card_img/43704/2669card_5.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 29
+        },
+        {
+            "id": "wo-5",
+            "issuer": "우리카드",
+            "name": "우리카드 MILE&POINT",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내 이용 1,500원당 1마일리지적립",
+                "해외 이용 1,500원당 최대 2마일리지적립",
+                "항공 마일리지와 포인트 동시 적립"
+            ],
+            "categories": [
+                "여행",
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2898/card_img/44541/2898card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 31
+        },
+        {
+            "id": "sh-6",
+            "issuer": "신한카드",
+            "name": "신한카드 Air One",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내/해외 1,000원당 1마일적립",
+                "항공/면세 2배적립",
+                "해외 2배적립"
+            ],
+            "categories": [
+                "적립",
+                "여행"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/466/card_img/37854/466card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 32
+        },
+        {
+            "id": "hd-3",
+            "issuer": "현대카드",
+            "name": "현대카드ZERO Edition3(할인형)",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2646/card_img/39624/2646card_3.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 34
+        },
+        {
+            "id": "sh-7",
+            "issuer": "신한카드",
+            "name": "메리어트 본보이™ 더 베스트 신한카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "메리어트 참여호텔 무료숙박권제공",
+                "메리어트 참여호텔 이용시 5P/1천원적립",
+                "메리어트 본보이™ 멤버십 골드엘리트제공"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/716/card_img/22190/716card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 36
         },
         {
             "id": "hd-4",
@@ -541,7 +503,42 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2692/card_img/33549/2692card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 38
+        },
+        {
+            "id": "sh-8",
+            "issuer": "신한카드",
+            "name": "신한카드 Point Plan",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내 가맹점 최대 3%적립",
+                "주말 외식비 1천 포인트적립",
+                "도시가스/전기요금 1천 포인트적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2666/card_img/32452/2666card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 41
+        },
+        {
+            "id": "wo-6",
+            "issuer": "우리카드",
+            "name": "카드의정석 EVERY POINT",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%적립",
+                "간편결제 2%추가 적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 45
         },
         {
             "id": "hn-1",
@@ -560,25 +557,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2237/card_img/20939/2237card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 53
-        },
-        {
-            "id": "sh-9",
-            "issuer": "신한카드",
-            "name": "신한카드 Point Plan+",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내 결제금액 최대 3%적립",
-                "주말 외식비 1천 포인트적립",
-                "OTT 최대 2천 포인트적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2731/card_img/36308/2731card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 54
+            "rank": 48
         },
         {
             "id": "hd-5",
@@ -596,27 +575,25 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 57
+            "rank": 50
         },
         {
             "id": "wo-7",
             "issuer": "우리카드",
-            "name": "카드의정석 TEN",
+            "name": "DA카드의정석Ⅱ",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "커피 10%할인",
-                "편의점 10%할인",
-                "음식점/주점 1%할인"
+                "모든가맹점 0.8%할인",
+                "생활업종 1.3%할인",
+                "국내 공항라운지 무료이용"
             ],
             "categories": [
-                "카페",
-                "할인",
-                "편의점"
+                "할인"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 60
+            "rank": 52
         },
         {
             "id": "hn-2",
@@ -636,102 +613,123 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2904/card_img/44666/2904card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 61
+            "rank": 55
         },
         {
             "id": "wo-8",
             "issuer": "우리카드",
-            "name": "카드의정석 EVERY POINT",
+            "name": "우리카드 7CORE",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "국내외 가맹점 0.8%적립",
-                "간편결제 2%추가 적립"
+                "온라인쇼핑, 대형마트, 커피 10%청구 할인",
+                "배달앱 10%청구 할인",
+                "교육, 병원, 주유 10%청구 할인"
             ],
             "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 63
-        },
-        {
-            "id": "wo-9",
-            "issuer": "우리카드",
-            "name": "DA카드의정석Ⅱ",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "모든가맹점 0.8%할인",
-                "생활업종 1.3%할인",
-                "국내 공항라운지 무료이용"
-            ],
-            "categories": [
+                "카페",
+                "쇼핑",
                 "할인"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2851/card_img/43400/2851.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 64
-        },
-        {
-            "id": "ss-10",
-            "issuer": "삼성카드",
-            "name": "삼성 iD ON 카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "많이쓰는 영역 자동맞춤 30%할인",
-                "교통/이동통신/스트리밍 10%할인",
-                "온라인간편결제/해외 3%·1%할인"
-            ],
-            "categories": [
-                "할인",
-                "대중교통",
-                "통신"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2235/card_img/28314/2235card.png",
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 67
-        },
-        {
-            "id": "sh-10",
-            "issuer": "신한카드",
-            "name": "신한카드 Edu Plan+",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "학원비 최대 10%캐시백",
-                "3대 할인점 1%캐시백",
-                "메가박스 7천원할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 71
+            "rank": 60
         },
         {
             "id": "hd-6",
             "issuer": "현대카드",
-            "name": "에너지플러스 현대카드",
+            "name": "현대카드 MX Black Edition2",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "GS칼텍스 반경 5km 최저가 주유보장",
-                "에너지플러스 앱 '바로주유' 결제 시 추가 5%청구 할인",
-                "주차·세차·정비 업종 5%청구 할인"
+                "국내외 가맹점 1%적립",
+                "공항라운지 무료이용"
             ],
             "categories": [
-                "주유",
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2697/card_img/33888/2697card.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 62
+        },
+        {
+            "id": "hd-7",
+            "issuer": "현대카드",
+            "name": "현대카드MY BUSINESS M F&B",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "대형마트, 슈퍼마켓 5%적립",
+                "전기・도시가스 요금, 4대 보험 5%적립",
+                "국내외 가맹점 1.5%적립"
+            ],
+            "categories": [
+                "쇼핑",
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2938/card_img/46988/2938card.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 63
+        },
+        {
+            "id": "lo-3",
+            "issuer": "롯데카드",
+            "name": "LOCA LIKIT",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "스타벅스 최대 60%할인",
+                "영화 50%할인",
+                "이동통신 10%할인"
+            ],
+            "categories": [
+                "카페",
+                "할인",
+                "영화"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2228/card_img/21353/2228card.png",
+            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+            "rank": 68
+        },
+        {
+            "id": "hn-3",
+            "issuer": "하나카드",
+            "name": "원더카드 2.0 FREE+",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외가맹점 0.8%청구할인",
+                "간편결제 1.2%청구할인",
+                "영역별 월 최대 할인한도 12,000원"
+            ],
+            "categories": [
                 "할인"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2820/card_img/44248/2820card.png",
+            "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+            "rank": 71
+        },
+        {
+            "id": "ss-10",
+            "issuer": "삼성카드",
+            "name": "네이버페이 taptap",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "네이버페이 10%적립",
+                "커피전문점 5%적립",
+                "전가맹점 0.5%적립"
+            ],
+            "categories": [
+                "적립",
+                "카페"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/458/card_img/28058/458card.png",
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
             "rank": 72
         },
         {
-            "id": "wo-10",
+            "id": "wo-9",
             "issuer": "우리카드",
             "name": "카드의정석 I&U+",
             "annualFee": "1~3만원",
@@ -751,27 +749,65 @@
             "rank": 73
         },
         {
-            "id": "hd-7",
+            "id": "hd-8",
             "issuer": "현대카드",
-            "name": "현대카드O",
+            "name": "현대카드Z family Edition2",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "주유소, 충전소 10%청구 할인",
-                "차량 정비소, 세차장 10%청구 할인",
-                "이동통신 요금, 아파트 관리비, 도시가스 요금 5%청구 할인"
+                "온라인쇼핑 10%할인",
+                "병원/약국 10%할인",
+                "생활요금 10%할인"
             ],
             "categories": [
-                "주유",
-                "할인",
-                "통신"
+                "쇼핑",
+                "할인"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2880/card_img/44410/2880card_1.png",
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2683/card_img/39649/2680card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
             "rank": 74
         },
         {
-            "id": "lo-3",
+            "id": "sh-9",
+            "issuer": "신한카드",
+            "name": "K-패스 신한카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "대중교통 10%할인",
+                "간편결제 5%할인",
+                "생활 부문 5%할인"
+            ],
+            "categories": [
+                "대중교통",
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2690/card_img/33494/2690card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 75
+        },
+        {
+            "id": "wo-10",
+            "issuer": "우리카드",
+            "name": "카드의정석 TEN",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "커피 10%할인",
+                "편의점 10%할인",
+                "음식점/주점 1%할인"
+            ],
+            "categories": [
+                "카페",
+                "할인",
+                "편의점"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 77
+        },
+        {
+            "id": "lo-4",
             "issuer": "롯데카드",
             "name": "LOCA LIKIT Eat",
             "annualFee": "1~3만원",
@@ -788,59 +824,101 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 75
+            "rank": 81
         },
         {
-            "id": "hd-8",
-            "issuer": "현대카드",
-            "name": "현대카드 MX Black Edition2",
+            "id": "sh-10",
+            "issuer": "신한카드",
+            "name": "신한카드 Point Plan+",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "국내외 가맹점 1%적립",
-                "공항라운지 무료이용"
+                "국내 결제금액 최대 3%적립",
+                "주말 외식비 1천 포인트적립",
+                "OTT 최대 2천 포인트적립"
             ],
             "categories": [
                 "적립"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2697/card_img/33888/2697card.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 77
-        },
-        {
-            "id": "hn-3",
-            "issuer": "하나카드",
-            "name": "원더카드 2.0 LIFE",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "넷플릭스・디즈니플러스 등 40%청구할인",
-                "아파트관리비・전기세・가스비 10%청구할인",
-                "영역별 월 최대 할인한도 15,000원"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2654/card_img/44245/2654card.png",
-            "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2731/card_img/36308/2731card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 83
         },
         {
             "id": "hd-9",
             "issuer": "현대카드",
-            "name": "네이버 현대카드 Edition2",
+            "name": "에너지플러스 현대카드",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "네이버 최대 7%적립",
-                "그외 국내외 가맹점 0.7%적립"
+                "GS칼텍스 반경 5km 최저가 주유보장",
+                "에너지플러스 앱 '바로주유' 결제 시 추가 5%청구 할인",
+                "주차·세차·정비 업종 5%청구 할인"
             ],
             "categories": [
-                "적립"
+                "주유",
+                "할인"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 88
+            "rank": 85
+        },
+        {
+            "id": "lo-5",
+            "issuer": "롯데카드",
+            "name": "롯데 국민행복카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "어린이집보육료 10%할인",
+                "병원 5%할인",
+                "학원 10%할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/455/card_img/20971/455card.png",
+            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+            "rank": 91
+        },
+        {
+            "id": "hd-10",
+            "issuer": "현대카드",
+            "name": "현대카드O",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "주유소, 충전소 10%청구 할인",
+                "차량 정비소, 세차장 10%청구 할인",
+                "이동통신 요금, 아파트 관리비, 도시가스 요금 5%청구 할인"
+            ],
+            "categories": [
+                "주유",
+                "할인",
+                "통신"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2880/card_img/44410/2880card_1.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 93
+        },
+        {
+            "id": "lo-6",
+            "issuer": "롯데카드",
+            "name": "SKYPASS 롯데 아멕스카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "1,000원당 국내 1마일적립",
+                "1,000원당 해외 2마일적립",
+                "SKYPASS 회원 할인서비스"
+            ],
+            "categories": [
+                "적립",
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/432/card_img/30755/432card.png",
+            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+            "rank": 97
         },
         {
             "id": "hn-4",
@@ -859,66 +937,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2529/card_img/29020/2529card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 89
-        },
-        {
-            "id": "lo-4",
-            "issuer": "롯데카드",
-            "name": "LOCA LIKIT",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "스타벅스 최대 60%할인",
-                "영화 50%할인",
-                "이동통신 10%할인"
-            ],
-            "categories": [
-                "카페",
-                "할인",
-                "영화"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2228/card_img/21353/2228card.png",
-            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 94
-        },
-        {
-            "id": "hd-10",
-            "issuer": "현대카드",
-            "name": "현대카드Z family Edition2",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "온라인쇼핑 10%할인",
-                "병원/약국 10%할인",
-                "생활요금 10%할인"
-            ],
-            "categories": [
-                "쇼핑",
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2683/card_img/39649/2680card.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 97
-        },
-        {
-            "id": "lo-5",
-            "issuer": "롯데카드",
-            "name": "LOCA LIKIT Play",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "주유소 60%할인",
-                "영화 60%할인",
-                "구독서비스 60%할인"
-            ],
-            "categories": [
-                "주유",
-                "할인",
-                "영화"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
-            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 98
+            "rank": 99
         }
     ]
 }
