@@ -1,24 +1,6 @@
 {
-    "updatedAt": "2026-02-18T02:12:13.583Z",
+    "updatedAt": "2026-02-18T07:04:08.769Z",
     "cards": [
-        {
-            "id": "ss-1",
-            "issuer": "삼성카드",
-            "name": "삼성 iD SELECT ALL 카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "선택 옵션에 따른 할인 혜택(택 1)",
-                "생활 편의 영역 5%할인",
-                "디지털콘텐츠/멤버십 50%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": null,
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 2
-        },
         {
             "id": "sh-1",
             "issuer": "신한카드",
@@ -38,6 +20,24 @@
             "image": null,
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 1
+        },
+        {
+            "id": "ss-1",
+            "issuer": "삼성카드",
+            "name": "삼성 iD SELECT ALL 카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "선택 옵션에 따른 할인 혜택(택 1)",
+                "생활 편의 영역 5%할인",
+                "디지털콘텐츠/멤버십 50%할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": null,
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 2
         },
         {
             "id": "wo-1",
@@ -193,23 +193,6 @@
             "rank": 13
         },
         {
-            "id": "lo-2",
-            "issuer": "롯데카드",
-            "name": "LOCA LIKIT 1.2",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 1.2%할인",
-                "온라인 1.5%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2261/card_img/21011/2261card.png",
-            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 15
-        },
-        {
             "id": "ss-6",
             "issuer": "삼성카드",
             "name": "taptap DIGITAL",
@@ -226,24 +209,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/657/card_img/27715/657card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 16
+            "rank": 15
         },
         {
-            "id": "wo-2",
-            "issuer": "우리카드",
-            "name": "카드의정석 EVERY DISCOUNT",
+            "id": "lo-2",
+            "issuer": "롯데카드",
+            "name": "LOCA LIKIT 1.2",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "국내외 가맹점 0.8%청구할인",
-                "국내 온라인 간편결제 2%청구할인"
+                "국내외 가맹점 1.2%할인",
+                "온라인 1.5%할인"
             ],
             "categories": [
                 "할인"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2719/card_img/46400/2719card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 17
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2261/card_img/21011/2261card.png",
+            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+            "rank": 16
         },
         {
             "id": "ss-7",
@@ -262,6 +245,23 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2915/card_img/45262/2915card_1.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 17
+        },
+        {
+            "id": "wo-2",
+            "issuer": "우리카드",
+            "name": "카드의정석 EVERY DISCOUNT",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%청구할인",
+                "국내 온라인 간편결제 2%청구할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2719/card_img/46400/2719card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
             "rank": 18
         },
         {
@@ -281,7 +281,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2553/card_img/44235/2553card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 20
+            "rank": 19
         },
         {
             "id": "sh-4",
@@ -304,6 +304,23 @@
             "rank": 21
         },
         {
+            "id": "wo-4",
+            "issuer": "우리카드",
+            "name": "카드의정석2",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 1.2%할인",
+                "분기별 이용실적에 따라 최대 15,000원청구할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2848/card_img/45022/2848card_1.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 22
+        },
+        {
             "id": "ss-8",
             "issuer": "삼성카드",
             "name": "삼성 iD GLOBAL 카드",
@@ -319,23 +336,6 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 22
-        },
-        {
-            "id": "wo-4",
-            "issuer": "우리카드",
-            "name": "카드의정석2",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 1.2%할인",
-                "분기별 이용실적에 따라 최대 15,000원청구할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2848/card_img/45022/2848card_1.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
             "rank": 23
         },
         {
@@ -374,7 +374,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2669/card_img/43704/2669card_5.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 27
+            "rank": 26
         },
         {
             "id": "sh-5",
@@ -501,7 +501,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2666/card_img/32452/2666card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 36
+            "rank": 38
         },
         {
             "id": "wo-6",
@@ -596,7 +596,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 53
+            "rank": 52
         },
         {
             "id": "hn-2",
@@ -636,7 +636,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2235/card_img/28314/2235card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 61
+            "rank": 63
         },
         {
             "id": "wo-7",
@@ -654,24 +654,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 64
-        },
-        {
-            "id": "wo-8",
-            "issuer": "우리카드",
-            "name": "카드의정석 EVERY POINT",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 0.8%적립",
-                "간편결제 2%추가 적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 67
+            "rank": 65
         },
         {
             "id": "hd-6",
@@ -694,6 +677,23 @@
             "rank": 68
         },
         {
+            "id": "wo-8",
+            "issuer": "우리카드",
+            "name": "카드의정석 EVERY POINT",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%적립",
+                "간편결제 2%추가 적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 69
+        },
+        {
             "id": "hd-7",
             "issuer": "현대카드",
             "name": "현대카드 MX Black Edition2",
@@ -708,7 +708,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2697/card_img/33888/2697card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 69
+            "rank": 70
         },
         {
             "id": "hd-8",
@@ -727,7 +727,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 71
+            "rank": 72
         },
         {
             "id": "wo-9",
@@ -747,7 +747,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2688/card_img/33240/2688card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 72
+            "rank": 74
         },
         {
             "id": "sh-10",
@@ -765,7 +765,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/15/card_img/20097/15card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 75
+            "rank": 77
         },
         {
             "id": "wo-10",
@@ -785,7 +785,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 76
+            "rank": 80
         },
         {
             "id": "hd-9",
@@ -802,10 +802,30 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 87
+            "rank": 88
         },
         {
             "id": "lo-3",
+            "issuer": "롯데카드",
+            "name": "LOCA LIKIT Play",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "주유소 60%할인",
+                "영화 60%할인",
+                "구독서비스 60%할인"
+            ],
+            "categories": [
+                "주유",
+                "할인",
+                "영화"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
+            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+            "rank": 91
+        },
+        {
+            "id": "lo-4",
             "issuer": "롯데카드",
             "name": "LOCA LIKIT Eat",
             "annualFee": "1~3만원",
@@ -822,10 +842,10 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 90
+            "rank": 92
         },
         {
-            "id": "lo-4",
+            "id": "lo-5",
             "issuer": "롯데카드",
             "name": "SKYPASS 롯데 아멕스카드",
             "annualFee": "1~3만원",
@@ -841,7 +861,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/432/card_img/30755/432card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 91
+            "rank": 93
         },
         {
             "id": "hn-3",
@@ -859,27 +879,46 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2820/card_img/44248/2820card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 92
+            "rank": 96
         },
         {
-            "id": "lo-5",
+            "id": "lo-6",
             "issuer": "롯데카드",
-            "name": "LOCA LIKIT Play",
+            "name": "LOCA LIKIT",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "주유소 60%할인",
-                "영화 60%할인",
-                "구독서비스 60%할인"
+                "스타벅스 최대 60%할인",
+                "영화 50%할인",
+                "이동통신 10%할인"
             ],
             "categories": [
-                "주유",
+                "카페",
                 "할인",
                 "영화"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2228/card_img/21353/2228card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 95
+            "rank": 98
+        },
+        {
+            "id": "hd-10",
+            "issuer": "현대카드",
+            "name": "현대카드Z family Edition2",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "온라인쇼핑 10%할인",
+                "병원/약국 10%할인",
+                "생활요금 10%할인"
+            ],
+            "categories": [
+                "쇼핑",
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2683/card_img/39649/2680card.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 100
         }
     ]
 }
