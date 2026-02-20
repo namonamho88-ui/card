@@ -1,24 +1,6 @@
 {
-    "updatedAt": "2026-02-20T02:06:25.139Z",
+    "updatedAt": "2026-02-20T06:59:14.617Z",
     "cards": [
-        {
-            "id": "ss-1",
-            "issuer": "삼성카드",
-            "name": "삼성 iD SELECT ALL 카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "선택 옵션에 따른 할인 혜택(택 1)",
-                "생활 편의 영역 5%할인",
-                "디지털콘텐츠/멤버십 50%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": null,
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 2
-        },
         {
             "id": "sh-1",
             "issuer": "신한카드",
@@ -38,6 +20,24 @@
             "image": null,
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 1
+        },
+        {
+            "id": "ss-1",
+            "issuer": "삼성카드",
+            "name": "삼성 iD SELECT ALL 카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "선택 옵션에 따른 할인 혜택(택 1)",
+                "생활 편의 영역 5%할인",
+                "디지털콘텐츠/멤버십 50%할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": null,
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 2
         },
         {
             "id": "wo-1",
@@ -521,7 +521,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/54/card_img/20135/54card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 38
+            "rank": 39
         },
         {
             "id": "hd-4",
@@ -596,7 +596,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 55
+            "rank": 56
         },
         {
             "id": "hn-2",
@@ -637,26 +637,6 @@
             "rank": 63
         },
         {
-            "id": "ss-10",
-            "issuer": "삼성카드",
-            "name": "삼성 iD ON 카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "많이쓰는 영역 자동맞춤 30%할인",
-                "교통/이동통신/스트리밍 10%할인",
-                "온라인간편결제/해외 3%·1%할인"
-            ],
-            "categories": [
-                "할인",
-                "대중교통",
-                "통신"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2235/card_img/28314/2235card.png",
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 64
-        },
-        {
             "id": "wo-8",
             "issuer": "우리카드",
             "name": "카드의정석 TEN",
@@ -674,7 +654,27 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 66
+            "rank": 64
+        },
+        {
+            "id": "ss-10",
+            "issuer": "삼성카드",
+            "name": "삼성 iD ON 카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "많이쓰는 영역 자동맞춤 30%할인",
+                "교통/이동통신/스트리밍 10%할인",
+                "온라인간편결제/해외 3%·1%할인"
+            ],
+            "categories": [
+                "할인",
+                "대중교통",
+                "통신"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2235/card_img/28314/2235card.png",
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 65
         },
         {
             "id": "wo-9",
@@ -731,25 +731,6 @@
             "rank": 72
         },
         {
-            "id": "hd-8",
-            "issuer": "현대카드",
-            "name": "에너지플러스 현대카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "GS칼텍스 반경 5km 최저가 주유보장",
-                "에너지플러스 앱 '바로주유' 결제 시 추가 5%청구 할인",
-                "주차·세차·정비 업종 5%청구 할인"
-            ],
-            "categories": [
-                "주유",
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 75
-        },
-        {
             "id": "wo-10",
             "issuer": "우리카드",
             "name": "카드의정석 I&U+",
@@ -767,6 +748,25 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2688/card_img/33240/2688card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 73
+        },
+        {
+            "id": "hd-8",
+            "issuer": "현대카드",
+            "name": "에너지플러스 현대카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "GS칼텍스 반경 5km 최저가 주유보장",
+                "에너지플러스 앱 '바로주유' 결제 시 추가 5%청구 할인",
+                "주차·세차·정비 업종 5%청구 할인"
+            ],
+            "categories": [
+                "주유",
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
             "rank": 76
         },
         {
@@ -785,30 +785,10 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 79
+            "rank": 81
         },
         {
             "id": "lo-3",
-            "issuer": "롯데카드",
-            "name": "LOCA LIKIT Eat",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "음식점 60%할인",
-                "배달앱 60%할인",
-                "커피 60%할인"
-            ],
-            "categories": [
-                "할인",
-                "배달",
-                "카페"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
-            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 85
-        },
-        {
-            "id": "lo-4",
             "issuer": "롯데카드",
             "name": "LOCA LIKIT Play",
             "annualFee": "1~3만원",
@@ -825,7 +805,27 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 88
+            "rank": 85
+        },
+        {
+            "id": "lo-4",
+            "issuer": "롯데카드",
+            "name": "LOCA LIKIT Eat",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "음식점 60%할인",
+                "배달앱 60%할인",
+                "커피 60%할인"
+            ],
+            "categories": [
+                "할인",
+                "배달",
+                "카페"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
+            "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+            "rank": 86
         },
         {
             "id": "hn-3",
@@ -879,7 +879,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 94
+            "rank": 95
         },
         {
             "id": "hn-4",
