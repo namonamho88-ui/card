@@ -1,5 +1,5 @@
 {
-    "updatedAt": "2026-02-22T06:51:03.462Z",
+    "updatedAt": "2026-02-22T12:52:42.941Z",
     "cards": [
         {
             "id": "ss-1",
@@ -226,7 +226,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/657/card_img/27715/657card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 16
+            "rank": 15
         },
         {
             "id": "wo-2",
@@ -581,24 +581,6 @@
             "rank": 54
         },
         {
-            "id": "hd-5",
-            "issuer": "현대카드",
-            "name": "현대카드T",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내 가맹점 0.7%청구 할인",
-                "해외 온·오프라인 가맹점 2%청구 할인",
-                "국제브랜드 및 해외서비스 수수료 100%청구 할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 56
-        },
-        {
             "id": "hn-2",
             "issuer": "하나카드",
             "name": "토스뱅크 하나카드 Day",
@@ -616,6 +598,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2904/card_img/44666/2904card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+            "rank": 56
+        },
+        {
+            "id": "hd-5",
+            "issuer": "현대카드",
+            "name": "현대카드T",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내 가맹점 0.7%청구 할인",
+                "해외 온·오프라인 가맹점 2%청구 할인",
+                "국제브랜드 및 해외서비스 수수료 100%청구 할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
             "rank": 57
         },
         {
@@ -636,7 +636,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 62
+            "rank": 61
+        },
+        {
+            "id": "wo-8",
+            "issuer": "우리카드",
+            "name": "카드의정석 EVERY POINT",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%적립",
+                "간편결제 2%추가 적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 64
         },
         {
             "id": "ss-10",
@@ -656,23 +673,6 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2235/card_img/28314/2235card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 64
-        },
-        {
-            "id": "wo-8",
-            "issuer": "우리카드",
-            "name": "카드의정석 EVERY POINT",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 0.8%적립",
-                "간편결제 2%추가 적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
             "rank": 65
         },
         {
@@ -751,6 +751,24 @@
             "rank": 72
         },
         {
+            "id": "sh-10",
+            "issuer": "신한카드",
+            "name": "신한카드 Edu Plan+",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "학원비 최대 10%캐시백",
+                "3대 할인점 1%캐시백",
+                "메가박스 7천원할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 73
+        },
+        {
             "id": "hd-8",
             "issuer": "현대카드",
             "name": "에너지플러스 현대카드",
@@ -767,25 +785,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 73
-        },
-        {
-            "id": "sh-10",
-            "issuer": "신한카드",
-            "name": "신한카드 Edu Plan+",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "학원비 최대 10%캐시백",
-                "3대 할인점 1%캐시백",
-                "메가박스 7천원할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 76
+            "rank": 74
         },
         {
             "id": "lo-3",
@@ -805,7 +805,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 87
+            "rank": 85
         },
         {
             "id": "lo-4",
@@ -830,6 +830,23 @@
         {
             "id": "hd-9",
             "issuer": "현대카드",
+            "name": "네이버 현대카드 Edition2",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "네이버 최대 7%적립",
+                "그외 국내외 가맹점 0.7%적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 91
+        },
+        {
+            "id": "hd-10",
+            "issuer": "현대카드",
             "name": "현대카드MY BUSINESS M F&B",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
@@ -844,24 +861,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2938/card_img/46988/2938card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 91
-        },
-        {
-            "id": "hd-10",
-            "issuer": "현대카드",
-            "name": "네이버 현대카드 Edition2",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "네이버 최대 7%적립",
-                "그외 국내외 가맹점 0.7%적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 93
+            "rank": 92
         },
         {
             "id": "hn-3",
