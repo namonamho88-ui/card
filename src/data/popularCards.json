@@ -1,24 +1,6 @@
 {
-    "updatedAt": "2026-02-22T12:52:42.941Z",
+    "updatedAt": "2026-02-22T18:37:59.670Z",
     "cards": [
-        {
-            "id": "ss-1",
-            "issuer": "삼성카드",
-            "name": "삼성 iD SELECT ALL 카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "선택 옵션에 따른 할인 혜택(택 1)",
-                "생활 편의 영역 5%할인",
-                "디지털콘텐츠/멤버십 50%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": null,
-            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 2
-        },
         {
             "id": "sh-1",
             "issuer": "신한카드",
@@ -38,6 +20,24 @@
             "image": null,
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 1
+        },
+        {
+            "id": "ss-1",
+            "issuer": "삼성카드",
+            "name": "삼성 iD SELECT ALL 카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "선택 옵션에 따른 할인 혜택(택 1)",
+                "생활 편의 영역 5%할인",
+                "디지털콘텐츠/멤버십 50%할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": null,
+            "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
+            "rank": 2
         },
         {
             "id": "wo-1",
@@ -243,7 +243,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2719/card_img/46400/2719card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 17
+            "rank": 16
         },
         {
             "id": "ss-7",
@@ -396,22 +396,6 @@
             "rank": 29
         },
         {
-            "id": "hd-2",
-            "issuer": "현대카드",
-            "name": "현대카드ZERO Edition3(할인형)",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 0.8%할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2646/card_img/39624/2646card_3.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 30
-        },
-        {
             "id": "wo-6",
             "issuer": "우리카드",
             "name": "우리카드 7CORE",
@@ -429,25 +413,23 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2851/card_img/43400/2851.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 31
+            "rank": 30
         },
         {
-            "id": "hd-3",
+            "id": "hd-2",
             "issuer": "현대카드",
-            "name": "현대카드 ZERO Up",
+            "name": "현대카드ZERO Edition3(할인형)",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
             "benefits": [
-                "국내외 가맹점 0.8%청구 할인",
-                "온라인몰/대형마트 1.6%청구 할인"
+                "국내외 가맹점 0.8%할인"
             ],
             "categories": [
-                "할인",
-                "쇼핑"
+                "할인"
             ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2844/card_img/43699/2844card.png",
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2646/card_img/39624/2646card_3.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 32
+            "rank": 31
         },
         {
             "id": "sh-6",
@@ -465,6 +447,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/716/card_img/22190/716card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 32
+        },
+        {
+            "id": "hd-3",
+            "issuer": "현대카드",
+            "name": "현대카드 ZERO Up",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%청구 할인",
+                "온라인몰/대형마트 1.6%청구 할인"
+            ],
+            "categories": [
+                "할인",
+                "쇼핑"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2844/card_img/43699/2844card.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
             "rank": 33
         },
         {
@@ -578,7 +578,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2731/card_img/36308/2731card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 54
+            "rank": 53
         },
         {
             "id": "hn-2",
@@ -616,7 +616,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 57
+            "rank": 58
         },
         {
             "id": "wo-7",
@@ -636,7 +636,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2699/card_img/34252/2699card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 61
+            "rank": 63
         },
         {
             "id": "wo-8",
@@ -691,7 +691,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 67
+            "rank": 66
         },
         {
             "id": "wo-10",
@@ -711,7 +711,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2688/card_img/33240/2688card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 70
+            "rank": 69
         },
         {
             "id": "hd-6",
@@ -825,7 +825,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 90
+            "rank": 87
         },
         {
             "id": "hd-9",
@@ -880,7 +880,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2529/card_img/29020/2529card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 96
+            "rank": 97
         },
         {
             "id": "hn-4",
