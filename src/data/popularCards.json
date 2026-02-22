@@ -1,5 +1,5 @@
 {
-    "updatedAt": "2026-02-21T18:37:29.971Z",
+    "updatedAt": "2026-02-22T02:10:28.809Z",
     "cards": [
         {
             "id": "sh-1",
@@ -596,7 +596,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 55
+            "rank": 56
         },
         {
             "id": "hn-2",
@@ -616,7 +616,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2904/card_img/44666/2904card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 58
+            "rank": 57
         },
         {
             "id": "wo-7",
@@ -661,6 +661,23 @@
         {
             "id": "wo-8",
             "issuer": "우리카드",
+            "name": "카드의정석 EVERY POINT",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%적립",
+                "간편결제 2%추가 적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 66
+        },
+        {
+            "id": "wo-9",
+            "issuer": "우리카드",
             "name": "DA카드의정석Ⅱ",
             "annualFee": "1~3만원",
             "previousMonthSpending": "30만원",
@@ -673,23 +690,6 @@
                 "할인"
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 66
-        },
-        {
-            "id": "wo-9",
-            "issuer": "우리카드",
-            "name": "카드의정석 EVERY POINT",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 0.8%적립",
-                "간편결제 2%추가 적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
             "rank": 67
         },
@@ -825,7 +825,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2262/card_img/20704/2262card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 87
+            "rank": 88
         },
         {
             "id": "hd-9",
