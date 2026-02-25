@@ -1,5 +1,5 @@
 {
-    "updatedAt": "2026-02-25T02:10:02.888Z",
+    "updatedAt": "2026-02-25T07:04:40.985Z",
     "cards": [
         {
             "id": "sh-1",
@@ -193,23 +193,6 @@
             "rank": 13
         },
         {
-            "id": "wo-2",
-            "issuer": "우리카드",
-            "name": "카드의정석 EVERY DISCOUNT",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 0.8%청구할인",
-                "국내 온라인 간편결제 2%청구할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2719/card_img/46400/2719card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 14
-        },
-        {
             "id": "lo-2",
             "issuer": "롯데카드",
             "name": "LOCA LIKIT 1.2",
@@ -224,6 +207,23 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2261/card_img/21011/2261card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
+            "rank": 14
+        },
+        {
+            "id": "wo-2",
+            "issuer": "우리카드",
+            "name": "카드의정석 EVERY DISCOUNT",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%청구할인",
+                "국내 온라인 간편결제 2%청구할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2719/card_img/46400/2719card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
             "rank": 15
         },
         {
@@ -261,7 +261,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2676/card_img/32887/2676card_2.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 18
+            "rank": 19
         },
         {
             "id": "ss-8",
@@ -355,7 +355,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2669/card_img/43704/2669card_5.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 27
+            "rank": 26
         },
         {
             "id": "wo-5",
@@ -393,7 +393,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/466/card_img/37854/466card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 29
+            "rank": 30
         },
         {
             "id": "wo-6",
@@ -413,7 +413,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2851/card_img/43400/2851.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 30
+            "rank": 31
         },
         {
             "id": "sh-6",
@@ -431,7 +431,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2666/card_img/32452/2666card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 32
+            "rank": 33
         },
         {
             "id": "hd-2",
@@ -449,7 +449,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2844/card_img/43699/2844card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 33
+            "rank": 34
         },
         {
             "id": "hd-3",
@@ -465,7 +465,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2646/card_img/39624/2646card_3.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 36
+            "rank": 35
         },
         {
             "id": "sh-7",
@@ -483,25 +483,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/716/card_img/22190/716card.png",
             "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 37
-        },
-        {
-            "id": "sh-8",
-            "issuer": "신한카드",
-            "name": "신한카드 The CLASSIC-S",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "이용금액 1%기본적립",
-                "이용금액 0.5%추가적립",
-                "해외, 면세점 2%추가적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/945/card_img/21598/945card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
-            "rank": 39
+            "rank": 36
         },
         {
             "id": "hd-4",
@@ -521,6 +503,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2692/card_img/33549/2692card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 39
+        },
+        {
+            "id": "sh-8",
+            "issuer": "신한카드",
+            "name": "신한카드 The CLASSIC-S",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "이용금액 1%기본적립",
+                "이용금액 0.5%추가적립",
+                "해외, 면세점 2%추가적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/945/card_img/21598/945card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 40
         },
         {
@@ -541,7 +541,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/54/card_img/20135/54card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 44
+            "rank": 43
         },
         {
             "id": "sh-9",
@@ -578,24 +578,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2237/card_img/20939/2237card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 50
-        },
-        {
-            "id": "wo-7",
-            "issuer": "우리카드",
-            "name": "카드의정석 EVERY POINT",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외 가맹점 0.8%적립",
-                "간편결제 2%추가 적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
-            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 59
+            "rank": 51
         },
         {
             "id": "hd-5",
@@ -613,7 +596,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2882/card_img/44416/2882card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 60
+            "rank": 58
+        },
+        {
+            "id": "wo-7",
+            "issuer": "우리카드",
+            "name": "카드의정석 EVERY POINT",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외 가맹점 0.8%적립",
+                "간편결제 2%추가 적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2689/card_img/33241/2689card.png",
+            "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
+            "rank": 59
         },
         {
             "id": "hn-2",
@@ -671,7 +671,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2655/card_img/32217/2655card.png",
             "color": "linear-gradient(135deg, #004a99 0%, #0099ff 100%)",
-            "rank": 65
+            "rank": 66
         },
         {
             "id": "hd-6",
@@ -691,6 +691,24 @@
             "rank": 67
         },
         {
+            "id": "sh-10",
+            "issuer": "신한카드",
+            "name": "신한카드 Edu Plan+",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "학원비 최대 10%캐시백",
+                "3대 할인점 1%캐시백",
+                "메가박스 7천원할인"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
+            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
+            "rank": 68
+        },
+        {
             "id": "ss-10",
             "issuer": "삼성카드",
             "name": "삼성 iD ON 카드",
@@ -708,24 +726,6 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2235/card_img/28314/2235card.png",
             "color": "linear-gradient(135deg, #003366 0%, #0066cc 100%)",
-            "rank": 68
-        },
-        {
-            "id": "sh-10",
-            "issuer": "신한카드",
-            "name": "신한카드 Edu Plan+",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "학원비 최대 10%캐시백",
-                "3대 할인점 1%캐시백",
-                "메가박스 7천원할인"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2735/card_img/36457/2735card.png",
-            "color": "linear-gradient(135deg, #0046FF 0%, #0066FF 100%)",
             "rank": 70
         },
         {
@@ -766,7 +766,44 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2880/card_img/44410/2880card_1.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 76
+            "rank": 75
+        },
+        {
+            "id": "hd-8",
+            "issuer": "현대카드",
+            "name": "에너지플러스 현대카드",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "GS칼텍스 반경 5km 최저가 주유보장",
+                "에너지플러스 앱 '바로주유' 결제 시 추가 5%청구 할인",
+                "주차·세차·정비 업종 5%청구 할인"
+            ],
+            "categories": [
+                "주유",
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 79
+        },
+        {
+            "id": "hn-3",
+            "issuer": "하나카드",
+            "name": "원더카드 2.0 FREE+",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "국내외가맹점 0.8%청구할인",
+                "간편결제 1.2%청구할인",
+                "영역별 월 최대 할인한도 12,000원"
+            ],
+            "categories": [
+                "할인"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2820/card_img/44248/2820card.png",
+            "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
+            "rank": 83
         },
         {
             "id": "lo-3",
@@ -786,64 +823,10 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2263/card_img/20703/2263card.png",
             "color": "linear-gradient(135deg, #ED1C24 0%, #FF3333 100%)",
-            "rank": 79
-        },
-        {
-            "id": "hn-3",
-            "issuer": "하나카드",
-            "name": "원더카드 2.0 FREE+",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "국내외가맹점 0.8%청구할인",
-                "간편결제 1.2%청구할인",
-                "영역별 월 최대 할인한도 12,000원"
-            ],
-            "categories": [
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2820/card_img/44248/2820card.png",
-            "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 81
-        },
-        {
-            "id": "hd-8",
-            "issuer": "현대카드",
-            "name": "에너지플러스 현대카드",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "GS칼텍스 반경 5km 최저가 주유보장",
-                "에너지플러스 앱 '바로주유' 결제 시 추가 5%청구 할인",
-                "주차·세차·정비 업종 5%청구 할인"
-            ],
-            "categories": [
-                "주유",
-                "할인"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2942/card_img/46756/2942card_1.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 86
+            "rank": 84
         },
         {
             "id": "hd-9",
-            "issuer": "현대카드",
-            "name": "네이버 현대카드 Edition2",
-            "annualFee": "1~3만원",
-            "previousMonthSpending": "30만원",
-            "benefits": [
-                "네이버 최대 7%적립",
-                "그외 국내외 가맹점 0.7%적립"
-            ],
-            "categories": [
-                "적립"
-            ],
-            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
-            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 89
-        },
-        {
-            "id": "hd-10",
             "issuer": "현대카드",
             "name": "현대카드Z family Edition2",
             "annualFee": "1~3만원",
@@ -859,7 +842,24 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2683/card_img/39649/2680card.png",
             "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
-            "rank": 90
+            "rank": 88
+        },
+        {
+            "id": "hd-10",
+            "issuer": "현대카드",
+            "name": "네이버 현대카드 Edition2",
+            "annualFee": "1~3만원",
+            "previousMonthSpending": "30만원",
+            "benefits": [
+                "네이버 최대 7%적립",
+                "그외 국내외 가맹점 0.7%적립"
+            ],
+            "categories": [
+                "적립"
+            ],
+            "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2794/card_img/39286/2794card_1.png",
+            "color": "linear-gradient(135deg, #111111 0%, #333333 100%)",
+            "rank": 92
         },
         {
             "id": "hn-4",
@@ -878,7 +878,7 @@
             ],
             "image": "https://d1c5n4ri2guedi.cloudfront.net/card/2529/card_img/29020/2529card.png",
             "color": "linear-gradient(135deg, #004d40 0%, #009688 100%)",
-            "rank": 92
+            "rank": 93
         },
         {
             "id": "hn-5",
