@@ -463,9 +463,42 @@ items는 최대 5개.`,
 
                             {newsLoading ? (
                                 <div className="space-y-3">
+                                    {/* 로딩 상태 헤더 */}
+                                    <div className="flex items-center justify-center gap-3 py-4">
+                                        <span className="material-symbols-outlined text-primary text-[24px] animate-spin">progress_activity</span>
+                                        <span className="text-[14px] font-semibold text-toss-gray-600 dark:text-gray-400">
+                                            AI가 분석 중입니다
+                                            <span className="inline-flex w-[18px]">
+                                                <span className="animate-[dotPulse_1.4s_infinite]">.</span>
+                                                <span className="animate-[dotPulse_1.4s_0.2s_infinite]">.</span>
+                                                <span className="animate-[dotPulse_1.4s_0.4s_infinite]">.</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    {/* 스켈레톤 카드 */}
                                     {[1, 2, 3].map(i => (
-                                        <div key={i} className="animate-pulse bg-toss-gray-100 dark:bg-gray-800 rounded-2xl h-16" />
+                                        <div key={i}
+                                            className="relative overflow-hidden bg-toss-gray-100 dark:bg-gray-800 rounded-2xl h-16"
+                                            style={{ animationDelay: `${i * 150}ms` }}
+                                        >
+                                            <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite]"
+                                                style={{
+                                                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
+                                                    animationDelay: `${i * 150}ms`,
+                                                }}
+                                            />
+                                            <div className="flex items-center gap-3 p-4 h-full">
+                                                <div className="w-10 h-5 bg-toss-gray-200/60 dark:bg-gray-700 rounded-md" />
+                                                <div className="flex-1 space-y-2">
+                                                    <div className="h-3.5 bg-toss-gray-200/60 dark:bg-gray-700 rounded w-3/4" />
+                                                    <div className="h-2.5 bg-toss-gray-200/40 dark:bg-gray-700/60 rounded w-1/2" />
+                                                </div>
+                                            </div>
+                                        </div>
                                     ))}
+                                    <p className="text-center text-[11px] text-toss-gray-400 dark:text-gray-600 pt-1">
+                                        최신 뉴스를 수집하고 호재/악재를 판별하고 있어요
+                                    </p>
                                 </div>
                             ) : newsData ? (
                                 <div className="space-y-3">
