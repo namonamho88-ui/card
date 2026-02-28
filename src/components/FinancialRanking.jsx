@@ -551,37 +551,38 @@ items는 최대 3~4개면 충분합니다.`,
                                 </div>
                             ) : newsData ? (
                                 <div className="space-y-3">
-                                    <div className={`p-4 rounded-2xl border ${newsData.sentiment === '긍정' ? 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800'
+                                    <div className={`p-4 rounded-2xl border mb-3 ${newsData.sentiment === '긍정' ? 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800'
                                         : newsData.sentiment === '부정' ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800'
                                             : 'bg-toss-gray-50 dark:bg-gray-900/50 border-toss-gray-200 dark:border-gray-700'
                                         }`}>
                                         <div className="flex items-center gap-2 mb-1">
-                                            <span className={`text-[13px] font-bold px-2 py-0.5 rounded-full ${newsData.sentiment === '긍정' ? 'bg-red-100 dark:bg-red-900/30 text-red-600'
+                                            <span className={`text-[12px] font-bold px-2 py-0.5 rounded-full ${newsData.sentiment === '긍정' ? 'bg-red-100 dark:bg-red-900/30 text-red-600'
                                                 : newsData.sentiment === '부정' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600'
                                                     : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
                                                 }`}>
                                                 {newsData.sentiment === '긍정' ? '🔥 긍정' : newsData.sentiment === '부정' ? '❄️ 부정' : '➖ 중립'}
                                             </span>
                                         </div>
-                                        <p className="text-[14px] font-medium text-toss-gray-700 dark:text-gray-300">
+                                        <p className="text-[14px] font-medium text-toss-gray-700 dark:text-gray-300 leading-snug">
                                             {newsData.summary}
                                         </p>
                                     </div>
 
-                                    {newsData.items?.map((n, i) => (
-                                        <div key={i} className="flex items-start gap-3 p-3 bg-toss-gray-50 dark:bg-gray-900/50 rounded-xl">
-                                            <span className={`text-[12px] font-bold px-1.5 py-0.5 rounded shrink-0 mt-0.5 ${n.type === '호재' ? 'bg-red-100 dark:bg-red-900/20 text-red-500'
-                                                : n.type === '악재' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-500'
-                                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
-                                                }`}>
-                                                {n.type}
-                                            </span>
-                                            <div className="flex-1 min-w-0">
-                                                <p className="text-[13px] font-semibold text-toss-gray-800 dark:text-white leading-snug">{n.title}</p>
-                                                <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 mt-0.5">{n.detail}</p>
+                                    {/* 뉴스 아이템 캐러셀 */}
+                                    <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 -mx-1 px-1 snap-x">
+                                        {newsData.items?.map((n, i) => (
+                                            <div key={i} className="min-w-[240px] p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] border border-toss-gray-100 dark:border-gray-800 snap-start shadow-sm">
+                                                <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded inline-block mb-2 ${n.type === '호재' ? 'bg-red-100 dark:bg-red-900/20 text-red-500'
+                                                    : n.type === '악재' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-500'
+                                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+                                                    }`}>
+                                                    {n.type}
+                                                </span>
+                                                <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white leading-tight mb-2 line-clamp-2 h-[40px]">{n.title}</p>
+                                                <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 line-clamp-2 h-[36px]">{n.detail}</p>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
                             ) : null}
                         </div>
@@ -594,9 +595,9 @@ items는 최대 3~4개면 충분합니다.`,
 
 function MiniCard({ label, value }) {
     return (
-        <div className="bg-toss-gray-50 dark:bg-gray-900/50 p-3.5 rounded-[16px] border border-toss-gray-100 dark:border-gray-800/50">
-            <p className="text-[11px] text-toss-gray-500 dark:text-gray-500 mb-1">{label}</p>
-            <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white">{value}</p>
+        <div className="bg-toss-gray-50 dark:bg-gray-900/50 p-3 rounded-[18px] border border-toss-gray-100 dark:border-gray-800/50">
+            <p className="text-[11px] text-toss-gray-500 dark:text-gray-500 mb-0.5">{label}</p>
+            <p className="text-[13px] font-bold text-toss-gray-800 dark:text-white">{value}</p>
         </div>
     );
 }

@@ -314,11 +314,11 @@ function CardReportView({ data }) {
                 <p className="text-[14px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">{data.summary?.body}</p>
             </div>
 
-            {/* 인기 급상승 TOP 3 */}
+            {/* 인기 급상승 TOP 3 - 가로 스크롤 캐러셀 */}
             <SectionTitle icon="trending_up" title="주간 인기 급상승 카드 TOP 3" />
-            <div className="space-y-3">
+            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-4 -mx-1 px-1 snap-x">
                 {data.rankings?.map((item, idx) => (
-                    <div key={idx} className="bg-white dark:bg-[#1a1a1a] rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
+                    <div key={idx} className="min-w-[280px] bg-white dark:bg-[#1a1a1a] rounded-[24px] p-5 border border-toss-gray-100 dark:border-gray-800 snap-start shadow-sm">
                         <div className="flex items-center gap-3 mb-3">
                             <span className={`text-[20px] font-black ${idx === 0 ? 'text-primary' : 'text-toss-gray-400'}`}>
                                 {item.rank}
@@ -327,7 +327,7 @@ function CardReportView({ data }) {
                                 <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white truncate">{item.title}</p>
                                 <p className="text-[12px] text-toss-gray-500 dark:text-gray-500">{item.subtitle}</p>
                             </div>
-                            <span className={`text-[12px] font-bold px-2 py-1 rounded-lg ${item.badgeType === 'up' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
+                            <span className={`text-[11px] font-bold px-2 py-1 rounded-lg shrink-0 ${item.badgeType === 'up' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
                                 : item.badgeType === 'new' ? 'bg-primary/10 text-primary'
                                     : item.badgeType === 'down' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
                                         : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
@@ -335,30 +335,32 @@ function CardReportView({ data }) {
                                 {item.badge}
                             </span>
                         </div>
-                        <div className="bg-toss-gray-50 dark:bg-gray-900/50 rounded-2xl p-3 mb-3">
-                            <p className="text-[13px] font-semibold text-primary">📌 {item.highlight}</p>
+                        <div className="bg-toss-gray-50 dark:bg-gray-900/50 rounded-xl p-3 mb-3">
+                            <p className="text-[12px] font-semibold text-primary truncate">📌 {item.highlight}</p>
                         </div>
-                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed">{item.detail}</p>
-                        <div className="flex gap-1.5 mt-3">
-                            {item.tags?.map((tag, i) => (
-                                <span key={i} className="text-[10px] bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-500 dark:text-gray-500 px-2 py-0.5 rounded-md">#{tag}</span>
+                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2 h-[40px] mb-3">{item.detail}</p>
+                        <div className="flex gap-1.5 overflow-hidden">
+                            {item.tags?.slice(0, 2).map((tag, i) => (
+                                <span key={i} className="text-[10px] bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-500 dark:text-gray-500 px-2 py-0.5 rounded-md truncate">#{tag}</span>
                             ))}
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* 카드사별 이벤트 */}
+            {/* 카드사별 이벤트 - 2열 그리드 */}
             <SectionTitle icon="celebration" title="카드사별 핫 이벤트" />
-            <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-2">
                 {data.events?.map((evt, idx) => (
-                    <div key={idx} className="flex items-start gap-3 p-4 bg-white dark:bg-[#1a1a1a] rounded-[16px] border border-toss-gray-100 dark:border-gray-800">
-                        <span className="text-[12px] font-bold text-primary bg-primary/10 px-2 py-1 rounded-lg shrink-0">{evt.issuer}</span>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-[14px] font-semibold text-toss-gray-800 dark:text-white">{evt.title}</p>
-                            <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 mt-0.5">{evt.detail}</p>
+                    <div key={idx} className="p-3 bg-white dark:bg-[#1a1a1a] rounded-[20px] border border-toss-gray-100 dark:border-gray-800 flex flex-col justify-between h-[100px]">
+                        <div>
+                            <div className="flex justify-between items-start mb-1">
+                                <span className="text-[10px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded-md shrink-0">{evt.issuer}</span>
+                                <span className="text-[9px] text-toss-gray-400 dark:text-gray-600">{evt.period}</span>
+                            </div>
+                            <p className="text-[12px] font-bold text-toss-gray-800 dark:text-white line-clamp-2 leading-tight">{evt.title}</p>
                         </div>
-                        <span className="text-[11px] text-toss-gray-400 dark:text-gray-600 shrink-0">{evt.period}</span>
+                        <p className="text-[10px] text-toss-gray-500 dark:text-gray-500 truncate">{evt.detail}</p>
                     </div>
                 ))}
             </div>
@@ -440,32 +442,30 @@ function AITrendReportView({ data }) {
                 <p className="text-[14px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">{data.summary?.body}</p>
             </div>
 
-            {/* TOP 5 뉴스 */}
+            {/* TOP 5 뉴스 - 가로 스크롤 캐러셀 */}
             <SectionTitle icon="newspaper" title="이번 주 AI 핵심 뉴스 TOP 5" />
-            <div className="space-y-3">
+            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-4 -mx-1 px-1 snap-x">
                 {data.topNews?.map((news, idx) => (
-                    <div key={idx} className="bg-white dark:bg-[#1a1a1a] rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
+                    <div key={idx} className="min-w-[300px] bg-white dark:bg-[#1a1a1a] rounded-[24px] p-5 border border-toss-gray-100 dark:border-gray-800 snap-start shadow-sm">
                         <div className="flex items-center gap-2 mb-3">
                             <span className="text-[18px] font-black text-primary">{news.rank}</span>
-                            <span className="text-[11px] font-bold bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-lg">{news.category}</span>
-                            <span className="text-[11px] text-toss-gray-400 dark:text-gray-600 ml-auto">{news.date}</span>
+                            <span className="text-[10px] font-bold bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-lg">{news.category}</span>
+                            <span className="text-[10px] text-toss-gray-400 dark:text-gray-600 ml-auto">{news.date}</span>
                         </div>
-                        <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-1">{news.title}</p>
-                        <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 mb-3">🏢 {news.company}</p>
-                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed mb-3">{news.body}</p>
-                        <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-3 mb-3">
-                            <p className="text-[12px] text-primary font-semibold">💬 AI 분석: {news.aiComment}</p>
+                        <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-1 truncate">{news.title}</p>
+                        <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 mb-3 truncate">🏢 {news.company}</p>
+                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed mb-3 line-clamp-2 h-[40px]">{news.body}</p>
+                        <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-3 mb-3 h-[54px] flex items-center">
+                            <p className="text-[11px] text-primary font-semibold line-clamp-2">💬 AI: {news.aiComment}</p>
                         </div>
-                        {/* 임팩트 바 */}
                         <div className="flex items-center gap-2">
-                            <span className="text-[11px] text-toss-gray-500 dark:text-gray-500">임팩트</span>
-                            <div className="flex-1 h-2 bg-toss-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                            <div className="flex-1 h-1.5 bg-toss-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full transition-all"
                                     style={{ width: `${(news.impact || 5) * 10}%` }}
                                 />
                             </div>
-                            <span className="text-[11px] font-bold text-primary">{news.impact}/10</span>
+                            <span className="text-[10px] font-bold text-primary">IMPACT {news.impact}</span>
                         </div>
                     </div>
                 ))}
@@ -499,13 +499,13 @@ function AITrendReportView({ data }) {
                 ))}
             </div>
 
-            {/* 국내 동향 */}
+            {/* 국내 동향 - 2열 그리드 */}
             <SectionTitle icon="flag" title="국내 AI 동향" sub="🇰🇷" />
-            <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-2">
                 {data.koreaUpdates?.map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-3 p-4 bg-white dark:bg-[#1a1a1a] rounded-[16px] border border-toss-gray-100 dark:border-gray-800">
-                        <span className="text-[12px] font-bold text-primary bg-primary/10 px-2 py-1 rounded-lg shrink-0">{item.company}</span>
-                        <p className="text-[13px] text-toss-gray-700 dark:text-gray-300 leading-snug">{item.update}</p>
+                    <div key={idx} className="p-3 bg-white dark:bg-[#1a1a1a] rounded-[20px] border border-toss-gray-100 dark:border-gray-800">
+                        <span className="text-[10px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded-md inline-block mb-2 truncate max-w-full">{item.company}</span>
+                        <p className="text-[12px] text-toss-gray-700 dark:text-gray-300 leading-snug line-clamp-3 h-[54px]">{item.update}</p>
                     </div>
                 ))}
             </div>
@@ -567,31 +567,33 @@ function FinanceReportView({ data }) {
                 ))}
             </div>
 
-            {/* 핫 종목 - 국내 */}
+            {/* 핫 종목 - 가로 스크롤 캐러셀 */}
             <SectionTitle icon="local_fire_department" title="이번 주 핫 종목" sub="🇰🇷 국내" />
-            <div className="space-y-3">
+            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-4 -mx-1 px-1 snap-x">
                 {data.hotStocks?.korea?.map((stock, idx) => (
-                    <div key={idx} className="bg-white dark:bg-[#1a1a1a] rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
-                        <div className="flex items-center justify-between mb-2">
+                    <div key={idx} className="min-w-[280px] bg-white dark:bg-[#1a1a1a] rounded-[24px] p-5 border border-toss-gray-100 dark:border-gray-800 snap-start shadow-sm">
+                        <div className="flex items-center justify-between mb-3">
                             <div>
-                                <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white">{stock.name}</p>
+                                <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white truncate max-w-[120px]">{stock.name}</p>
                                 <p className="text-[11px] text-toss-gray-500 dark:text-gray-500">{stock.code}</p>
                             </div>
                             <div className="text-right">
                                 <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white">{stock.price}</p>
-                                <p className={`text-[13px] font-bold ${stock.isUp ? 'text-red-500' : 'text-blue-500'}`}>
+                                <p className={`text-[12px] font-bold ${stock.isUp ? 'text-red-500' : 'text-blue-500'}`}>
                                     {stock.isUp ? '▲' : '▼'} {stock.change?.replace(/[+-]/, '')}
                                 </p>
                             </div>
                         </div>
-                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2">{stock.reason}</p>
-                        <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 mb-2">📊 {stock.foreignFlow}</p>
-                        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-bold ${stock.aiVerdict === '긍정' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
+                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-3 line-clamp-1">🔍 {stock.reason}</p>
+                        <div className={`p-3 rounded-xl text-[11px] font-bold h-[64px] flex flex-col justify-center ${stock.aiVerdict === '긍정' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
                             : stock.aiVerdict === '부정' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
                                 : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
                             }`}>
-                            <span className="material-symbols-outlined text-[14px]">smart_toy</span>
-                            AI: {stock.aiVerdict} — {stock.aiComment}
+                            <div className="flex items-center gap-1 mb-1">
+                                <span className="material-symbols-outlined text-[14px]">smart_toy</span>
+                                <span>AI {stock.aiVerdict}</span>
+                            </div>
+                            <p className="line-clamp-2 leading-tight opacity-80">{stock.aiComment}</p>
                         </div>
                     </div>
                 ))}
@@ -619,20 +621,24 @@ function FinanceReportView({ data }) {
                 ))}
             </div>
 
-            {/* AI 시그널 */}
+            {/* AI 시그널 - 가로 병렬 배치 */}
             <SectionTitle icon="sensors" title="주간 AI 투자 인사이트" />
-            <div className="grid grid-cols-1 gap-3">
-                <div className="bg-red-50 dark:bg-red-900/10 rounded-[16px] p-4 border border-red-200/50 dark:border-red-800/30">
-                    <p className="text-[12px] font-bold text-red-500 mb-2">🟢 긍정 시그널</p>
-                    {data.signals?.positive?.map((s, i) => (
-                        <p key={i} className="text-[13px] text-toss-gray-700 dark:text-gray-300 leading-relaxed">• {s}</p>
-                    ))}
+            <div className="grid grid-cols-2 gap-2">
+                <div className="bg-red-50 dark:bg-red-900/10 rounded-[20px] p-4 border border-red-200/50 dark:border-red-800/30">
+                    <p className="text-[11px] font-bold text-red-500 mb-2">🟢 긍정 인사이트</p>
+                    <div className="space-y-1.5">
+                        {data.signals?.positive?.slice(0, 3).map((s, i) => (
+                            <p key={i} className="text-[11px] text-toss-gray-700 dark:text-gray-300 leading-tight">• {s}</p>
+                        ))}
+                    </div>
                 </div>
-                <div className="bg-blue-50 dark:bg-blue-900/10 rounded-[16px] p-4 border border-blue-200/50 dark:border-blue-800/30">
-                    <p className="text-[12px] font-bold text-blue-500 mb-2">🔴 주의 시그널</p>
-                    {data.signals?.negative?.map((s, i) => (
-                        <p key={i} className="text-[13px] text-toss-gray-700 dark:text-gray-300 leading-relaxed">• {s}</p>
-                    ))}
+                <div className="bg-blue-50 dark:bg-blue-900/10 rounded-[20px] p-4 border border-blue-200/50 dark:border-blue-800/30">
+                    <p className="text-[11px] font-bold text-blue-500 mb-2">🔴 주의 인사이트</p>
+                    <div className="space-y-1.5">
+                        {data.signals?.negative?.slice(0, 3).map((s, i) => (
+                            <p key={i} className="text-[11px] text-toss-gray-700 dark:text-gray-300 leading-tight">• {s}</p>
+                        ))}
+                    </div>
                 </div>
             </div>
 
