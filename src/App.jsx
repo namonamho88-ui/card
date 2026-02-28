@@ -433,7 +433,12 @@ ${cardContext}
           <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>credit_card</span>
           <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>카드추천</span>
         </div>
-        {/* ⭐ 맛집 (NEW) */}
+        {/* AI리포트 */}
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('report'); window.scrollTo(0, 0); }}>
+          <span className={`material-symbols-outlined ${activeMainTab === 'report' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>summarize</span>
+          <span className={`text-[10px] ${activeMainTab === 'report' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>AI리포트</span>
+        </div>
+        {/* 맛집 */}
         <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('food'); window.scrollTo(0, 0); }}>
           <span className={`material-symbols-outlined ${activeMainTab === 'food' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>restaurant</span>
           <span className={`text-[10px] ${activeMainTab === 'food' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>맛집랭킹</span>
@@ -447,11 +452,6 @@ ${cardContext}
         <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('game'); window.scrollTo(0, 0); }}>
           <span className={`material-symbols-outlined ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>sports_esports</span>
           <span className={`text-[10px] ${activeMainTab === 'game' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>AI게임</span>
-        </div>
-        {/* AI리포트 (aitech 대체) */}
-        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('report'); window.scrollTo(0, 0); }}>
-          <span className={`material-symbols-outlined ${activeMainTab === 'report' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>summarize</span>
-          <span className={`text-[10px] ${activeMainTab === 'report' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>AI리포트</span>
         </div>
       </nav>
 
