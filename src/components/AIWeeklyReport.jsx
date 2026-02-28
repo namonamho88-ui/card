@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
 import cardData from '../data/popularCards.json';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 
 const { cards: POPULAR_CARDS } = cardData;
 
@@ -1043,29 +1043,15 @@ export default function AIWeeklyReport() {
         setShowSharePanel(false);
         showToast('이미지 생성 중...', 'hourglass_top');
         try {
-            const isDark = document.documentElement.classList.contains('dark');
-            const canvas = await html2canvas(reportRef.current, {
-                backgroundColor: isDark ? '#111111' : '#f9fafb',
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                onclone: (clonedDoc) => {
-                    // html2canvas가 oklab() 색상을 파싱하지 못하므로
-                    // 클론된 DOM의 모든 요소에 computed style을 인라인으로 적용
-                    const allEls = clonedDoc.querySelectorAll('*');
-                    allEls.forEach(el => {
-                        const cs = window.getComputedStyle(el);
-                        el.style.backgroundColor = cs.backgroundColor;
-                        el.style.color = cs.color;
-                        el.style.borderColor = cs.borderColor;
-                        el.style.outlineColor = cs.outlineColor;
-                    });
-                },
+            const dataUrl = await toPng(reportRef.current, {
+                pixelRatio: 2,
+                cacheBust: true,
+                backgroundColor: document.documentElement.classList.contains('dark') ? '#111111' : '#f9fafb',
             });
             const link = document.createElement('a');
             const currentTab = REPORT_TABS.find(t => t.id === activeTab);
             link.download = `${getWeekLabel()}_${currentTab?.label || 'report'}.png`;
-            link.href = canvas.toDataURL('image/png');
+            link.href = dataUrl;
             link.click();
             showToast('이미지가 저장되었습니다', 'download_done');
         } catch (e) {
