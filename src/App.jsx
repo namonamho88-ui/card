@@ -472,23 +472,23 @@ ${cardContext}
             </main>
           </>
         ) : activeMainTab === 'food' ? (
-          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111]">
+          <main className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white dark:bg-[#111111]">
             <EuljiroFoodRanking />
           </main>
         ) : activeMainTab === 'financial' ? (
-          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111]">
+          <main className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white dark:bg-[#111111]">
             <FinancialRanking />
           </main>
         ) : activeMainTab === 'game' ? (
-          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111]">
+          <main className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white dark:bg-[#111111]">
             <AITradingBattle />
           </main>
         ) : activeMainTab === 'report' ? (
-          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111]">
+          <main className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white dark:bg-[#111111]">
             <AIWeeklyReport />
           </main>
         ) : activeMainTab === 'aitech' ? (
-          <main className="flex-1 flex flex-col bg-white dark:bg-[#111111]">
+          <main className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white dark:bg-[#111111]">
             <AIDirectory />
           </main>
         ) : null}
