@@ -10,7 +10,7 @@ import AIDirectory from './components/AIDirectory';
 import AIWeeklyReport from './components/AIWeeklyReport';
 import './index.css';
 
-import { geminiRequest, enqueueGeminiRequest } from './utils/geminiUtils';
+import { geminiRequest, extractJSON, enqueueGeminiRequest } from './utils/geminiUtils';
 
 function App() {
   const [messages, setMessages] = useState([
