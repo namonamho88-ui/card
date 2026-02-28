@@ -21,7 +21,7 @@ function App() {
   const [compareCards, setCompareCards] = useState([]);
   const [showComparison, setShowComparison] = useState(false);
   const [selectedIssuer, setSelectedIssuer] = useState('전체');
-  const [activeMainTab, setActiveMainTab] = useState('cards');
+  const [activeMainTab, setActiveMainTab] = useState('report');
   const [cardDetail, setCardDetail] = useState(null);
   const [cardDetailLoading, setCardDetailLoading] = useState(false);
   const chatEndRef = useRef(null);
@@ -499,15 +499,15 @@ ${cardContext}
 
       {/* Bottom Navigation Bar */}
       <nav className="fixed bottom-0 z-40 w-full max-w-[430px] bg-white/95 dark:bg-[#111111]/95 backdrop-blur-lg border-t border-toss-gray-100 dark:border-gray-800 flex justify-between items-center px-6 py-3">
-        {/* 홈 (카드) */}
-        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('cards'); window.scrollTo(0, 0); }}>
-          <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>credit_card</span>
-          <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>카드추천</span>
-        </div>
-        {/* AI리포트 */}
+        {/* AI리포트 (홈) */}
         <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('report'); window.scrollTo(0, 0); }}>
           <span className={`material-symbols-outlined ${activeMainTab === 'report' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>summarize</span>
           <span className={`text-[10px] ${activeMainTab === 'report' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>AI리포트</span>
+        </div>
+        {/* 카드추천 */}
+        <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('cards'); window.scrollTo(0, 0); }}>
+          <span className={`material-symbols-outlined ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-200 dark:text-gray-600'}`}>credit_card</span>
+          <span className={`text-[10px] ${activeMainTab === 'cards' ? 'text-primary font-bold' : 'text-toss-gray-600 dark:text-gray-400'}`}>카드추천</span>
         </div>
         {/* 맛집 */}
         <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => { setActiveMainTab('food'); window.scrollTo(0, 0); }}>
