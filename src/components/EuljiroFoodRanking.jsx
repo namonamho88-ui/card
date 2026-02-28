@@ -21,7 +21,16 @@ function isTodayCache(timestamp) {
 const AREAS = ['을지로', '성수동', '망원동', '연남동', '익선동'];
 
 export default function EuljiroFoodRanking() {
-    const [allRestaurants, setAllRestaurants] = useState([]);
+    // ✅ 초기값을 Mock 데이터로 설정하여 AI 응답 대기 중에도 "기존 데이터"가 보이도록 함
+    const [allRestaurants, setAllRestaurants] = useState(() => {
+        const initialArea = '을지로';
+        const mock = MOCK_RESTAURANTS[initialArea] || [];
+        return mock.map(r => ({
+            ...r,
+            icon: getCategoryIcon(r.category),
+            color: getCategoryColor(r.category)
+        }));
+    });
     const [lastUpdated, setLastUpdated] = useState(null);
     const [selectedArea, setSelectedArea] = useState('을지로');
     const [selectedCategory, setSelectedCategory] = useState('all');
