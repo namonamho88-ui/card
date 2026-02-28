@@ -21,22 +21,14 @@ function isTodayCache(timestamp) {
 const AREAS = ['을지로', '성수동', '망원동', '연남동', '익선동'];
 
 export default function EuljiroFoodRanking() {
-    // ✅ 초기값을 Mock 데이터로 설정하여 AI 응답 대기 중에도 "기존 데이터"가 보이도록 함
-    const [allRestaurants, setAllRestaurants] = useState(() => {
-        const initialArea = '을지로';
-        const mock = MOCK_RESTAURANTS[initialArea] || [];
-        return mock.map(r => ({
-            ...r,
-            icon: getCategoryIcon(r.category),
-            color: getCategoryColor(r.category)
-        }));
-    });
+    const [allRestaurants, setAllRestaurants] = useState([]);
     const [lastUpdated, setLastUpdated] = useState(null);
     const [selectedArea, setSelectedArea] = useState('을지로');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
     const [isUsingMockData, setIsUsingMockData] = useState(true);
-    const [isUpdating, setIsUpdating] = useState(false); // ⭐ 로딩 대신 작은 인디케이터
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [error, setError] = useState(null); // ✅ 에러 상태 추가
     const fetchingRef = useRef(false);
 
     // ── 카테고리 필터링 ──
@@ -51,6 +43,7 @@ export default function EuljiroFoodRanking() {
 
     // ── ⭐ Mock 또는 캐시를 즉시 로드 (항상 먼저, 동기적으로) ──
     const loadInstantData = useCallback((area) => {
+        setError(null);
         // 1순위: 오늘 캐시
         try {
             const cacheKey = `${CACHE_KEY}_${area}_${getTodayKey()}`;
@@ -61,12 +54,12 @@ export default function EuljiroFoodRanking() {
                     setAllRestaurants(data);
                     setLastUpdated(new Date(timestamp));
                     setIsUsingMockData(false);
-                    return 'today'; // 오늘 캐시 있음
+                    return 'today';
                 }
             }
         } catch (e) { }
 
-        // 2순위: 어제 이전 캐시 (날짜 무관하게 가장 최근 것)
+        // 2순위: 어제 이전 캐시
         try {
             const prefix = `${CACHE_KEY}_${area}_`;
             let latestData = null;
@@ -74,10 +67,13 @@ export default function EuljiroFoodRanking() {
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (key?.startsWith(prefix)) {
-                    const { data, timestamp } = JSON.parse(localStorage.getItem(key));
-                    if (timestamp > latestTime && data?.length > 0) {
-                        latestData = data;
-                        latestTime = timestamp;
+                    const cachedItem = localStorage.getItem(key);
+                    if (cachedItem) {
+                        const { data, timestamp } = JSON.parse(cachedItem);
+                        if (timestamp > latestTime && data?.length > 0) {
+                            latestData = data;
+                            latestTime = timestamp;
+                        }
                     }
                 }
             }
@@ -85,12 +81,14 @@ export default function EuljiroFoodRanking() {
                 setAllRestaurants(latestData);
                 setLastUpdated(new Date(latestTime));
                 setIsUsingMockData(false);
-                return 'old'; // 이전 캐시 있음 → 백그라운드 업데이트 필요
+                return 'old';
             }
         } catch (e) { }
 
-        // 3순위: Mock 데이터
-        const mockData = MOCK_RESTAURANTS[area] || [];
+        // 3순위: Mock 데이터 (문자열 매칭 유연하게 처리)
+        const areaKey = Object.keys(MOCK_RESTAURANTS).find(k => area.includes(k) || k.includes(area)) || area;
+        const mockData = MOCK_RESTAURANTS[areaKey] || MOCK_RESTAURANTS['을지로'] || [];
+
         setAllRestaurants(mockData.map(r => ({
             ...r,
             icon: getCategoryIcon(r.category),
@@ -98,7 +96,7 @@ export default function EuljiroFoodRanking() {
         })));
         setLastUpdated(null);
         setIsUsingMockData(true);
-        return 'mock'; // mock → 백그라운드 업데이트 필요
+        return 'mock';
     }, []);
 
     // ── ⭐ 백그라운드 API 업데이트 (UI 블로킹 없음) ──
@@ -108,6 +106,7 @@ export default function EuljiroFoodRanking() {
         setIsUpdating(true); // 작은 인디케이터만 표시
 
         try {
+            setError(null);
             const prompt = `
         ${area} 지역에서 모든 음식 종류를 포함하여 맛집 인기 랭킹 TOP 10을 조사해주세요.
         
@@ -139,7 +138,9 @@ export default function EuljiroFoodRanking() {
             );
 
             const parsed = extractJSON(rawText);
-            if (!Array.isArray(parsed) || parsed.length === 0) return;
+            if (!Array.isArray(parsed) || parsed.length === 0) {
+                throw new Error('데이터 형식이 올바르지 않습니다.');
+            }
 
             const enriched = parsed.slice(0, 10).map((r, idx) => ({
                 ...r,
@@ -148,25 +149,18 @@ export default function EuljiroFoodRanking() {
                 color: getCategoryColor(r.category)
             }));
 
-            // 캐시 저장
             const now = Date.now();
             const cacheKey = `${CACHE_KEY}_${area}_${getTodayKey()}`;
             localStorage.setItem(cacheKey, JSON.stringify({ data: enriched, timestamp: now }));
-
-            // 어제 캐시 정리
             cleanOldCache();
 
-            // ⭐ 현재 선택된 지역이 같을 때만 UI 업데이트
-            setAllRestaurants(prev => {
-                // 현재 화면이 이 area인지 확인 (stale closure 방지)
-                return enriched;
-            });
+            setAllRestaurants(enriched);
             setLastUpdated(new Date(now));
             setIsUsingMockData(false);
 
         } catch (err) {
             console.warn('Background update failed:', err.message);
-            // ⭐ 실패해도 아무것도 안 함 → 사용자는 기존 데이터를 계속 봄
+            setError(err.message); // ✅ 에러 메시지 저장
         } finally {
             setIsUpdating(false);
             fetchingRef.current = false;
@@ -282,17 +276,22 @@ export default function EuljiroFoodRanking() {
                         {getUpdateTimeDisplay()} · {restaurants.length}곳
                     </p>
                 </div>
-                <div className="flex items-center gap-1 text-[12px] text-toss-gray-400 dark:text-gray-600">
+                <div className="flex items-center gap-1 text-[12px]">
                     {isUpdating ? (
-                        <>
-                            <span className="material-symbols-outlined text-[14px] text-primary animate-spin">progress_activity</span>
-                            <span className="text-primary">업데이트 중</span>
-                        </>
+                        <div className="flex items-center gap-1 text-primary">
+                            <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                            <span>업데이트 중</span>
+                        </div>
+                    ) : error ? (
+                        <div className="flex items-center gap-1 text-red-500">
+                            <span className="material-symbols-outlined text-[14px]">error</span>
+                            <span>업데이트 실패 ({error})</span>
+                        </div>
                     ) : (
-                        <>
+                        <div className="flex items-center gap-1 text-toss-gray-400 dark:text-gray-600">
                             <span className="material-symbols-outlined text-[14px]">schedule</span>
-                            매일 자동 업데이트
-                        </>
+                            <span>매일 자동 업데이트</span>
+                        </div>
                     )}
                 </div>
             </div>
