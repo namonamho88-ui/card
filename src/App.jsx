@@ -550,7 +550,7 @@ ${cardContext}
             onClick={() => setSelectedCard(null)}
           >
             <div
-              className="bg-white dark:bg-[#111111] rounded-t-[32px] p-8 w-full max-w-[430px] mx-auto shadow-[0_-8px_30px_rgb(0,0,0,0.12)] animate-in slide-in-from-bottom duration-500 ease-out"
+              className="bg-white dark:bg-[#111111] rounded-t-[32px] p-8 w-full max-w-[430px] mx-auto shadow-[0_-8px_30px_rgb(0,0,0,0.12)] animate-in slide-in-from-bottom duration-500 ease-out max-h-[85vh] overflow-y-auto no-scrollbar"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Handle Bar */}
