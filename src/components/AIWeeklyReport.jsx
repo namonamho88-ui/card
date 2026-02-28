@@ -758,8 +758,8 @@ export default function AIWeeklyReport() {
     const currentProgress = progress[activeTab];
 
     return (
-        <div className="flex-1 overflow-y-auto no-scrollbar">
-            {/* 서브 탭 */}
+        <div className="flex-1 flex flex-col overflow-hidden h-full">
+            {/* 서브 탭 - 고정 */}
             <div className="bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800 shrink-0">
                 <div className="flex px-5 gap-2 py-3">
                     {REPORT_TABS.map(tab => {
@@ -785,8 +785,8 @@ export default function AIWeeklyReport() {
                 </div>
             </div>
 
-            {/* 상태 바 */}
-            <div className="px-5 pt-3 pb-2 flex items-center justify-between">
+            {/* 상태 바 - 고정 */}
+            <div className="px-5 pt-3 pb-2 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-1.5">
                     <span className="material-symbols-outlined text-primary text-[18px]">{currentTab?.icon}</span>
                     <p className="text-[13px] text-toss-gray-600 dark:text-gray-400">
@@ -796,25 +796,25 @@ export default function AIWeeklyReport() {
                 <p className="text-[11px] text-toss-gray-400 dark:text-gray-600">{getMonthDay()}</p>
             </div>
 
-            {/* 콘텐츠 영역 */}
-            <div className="px-5 pb-32">
+            {/* 콘텐츠 영역 - 스크롤 */}
+            <div className="flex-1 overflow-y-auto no-scrollbar px-5 pb-32">
 
                 {/* ── 생성 중 ── */}
                 {isGenerating && (
-                    <div className="mt-8">
-                        <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-8 border border-toss-gray-100 dark:border-gray-800 text-center">
-                            <div className="w-16 h-16 mx-auto mb-5 relative">
-                                <div className="w-16 h-16 border-4 border-primary/20 rounded-full" />
-                                <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin absolute inset-0" />
-                                <span className="material-symbols-outlined text-primary text-[24px] absolute inset-0 flex items-center justify-center">
+                    <div className="mt-4">
+                        <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-6 border border-toss-gray-100 dark:border-gray-800 text-center">
+                            <div className="w-12 h-12 mx-auto mb-4 relative">
+                                <div className="w-12 h-12 border-3 border-primary/20 rounded-full" />
+                                <div className="w-12 h-12 border-3 border-primary border-t-transparent rounded-full animate-spin absolute inset-0" />
+                                <span className="material-symbols-outlined text-primary text-[20px] absolute inset-0 flex items-center justify-center">
                                     {currentTab?.icon}
                                 </span>
                             </div>
-                            <h3 className="text-[17px] font-bold text-toss-gray-800 dark:text-white mb-2">
-                                AI가 리포트를 생성하고 있습니다
+                            <h3 className="text-[16px] font-bold text-toss-gray-800 dark:text-white mb-1">
+                                AI가 리포트를 생성 중입니다
                             </h3>
-                            <p className="text-[13px] text-toss-gray-500 dark:text-gray-400 mb-6">
-                                Google Search + Gemini AI로 최신 데이터를 수집·분석 중...
+                            <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 mb-4">
+                                Google Search + Gemini AI 분석...
                             </p>
 
                             {/* 프로그레스 바 */}
@@ -836,26 +836,26 @@ export default function AIWeeklyReport() {
 
                 {/* ── 리포트 없음 → 생성 버튼 ── */}
                 {!isGenerating && !currentReport && (
-                    <div className="mt-8">
-                        <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-8 border border-toss-gray-100 dark:border-gray-800 text-center">
-                            <span className="text-5xl block mb-4">{currentTab?.emoji}</span>
-                            <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-2">
+                    <div className="mt-4">
+                        <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-6 border border-toss-gray-100 dark:border-gray-800 text-center">
+                            <span className="text-4xl block mb-3">{currentTab?.emoji}</span>
+                            <h3 className="text-[17px] font-bold text-toss-gray-800 dark:text-white mb-2">
                                 {currentTab?.label}
                             </h3>
-                            <p className="text-[14px] text-toss-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
-                                {activeTab === 'card' && 'AI가 이번 주 카드 시장 트렌드, 인기 카드, 이벤트, 최적 카드 조합을 분석합니다.'}
-                                {activeTab === 'ai' && 'AI가 이번 주 글로벌 AI 산업 핵심 뉴스, 기술 트렌드, 투자 동향을 분석합니다.'}
-                                {activeTab === 'finance' && 'AI가 이번 주 글로벌 금융시장 동향, 핫 종목, 투자 시그널을 분석합니다.'}
+                            <p className="text-[13px] text-toss-gray-500 dark:text-gray-400 mb-5 leading-relaxed">
+                                {activeTab === 'card' && 'AI가 이번 주 카드 트렌드와 최적 조합을 분석합니다.'}
+                                {activeTab === 'ai' && 'AI가 이번 주 글로벌 AI 산업 핵심 동향을 분석합니다.'}
+                                {activeTab === 'finance' && 'AI가 이번 주 금융시장 동향과 투자 시그널을 분석합니다.'}
                             </p>
                             <button
                                 onClick={() => generateReport(activeTab)}
-                                className="w-full bg-primary text-white py-[16px] rounded-[18px] font-bold text-[16px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                                className="w-full bg-primary text-white py-[14px] rounded-[16px] font-bold text-[15px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                             >
-                                <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
+                                <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
                                 AI 리포트 생성하기
                             </button>
-                            <p className="text-[11px] text-toss-gray-400 dark:text-gray-600 mt-3">
-                                Gemini AI + Google Search 기반 · 1일 1회 생성 가능
+                            <p className="text-[10px] text-toss-gray-400 dark:text-gray-600 mt-3">
+                                최신 데이터 기반 하루 한 번 생성 가능
                             </p>
                         </div>
                     </div>
