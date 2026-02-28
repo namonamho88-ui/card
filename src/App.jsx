@@ -331,7 +331,7 @@ ${cardContext}
   };
 
   return (
-    <div className="relative flex min-h-dvh w-full flex-col max-w-[430px] mx-auto shadow-2xl bg-white dark:bg-[#111111]">
+    <div className="relative flex h-dvh w-full flex-col max-w-[430px] mx-auto shadow-2xl bg-white dark:bg-[#111111] overflow-hidden">
       {/* Header - Sticky stable flex child */}
       <header className="sticky top-0 shrink-0 bg-white/95 dark:bg-[#111111]/95 backdrop-blur-md px-5 py-4 flex items-center justify-between z-30 border-b border-toss-gray-100 dark:border-gray-800">
         <div className="flex items-center gap-1">
