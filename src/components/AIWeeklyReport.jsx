@@ -87,52 +87,13 @@ function buildCardReportPrompt() {
 ## 보유 카드 데이터
 ${cardContext}
 
-## 반드시 아래 JSON만 출력하세요. 다른 텍스트 없이 JSON만:
-{
-  "title": "${weekLabel} AI 카드 리포트",
-  "summary": {
-    "title": "이번 주 카드 시장 핵심 트렌드 제목 (20자 이내)",
-    "body": "이번 주 카드 시장의 핵심 동향을 3~4문장으로 요약. 실제 시즌(여행, 개학, 연말 등)과 연결하여 작성.",
-    "mood": "positive 또는 neutral 또는 negative"
-  },
-  "rankings": [
-    {
-      "rank": 1,
-      "title": "카드명",
-      "subtitle": "카드사",
-      "badge": "▲5 또는 NEW 또는 →유지",
-      "badgeType": "up 또는 down 또는 same 또는 new",
-      "highlight": "이 카드가 주목받는 핵심 이유 한 줄",
-      "detail": "연회비, 전월실적, 대표 혜택을 포함한 2~3문장 설명",
-      "tags": ["태그1", "태그2"]
-    }
-  ],
-  "events": [
-    {
-      "issuer": "카드사명",
-      "title": "이벤트 제목",
-      "period": "~3/31",
-      "detail": "이벤트 핵심 내용 한 줄"
-    }
-  ],
-  "comboInsight": {
-    "card1": "첫번째 추천 카드명",
-    "card1Issuer": "카드사",
-    "card1Benefits": ["카페 50%", "배달 10%"],
-    "card2": "두번째 추천 카드명",
-    "card2Issuer": "카드사",
-    "card2Benefits": ["마트 10%", "교통 10%"],
-    "coveragePercent": 89,
-    "monthlySaving": 53200,
-    "description": "이 조합을 추천하는 이유 2문장"
-  },
   "nextWeek": {
     "preview": "다음 주 카드 시장 전망 3~4문장",
     "keywords": ["키워드1", "키워드2", "키워드3"]
   }
 }
 
-rankings는 정확히 3개, events는 6개(카드사별 1개씩), 실제 현재 시즌에 맞는 현실적인 내용으로 작성하세요.`;
+rankings는 정확히 3개, events는 6개(카드사별 1개씩) 작성하세요. 실제 현재 시즌에 맞는 현실적인 내용으로 반드시 유효한 JSON 형식으로만 응답하세요.`;
 }
 
 function buildAITrendReportPrompt() {
@@ -141,45 +102,6 @@ function buildAITrendReportPrompt() {
     return `당신은 AI 산업 전문 애널리스트입니다.
 오늘 날짜 기준 최신 AI 뉴스와 동향을 조사하여 "${weekLabel} AI 동향 리포트"를 작성하세요.
 
-## 반드시 아래 JSON만 출력하세요:
-{
-  "title": "${weekLabel} AI 동향 리포트",
-  "summary": {
-    "title": "이번 주 AI 업계 핵심 이슈 제목 (20자 이내)",
-    "body": "이번 주 AI 업계 핵심 동향을 3~4문장으로 요약",
-    "mood": "positive 또는 neutral 또는 negative"
-  },
-  "topNews": [
-    {
-      "rank": 1,
-      "category": "빅테크 또는 스타트업 또는 규제 또는 제품 또는 오픈소스",
-      "title": "뉴스 제목",
-      "company": "관련 기업/기관명",
-      "date": "2026.02.28",
-      "body": "뉴스 핵심 내용 3~4문장",
-      "aiComment": "이 뉴스가 시장에 미치는 영향 분석 1~2문장",
-      "impact": 10
-    }
-  ],
-  "industryStats": [
-    { "label": "글로벌 AI 투자", "value": "$4.2B", "change": "▲18%" },
-    { "label": "한국 AI 투자", "value": "₩3,200억", "change": "▲25%" },
-    { "label": "신규 AI 스타트업", "value": "47개", "change": "▲12%" },
-    { "label": "AI 특허 출원", "value": "1,230건", "change": "▲8%" }
-  ],
-  "techTrends": [
-    {
-      "keyword": "#키워드",
-      "title": "트렌드 제목",
-      "body": "트렌드 설명 2~3문장"
-    }
-  ],
-  "koreaUpdates": [
-    {
-      "company": "기업명",
-      "update": "업데이트 내용 한 줄"
-    }
-  ],
   "nextWeek": {
     "preview": "다음 주 AI 업계 전망 3~4문장",
     "events": [
@@ -188,8 +110,7 @@ function buildAITrendReportPrompt() {
   }
 }
 
-topNews는 정확히 5개, techTrends는 3개, koreaUpdates는 4개 작성.
-반드시 현재 실제로 일어나고 있는 최신 뉴스와 동향을 기반으로 작성하세요.`;
+topNews는 정확히 5개, techTrends는 3개, koreaUpdates는 4개 작성. 반드시 실제 최신 동향을 기반으로 유효한 JSON 형식으로만 응답하세요.`;
 }
 
 function buildFinanceReportPrompt() {
@@ -198,69 +119,6 @@ function buildFinanceReportPrompt() {
     return `당신은 글로벌 금융시장 전문 AI 애널리스트입니다.
 오늘 날짜 기준 최신 금융 데이터를 조사하여 "${weekLabel} 금융 리포트"를 작성하세요.
 
-## 반드시 아래 JSON만 출력하세요:
-{
-  "title": "${weekLabel} 금융 리포트",
-  "summary": {
-    "title": "이번 주 금융시장 핵심 요약 제목 (20자 이내)",
-    "body": "이번 주 글로벌 금융시장 핵심 동향 3~4문장 요약",
-    "mood": "positive 또는 neutral 또는 negative"
-  },
-  "marketTable": [
-    { "name": "KOSPI", "value": "2,687.45", "change": "+1.8%", "isUp": true },
-    { "name": "KOSDAQ", "value": "891.23", "change": "+2.4%", "isUp": true },
-    { "name": "S&P 500", "value": "6,142.80", "change": "+1.5%", "isUp": true },
-    { "name": "나스닥", "value": "20,456", "change": "+2.3%", "isUp": true },
-    { "name": "니케이225", "value": "39,872", "change": "+0.9%", "isUp": true },
-    { "name": "비트코인", "value": "$97,450", "change": "+5.2%", "isUp": true },
-    { "name": "원/달러", "value": "1,385", "change": "-0.9%", "isUp": false },
-    { "name": "금(온스)", "value": "$2,945", "change": "+1.1%", "isUp": true }
-  ],
-  "hotStocks": {
-    "korea": [
-      {
-        "name": "종목명",
-        "code": "005930",
-        "price": "72,400원",
-        "change": "+4.2%",
-        "isUp": true,
-        "reason": "상승/하락 이유 한 줄",
-        "foreignFlow": "외국인 순매수 3,200억",
-        "aiVerdict": "긍정 또는 부정 또는 중립",
-        "aiComment": "AI 판단 근거 한 줄"
-      }
-    ],
-    "overseas": [
-      {
-        "name": "종목명",
-        "symbol": "NVDA",
-        "price": "$924.50",
-        "change": "+3.8%",
-        "isUp": true,
-        "reason": "상승/하락 이유 한 줄"
-      }
-    ]
-  },
-  "signals": {
-    "positive": [
-      "긍정 시그널 1",
-      "긍정 시그널 2",
-      "긍정 시그널 3"
-    ],
-    "negative": [
-      "주의 시그널 1",
-      "주의 시그널 2",
-      "주의 시그널 3"
-    ]
-  },
-  "crypto": {
-    "summary": "가상화폐 시장 동향 요약 2~3문장",
-    "top3": [
-      { "name": "BTC", "price": "$97,450", "change": "+5.2%", "note": "핵심 포인트 한 줄" },
-      { "name": "ETH", "price": "$3,890", "change": "+7.3%", "note": "핵심 포인트 한 줄" },
-      { "name": "SOL", "price": "$245", "change": "+12.1%", "note": "핵심 포인트 한 줄" }
-    ]
-  },
   "nextWeek": {
     "preview": "다음 주 금융시장 전망 3~4문장",
     "events": [
@@ -269,8 +127,7 @@ function buildFinanceReportPrompt() {
   }
 }
 
-hotStocks.korea는 3개, hotStocks.overseas는 3개 작성.
-반드시 최신 실제 시장 데이터를 기반으로 현실적인 수치를 작성하세요.`;
+hotStocks.korea는 3개, hotStocks.overseas는 3개 작성. 반드시 최신 실제 데이터를 기반으로 유효한 JSON 형식으로만 응답하세요.`;
 }
 
 // ══════════════════════════════════════════════════

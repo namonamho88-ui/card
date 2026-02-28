@@ -108,12 +108,7 @@ export default function EuljiroFoodRanking() {
         try {
             setError(null);
             const prompt = `
-        ${area} 지역에서 모든 음식 종류를 포함하여 맛집 인기 랭킹 TOP 10을 조사해주세요.
-        
-        네이버 플레이스, 구글 리뷰, 블로그 후기 등을 종합하여
-        현재 가장 인기 있고 평점 높은 맛집 10곳을 선정해주세요.
-        
-        반드시 아래 JSON 배열 형식으로만 응답하세요. 다른 텍스트 없이 JSON만 출력:
+        ${area} 지역에서 모든 음식 종류를 포함하여 현재 가장 인기 있고 평점 높은 맛집 10곳을 조사하여 다음 구조의 JSON 배열로 응답하세요:
         [
           {
             "rank": 1,
@@ -131,6 +126,7 @@ export default function EuljiroFoodRanking() {
             "description": "한줄 설명 (50자 이내)"
           }
         ]
+        다른 텍스트 없이 유효한 JSON 배열만 출력하세요.
       `;
 
             const rawText = await enqueueGeminiRequest(() =>

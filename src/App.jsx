@@ -60,10 +60,9 @@ function App() {
     setCardStreamingText('');
 
     try {
-      const prompt = `"${card.issuer} ${card.name}" 신용카드의 상세 정보를 핵심만 빠르고 정확하게 찾아주세요.
-반드시 다른 설명 없이 JSON으로만 출력:
+      const prompt = `"${card.issuer} ${card.name}" 신용카드의 정보를 다음 구조의 JSON 형식으로 찾아주세요:
 {
-  "annualFee": "실제 연회비(예: 국내 1.5만 / 해외 1.5만)",
+  "annualFee": "실제 연회비 (예: 국내 1.5만 / 해외 1.5만)",
   "previousMonthSpending": "전월 실적 조건 (예: 30만원)",
   "benefits": [
     "핵심 혜택 1 (구체적 할인/적립율)",
@@ -72,7 +71,7 @@ function App() {
   ],
   "summary": "카드의 핵심 특징 한줄 요약"
 }
-benefits는 최대 3~4개면 충분합니다.`;
+다른 텍스트 없이 유효한 JSON만 출력하고, benefits는 최대 3~4개만 포함하세요.`;
 
       const fullText = await enqueueGeminiRequest(() =>
         geminiStreamRequest(prompt, {

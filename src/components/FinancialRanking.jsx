@@ -132,10 +132,9 @@ export default function FinancialRanking() {
         try {
             const raw = await enqueueGeminiRequest(() =>
                 geminiRequest(
-                    `오늘 한국 주식시장(KOSPI, KOSDAQ) 시가총액 TOP 10 종목의 현재 정보를 알려주세요.
-반드시 JSON 배열만 출력:
-[{"symbol":"005930","name":"삼성전자","price":72400,"change":1.12,"volume":"18,234,567","marketCap":"432조","sector":"반도체"}]
-change는 전일 대비 등락률(%)입니다.`,
+                    `오늘 한국 주식시장(KOSPI, KOSDAQ) 시가총액 상위 10개 종목의 정보를 JSON 배열 형식으로 제공하세요.
+각 객체는 다음 필드를 반드시 포함해야 합니다: [{"symbol":"6자리코드", "name":"종목명", "price":숫자, "change":숫자, "volume":"거래량", "marketCap":"시총", "sector":"업종"}]
+다른 텍스트 없이 유효한 JSON 배열만 출력하세요.`,
                     { useSearch: true }
                 )
             );
@@ -190,8 +189,7 @@ change는 전일 대비 등락률(%)입니다.`,
             // ✅ 스트리밍 요청으로 변경
             const fullText = await enqueueGeminiRequest(() =>
                 geminiStreamRequest(
-                    `"${stockName}" (${item.symbol || item.id})에 대한 오늘의 투자 뉴스 및 호재/악재를 핵심만 빠르고 간결하게 분석해주세요.
-반드시 다른 설명 없이 JSON만 출력:
+                    `"${stockName}" (${item.symbol || item.id})에 대한 오늘의 투자 뉴스 및 호재/악재를 분석하여 다음 구조의 JSON으로 출력하세요:
 {
   "summary": "한줄 종합 의견 (50자 이내)",
   "sentiment": "긍정 또는 부정 또는 중립",
@@ -199,7 +197,7 @@ change는 전일 대비 등락률(%)입니다.`,
     {"title": "뉴스 제목", "type": "호재 또는 악재 또는 중립", "detail": "한줄 설명"}
   ]
 }
-items는 최대 3~4개면 충분합니다.`,
+최대 3~4개의 핵심 아이템만 포함하세요.`,
                     {
                         useSearch: true,
                         onChunk: (chunk, gathered) => {

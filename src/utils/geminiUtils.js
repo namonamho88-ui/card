@@ -13,7 +13,10 @@ export async function geminiStreamRequest(prompt, { onChunk, maxRetries = 2, use
     const body = {
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         ...(tools.length > 0 && { tools }),
-        generationConfig: { temperature: 0.2 }
+        generationConfig: {
+            temperature: 0.1,
+            response_mime_type: "application/json"
+        }
     };
 
     if (systemInstruction) {
@@ -76,7 +79,10 @@ export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false,
             const body = {
                 contents: [{ role: 'user', parts: [{ text: prompt }] }],
                 ...(tools.length > 0 && { tools }),
-                generationConfig: { temperature: 0.2 }
+                generationConfig: {
+                    temperature: 0.1,
+                    response_mime_type: "application/json"
+                }
             };
 
             if (systemInstruction) {
@@ -121,21 +127,57 @@ export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false,
  * 응답에서 JSON 문자열을 추출하고 파싱하는 유틸리티
  */
 export function extractJSON(raw) {
+    if (!raw) throw new Error("입력 데이터가 비어 있습니다.");
+
+    // 1. 전처기: 앞뒤 공백 제거 및 불필요한 이스케이프 제거 시도
+    let cleaned = raw.trim();
+
     try {
-        let jsonStr = raw;
-        const codeBlock = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
-        if (codeBlock) {
-            jsonStr = codeBlock[1].trim();
-        } else {
-            const arr = raw.match(/\[[\s\S]*\]/);
-            const obj = raw.match(/\{[\s\S]*\}/);
-            if (arr) jsonStr = arr[0];
-            else if (obj) jsonStr = obj[0];
+        // 2. MD 코드 블록 추출 시도 (가장 긴 블록 선정)
+        const codeBlocks = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/g);
+        if (codeBlocks) {
+            // 가장 긴 코드 블록을 사용하여 불완전한 파싱 방지
+            const sortedBlocks = codeBlocks
+                .map(b => b.replace(/```(?:json)?\s*/, '').replace(/```$/, '').trim())
+                .sort((a, b) => b.length - a.length);
+
+            for (const block of sortedBlocks) {
+                try {
+                    return JSON.parse(block);
+                } catch (e) { continue; }
+            }
         }
-        return JSON.parse(jsonStr);
+
+        // 3. 순수 JSON 문자열 파싱 시도
+        try {
+            return JSON.parse(cleaned);
+        } catch (e) { }
+
+        // 4. {} 또는 [] 패턴 추출 시도 (가장 넓은 범위)
+        const objMatch = cleaned.match(/\{[\s\S]*\}/);
+        const arrMatch = cleaned.match(/\[[\s\S]*\]/);
+
+        if (objMatch || arrMatch) {
+            const potentialJSON = (objMatch?.[0] || arrMatch?.[0]);
+            try {
+                return JSON.parse(potentialJSON);
+            } catch (e) {
+                // 특정 노이즈 제거 후 재시도 (예: \\\\ 이나 ```json 반복)
+                const polished = potentialJSON
+                    .replace(/\\`/g, '`') // 잘못된 이스케이프
+                    .replace(/```json/g, '') // 중첩된 코드 블록 표시기 제거
+                    .replace(/```/g, '');
+
+                try {
+                    return JSON.parse(polished);
+                } catch (e2) { }
+            }
+        }
+
+        throw new Error("JSON 구조를 찾을 수 없습니다.");
     } catch (e) {
         console.error("JSON Parsing Error original content:", raw);
-        throw new Error("JSON 파싱 실패");
+        throw new Error("JSON 파싱 실패: " + e.message);
     }
 }
 
