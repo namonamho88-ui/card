@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
 import cardData from '../data/popularCards.json';
+import html2canvas from 'html2canvas';
 
 const { cards: POPULAR_CARDS } = cardData;
 
@@ -778,6 +779,140 @@ function ShinhanReportView({ data }) {
 }
 
 // ══════════════════════════════════════════════════
+// 공유 관련 컴포넌트 & 유틸
+// ══════════════════════════════════════════════════
+
+// ── 리포트 텍스트 요약 생성 ──
+function buildShareText(report, tabLabel) {
+    if (!report) return '';
+    const lines = [];
+    lines.push(`📊 ${report.title || tabLabel}`);
+    lines.push('');
+    if (report.summary) {
+        lines.push(`📌 ${report.summary.title || ''}`);
+        lines.push(report.summary.body || '');
+        lines.push('');
+    }
+    // 카드 리포트
+    if (report.rankings) {
+        lines.push('🔥 주간 인기 카드 TOP 3');
+        report.rankings.forEach(r => lines.push(`  ${r.rank}. ${r.title} — ${r.highlight || ''}`));
+        lines.push('');
+    }
+    // AI 동향
+    if (report.topNews) {
+        lines.push('⚡ AI 핵심 뉴스');
+        report.topNews.forEach(n => lines.push(`  ${n.rank}. ${n.title} (${n.company})`));
+        lines.push('');
+    }
+    // 신한 리포트
+    if (report.holdingIssues) {
+        lines.push('🏦 신한지주 핵심 이슈');
+        report.holdingIssues.forEach(i => lines.push(`  • ${i.title}`));
+        lines.push('');
+    }
+    if (report.subsidiaryUpdates) {
+        lines.push('📋 계열사 업데이트');
+        report.subsidiaryUpdates.forEach(s => lines.push(`  • ${s.company}: ${s.headline}`));
+        lines.push('');
+    }
+    lines.push(`📅 ${getMonthDay()} 생성 · AI Generated Report`);
+    return lines.join('\n');
+}
+
+// ── 토스트 컴포넌트 ──
+function Toast({ message, icon, visible }) {
+    return (
+        <div className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+            }`}>
+            <div className="bg-toss-gray-800 dark:bg-white text-white dark:text-toss-gray-800 px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2 text-[14px] font-semibold">
+                <span className="material-symbols-outlined text-[18px]">{icon || 'check_circle'}</span>
+                {message}
+            </div>
+        </div>
+    );
+}
+
+// ── 공유 패널 컴포넌트 ──
+function SharePanel({ visible, onClose, onCopyText, onEmail, onSaveImage, onNativeShare, canNativeShare }) {
+    return (
+        <>
+            {/* 오버레이 */}
+            <div
+                className={`fixed inset-0 bg-black/40 z-[90] transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
+                onClick={onClose}
+            />
+            {/* 패널 */}
+            <div className={`fixed bottom-0 left-0 right-0 z-[95] transition-transform duration-300 ease-out ${visible ? 'translate-y-0' : 'translate-y-full'
+                }`}>
+                <div className="bg-white dark:bg-[#1a1a1a] rounded-t-[28px] px-6 pt-4 pb-8 shadow-2xl max-w-lg mx-auto">
+                    {/* 핸들 바 */}
+                    <div className="w-10 h-1 bg-toss-gray-200 dark:bg-gray-700 rounded-full mx-auto mb-5" />
+                    <h3 className="text-[17px] font-bold text-toss-gray-800 dark:text-white mb-5">리포트 공유하기</h3>
+
+                    <div className={`grid ${canNativeShare ? 'grid-cols-4' : 'grid-cols-3'} gap-3`}>
+                        {/* 텍스트 복사 */}
+                        <button
+                            onClick={onCopyText}
+                            className="flex flex-col items-center gap-2.5 p-4 rounded-2xl bg-toss-gray-50 dark:bg-gray-900 hover:bg-toss-gray-100 dark:hover:bg-gray-800 active:scale-95 transition-all border border-toss-gray-100 dark:border-gray-800"
+                        >
+                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-green-400/20">
+                                <span className="material-symbols-outlined text-white text-[22px]">content_copy</span>
+                            </div>
+                            <span className="text-[12px] font-semibold text-toss-gray-700 dark:text-gray-300">텍스트 복사</span>
+                        </button>
+
+                        {/* 이메일 */}
+                        <button
+                            onClick={onEmail}
+                            className="flex flex-col items-center gap-2.5 p-4 rounded-2xl bg-toss-gray-50 dark:bg-gray-900 hover:bg-toss-gray-100 dark:hover:bg-gray-800 active:scale-95 transition-all border border-toss-gray-100 dark:border-gray-800"
+                        >
+                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-400/20">
+                                <span className="material-symbols-outlined text-white text-[22px]">mail</span>
+                            </div>
+                            <span className="text-[12px] font-semibold text-toss-gray-700 dark:text-gray-300">이메일</span>
+                        </button>
+
+                        {/* 이미지 저장 */}
+                        <button
+                            onClick={onSaveImage}
+                            className="flex flex-col items-center gap-2.5 p-4 rounded-2xl bg-toss-gray-50 dark:bg-gray-900 hover:bg-toss-gray-100 dark:hover:bg-gray-800 active:scale-95 transition-all border border-toss-gray-100 dark:border-gray-800"
+                        >
+                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center shadow-lg shadow-orange-400/20">
+                                <span className="material-symbols-outlined text-white text-[22px]">image</span>
+                            </div>
+                            <span className="text-[12px] font-semibold text-toss-gray-700 dark:text-gray-300">이미지 저장</span>
+                        </button>
+
+                        {/* 네이티브 공유 (지원 시에만) */}
+                        {canNativeShare && (
+                            <button
+                                onClick={onNativeShare}
+                                className="flex flex-col items-center gap-2.5 p-4 rounded-2xl bg-toss-gray-50 dark:bg-gray-900 hover:bg-toss-gray-100 dark:hover:bg-gray-800 active:scale-95 transition-all border border-toss-gray-100 dark:border-gray-800"
+                            >
+                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-400 to-violet-500 flex items-center justify-center shadow-lg shadow-purple-400/20">
+                                    <span className="material-symbols-outlined text-white text-[22px]">share</span>
+                                </div>
+                                <span className="text-[12px] font-semibold text-toss-gray-700 dark:text-gray-300">공유하기</span>
+                            </button>
+                        )}
+                    </div>
+
+                    {/* 닫기 */}
+                    <button
+                        onClick={onClose}
+                        className="w-full mt-4 py-3.5 rounded-2xl bg-toss-gray-100 dark:bg-gray-800 text-[14px] font-semibold text-toss-gray-600 dark:text-gray-400 hover:bg-toss-gray-200 dark:hover:bg-gray-700 active:scale-[0.98] transition-all"
+                    >
+                        닫기
+                    </button>
+                </div>
+            </div>
+        </>
+    );
+}
+
+// ══════════════════════════════════════════════════
 // 메인 컴포넌트
 // ══════════════════════════════════════════════════
 
@@ -786,6 +921,77 @@ export default function AIWeeklyReport() {
     const [reports, setReports] = useState({ card: null, ai: null, shinhan: null });
     const [generating, setGenerating] = useState({ card: false, ai: false, shinhan: false });
     const [progress, setProgress] = useState({ card: 0, ai: 0, shinhan: 0 });
+
+    // ── 공유 관련 state ──
+    const [showSharePanel, setShowSharePanel] = useState(false);
+    const [toast, setToast] = useState({ visible: false, message: '', icon: '' });
+    const reportRef = useRef(null);
+    const canNativeShare = typeof navigator !== 'undefined' && !!navigator.share;
+
+    const showToast = useCallback((message, icon = 'check_circle') => {
+        setToast({ visible: true, message, icon });
+        setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 2500);
+    }, []);
+
+    // ── 공유 핸들러 ──
+    const handleCopyText = useCallback(() => {
+        const currentTab = REPORT_TABS.find(t => t.id === activeTab);
+        const text = buildShareText(reports[activeTab], currentTab?.label || '');
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('리포트가 클립보드에 복사되었습니다');
+            setShowSharePanel(false);
+        }).catch(() => {
+            showToast('복사에 실패했습니다', 'error');
+        });
+    }, [activeTab, reports, showToast]);
+
+    const handleEmailShare = useCallback(() => {
+        const currentTab = REPORT_TABS.find(t => t.id === activeTab);
+        const report = reports[activeTab];
+        const subject = encodeURIComponent(report?.title || `${getWeekLabel()} ${currentTab?.label}`);
+        const body = encodeURIComponent(buildShareText(report, currentTab?.label || ''));
+        window.open(`mailto:?subject=${subject}&body=${body}`, '_self');
+        setShowSharePanel(false);
+    }, [activeTab, reports]);
+
+    const handleSaveImage = useCallback(async () => {
+        if (!reportRef.current) return;
+        setShowSharePanel(false);
+        showToast('이미지 생성 중...', 'hourglass_top');
+        try {
+            const canvas = await html2canvas(reportRef.current, {
+                backgroundColor: document.documentElement.classList.contains('dark') ? '#111111' : '#f9fafb',
+                scale: 2,
+                useCORS: true,
+                logging: false,
+            });
+            const link = document.createElement('a');
+            const currentTab = REPORT_TABS.find(t => t.id === activeTab);
+            link.download = `${getWeekLabel()}_${currentTab?.label || 'report'}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('이미지가 저장되었습니다', 'download_done');
+        } catch (e) {
+            console.error('Image save error:', e);
+            showToast('이미지 저장에 실패했습니다', 'error');
+        }
+    }, [activeTab, showToast]);
+
+    const handleNativeShare = useCallback(async () => {
+        const currentTab = REPORT_TABS.find(t => t.id === activeTab);
+        const report = reports[activeTab];
+        try {
+            await navigator.share({
+                title: report?.title || `${getWeekLabel()} ${currentTab?.label}`,
+                text: buildShareText(report, currentTab?.label || ''),
+            });
+            setShowSharePanel(false);
+        } catch (e) {
+            if (e.name !== 'AbortError') {
+                showToast('공유에 실패했습니다', 'error');
+            }
+        }
+    }, [activeTab, reports, showToast]);
 
     // 초기 로드 — 캐시에서 가져오기
     useEffect(() => {
@@ -954,11 +1160,18 @@ export default function AIWeeklyReport() {
 
                 {/* 리포트 있음 → 렌더링 */}
                 {!isGenerating && currentReport && (
-                    <div className="mt-4">
+                    <div className="mt-4" ref={reportRef}>
                         <div className="flex items-center justify-between mb-5">
                             <h2 className="text-[18px] font-bold text-toss-gray-800 dark:text-white">
                                 {currentReport.title || `${getWeekLabel()} ${currentTab?.label}`}
                             </h2>
+                            <button
+                                onClick={() => setShowSharePanel(true)}
+                                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary/10 hover:bg-primary/20 active:scale-95 transition-all"
+                            >
+                                <span className="material-symbols-outlined text-primary text-[18px]">ios_share</span>
+                                <span className="text-[12px] font-bold text-primary">공유</span>
+                            </button>
                         </div>
 
                         {activeTab === 'card' && <CardReportView data={currentReport} />}
@@ -990,6 +1203,20 @@ export default function AIWeeklyReport() {
                     </div>
                 )}
             </div>
+
+            {/* 공유 패널 */}
+            <SharePanel
+                visible={showSharePanel}
+                onClose={() => setShowSharePanel(false)}
+                onCopyText={handleCopyText}
+                onEmail={handleEmailShare}
+                onSaveImage={handleSaveImage}
+                onNativeShare={handleNativeShare}
+                canNativeShare={canNativeShare}
+            />
+
+            {/* 토스트 */}
+            <Toast message={toast.message} icon={toast.icon} visible={toast.visible} />
         </div>
     );
 }
