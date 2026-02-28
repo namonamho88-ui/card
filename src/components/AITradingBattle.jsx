@@ -445,7 +445,38 @@ const PATTERNS = [
         }
     },
 ];
-
+// ============ 용어 사전 (Glossary) ============
+const GLOSSARY = {
+    // 차트 패턴
+    '📈 강한 상승세': '주가가 지속적으로 올라가는 추세입니다. 매수세가 매도세보다 강해 가격이 계속 오릅니다.',
+    '📉 강한 하락세': '주가가 지속적으로 내려가는 추세입니다. 매도세가 매수세보다 강해 가격이 계속 떨어집니다.',
+    '➡️ 횡보': '주가가 큰 변동 없이 일정 범위 안에서 움직이는 상태입니다. 방향을 결정하지 못한 시장을 나타냅니다.',
+    '✅ V자 반등': '주가가 급락한 뒤 빠르게 반등하여 V자 모양을 그리는 패턴입니다. 강한 매수세 유입 신호입니다.',
+    '🔻 역V자 하락': '주가가 급등한 뒤 빠르게 하락하여 역V자 모양을 그리는 패턴입니다. 차익 실현 매물 출회를 의미합니다.',
+    '🔵 이중 바닥': 'W 모양으로 두 번 바닥을 찍은 뒤 상승하는 패턴입니다. 강력한 지지선 확인 후 상승 전환 신호입니다.',
+    '🔴 이중 천장': 'M 모양으로 두 번 고점을 찍은 뒤 하락하는 패턴입니다. 저항선 돌파 실패로 하락 전환 신호입니다.',
+    '👤 헤드앤숄더': '머리와 양쪽 어깨 모양의 패턴으로, 상승 추세의 끝에 나타나는 대표적인 하락 반전 신호입니다.',
+    '🙃 역헤드앤숄더': '뒤집힌 헤드앤숄더로, 하락 추세의 끝에 나타나는 강력한 상승 반전 신호입니다.',
+    '🔺 상승 삼각형': '고점은 일정하고 저점이 점차 높아지는 삼각형 패턴입니다. 돌파 시 강한 상승이 예상됩니다.',
+    '🔻 하락 삼각형': '저점은 일정하고 고점이 점차 낮아지는 삼각형 패턴입니다. 하락 돌파 시 큰 낙폭이 예상됩니다.',
+    '🏁 상승 깃발': '급등 후 약간의 조정(깃발 모양)을 거쳐 다시 상승하는 패턴입니다. 추세 지속 신호입니다.',
+    '🚩 하락 깃발': '급락 후 약간의 반등(깃발 모양)을 거쳐 다시 하락하는 패턴입니다. 하락 추세 지속 신호입니다.',
+    '☕ 컵앤핸들': '찻잔과 손잡이 모양의 패턴으로, 바닥을 다진 후 강한 상승 돌파가 예상되는 매수 신호입니다.',
+    '💥 스파이크 폭락': '급격한 가격 상승 후 더 급격한 폭락이 일어나는 패턴입니다. 거품 붕괴를 의미합니다.',
+    '💸 패닉 셀': '공포에 의한 투매로 주가가 급격히 하락하는 현상입니다. 시장에 극심한 공포가 퍼진 상태입니다.',
+    '🚀 투 더 문': '주가가 로켓처럼 급등하는 극단적 상승 패턴입니다. 강한 모멘텀과 FOMO 매수가 결합된 상태입니다.',
+    '🐈 데드 캣 바운스': '급락 후 일시적 반등(죽은 고양이도 높은 곳에서 떨어뜨리면 튀긴다)이지만 다시 하락하는 패턴입니다.',
+    '🧼 바닥 털기': '세력이 의도적으로 가격을 내려 개인 투자자의 물량을 털어낸 뒤 급등시키는 패턴입니다.',
+    '🏗️ 바닥 매집': '저가에서 세력이 조용히 물량을 모으는 구간으로, 횡보 후 강한 상승이 나타납니다.',
+    // 시그널
+    '매수 신호': '현재 차트 패턴이 주가 상승을 시사합니다. 매수(BUY)를 고려할 타이밍입니다.',
+    '매도 신호': '현재 차트 패턴이 주가 하락을 시사합니다. 보유 중인 포지션을 매도(SELL)할 타이밍입니다.',
+    '관망': '방향성이 뚜렷하지 않아 매수/매도 모두 위험할 수 있습니다. 추세가 확인될 때까지 기다리세요.',
+    // 보조지표
+    '이평선(20)': '이동평균선(MA 20): 최근 20개 봉의 종가 평균을 이은 선입니다. 추세 방향을 판단하는 기본 지표로, 주가가 이평선 위면 상승 추세, 아래면 하락 추세로 봅니다.',
+    '볼린저밴드': '이동평균선 위아래로 표준편차 2배 폭의 밴드를 그린 지표입니다. 밴드 상단 터치 시 과매수(하락 가능), 하단 터치 시 과매도(상승 가능)를 의미합니다.',
+    '상대강도(RSI)': '상대강도지수(0~100): 최근 가격 변동의 상승/하락 크기를 비교한 지표입니다. 70 이상이면 과매수(하락 주의), 30 이하면 과매도(반등 기대)로 해석합니다.',
+};
 // ============ 유틸 ============
 const shuffleArray = (arr) => {
     const a = [...arr];
@@ -508,6 +539,7 @@ const AITradingBattle = () => {
     const [running, setRunning] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [showGuide, setShowGuide] = useState(true); // 가이드 모달 추가
+    const [glossaryTip, setGlossaryTip] = useState(null); // 용어 설명 표시
     const [message, setMessage] = useState({ text: '', type: '', visible: false });
     const [scores, setScores] = useState([]);
 
@@ -1132,8 +1164,36 @@ const AITradingBattle = () => {
                 {/* Pattern Info */}
                 {running && (
                     <div style={styles.infoBar}>
-                        <span style={styles.patternBadge}>{uiState.patternName}</span>
-                        <span style={signalStyle}>{signalText}</span>
+                        <span style={{ ...styles.patternBadge, cursor: 'pointer' }}
+                            onClick={() => setGlossaryTip(glossaryTip === uiState.patternName ? null : uiState.patternName)}
+                        >{uiState.patternName}</span>
+                        <span style={{ ...signalStyle, cursor: 'pointer' }}
+                            onClick={() => setGlossaryTip(glossaryTip === signalText ? null : signalText)}
+                        >{signalText}</span>
+                    </div>
+                )}
+
+                {/* Glossary Tooltip */}
+                {glossaryTip && GLOSSARY[glossaryTip] && (
+                    <div style={{
+                        background: 'rgba(123,47,247,0.1)',
+                        border: '1px solid rgba(123,47,247,0.3)',
+                        borderRadius: 10,
+                        padding: '8px 12px',
+                        marginBottom: 8,
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: 8,
+                    }}>
+                        <span style={{ fontSize: 14, shrink: 0 }}>📖</span>
+                        <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 11, fontWeight: 'bold', color: '#b388ff', marginBottom: 2 }}>{glossaryTip}</div>
+                            <div style={{ fontSize: 11, color: '#ccc', lineHeight: '1.5' }}>{GLOSSARY[glossaryTip]}</div>
+                        </div>
+                        <span
+                            style={{ fontSize: 12, color: '#666', cursor: 'pointer', padding: '0 4px' }}
+                            onClick={() => setGlossaryTip(null)}
+                        >✕</span>
                     </div>
                 )}
 
@@ -1169,7 +1229,10 @@ const AITradingBattle = () => {
                                 <button
                                     key={ind}
                                     style={indicators[ind] ? styles.toolBtnActive : styles.toolBtn}
-                                    onClick={() => toggleIndicator(ind)}
+                                    onClick={() => {
+                                        toggleIndicator(ind);
+                                        setGlossaryTip(prev => prev === labels[ind] ? null : labels[ind]);
+                                    }}
                                 >
                                     {labels[ind]}
                                 </button>
