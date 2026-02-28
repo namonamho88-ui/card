@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { TRANSACTIONS } from './data/mockData';
 import cardData from './data/popularCards.json';
 import { ISSUERS, getCardsByIssuer } from './utils/cardUtils';
