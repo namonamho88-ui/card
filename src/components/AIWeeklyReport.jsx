@@ -782,40 +782,124 @@ function ShinhanReportView({ data }) {
 // 공유 관련 컴포넌트 & 유틸
 // ══════════════════════════════════════════════════
 
-// ── 리포트 텍스트 요약 생성 ──
+// ── 리포트 텍스트 요약 생성 (전체 내용 포함) ──
 function buildShareText(report, tabLabel) {
     if (!report) return '';
     const lines = [];
     lines.push(`📊 ${report.title || tabLabel}`);
     lines.push('');
+
+    // ── 공통: 요약 ──
     if (report.summary) {
         lines.push(`📌 ${report.summary.title || ''}`);
         lines.push(report.summary.body || '');
+        if (report.summary.stockPrice) {
+            lines.push(`💹 신한지주: ${report.summary.stockPrice} (${report.summary.stockChange || ''})`);
+        }
         lines.push('');
     }
-    // 카드 리포트
+
+    // ── 카드 리포트 ──
     if (report.rankings) {
         lines.push('🔥 주간 인기 카드 TOP 3');
-        report.rankings.forEach(r => lines.push(`  ${r.rank}. ${r.title} — ${r.highlight || ''}`));
+        report.rankings.forEach(r => {
+            lines.push(`  ${r.rank}. ${r.title} (${r.subtitle || ''})`);
+            if (r.highlight) lines.push(`     📌 ${r.highlight}`);
+            if (r.detail) lines.push(`     ${r.detail}`);
+        });
         lines.push('');
     }
-    // AI 동향
+    if (report.events) {
+        lines.push('🎉 카드사별 핫 이벤트');
+        report.events.forEach(e => lines.push(`  • [${e.issuer}] ${e.title} — ${e.detail || ''} (${e.period || ''})`));
+        lines.push('');
+    }
+    if (report.comboInsight) {
+        lines.push('💡 AI 추천 카드 조합');
+        lines.push(`  ${report.comboInsight.card1} + ${report.comboInsight.card2}`);
+        lines.push(`  커버리지 ${report.comboInsight.coveragePercent}% · 월 절약 ₩${(report.comboInsight.monthlySaving || 0).toLocaleString()}`);
+        if (report.comboInsight.description) lines.push(`  ${report.comboInsight.description}`);
+        lines.push('');
+    }
+
+    // ── AI 동향 리포트 ──
     if (report.topNews) {
         lines.push('⚡ AI 핵심 뉴스');
-        report.topNews.forEach(n => lines.push(`  ${n.rank}. ${n.title} (${n.company})`));
+        report.topNews.forEach(n => {
+            lines.push(`  ${n.rank}. ${n.title} (${n.company})`);
+            if (n.body) lines.push(`     ${n.body}`);
+            if (n.aiComment) lines.push(`     💬 ${n.aiComment}`);
+        });
         lines.push('');
     }
-    // 신한 리포트
+    if (report.industryStats) {
+        lines.push('📊 AI 산업 지표');
+        report.industryStats.forEach(s => lines.push(`  • ${s.label}: ${s.value} (${s.change || ''})`));
+        lines.push('');
+    }
+    if (report.techTrends) {
+        lines.push('🔬 주목할 AI 기술 트렌드');
+        report.techTrends.forEach(t => {
+            lines.push(`  • [${t.keyword}] ${t.title}`);
+            if (t.body) lines.push(`    ${t.body}`);
+        });
+        lines.push('');
+    }
+    if (report.koreaUpdates) {
+        lines.push('🇰🇷 국내 AI 동향');
+        report.koreaUpdates.forEach(k => lines.push(`  • ${k.company}: ${k.update}`));
+        lines.push('');
+    }
+
+    // ── 신한 리포트 ──
+    if (report.keyMetrics) {
+        lines.push('📈 주요 그룹 지표');
+        report.keyMetrics.forEach(m => lines.push(`  • ${m.label}: ${m.value} (${m.change || ''})`));
+        lines.push('');
+    }
     if (report.holdingIssues) {
         lines.push('🏦 신한지주 핵심 이슈');
-        report.holdingIssues.forEach(i => lines.push(`  • ${i.title}`));
+        report.holdingIssues.forEach(i => {
+            lines.push(`  • [${i.category || ''}] ${i.title}`);
+            if (i.body) lines.push(`    ${i.body}`);
+        });
         lines.push('');
     }
     if (report.subsidiaryUpdates) {
         lines.push('📋 계열사 업데이트');
-        report.subsidiaryUpdates.forEach(s => lines.push(`  • ${s.company}: ${s.headline}`));
+        report.subsidiaryUpdates.forEach(s => {
+            lines.push(`  • ${s.company}: ${s.headline}`);
+            s.details?.forEach(d => lines.push(`    - ${d}`));
+        });
         lines.push('');
     }
+    if (report.analystView) {
+        const av = report.analystView;
+        lines.push('🔍 애널리스트 컨센서스');
+        lines.push(`  투자의견: ${av.consensus} · 목표가: ${av.targetPrice} · 상승여력: ${av.upside}`);
+        if (av.comment) lines.push(`  💬 ${av.comment}`);
+        lines.push('');
+    }
+    if (report.globalPeerComparison) {
+        lines.push('⚖️ 금융지주 비교');
+        report.globalPeerComparison.forEach(p => lines.push(`  • ${p.name}: ${p.change} — ${p.note || ''}`));
+        lines.push('');
+    }
+    if (report.riskFactors) {
+        lines.push('⚠️ 리스크 요인');
+        report.riskFactors.forEach(r => lines.push(`  • [${r.level}] ${r.factor}: ${r.description}`));
+        lines.push('');
+    }
+
+    // ── 공통: 다음 주 전망 ──
+    if (report.nextWeek) {
+        lines.push('📅 다음 주 전망');
+        if (report.nextWeek.preview) lines.push(`  ${report.nextWeek.preview}`);
+        report.nextWeek.events?.forEach(e => lines.push(`  • ${e.date}(${e.day}) ${e.event}`));
+        report.nextWeek.keywords?.forEach(k => lines.push(`  #${k}`));
+        lines.push('');
+    }
+
     lines.push(`📅 ${getMonthDay()} 생성 · AI Generated Report`);
     return lines.join('\n');
 }
@@ -959,11 +1043,24 @@ export default function AIWeeklyReport() {
         setShowSharePanel(false);
         showToast('이미지 생성 중...', 'hourglass_top');
         try {
+            const isDark = document.documentElement.classList.contains('dark');
             const canvas = await html2canvas(reportRef.current, {
-                backgroundColor: document.documentElement.classList.contains('dark') ? '#111111' : '#f9fafb',
+                backgroundColor: isDark ? '#111111' : '#f9fafb',
                 scale: 2,
                 useCORS: true,
                 logging: false,
+                onclone: (clonedDoc) => {
+                    // html2canvas가 oklab() 색상을 파싱하지 못하므로
+                    // 클론된 DOM의 모든 요소에 computed style을 인라인으로 적용
+                    const allEls = clonedDoc.querySelectorAll('*');
+                    allEls.forEach(el => {
+                        const cs = window.getComputedStyle(el);
+                        el.style.backgroundColor = cs.backgroundColor;
+                        el.style.color = cs.color;
+                        el.style.borderColor = cs.borderColor;
+                        el.style.outlineColor = cs.outlineColor;
+                    });
+                },
             });
             const link = document.createElement('a');
             const currentTab = REPORT_TABS.find(t => t.id === activeTab);
@@ -1167,10 +1264,10 @@ export default function AIWeeklyReport() {
                             </h2>
                             <button
                                 onClick={() => setShowSharePanel(true)}
-                                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary/10 hover:bg-primary/20 active:scale-95 transition-all"
+                                className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary/10 hover:bg-primary/20 active:scale-90 transition-all"
+                                title="공유하기"
                             >
-                                <span className="material-symbols-outlined text-primary text-[18px]">ios_share</span>
-                                <span className="text-[12px] font-bold text-primary">공유</span>
+                                <span className="material-symbols-outlined text-primary text-[16px]">ios_share</span>
                             </button>
                         </div>
 
