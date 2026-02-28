@@ -157,14 +157,23 @@ change는 전일 대비 등락률(%)입니다.`,
     const fetchNews = useCallback(async (item) => {
         const key = `${NEWS_CACHE_KEY}_${item.symbol || item.id}_${getTodayKey()}`;
 
-        // ✅ 캐시 확인 (하루 단위)
+        // ✅ 캐시 확인 (하루 단위) + 구조 검증
         try {
             const cached = localStorage.getItem(key);
             if (cached) {
-                setNewsData(JSON.parse(cached));
-                return;
+                const parsedCache = JSON.parse(cached);
+                // 유효한 구조인지 확인
+                if (parsedCache && typeof parsedCache === 'object' && parsedCache.summary && parsedCache.sentiment) {
+                    setNewsData(parsedCache);
+                    return;
+                } else {
+                    // 잘못된 캐시 제거
+                    localStorage.removeItem(key);
+                }
             }
-        } catch (e) { }
+        } catch (e) {
+            localStorage.removeItem(key);
+        }
 
         if (!GEMINI_KEY) {
             setNewsData({ summary: 'API 키가 설정되지 않았습니다.', sentiment: '중립', items: [] });
@@ -191,8 +200,34 @@ items는 최대 5개.`,
             );
 
             const parsed = extractJSON(raw);
-            localStorage.setItem(key, JSON.stringify(parsed));
-            setNewsData(parsed);
+            // ✅ 파싱된 데이터를 정규화: 구조가 다를 경우 대비
+            let normalizedData;
+            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                normalizedData = {
+                    summary: parsed.summary || '분석 결과를 확인하세요.',
+                    sentiment: parsed.sentiment || '중립',
+                    items: Array.isArray(parsed.items) ? parsed.items : [],
+                };
+            } else if (Array.isArray(parsed)) {
+                // 배열로 반환된 경우 items로 변환
+                normalizedData = {
+                    summary: '뉴스 분석 결과입니다.',
+                    sentiment: '중립',
+                    items: parsed.map(p => ({
+                        title: p.title || p.headline || '뉴스',
+                        type: p.type || p.sentiment || '중립',
+                        detail: p.detail || p.description || p.summary || '',
+                    })),
+                };
+            } else {
+                normalizedData = {
+                    summary: String(parsed || '분석 완료'),
+                    sentiment: '중립',
+                    items: [],
+                };
+            }
+            localStorage.setItem(key, JSON.stringify(normalizedData));
+            setNewsData(normalizedData);
         } catch (e) {
             console.warn('News fetch error:', e.message);
             setNewsData({
