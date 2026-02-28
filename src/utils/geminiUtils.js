@@ -1,7 +1,7 @@
 const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 // ✅ 유료 버전 모델
-export const GEMINI_MODEL = 'gemini-2.5-flash';
+export const GEMINI_MODEL = 'gemini-1.5-flash';
 
 /**
  * 스트리밍 방식을 포함한 Gemini API 요청 함수
