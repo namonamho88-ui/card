@@ -179,11 +179,14 @@ export function extractJSON(raw) {
         const firstSquare = cleaned.indexOf('[');
         const lastSquare = cleaned.lastIndexOf(']');
 
-        // 가장 바깥쪽의 {} 또는 [] 범위를 찾아 시도
+        // 어떤 괄호가 먼저 나타나는지 확인하여 우선순위 결정
         let potentialJSON = "";
-        if (firstCurly !== -1 && lastCurly !== -1 && (firstSquare === -1 || firstCurly < firstSquare)) {
+        const hasCurly = firstCurly !== -1 && lastCurly !== -1 && lastCurly > firstCurly;
+        const hasSquare = firstSquare !== -1 && lastSquare !== -1 && lastSquare > firstSquare;
+
+        if (hasCurly && (!hasSquare || firstCurly < firstSquare)) {
             potentialJSON = cleaned.substring(firstCurly, lastCurly + 1);
-        } else if (firstSquare !== -1 && lastSquare !== -1) {
+        } else if (hasSquare) {
             potentialJSON = cleaned.substring(firstSquare, lastSquare + 1);
         }
 
@@ -191,16 +194,23 @@ export function extractJSON(raw) {
             try {
                 return JSON.parse(potentialJSON);
             } catch (e) {
-                // 특정 노이즈 제거 후 재시도 (예: \\\\ 이나 ```json 반복)
+                // 특정 노이즈 및 이항 문자 제거 후 재시도
                 const polished = potentialJSON
                     .replace(/\\`/g, '`') // 잘못된 이스케이프
-                    .replace(/```json/g, '') // 중첩된 코드 블록 표시기 제거
+                    .replace(/```json/g, '')
                     .replace(/```/g, '')
+                    .replace(/[\u0000-\u001F\u007F-\u009F]/g, "") // 제어 문자 제거
                     .trim();
 
                 try {
                     return JSON.parse(polished);
-                } catch (e2) { }
+                } catch (e2) {
+                    // 마지막 수단: JSON 직전/직후의 텍스트가 섞여있을 가능성 배제하고 재추출
+                    const innerMatch = polished.match(/\{[\s\S]*\}|\[[\s\S]*\]/);
+                    if (innerMatch && innerMatch[0].length < polished.length) {
+                        try { return JSON.parse(innerMatch[0]); } catch (e3) { }
+                    }
+                }
             }
         }
 

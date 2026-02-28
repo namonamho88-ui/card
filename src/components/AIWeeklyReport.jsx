@@ -576,14 +576,10 @@ export default function AIWeeklyReport() {
                 default: return;
             }
 
-            // ✅ 스트리밍 요청으로 변경
+            // ✅ 검색 기능을 사용하므로 JSON 모드를 쓸 수 없기 때문에
+            // 스트리밍 대신 전체를 받아 안정적으로 파싱하는 geminiRequest 사용
             const fullText = await enqueueGeminiRequest(() =>
-                geminiStreamRequest(prompt, {
-                    useSearch: true,
-                    onChunk: (chunk, gathered) => {
-                        setStreamingText(gathered);
-                    }
-                })
+                geminiRequest(prompt, { useSearch: true })
             );
 
             const parsed = extractJSON(fullText);
@@ -663,22 +659,9 @@ export default function AIWeeklyReport() {
                                     '국내외 금융 지수와 핫 종목 실시간 데이터를 가져오고 있습니다.'}
                         </p>
 
-                        {/* ✅ 실시간 스트리밍 텍스트 영역 */}
-                        <div className="w-full max-w-[360px] bg-toss-gray-50 dark:bg-gray-900/30 rounded-2xl border border-dashed border-toss-gray-200 dark:border-gray-800 p-5 mb-6 overflow-hidden">
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                                <span className="text-[11px] font-bold text-toss-gray-400 dark:text-gray-600 uppercase tracking-widest">AI Streaming...</span>
-                            </div>
-                            <div className="h-[120px] relative overflow-hidden text-left">
-                                <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 font-mono leading-relaxed whitespace-pre-wrap animate-in fade-in duration-500">
-                                    {streamingText ? streamingText.replace(/[\{\}\"\[\]]/g, '').slice(-250) : '데이터 스트림을 초기화하는 중...'}
-                                </p>
-                                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-toss-gray-50/100 dark:from-gray-900/100 to-transparent pointer-events-none" />
-                            </div>
-                        </div>
-
-                        <div className="w-full max-w-[300px] h-1.5 bg-toss-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-                            <div className="h-full bg-primary animate-[shimmer_2s_infinite]" style={{ width: '40%' }} />
+                        {/* 로딩 바 */}
+                        <div className="w-full max-w-[300px] h-1.5 bg-toss-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mt-8">
+                            <div className="h-full bg-primary animate-[shimmer_2s_infinite]" style={{ width: '60%' }} />
                         </div>
                     </div>
                 ) : currentReport ? (
