@@ -10,7 +10,7 @@ import AIDirectory from './components/AIDirectory';
 import AIWeeklyReport from './components/AIWeeklyReport';
 import './index.css';
 
-import { geminiRequest, extractJSON, enqueueGeminiRequest, geminiStreamRequest } from './utils/geminiUtils';
+import { geminiRequest, extractJSON, enqueueGeminiRequest } from './utils/geminiUtils';
 
 function App() {
   const [messages, setMessages] = useState([
@@ -24,7 +24,6 @@ function App() {
   const [activeMainTab, setActiveMainTab] = useState('report');
   const [cardDetail, setCardDetail] = useState(null);
   const [cardDetailLoading, setCardDetailLoading] = useState(false);
-  const [cardStreamingText, setCardStreamingText] = useState(''); // ✅ 실시간 텍스트 상태
   const chatEndRef = useRef(null);
   const chatbotSectionRef = useRef(null);
 
@@ -57,7 +56,6 @@ function App() {
     }
 
     setCardDetailLoading(true);
-    setCardStreamingText('');
 
     try {
       const prompt = `"${card.issuer} ${card.name}" 신용카드의 정보를 다음 구조의 JSON 형식으로 찾아주세요:
@@ -74,12 +72,7 @@ function App() {
 다른 텍스트 없이 유효한 JSON만 출력하고, benefits는 최대 3~4개만 포함하세요.`;
 
       const fullText = await enqueueGeminiRequest(() =>
-        geminiStreamRequest(prompt, {
-          useSearch: true,
-          onChunk: (chunk, gathered) => {
-            setCardStreamingText(gathered);
-          }
-        })
+        geminiRequest(prompt, { useSearch: true })
       );
 
       const parsed = extractJSON(fullText);
@@ -97,7 +90,6 @@ function App() {
       console.warn('Card detail fetch error:', e.message);
     } finally {
       setCardDetailLoading(false);
-      setCardStreamingText('');
     }
   }, []);
 
@@ -612,14 +604,15 @@ ${cardContext}
 
                 {cardDetailLoading && !cardDetail ? (
                   <div className="space-y-3">
-                    {/* ✅ 스트리밍 텍스트 표시 */}
-                    <div className="p-4 bg-toss-gray-50 dark:bg-black/20 rounded-[20px] border border-dashed border-toss-gray-200 dark:border-white/5 min-h-[100px]">
-                      <p className="text-[13px] text-toss-gray-500 dark:text-gray-400 font-mono leading-relaxed whitespace-pre-wrap">
-                        {cardStreamingText ? cardStreamingText.replace(/[\{\}\"\[\]]/g, '').slice(-150) : '분석을 시작합니다...'}
-                      </p>
+                    {/* 로딩 상태 */}
+                    <div className="p-4 bg-toss-gray-50 dark:bg-black/20 rounded-[20px] border border-dashed border-toss-gray-200 dark:border-white/5 min-h-[100px] flex items-center justify-center">
+                      <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-primary text-[20px] animate-spin">progress_activity</span>
+                        <span className="text-[14px] font-bold text-toss-gray-600 dark:text-gray-400">AI가 혜택을 분석하고 있습니다...</span>
+                      </div>
                     </div>
 
-                    {!cardStreamingText && [1, 2].map(i => (
+                    {[1, 2].map(i => (
                       <div key={i} className="h-16 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] animate-pulse opacity-50" />
                     ))}
                   </div>

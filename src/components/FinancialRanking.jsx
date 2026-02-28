@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MOCK_KR_STOCKS, US_STOCK_SYMBOLS, CRYPTO_IDS } from '../data/mockFinancialData';
-import { geminiRequest, extractJSON, enqueueGeminiRequest, geminiStreamRequest } from '../utils/geminiUtils';
+import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
 
 const FINNHUB_KEY = import.meta.env.VITE_FINNHUB_API_KEY;
 const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
@@ -27,7 +27,6 @@ export default function FinancialRanking() {
     const [selectedItem, setSelectedItem] = useState(null);
     const [newsData, setNewsData] = useState(null);
     const [newsLoading, setNewsLoading] = useState(false);
-    const [streamingText, setStreamingText] = useState(''); // ✅ 실시간 텍스트 상태
     const intervalRef = useRef(null);
     const isMountedRef = useRef(true);
 
@@ -180,15 +179,12 @@ export default function FinancialRanking() {
             return;
         }
 
-        setNewsLoading(true);
-        setStreamingText(''); // 초기화
-
         try {
             const stockName = item.nameKr || item.name;
 
-            // ✅ 스트리밍 요청으로 변경
+            // ✅ geminiRequest로 변경
             const fullText = await enqueueGeminiRequest(() =>
-                geminiStreamRequest(
+                geminiRequest(
                     `"${stockName}" (${item.symbol || item.id})에 대한 오늘의 투자 뉴스 및 호재/악재를 분석하여 다음 구조의 JSON으로 출력하세요:
 {
   "summary": "한줄 종합 의견 (50자 이내)",
@@ -198,12 +194,7 @@ export default function FinancialRanking() {
   ]
 }
 최대 3~4개의 핵심 아이템만 포함하세요.`,
-                    {
-                        useSearch: true,
-                        onChunk: (chunk, gathered) => {
-                            setStreamingText(gathered); // 실시간 텍스트 업데이트
-                        }
-                    }
+                    { useSearch: true }
                 )
             );
 
@@ -251,7 +242,6 @@ export default function FinancialRanking() {
             });
         } finally {
             setNewsLoading(false);
-            setStreamingText(''); // 완료 후 초기화
         }
     }, []);
 
@@ -513,28 +503,15 @@ export default function FinancialRanking() {
                             {newsLoading ? (
                                 <div className="space-y-3">
                                     {/* 로딩 상태 헤더 */}
-                                    <div className="flex flex-col items-center justify-center gap-3 py-4 bg-toss-gray-50 dark:bg-gray-900/30 rounded-2xl border border-dashed border-toss-gray-200 dark:border-gray-800">
-                                        <div className="flex items-center gap-3">
-                                            <span className="material-symbols-outlined text-primary text-[24px] animate-spin">progress_activity</span>
-                                            <span className="text-[14px] font-semibold text-toss-gray-600 dark:text-gray-400">
-                                                AI가 실시간 분석 중입니다
-                                            </span>
-                                        </div>
-
-                                        {/* ✅ 스트리밍 아웃풋 영역 */}
-                                        {streamingText && (
-                                            <div className="w-full px-5 mt-2">
-                                                <div className="p-4 bg-white dark:bg-black/20 rounded-xl border border-toss-gray-100 dark:border-white/5 shadow-inner">
-                                                    <p className="text-[13px] text-toss-gray-500 dark:text-gray-400 leading-relaxed font-mono overflow-hidden whitespace-pre-wrap">
-                                                        {streamingText.replace(/[\{\}\"\[\]]/g, '').slice(-200)}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        )}
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-primary text-[24px] animate-spin">progress_activity</span>
+                                        <span className="text-[14px] font-semibold text-toss-gray-600 dark:text-gray-400">
+                                            AI가 분석 중입니다
+                                        </span>
                                     </div>
 
-                                    {/* 스켈레톤 카드 (스트리밍 중에도 구조 유지용) */}
-                                    {!streamingText && [1, 2].map(i => (
+                                    {/* 스켈레톤 카드 */}
+                                    {[1, 2].map(i => (
                                         <div key={i}
                                             className="relative overflow-hidden bg-toss-gray-100 dark:bg-gray-800 rounded-2xl h-16"
                                         >
