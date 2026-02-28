@@ -797,7 +797,7 @@ export default function AIWeeklyReport() {
             </div>
 
             {/* 콘텐츠 영역 - 스크롤 */}
-            <div className="flex-1 overflow-y-auto px-5 pb-32">
+            <div className="flex-1 overflow-y-auto h-full px-5 pb-32">
 
                 {/* ── 생성 중 ── */}
                 {isGenerating && (
