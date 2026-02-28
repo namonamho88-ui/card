@@ -185,15 +185,15 @@ export default function FinancialRanking() {
             // ✅ geminiRequest로 변경
             const fullText = await enqueueGeminiRequest(() =>
                 geminiRequest(
-                    `"${stockName}" (${item.symbol || item.id})에 대한 오늘의 투자 뉴스 및 호재/악재를 분석하여 다음 구조의 JSON으로 출력하세요:
+                    `"${stockName}" (${item.symbol || item.id}) 최신동향을 짧고 빠르게 분석해 JSON으로 반환하세요.
 {
-  "summary": "한줄 종합 의견 (50자 이내)",
-  "sentiment": "긍정 또는 부정 또는 중립",
+  "summary": "한줄 종합 의견 (30자 이내)",
+  "sentiment": "긍정/부정/중립",
   "items": [
-    {"title": "뉴스 제목", "type": "호재 또는 악재 또는 중립", "detail": "한줄 설명"}
+    {"title": "명확한 소제목", "type": "호재/악재/중립", "detail": "핵심만 1줄 설명"}
   ]
 }
-최대 3~4개의 핵심 아이템만 포함하세요.`,
+최대 2~3개 아이템만. 답변에 JSON 외 다른 텍스트는 절대 포함하지 마세요.`,
                     { useSearch: true }
                 )
             );
@@ -543,18 +543,20 @@ export default function FinancialRanking() {
                                         </p>
                                     </div>
 
-                                    {/* 뉴스 아이템 캐러셀 */}
-                                    <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 -mx-1 px-1 snap-x">
+                                    {/* 뉴스 아이템 리스트 (세로 배열) */}
+                                    <div className="flex flex-col gap-3">
                                         {newsData.items?.map((n, i) => (
-                                            <div key={i} className="min-w-[240px] p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] border border-toss-gray-100 dark:border-gray-800 snap-start shadow-sm">
-                                                <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded inline-block mb-2 ${n.type === '호재' ? 'bg-red-100 dark:bg-red-900/20 text-red-500'
-                                                    : n.type === '악재' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-500'
-                                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
-                                                    }`}>
-                                                    {n.type}
-                                                </span>
-                                                <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white leading-tight mb-2 line-clamp-2 h-[40px]">{n.title}</p>
-                                                <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 line-clamp-2 h-[36px]">{n.detail}</p>
+                                            <div key={i} className="p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] border border-toss-gray-100 dark:border-gray-800 shadow-sm">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded ${n.type === '호재' ? 'bg-red-100 dark:bg-red-900/20 text-red-500'
+                                                        : n.type === '악재' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-500'
+                                                            : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+                                                        }`}>
+                                                        {n.type}
+                                                    </span>
+                                                </div>
+                                                <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white leading-tight mb-1">{n.title}</p>
+                                                <p className="text-[12px] text-toss-gray-600 dark:text-gray-400 leading-relaxed">{n.detail}</p>
                                             </div>
                                         ))}
                                     </div>
