@@ -81,9 +81,12 @@ export function extractJSON(raw) {
 
 /**
  * 요청 큐 (동시 Gemini 호출 방지 및 딜레이 보장)
+ * ✅ 속도 최적화: 병렬 처리(최대 2개) 및 딜레이 단축(200ms)
  */
 const requestQueue = [];
-let isProcessing = false;
+let activeRequests = 0;
+const MAX_CONCURRENT = 2;
+const QUEUE_DELAY = 200;
 
 export async function enqueueGeminiRequest(fn) {
     return new Promise((resolve, reject) => {
@@ -93,19 +96,24 @@ export async function enqueueGeminiRequest(fn) {
 }
 
 async function processQueue() {
-    if (isProcessing || requestQueue.length === 0) return;
-    isProcessing = true;
+    if (activeRequests >= MAX_CONCURRENT || requestQueue.length === 0) return;
+
+    activeRequests++;
     const { fn, resolve, reject } = requestQueue.shift();
+
     try {
         const result = await fn();
         resolve(result);
     } catch (e) {
         reject(e);
     } finally {
-        isProcessing = false;
-        // 큐의 다음 요청 사이에 1초 딜레이
-        if (requestQueue.length > 0) {
-            setTimeout(processQueue, 1000);
-        }
+        activeRequests--;
+        // 다음 요청까지 약간의 딜레이만 두고 즉시 실행 시도
+        setTimeout(processQueue, QUEUE_DELAY);
+    }
+
+    // 여유 자원이 있으면 하나 더 바로 실행
+    if (activeRequests < MAX_CONCURRENT && requestQueue.length > 0) {
+        processQueue();
     }
 }

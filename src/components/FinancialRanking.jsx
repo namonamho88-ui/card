@@ -185,8 +185,8 @@ change는 전일 대비 등락률(%)입니다.`,
             const stockName = item.nameKr || item.name;
             const raw = await enqueueGeminiRequest(() =>
                 geminiRequest(
-                    `"${stockName}" (${item.symbol || item.id})에 대한 오늘의 투자 뉴스 및 호재/악재를 분석해주세요.
-반드시 JSON만 출력:
+                    `"${stockName}" (${item.symbol || item.id})에 대한 오늘의 투자 뉴스 및 호재/악재를 핵심만 빠르고 간결하게 분석해주세요.
+반드시 다른 설명 없이 JSON만 출력:
 {
   "summary": "한줄 종합 의견 (50자 이내)",
   "sentiment": "긍정 또는 부정 또는 중립",
@@ -194,7 +194,7 @@ change는 전일 대비 등락률(%)입니다.`,
     {"title": "뉴스 제목", "type": "호재 또는 악재 또는 중립", "detail": "한줄 설명"}
   ]
 }
-items는 최대 5개.`,
+items는 최대 3~4개면 충분합니다.`,
                     { useSearch: true }
                 )
             );
@@ -364,7 +364,12 @@ items는 최대 5개.`,
                         return (
                             <div
                                 key={item.symbol || item.id || idx}
-                                onClick={() => { setSelectedItem(item); setNewsData(null); fetchNews(item); }}
+                                onClick={() => {
+                                    setSelectedItem(item);
+                                    setNewsData(null);
+                                    setNewsLoading(true); // ✅ 즉시 로딩 시작
+                                    fetchNews(item);
+                                }}
                                 className="flex items-center gap-4 py-4 active:bg-gray-50 dark:active:bg-white/5 transition-colors cursor-pointer"
                             >
                                 <span className={`text-lg font-bold w-4 text-center ${idx < 3 ? 'text-primary' : 'text-toss-gray-400 dark:text-gray-600'}`}>

@@ -57,19 +57,19 @@ function App() {
 
     setCardDetailLoading(true);
     try {
-      const prompt = `"${card.issuer} ${card.name}" 신용카드의 상세 정보를 알려주세요.
-반드시 JSON으로 출력:
+      const prompt = `"${card.issuer} ${card.name}" 신용카드의 상세 정보를 핵심만 빠르고 정확하게 찾아주세요.
+반드시 다른 설명 없이 JSON으로만 출력:
 {
-  "annualFee": "실제 연회비(국내/해외 구분, 예: 국내 15,000원 / 해외 15,000원)",
-  "previousMonthSpending": "전월 실적 조건 (예: 30만원 이상)",
+  "annualFee": "실제 연회비(예: 국내 1.5만 / 해외 1.5만)",
+  "previousMonthSpending": "전월 실적 조건 (예: 30만원)",
   "benefits": [
-    "핵심 혜택 1 (구체적 할인/적립율 포함)",
+    "핵심 혜택 1 (구체적 할인/적립율)",
     "핵심 혜택 2",
     "핵심 혜택 3"
   ],
-  "summary": "이 카드의 핵심 특징 한줄 요약"
+  "summary": "카드의 핵심 특징 한줄 요약"
 }
-benefits는 최대 5개 실제 혜택 정보를 정확히 작성하세요.`;
+benefits는 최대 3~4개면 충분합니다.`;
 
       const raw = await enqueueGeminiRequest(() =>
         geminiRequest(prompt, { useSearch: true })
