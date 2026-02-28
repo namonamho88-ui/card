@@ -1,6 +1,6 @@
 const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
-// ✅ 유료 버전 모델
+// ✅ 유료 버전 모델 (Updated to 2.5)
 export const GEMINI_MODEL = 'gemini-2.5-flash';
 
 /**
@@ -9,15 +9,21 @@ export const GEMINI_MODEL = 'gemini-2.5-flash';
 export async function geminiStreamRequest(prompt, { onChunk, maxRetries = 2, useSearch = false, systemInstruction = "" } = {}) {
     if (!GEMINI_KEY) throw new Error('No API key');
 
-    const tools = useSearch ? [{ google_search: {} }] : [];
+    const generationConfig = {
+        temperature: 0.1
+    };
+
     const body = {
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        ...(tools.length > 0 && { tools }),
-        generationConfig: {
-            temperature: 0.1,
-            response_mime_type: "application/json"
-        }
+        generationConfig
     };
+
+    if (useSearch) {
+        body.tools = [{ google_search: {} }];
+    } else {
+        // Search 사용 안 할 때만 JSON 모드 활성화 (API 제약 사항)
+        generationConfig.response_mime_type = "application/json";
+    }
 
     if (systemInstruction) {
         body.system_instruction = { parts: [{ text: systemInstruction }] };
@@ -72,18 +78,23 @@ export async function geminiStreamRequest(prompt, { onChunk, maxRetries = 2, use
 export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false, systemInstruction = "" } = {}) {
     if (!GEMINI_KEY) throw new Error('No API key');
 
-    const tools = useSearch ? [{ google_search: {} }] : [];
-
     for (let attempt = 0; attempt < maxRetries; attempt++) {
         try {
+            const generationConfig = {
+                temperature: 0.1
+            };
+
             const body = {
                 contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                ...(tools.length > 0 && { tools }),
-                generationConfig: {
-                    temperature: 0.1,
-                    response_mime_type: "application/json"
-                }
+                generationConfig
             };
+
+            if (useSearch) {
+                body.tools = [{ google_search: {} }];
+            } else {
+                // Search 사용 안 할 때만 JSON 모드 활성화 (API 제약 사항)
+                generationConfig.response_mime_type = "application/json";
+            }
 
             if (systemInstruction) {
                 body.system_instruction = { parts: [{ text: systemInstruction }] };
@@ -187,8 +198,8 @@ export function extractJSON(raw) {
  */
 const requestQueue = [];
 let activeRequests = 0;
-const MAX_CONCURRENT = 2;
-const QUEUE_DELAY = 200;
+const MAX_CONCURRENT = 5;
+const QUEUE_DELAY = 50;
 
 export async function enqueueGeminiRequest(fn) {
     return new Promise((resolve, reject) => {
