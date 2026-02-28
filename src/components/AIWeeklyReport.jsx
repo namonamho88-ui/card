@@ -746,7 +746,6 @@ export default function AIWeeklyReport() {
     const currentReport = reports[activeTab];
     const isGenerating = generating[activeTab];
     const hasToday = hasTodayCache(activeTab);
-    const currentProgress = progress[activeTab];
 
     return (
         <div className="flex-1 overflow-y-auto no-scrollbar">
