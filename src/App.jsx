@@ -6,7 +6,6 @@ const { cards: POPULAR_CARDS } = cardData;
 import FinancialRanking from './components/FinancialRanking';
 import AITradingBattle from './components/AITradingBattle';
 import TodayFood from './components/TodayFood';
-import AIDirectory from './components/AIDirectory';
 import AIWeeklyReport from './components/AIWeeklyReport';
 import './index.css';
 
@@ -349,7 +348,7 @@ ${cardContext}
                 : activeMainTab === 'financial' ? '실시간 금융 랭킹'
                   : activeMainTab === 'game' ? 'AI 트레이딩'
                     : activeMainTab === 'report' ? 'AI 위클리 리포트'
-                      : 'AI 기술 디렉토리'
+                      : ''
           )}
         </h1>
         <div className="w-6"></div>
@@ -486,10 +485,6 @@ ${cardContext}
         ) : activeMainTab === 'report' ? (
           <main className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white dark:bg-[#111111]">
             <AIWeeklyReport />
-          </main>
-        ) : activeMainTab === 'aitech' ? (
-          <main className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white dark:bg-[#111111]">
-            <AIDirectory />
           </main>
         ) : null}
       </div>
