@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
+import { geminiRequest, extractJSON, enqueueGeminiRequest, geminiStreamRequest } from '../utils/geminiUtils';
 import cardData from '../data/popularCards.json';
 
 const { cards: POPULAR_CARDS } = cardData;
@@ -686,7 +686,7 @@ export default function AIWeeklyReport() {
     const [activeTab, setActiveTab] = useState('card');
     const [reports, setReports] = useState({ card: null, ai: null, finance: null });
     const [generating, setGenerating] = useState({ card: false, ai: false, finance: false });
-    const [progress, setProgress] = useState({ card: 0, ai: 0, finance: 0 });
+    const [streamingText, setStreamingText] = useState(''); // ✅ 실시간 텍스트 상태
 
     // 초기 로드 — 캐시에서 가져오기
     useEffect(() => {
@@ -702,17 +702,7 @@ export default function AIWeeklyReport() {
         if (generating[type] || hasTodayCache(type)) return;
 
         setGenerating(prev => ({ ...prev, [type]: true }));
-        setProgress(prev => ({ ...prev, [type]: 0 }));
-
-        // 프로그레스 시뮬레이션
-        const progressInterval = setInterval(() => {
-            setProgress(prev => {
-                const current = prev[type];
-                if (current >= 90) return prev;
-                const increment = Math.random() * 15 + 5;
-                return { ...prev, [type]: Math.min(90, current + increment) };
-            });
-        }, 800);
+        setStreamingText('');
 
         try {
             let prompt;
@@ -723,31 +713,32 @@ export default function AIWeeklyReport() {
                 default: return;
             }
 
-            const raw = await enqueueGeminiRequest(() =>
-                geminiRequest(prompt, { useSearch: true })
+            // ✅ 스트리밍 요청으로 변경
+            const fullText = await enqueueGeminiRequest(() =>
+                geminiStreamRequest(prompt, {
+                    useSearch: true,
+                    onChunk: (chunk, gathered) => {
+                        setStreamingText(gathered);
+                    }
+                })
             );
 
-            const parsed = extractJSON(raw);
+            const parsed = extractJSON(fullText);
 
             // 캐시 저장
             saveCache(type, parsed);
-
-            // 프로그레스 100%
-            setProgress(prev => ({ ...prev, [type]: 100 }));
 
             // 약간의 딜레이 후 결과 반영
             setTimeout(() => {
                 setReports(prev => ({ ...prev, [type]: parsed }));
                 setGenerating(prev => ({ ...prev, [type]: false }));
-                setProgress(prev => ({ ...prev, [type]: 0 }));
+                setStreamingText('');
             }, 500);
 
         } catch (error) {
             console.error(`Report generation error (${type}):`, error);
             setGenerating(prev => ({ ...prev, [type]: false }));
-            setProgress(prev => ({ ...prev, [type]: 0 }));
-        } finally {
-            clearInterval(progressInterval);
+            setStreamingText('');
         }
     }, [generating]);
 
@@ -798,71 +789,37 @@ export default function AIWeeklyReport() {
 
             {/* 콘텐츠 영역 */}
             <div className="px-5 pb-32">
+                {isGenerating ? (
+                    <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 relative">
+                            <span className="material-symbols-outlined text-primary text-[32px] animate-spin">progress_activity</span>
+                        </div>
+                        <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-2">실시간으로 리포트를 생성하고 있어요</h3>
+                        <p className="text-[14px] text-toss-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
+                            {activeTab === 'card' ? '최신 인기 카드 동향과 혜택을 수집하고 있습니다.' :
+                                activeTab === 'ai' ? '글로벌 AI 트렌드와 산업 뉴스를 분석하는 중입니다.' :
+                                    '국내외 금융 지수와 핫 종목 실시간 데이터를 가져오고 있습니다.'}
+                        </p>
 
-                {/* ── 생성 중 ── */}
-                {isGenerating && (
-                    <div className="mt-8">
-                        <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-8 border border-toss-gray-100 dark:border-gray-800 text-center">
-                            <div className="w-16 h-16 mx-auto mb-5 relative">
-                                <div className="w-16 h-16 border-4 border-primary/20 rounded-full" />
-                                <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin absolute inset-0" />
-                                <span className="material-symbols-outlined text-primary text-[24px] absolute inset-0 flex items-center justify-center">
-                                    {currentTab?.icon}
-                                </span>
+                        {/* ✅ 실시간 스트리밍 텍스트 영역 */}
+                        <div className="w-full max-w-[360px] bg-toss-gray-50 dark:bg-gray-900/30 rounded-2xl border border-dashed border-toss-gray-200 dark:border-gray-800 p-5 mb-6 overflow-hidden">
+                            <div className="flex items-center gap-2 mb-3">
+                                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                <span className="text-[11px] font-bold text-toss-gray-400 dark:text-gray-600 uppercase tracking-widest">AI Streaming...</span>
                             </div>
-                            <h3 className="text-[17px] font-bold text-toss-gray-800 dark:text-white mb-2">
-                                AI가 리포트를 생성하고 있습니다
-                            </h3>
-                            <p className="text-[13px] text-toss-gray-500 dark:text-gray-400 mb-6">
-                                Google Search + Gemini AI로 최신 데이터를 수집·분석 중...
-                            </p>
+                            <div className="h-[120px] relative overflow-hidden text-left">
+                                <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 font-mono leading-relaxed whitespace-pre-wrap animate-in fade-in duration-500">
+                                    {streamingText ? streamingText.replace(/[\{\}\"\[\]]/g, '').slice(-250) : '데이터 스트림을 초기화하는 중...'}
+                                </p>
+                                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-toss-gray-50/100 dark:from-gray-900/100 to-transparent pointer-events-none" />
+                            </div>
+                        </div>
 
-                            {/* 프로그레스 바 */}
-                            <div className="w-full bg-toss-gray-100 dark:bg-gray-800 rounded-full h-2 mb-3 overflow-hidden">
-                                <div
-                                    className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full transition-all duration-700 ease-out"
-                                    style={{ width: `${currentProgress}%` }}
-                                />
-                            </div>
-                            <p className="text-[12px] text-toss-gray-400 dark:text-gray-600">
-                                {currentProgress < 30 ? '데이터 수집 중...' :
-                                    currentProgress < 60 ? '정보 분석 중...' :
-                                        currentProgress < 90 ? '리포트 작성 중...' :
-                                            '마무리 중...'}
-                            </p>
+                        <div className="w-full max-w-[300px] h-1.5 bg-toss-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                            <div className="h-full bg-primary animate-[shimmer_2s_infinite]" style={{ width: '40%' }} />
                         </div>
                     </div>
-                )}
-
-                {/* ── 리포트 없음 → 생성 버튼 ── */}
-                {!isGenerating && !currentReport && (
-                    <div className="mt-8">
-                        <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-8 border border-toss-gray-100 dark:border-gray-800 text-center">
-                            <span className="text-5xl block mb-4">{currentTab?.emoji}</span>
-                            <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-2">
-                                {currentTab?.label}
-                            </h3>
-                            <p className="text-[14px] text-toss-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
-                                {activeTab === 'card' && 'AI가 이번 주 카드 시장 트렌드, 인기 카드, 이벤트, 최적 카드 조합을 분석합니다.'}
-                                {activeTab === 'ai' && 'AI가 이번 주 글로벌 AI 산업 핵심 뉴스, 기술 트렌드, 투자 동향을 분석합니다.'}
-                                {activeTab === 'finance' && 'AI가 이번 주 글로벌 금융시장 동향, 핫 종목, 투자 시그널을 분석합니다.'}
-                            </p>
-                            <button
-                                onClick={() => generateReport(activeTab)}
-                                className="w-full bg-primary text-white py-[16px] rounded-[18px] font-bold text-[16px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                            >
-                                <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
-                                AI 리포트 생성하기
-                            </button>
-                            <p className="text-[11px] text-toss-gray-400 dark:text-gray-600 mt-3">
-                                Gemini AI + Google Search 기반 · 1일 1회 생성 가능
-                            </p>
-                        </div>
-                    </div>
-                )}
-
-                {/* ── 리포트 있음 → 렌더링 ── */}
-                {!isGenerating && currentReport && (
+                ) : currentReport ? (
                     <div className="mt-4">
                         {/* 리포트 헤더 */}
                         <div className="flex items-center justify-between mb-5">
@@ -899,6 +856,30 @@ export default function AIWeeklyReport() {
                             <span className="material-symbols-outlined text-[18px]">check_circle</span>
                             오늘의 리포트가 이미 생성되었습니다
                         </button>
+                    </div>
+                ) : (
+                    <div className="mt-8">
+                        <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-8 border border-toss-gray-100 dark:border-gray-800 text-center">
+                            <span className="text-5xl block mb-4">{currentTab?.emoji}</span>
+                            <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-2">
+                                {currentTab?.label}
+                            </h3>
+                            <p className="text-[14px] text-toss-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
+                                {activeTab === 'card' && 'AI가 이번 주 카드 시장 트렌드, 인기 카드, 이벤트, 최적 카드 조합을 분석합니다.'}
+                                {activeTab === 'ai' && 'AI가 이번 주 글로벌 AI 산업 핵심 뉴스, 기술 트렌드, 투자 동향을 분석합니다.'}
+                                {activeTab === 'finance' && 'AI가 이번 주 글로벌 금융시장 동향, 핫 종목, 투자 시그널을 분석합니다.'}
+                            </p>
+                            <button
+                                onClick={() => generateReport(activeTab)}
+                                className="w-full bg-primary text-white py-[16px] rounded-[18px] font-bold text-[16px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                            >
+                                <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
+                                AI 리포트 생성하기
+                            </button>
+                            <p className="text-[11px] text-toss-gray-400 dark:text-gray-600 mt-3">
+                                Gemini AI + Google Search 기반 · 1일 1회 생성 가능
+                            </p>
+                        </div>
                     </div>
                 )}
             </div>
