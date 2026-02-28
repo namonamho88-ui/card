@@ -47,7 +47,7 @@ function extractCategories(benefits) {
         '통신': ['통신'],
         '할인': ['할인', '%'],
         '적립': ['적립', '포인트', '캐시백'],
-        '음식': ['음식', '외식', '레스토랑', '맛집', '식당', '배달'],
+        '음식': ['음식', '외식', '레스토랑', '맛집', '식당', '푸드'],
         '스트리밍': ['넷플릭스', '유튜브', 'OTT', '구독'],
     };
 
@@ -69,27 +69,13 @@ function inferIssuer(cardName) {
     return '기타';
 }
 
-// ── SPA 렌더링 대기 헬퍼 ──
-async function waitForSPAContent(page, selectors, timeout = 20000) {
-    const startTime = Date.now();
-    while (Date.now() - startTime < timeout) {
-        for (const selector of selectors) {
-            try {
-                const found = await page.$(selector);
-                if (found) {
-                    // 추가 안정화 대기
-                    await new Promise(r => setTimeout(r, 1500));
-                    return selector;
-                }
-            } catch (e) { }
-        }
-        await new Promise(r => setTimeout(r, 500));
-    }
-    return null;
-}
-
-// ── 카드 상세 페이지 스크래핑 (연회비 + 혜택) ──
-async function scrapeCardDetail(page, detailUrl) {
+// ── 카드 상세 페이지 스크래핑 ──
+// card-gorilla.com 상세페이지: /card/detail/{id}
+// - 연회비: "국내전용 X,XXX원 / 해외겸용 X,XXX원" (상단 텍스트)
+// - 전월실적: "전월실적 XX만원 이상" (상단 텍스트)
+// - 주요혜택: .bnf1 섹션 내 dt (카테고리명) + i (설명)
+// - 혜택요약: .lst_tag li (상단 3개 요약)
+async function scrapeCardDetail(page, cardId) {
     const result = {
         benefits: ["상세 혜택 홈페이지 참조"],
         annualFee: "1~3만원",
@@ -97,163 +83,80 @@ async function scrapeCardDetail(page, detailUrl) {
     };
 
     try {
-        const fullUrl = detailUrl.startsWith('http')
-            ? detailUrl
-            : `https://www.card-gorilla.com${detailUrl}`;
+        const url = `https://www.card-gorilla.com/card/detail/${cardId}`;
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: 20000 });
 
-        await page.goto(fullUrl, { waitUntil: 'networkidle2', timeout: 20000 });
-
-        // SPA 로딩 대기 - 다양한 셀렉터 시도
-        await waitForSPAContent(page, [
-            '.bnf1', '.benefit_area', '.bnf_list',
-            '.card_detail', '.detail_info', '.info_area',
-            'div[class*="benefit"]', 'div[class*="bnf"]',
-            '.annual_fee', '.fee_info',
-            'dl', '.tbl_type'
-        ], 15000);
+        // SPA 렌더링 대기
+        await new Promise(r => setTimeout(r, 3000));
 
         const data = await page.evaluate(() => {
             const result = { benefits: [], annualFee: '', previousMonthSpending: '' };
+            const bodyText = document.body.innerText;
 
             // === 연회비 추출 ===
-            // 방법 1: .annual_fee, .fee 등 직접 셀렉터
-            const feeSelectors = [
-                '.annual_fee', '.fee_info', '.card_fee',
-                'div[class*="fee"]', 'div[class*="annual"]',
-                '.tbl_type', 'table'
-            ];
+            // 패턴: "국내전용 15,000원" / "해외겸용 18,000원"
+            const domesticFee = bodyText.match(/국내전용\s*([\d,]+)\s*원/);
+            const intlFee = bodyText.match(/해외겸용\s*([\d,]+)\s*원/);
 
-            for (const sel of feeSelectors) {
-                const el = document.querySelector(sel);
-                if (el) {
-                    const text = el.innerText.trim();
-                    // 연회비 관련 텍스트 찾기
-                    const feeMatch = text.match(/국내[^\d]*(\d[\d,.]+)\s*원/);
-                    const feeMatch2 = text.match(/연회비[^\d]*(\d[\d,.]+)\s*원/);
-                    const feeMatch3 = text.match(/(\d[\d,.]+)\s*원/);
-                    if (feeMatch) {
-                        result.annualFee = `국내 ${feeMatch[1]}원`;
-                        break;
-                    } else if (feeMatch2) {
-                        result.annualFee = `${feeMatch2[1]}원`;
-                        break;
-                    } else if (feeMatch3 && text.includes('연회비')) {
-                        result.annualFee = `${feeMatch3[1]}원`;
-                        break;
-                    }
-                }
-            }
-
-            // 방법 2: 페이지 전체에서 연회비 패턴 검색
-            if (!result.annualFee) {
-                const allText = document.body.innerText;
-                const patterns = [
-                    /국내전용[:\s]*(\d[\d,.]+)\s*원/,
-                    /국내[:\s]*(\d[\d,.]+)\s*원.*?해외[:\s]*(\d[\d,.]+)\s*원/,
-                    /연회비[:\s]*(\d[\d,.]+)\s*원/,
-                    /연회비.*?(\d[\d,.]+)\s*원/,
-                ];
-                for (const p of patterns) {
-                    const m = allText.match(p);
-                    if (m) {
-                        if (m[2]) {
-                            result.annualFee = `국내 ${m[1]}원 / 해외 ${m[2]}원`;
-                        } else {
-                            result.annualFee = `${m[1]}원`;
-                        }
-                        break;
-                    }
-                }
+            if (domesticFee && intlFee) {
+                result.annualFee = `국내 ${domesticFee[1]}원 / 해외 ${intlFee[1]}원`;
+            } else if (domesticFee) {
+                result.annualFee = `국내 ${domesticFee[1]}원`;
+            } else {
+                // 다른 패턴 시도
+                const feeAlt = bodyText.match(/연회비\s*([\d,]+)\s*원/);
+                if (feeAlt) result.annualFee = `${feeAlt[1]}원`;
             }
 
             // === 전월 실적 추출 ===
-            {
-                const allText = document.body.innerText;
-                const spendPatterns = [
-                    /전월\s*실적[:\s]*(\d[\d,.]+)\s*만\s*원/,
-                    /전월.*?(\d[\d,.]+)\s*만\s*원\s*이상/,
-                    /(\d[\d,.]+)\s*만\s*원\s*이상.*?전월/,
-                ];
-                for (const p of spendPatterns) {
-                    const m = allText.match(p);
-                    if (m) {
-                        result.previousMonthSpending = `${m[1]}만원 이상`;
-                        break;
-                    }
-                }
+            const spending = bodyText.match(/전월실적\s*([\d,]+)\s*만원\s*이상/);
+            const spending2 = bodyText.match(/전월\s*실적\s*([\d,]+)\s*만\s*원/);
+            if (spending) {
+                result.previousMonthSpending = `${spending[1]}만원 이상`;
+            } else if (spending2) {
+                result.previousMonthSpending = `${spending2[1]}만원 이상`;
             }
 
             // === 혜택 추출 ===
-            // 방법 1: .bnf1 섹션의 dl/dt/dd 구조
-            const bnfSelectors = [
-                '.bnf1', '.bnf_list', '.benefit_area',
-                'div[class*="benefit"]', 'div[class*="bnf"]',
-                '.card_detail_benefit'
-            ];
-
-            for (const sel of bnfSelectors) {
-                const section = document.querySelector(sel);
-                if (section) {
-                    // dl/dt/dd 패턴
-                    const dls = section.querySelectorAll('dl');
-                    if (dls.length > 0) {
-                        dls.forEach(dl => {
-                            const dt = dl.querySelector('dt');
-                            const dd = dl.querySelector('dd');
-                            if (dt) {
-                                const title = dt.innerText.trim();
-                                const desc = dd ? dd.innerText.trim() : '';
-                                const text = desc ? `${title}: ${desc}` : title;
-                                if (text.length > 3 && text.length < 150) {
-                                    result.benefits.push(text);
-                                }
-                            }
-                        });
+            // 방법 1: .bnf1 섹션 내 dt 요소 (카테고리명 + i태그 설명)
+            const bnf1 = document.querySelector('.bnf1');
+            if (bnf1) {
+                const dts = bnf1.querySelectorAll('dt');
+                dts.forEach(dt => {
+                    const category = dt.childNodes[0]?.textContent?.trim() || '';
+                    const iTag = dt.querySelector('i');
+                    const desc = iTag ? iTag.innerText.trim() : '';
+                    const text = desc ? `${category} ${desc}` : category;
+                    if (text.length > 2 && text.length < 150) {
+                        result.benefits.push(text);
                     }
-
-                    // li 패턴
-                    if (result.benefits.length === 0) {
-                        const lis = section.querySelectorAll('li');
-                        lis.forEach(li => {
-                            const text = li.innerText.trim();
-                            if (text.length > 3 && text.length < 150) {
-                                result.benefits.push(text);
-                            }
-                        });
-                    }
-
-                    // p, span 패턴
-                    if (result.benefits.length === 0) {
-                        const items = section.querySelectorAll('p, span, div > strong');
-                        items.forEach(item => {
-                            const text = item.innerText.trim();
-                            if (text.length > 5 && text.length < 150 &&
-                                (text.includes('%') || text.includes('할인') || text.includes('적립') ||
-                                    text.includes('캐시백') || text.includes('포인트') || text.includes('무이자'))) {
-                                result.benefits.push(text);
-                            }
-                        });
-                    }
-
-                    if (result.benefits.length > 0) break;
-                }
+                });
             }
 
-            // 방법 2: 카드 요약 영역에서 혜택 추출
+            // 방법 2: .lst_tag li (상단 혜택 요약 태그)
             if (result.benefits.length === 0) {
-                const summarySelectors = ['.lst_tag', '.tag_area', '.card_summary', '.summary'];
-                for (const sel of summarySelectors) {
-                    const section = document.querySelector(sel);
-                    if (section) {
-                        const spans = section.querySelectorAll('span, a, li');
-                        spans.forEach(s => {
-                            const text = s.innerText.trim();
-                            if (text.length > 2 && text.length < 80) {
-                                result.benefits.push(text);
-                            }
-                        });
-                        if (result.benefits.length > 0) break;
+                const tags = document.querySelectorAll('.lst_tag li');
+                tags.forEach(li => {
+                    const text = li.innerText.trim();
+                    if (text.length > 2 && text.length < 100) {
+                        result.benefits.push(text);
                     }
+                });
+            }
+
+            // 방법 3: 카드 상단 혜택 미리보기 (아이콘 옆 텍스트)
+            if (result.benefits.length === 0) {
+                const topArea = document.querySelector('.card_top_info, .top_info, .info_area');
+                if (topArea) {
+                    const items = topArea.querySelectorAll('li, p, span');
+                    items.forEach(el => {
+                        const text = el.innerText.trim();
+                        if (text.length > 3 && text.length < 100 &&
+                            (text.includes('%') || text.includes('할인') || text.includes('적립') ||
+                                text.includes('캐시백') || text.includes('포인트'))) {
+                            result.benefits.push(text);
+                        }
+                    });
                 }
             }
 
@@ -266,13 +169,19 @@ async function scrapeCardDetail(page, detailUrl) {
         if (data.previousMonthSpending) result.previousMonthSpending = data.previousMonthSpending;
 
     } catch (e) {
-        console.warn(`  ⚠ Failed to scrape detail: ${detailUrl} - ${e.message}`);
+        console.warn(`  ⚠ Detail scrape failed for card ${cardId}: ${e.message}`);
     }
 
     return result;
 }
 
 // ── Top 100 목록 스크래핑 ──
+// card-gorilla.com SPA 구조:
+// - 카드 목록: a.card_data 요소 (100개)
+// - 순위: div.rank 내 숫자
+// - 이미지: div.img > img (src = api.card-gorilla.com URL)
+// - 카드명: innerText에서 추출 (순위, 혜택설명, 카드사명 사이의 카드명)
+// - 카드 ID: 이미지 URL에서 /card/{id}/ 패턴으로 추출
 async function scrapeTop100(page) {
     const url = 'https://www.card-gorilla.com/chart/top100?term=weekly';
     console.log(`📊 Navigating to Top 100: ${url}`);
@@ -280,108 +189,86 @@ async function scrapeTop100(page) {
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
 
     // SPA 렌더링 대기
-    const matchedSelector = await waitForSPAContent(page, [
-        '.chart_list li',
-        '.ranking_list li',
-        'ol li',
-        'ul li a[href*="/card/detail"]',
-    ], 20000);
+    await new Promise(r => setTimeout(r, 5000));
 
-    if (!matchedSelector) {
-        console.warn('⚠ No card list items found after waiting. Trying generic selectors...');
-    } else {
-        console.log(`  ✓ Found content via: ${matchedSelector}`);
+    // a.card_data 요소 확인
+    const count = await page.$$eval('a.card_data', els => els.length);
+    console.log(`  ✓ Found ${count} a.card_data elements`);
+
+    if (count === 0) {
+        console.warn('  ⚠ No a.card_data found, trying alternative selectors...');
+        // 대안 시도
+        await new Promise(r => setTimeout(r, 5000));
     }
 
     const cards = await page.evaluate(() => {
         const results = [];
+        const items = document.querySelectorAll('a.card_data');
 
-        // SPA 렌더링 된 카드 목록 찾기 - 다양한 패턴 시도
-        let items = document.querySelectorAll('.chart_list li');
-        if (items.length === 0) items = document.querySelectorAll('.ranking_list li');
-        if (items.length === 0) items = document.querySelectorAll('ol > li');
-        if (items.length === 0) {
-            // 모든 li 중에 카드 관련 링크가 있는 것만
-            const allLi = document.querySelectorAll('li');
-            items = Array.from(allLi).filter(li => {
-                const a = li.querySelector('a');
-                return a && a.href && a.href.includes('/card/detail');
-            });
-        }
+        items.forEach((el) => {
+            // 순위 추출
+            const rankEl = el.querySelector('div.rank, .rank');
+            const rank = rankEl ? parseInt(rankEl.innerText.trim()) : 0;
+            if (!rank || rank <= 0) return;
 
-        items.forEach((el, index) => {
-            // 카드명 추출 - 다양한 셀렉터 시도
-            const nameSelectors = [
-                '.card_name', '.name', '.title',
-                'p[class*="name"]', 'strong', 'h3', 'h4'
-            ];
+            // 이미지 추출
+            const imgEl = el.querySelector('div.img img, .img img, img');
+            let image = imgEl ? (imgEl.getAttribute('src') || imgEl.getAttribute('data-src')) : null;
+            if (image && !image.startsWith('http')) {
+                image = `https://www.card-gorilla.com${image}`;
+            }
+
+            // 카드 ID를 이미지 URL에서 추출: /card/{id}/
+            let cardId = null;
+            if (image) {
+                const idMatch = image.match(/\/card\/(\d+)\//);
+                if (idMatch) cardId = idMatch[1];
+            }
+
+            // 전체 텍스트에서 카드명 추출
+            // 텍스트 형식: "1 - 최대 52만원 캐시백 신한카드 Mr.Life 신한카드"
+            const fullText = el.innerText.trim();
+            const lines = fullText.split('\n').map(l => l.trim()).filter(l => l);
+
+            // 카드명은 보통 3번째 or 4번째 줄 (순위, -, 혜택설명, 카드명, 카드사)
             let name = '';
-            for (const sel of nameSelectors) {
-                const found = el.querySelector(sel);
-                if (found) {
-                    name = found.innerText.trim();
-                    if (name && name.length > 2 && name.length < 80) break;
-                    name = '';
+            let rawIssuer = '';
+
+            // 카드명 찾기: 가장 긴 라인 중 혜택 설명이 아닌 것
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                // 순위, 하이픈, 짧은 텍스트 건너뛰기
+                if (/^\d+$/.test(line)) continue; // 순위 숫자만
+                if (line === '-' || line === '–') continue;
+                if (line.startsWith('최대') || line.includes('캐시백') || line.includes('혜택')) continue;
+
+                // 카드사명 추출 (마지막 줄이 보통 카드사)
+                if (i === lines.length - 1 && line.includes('카드')) {
+                    rawIssuer = line;
+                    continue;
+                }
+
+                // 그 외는 카드명 후보
+                if (!name && line.length > 2) {
+                    name = line;
                 }
             }
+
             if (!name) return;
 
-            // 순위 추출
-            const rankSelectors = ['.rank', '.num', 'span[class*="rank"]', '.number'];
-            let rank = index + 1;
-            for (const sel of rankSelectors) {
-                const found = el.querySelector(sel);
-                if (found) {
-                    const parsed = parseInt(found.innerText.trim());
-                    if (!isNaN(parsed) && parsed > 0) {
-                        rank = parsed;
-                        break;
-                    }
-                }
-            }
-
-            // 카드사명 & 이미지 추출
-            let issuer = 'Unknown';
-            let image = null;
-            const imgSelectors = [
-                'div.card_img img', '.card_img img',
-                '.img img', 'img[alt]', 'img'
-            ];
-            for (const sel of imgSelectors) {
-                const img = el.querySelector(sel);
-                if (img) {
-                    const alt = img.getAttribute('alt');
-                    if (alt) issuer = alt.split(' ')[0];
-                    image = img.getAttribute('src') || img.getAttribute('data-src');
-                    if (image && !image.startsWith('http')) {
-                        image = `https://www.card-gorilla.com${image}`;
-                    }
-                    if (image) break;
-                }
-            }
-
-            // CloudFront URL이면 data-src 체크
-            if (!image || image.includes('placeholder')) {
-                const lazyImg = el.querySelector('img[data-src]');
-                if (lazyImg) {
-                    image = lazyImg.getAttribute('data-src');
-                    if (image && !image.startsWith('http')) {
-                        image = `https://www.card-gorilla.com${image}`;
-                    }
-                }
-            }
-
-            // 상세 페이지 URL 추출
-            const anchor = el.querySelector('a[href*="/card/detail"], a[href*="/card/"]');
-            const detailUrl = anchor ? anchor.getAttribute('href') : null;
-
-            results.push({ rank, name, rawIssuer: issuer, image, detailUrl });
+            results.push({
+                rank,
+                name,
+                rawIssuer: rawIssuer || 'Unknown',
+                image,
+                cardId, // 상세페이지용 ID
+            });
         });
 
         return results;
     });
 
-    console.log(`  ✓ Found ${cards.length} cards in Top 100 list`);
+    console.log(`  ✓ Extracted ${cards.length} cards from Top 100`);
     return cards;
 }
 
@@ -422,7 +309,7 @@ async function runSync() {
     if (rawCards.length === 0) {
         console.error('❌ No cards found! Site structure may have changed. Aborting to keep existing data.');
         await browser.close();
-        process.exit(0); // 0으로 종료해서 기존 데이터 보존
+        process.exit(0);
     }
 
     // 2. 필터링 및 상세 스크래핑
@@ -439,7 +326,6 @@ async function runSync() {
     let detailSuccessCount = 0;
     let detailFailCount = 0;
 
-    // 순차 처리
     for (const raw of rawCards) {
         if (seenCardNames.has(raw.name)) continue;
         seenCardNames.add(raw.name);
@@ -453,14 +339,12 @@ async function runSync() {
             }
         }
 
-        // 제외 로직
         if (issuer === '기타' || EXCLUDED_ISSUERS.includes(issuer) || !ISSUER_COLORS[issuer]) {
             continue;
         }
 
-        // 각 카드사별 최대 10개까지만 수집
         if (issuerBuckets[issuer].length < 10) {
-            console.log(`📋 [${issuer}] ${raw.name} (rank: ${raw.rank})`);
+            console.log(`📋 [${issuer}] ${raw.name} (rank: ${raw.rank}, id: ${raw.cardId})`);
 
             let detail = {
                 benefits: ["상세 혜택 홈페이지 참조"],
@@ -468,18 +352,21 @@ async function runSync() {
                 previousMonthSpending: "30만원"
             };
 
-            if (raw.detailUrl) {
-                detail = await scrapeCardDetail(page, raw.detailUrl);
-                // 대기 (서버 부하 방지)
+            // 카드 ID가 있으면 상세페이지 스크래핑
+            if (raw.cardId) {
+                detail = await scrapeCardDetail(page, raw.cardId);
                 await new Promise(r => setTimeout(r, 1500));
 
                 if (detail.benefits[0] !== "상세 혜택 홈페이지 참조") {
                     detailSuccessCount++;
-                    console.log(`  ✓ 혜택 ${detail.benefits.length}개, 연회비: ${detail.annualFee}`);
+                    console.log(`  ✓ 혜택 ${detail.benefits.length}개, 연회비: ${detail.annualFee}, 전월실적: ${detail.previousMonthSpending}`);
                 } else {
                     detailFailCount++;
                     console.log(`  ⚠ 혜택 추출 실패 - placeholder 사용`);
                 }
+            } else {
+                detailFailCount++;
+                console.log(`  ⚠ 카드 ID 없음 - 상세 스크래핑 건너뜀`);
             }
 
             const prefix = ID_PREFIXES[issuer] || 'etc';
@@ -502,20 +389,19 @@ async function runSync() {
 
     await browser.close();
 
-    // 3. 결과 요약
+    // 결과 요약
     console.log('\n📊 --- Distribution ---');
     Object.entries(issuerBuckets).forEach(([k, v]) => {
         if (v.length > 0) console.log(`  ${k}: ${v.length} cards`);
     });
     console.log(`\n✅ Detail scraping: ${detailSuccessCount} success, ${detailFailCount} failed`);
 
-    // 4. 카드가 없으면 기존 데이터 보존
     if (allCards.length === 0) {
         console.error('❌ No cards after filtering! Aborting to keep existing data.');
         process.exit(0);
     }
 
-    // 5. 결과 저장
+    // 결과 저장
     const outputPath = path.resolve(__dirname, '../src/data/popularCards.json');
     const result = {
         updatedAt: new Date().toISOString(),
