@@ -4,6 +4,66 @@ const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 export const GEMINI_MODEL = 'gemini-2.5-flash';
 
 /**
+ * 스트리밍 방식을 포함한 Gemini API 요청 함수
+ */
+export async function geminiStreamRequest(prompt, { onChunk, maxRetries = 2, useSearch = false, systemInstruction = "" } = {}) {
+    if (!GEMINI_KEY) throw new Error('No API key');
+
+    const tools = useSearch ? [{ google_search: {} }] : [];
+    const body = {
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        ...(tools.length > 0 && { tools }),
+        generationConfig: { temperature: 0.2 }
+    };
+
+    if (systemInstruction) {
+        body.system_instruction = { parts: [{ text: systemInstruction }] };
+    }
+
+    const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?key=${GEMINI_KEY}`,
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        }
+    );
+
+    if (!res.ok) throw new Error(`API ${res.status}`);
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = "";
+
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+
+        // Gemini 스트리밍 응답은 JSON 객체 배열 형태이거나 단일 객체일 수 있음
+        // 텍스트 추출 시도
+        try {
+            // 정규식으로 "text": "..." 내용 추출 (가장 간단하고 빠른 방법)
+            const textMatches = chunk.match(/"text":\s*"([^"]*)"/g);
+            if (textMatches) {
+                textMatches.forEach(match => {
+                    const text = match.match(/"text":\s*"([^"]*)"/)[1];
+                    // 유니코드 이스케이프 해제
+                    const decodedText = text.replace(/\\n/g, '\n').replace(/\\"/g, '"');
+                    fullText += decodedText;
+                    if (onChunk) onChunk(decodedText, fullText);
+                });
+            }
+        } catch (e) {
+            console.warn("Chunk parse error:", e);
+        }
+    }
+
+    return fullText;
+}
+
+/**
  * 지수 백오프를 포함한 Gemini API 요청 함수
  */
 export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false, systemInstruction = "" } = {}) {

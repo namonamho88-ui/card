@@ -10,7 +10,7 @@ import AIDirectory from './components/AIDirectory';
 import AIWeeklyReport from './components/AIWeeklyReport';
 import './index.css';
 
-import { geminiRequest, extractJSON, enqueueGeminiRequest } from './utils/geminiUtils';
+import { geminiRequest, extractJSON, enqueueGeminiRequest, geminiStreamRequest } from './utils/geminiUtils';
 
 function App() {
   const [messages, setMessages] = useState([
@@ -24,6 +24,7 @@ function App() {
   const [activeMainTab, setActiveMainTab] = useState('report');
   const [cardDetail, setCardDetail] = useState(null);
   const [cardDetailLoading, setCardDetailLoading] = useState(false);
+  const [cardStreamingText, setCardStreamingText] = useState(''); // ✅ 실시간 텍스트 상태
   const chatEndRef = useRef(null);
   const chatbotSectionRef = useRef(null);
 
@@ -56,6 +57,8 @@ function App() {
     }
 
     setCardDetailLoading(true);
+    setCardStreamingText('');
+
     try {
       const prompt = `"${card.issuer} ${card.name}" 신용카드의 상세 정보를 핵심만 빠르고 정확하게 찾아주세요.
 반드시 다른 설명 없이 JSON으로만 출력:
@@ -71,11 +74,16 @@ function App() {
 }
 benefits는 최대 3~4개면 충분합니다.`;
 
-      const raw = await enqueueGeminiRequest(() =>
-        geminiRequest(prompt, { useSearch: true })
+      const fullText = await enqueueGeminiRequest(() =>
+        geminiStreamRequest(prompt, {
+          useSearch: true,
+          onChunk: (chunk, gathered) => {
+            setCardStreamingText(gathered);
+          }
+        })
       );
 
-      const parsed = extractJSON(raw);
+      const parsed = extractJSON(fullText);
       if (parsed && typeof parsed === 'object') {
         const detail = {
           annualFee: parsed.annualFee || card.annualFee,
@@ -90,6 +98,7 @@ benefits는 최대 3~4개면 충분합니다.`;
       console.warn('Card detail fetch error:', e.message);
     } finally {
       setCardDetailLoading(false);
+      setCardStreamingText('');
     }
   }, []);
 
@@ -604,8 +613,15 @@ ${cardContext}
 
                 {cardDetailLoading && !cardDetail ? (
                   <div className="space-y-3">
-                    {[1, 2, 3].map(i => (
-                      <div key={i} className="h-16 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] animate-pulse" />
+                    {/* ✅ 스트리밍 텍스트 표시 */}
+                    <div className="p-4 bg-toss-gray-50 dark:bg-black/20 rounded-[20px] border border-dashed border-toss-gray-200 dark:border-white/5 min-h-[100px]">
+                      <p className="text-[13px] text-toss-gray-500 dark:text-gray-400 font-mono leading-relaxed whitespace-pre-wrap">
+                        {cardStreamingText ? cardStreamingText.replace(/[\{\}\"\[\]]/g, '').slice(-150) : '분석을 시작합니다...'}
+                      </p>
+                    </div>
+
+                    {!cardStreamingText && [1, 2].map(i => (
+                      <div key={i} className="h-16 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] animate-pulse opacity-50" />
                     ))}
                   </div>
                 ) : (

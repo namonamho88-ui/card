@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MOCK_KR_STOCKS, US_STOCK_SYMBOLS, CRYPTO_IDS } from '../data/mockFinancialData';
-import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
+import { geminiRequest, extractJSON, enqueueGeminiRequest, geminiStreamRequest } from '../utils/geminiUtils';
 
 const FINNHUB_KEY = import.meta.env.VITE_FINNHUB_API_KEY;
 const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
@@ -27,6 +27,7 @@ export default function FinancialRanking() {
     const [selectedItem, setSelectedItem] = useState(null);
     const [newsData, setNewsData] = useState(null);
     const [newsLoading, setNewsLoading] = useState(false);
+    const [streamingText, setStreamingText] = useState(''); // ✅ 실시간 텍스트 상태
     const intervalRef = useRef(null);
     const isMountedRef = useRef(true);
 
@@ -181,10 +182,14 @@ change는 전일 대비 등락률(%)입니다.`,
         }
 
         setNewsLoading(true);
+        setStreamingText(''); // 초기화
+
         try {
             const stockName = item.nameKr || item.name;
-            const raw = await enqueueGeminiRequest(() =>
-                geminiRequest(
+
+            // ✅ 스트리밍 요청으로 변경
+            const fullText = await enqueueGeminiRequest(() =>
+                geminiStreamRequest(
                     `"${stockName}" (${item.symbol || item.id})에 대한 오늘의 투자 뉴스 및 호재/악재를 핵심만 빠르고 간결하게 분석해주세요.
 반드시 다른 설명 없이 JSON만 출력:
 {
@@ -195,11 +200,16 @@ change는 전일 대비 등락률(%)입니다.`,
   ]
 }
 items는 최대 3~4개면 충분합니다.`,
-                    { useSearch: true }
+                    {
+                        useSearch: true,
+                        onChunk: (chunk, gathered) => {
+                            setStreamingText(gathered); // 실시간 텍스트 업데이트
+                        }
+                    }
                 )
             );
 
-            const parsed = extractJSON(raw);
+            const parsed = extractJSON(fullText);
             // ✅ 파싱된 데이터를 정규화: 구조가 다를 경우 대비
             let normalizedData;
             if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
@@ -243,6 +253,7 @@ items는 최대 3~4개면 충분합니다.`,
             });
         } finally {
             setNewsLoading(false);
+            setStreamingText(''); // 완료 후 초기화
         }
     }, []);
 
@@ -504,41 +515,39 @@ items는 최대 3~4개면 충분합니다.`,
                             {newsLoading ? (
                                 <div className="space-y-3">
                                     {/* 로딩 상태 헤더 */}
-                                    <div className="flex items-center justify-center gap-3 py-4">
-                                        <span className="material-symbols-outlined text-primary text-[24px] animate-spin">progress_activity</span>
-                                        <span className="text-[14px] font-semibold text-toss-gray-600 dark:text-gray-400">
-                                            AI가 분석 중입니다
-                                            <span className="inline-flex w-[18px]">
-                                                <span className="animate-[dotPulse_1.4s_infinite]">.</span>
-                                                <span className="animate-[dotPulse_1.4s_0.2s_infinite]">.</span>
-                                                <span className="animate-[dotPulse_1.4s_0.4s_infinite]">.</span>
+                                    <div className="flex flex-col items-center justify-center gap-3 py-4 bg-toss-gray-50 dark:bg-gray-900/30 rounded-2xl border border-dashed border-toss-gray-200 dark:border-gray-800">
+                                        <div className="flex items-center gap-3">
+                                            <span className="material-symbols-outlined text-primary text-[24px] animate-spin">progress_activity</span>
+                                            <span className="text-[14px] font-semibold text-toss-gray-600 dark:text-gray-400">
+                                                AI가 실시간 분석 중입니다
                                             </span>
-                                        </span>
+                                        </div>
+
+                                        {/* ✅ 스트리밍 아웃풋 영역 */}
+                                        {streamingText && (
+                                            <div className="w-full px-5 mt-2">
+                                                <div className="p-4 bg-white dark:bg-black/20 rounded-xl border border-toss-gray-100 dark:border-white/5 shadow-inner">
+                                                    <p className="text-[13px] text-toss-gray-500 dark:text-gray-400 leading-relaxed font-mono overflow-hidden whitespace-pre-wrap">
+                                                        {streamingText.replace(/[\{\}\"\[\]]/g, '').slice(-200)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                    {/* 스켈레톤 카드 */}
-                                    {[1, 2, 3].map(i => (
+
+                                    {/* 스켈레톤 카드 (스트리밍 중에도 구조 유지용) */}
+                                    {!streamingText && [1, 2].map(i => (
                                         <div key={i}
                                             className="relative overflow-hidden bg-toss-gray-100 dark:bg-gray-800 rounded-2xl h-16"
-                                            style={{ animationDelay: `${i * 150}ms` }}
                                         >
-                                            <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite]"
-                                                style={{
-                                                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
-                                                    animationDelay: `${i * 150}ms`,
-                                                }}
-                                            />
-                                            <div className="flex items-center gap-3 p-4 h-full">
+                                            <div className="flex items-center gap-3 p-4 h-full opacity-50">
                                                 <div className="w-10 h-5 bg-toss-gray-200/60 dark:bg-gray-700 rounded-md" />
                                                 <div className="flex-1 space-y-2">
                                                     <div className="h-3.5 bg-toss-gray-200/60 dark:bg-gray-700 rounded w-3/4" />
-                                                    <div className="h-2.5 bg-toss-gray-200/40 dark:bg-gray-700/60 rounded w-1/2" />
                                                 </div>
                                             </div>
                                         </div>
                                     ))}
-                                    <p className="text-center text-[11px] text-toss-gray-400 dark:text-gray-600 pt-1">
-                                        최신 뉴스를 수집하고 호재/악재를 판별하고 있어요
-                                    </p>
                                 </div>
                             ) : newsData ? (
                                 <div className="space-y-3">
