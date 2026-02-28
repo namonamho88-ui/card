@@ -65,9 +65,9 @@ function saveCache(type, data) {
 
 // ── 리포트 탭 정의 ──
 const REPORT_TABS = [
-    { id: 'card', label: '카드 리포트', icon: 'credit_card', emoji: '💳' },
-    { id: 'ai', label: 'AI 동향', icon: 'psychology', emoji: '🤖' },
     { id: 'shinhan', label: '신한 리포트', icon: 'account_balance', emoji: '🏦' },
+    { id: 'ai', label: 'AI 동향', icon: 'psychology', emoji: '🤖' },
+    { id: 'card', label: '카드 리포트', icon: 'credit_card', emoji: '💳' },
 ];
 
 // ══════════════════════════════════════════════════
@@ -355,9 +355,9 @@ function CardReportView({ data }) {
                                 <p className="text-[12px] text-toss-gray-500 dark:text-gray-500">{item.subtitle}</p>
                             </div>
                             <span className={`text-[12px] font-bold px-2 py-1 rounded-lg ${item.badgeType === 'up' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
-                                    : item.badgeType === 'new' ? 'bg-primary/10 text-primary'
-                                        : item.badgeType === 'down' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
-                                            : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+                                : item.badgeType === 'new' ? 'bg-primary/10 text-primary'
+                                    : item.badgeType === 'down' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
+                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
                                 }`}>{item.badge}</span>
                         </div>
                         <div className="bg-toss-gray-50 dark:bg-gray-900/50 rounded-2xl p-3 mb-3">
@@ -684,8 +684,8 @@ function ShinhanReportView({ data }) {
                         {/* 투자의견 + 목표가 */}
                         <div className="flex items-center gap-3 mb-4">
                             <div className={`px-4 py-2 rounded-xl text-[14px] font-black ${analystView.consensus === '매수' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
-                                    : analystView.consensus === '매도' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
-                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+                                : analystView.consensus === '매도' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
+                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
                                 }`}>
                                 {analystView.consensus}
                             </div>
@@ -782,7 +782,7 @@ function ShinhanReportView({ data }) {
 // ══════════════════════════════════════════════════
 
 export default function AIWeeklyReport() {
-    const [activeTab, setActiveTab] = useState('card');
+    const [activeTab, setActiveTab] = useState('shinhan');
     const [reports, setReports] = useState({ card: null, ai: null, shinhan: null });
     const [generating, setGenerating] = useState({ card: false, ai: false, shinhan: false });
     const [progress, setProgress] = useState({ card: 0, ai: 0, shinhan: 0 });
@@ -864,8 +864,8 @@ export default function AIWeeklyReport() {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[13px] font-semibold transition-all border ${isActive
-                                        ? 'bg-primary text-white border-primary'
-                                        : 'bg-white dark:bg-[#1a1a1a] text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700'
+                                    ? 'bg-primary text-white border-primary'
+                                    : 'bg-white dark:bg-[#1a1a1a] text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700'
                                     }`}
                             >
                                 <span>{tab.emoji}</span>
