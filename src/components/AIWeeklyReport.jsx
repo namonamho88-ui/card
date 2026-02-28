@@ -67,7 +67,7 @@ function saveCache(type, data) {
 const REPORT_TABS = [
     { id: 'card', label: '카드 리포트', icon: 'credit_card', emoji: '💳' },
     { id: 'ai', label: 'AI 동향', icon: 'psychology', emoji: '🤖' },
-    { id: 'finance', label: '금융 리포트', icon: 'show_chart', emoji: '💹' },
+    { id: 'shinhan', label: '신한 리포트', icon: 'account_balance', emoji: '🏦' },
 ];
 
 // ══════════════════════════════════════════════════
@@ -78,7 +78,6 @@ function buildCardReportPrompt() {
     const cardContext = POPULAR_CARDS.slice(0, 30).map(c =>
         `${c.issuer} ${c.name}(연회비:${c.annualFee}/실적:${c.previousMonthSpending}):${c.benefits.join(',')}`
     ).join('\n');
-
     const weekLabel = getWeekLabel();
 
     return `당신은 한국 신용카드 시장 전문 AI 애널리스트입니다.
@@ -192,85 +191,117 @@ topNews는 정확히 5개, techTrends는 3개, koreaUpdates는 4개 작성.
 반드시 현재 실제로 일어나고 있는 최신 뉴스와 동향을 기반으로 작성하세요.`;
 }
 
-function buildFinanceReportPrompt() {
+// ── ✅ 신한금융그룹 위클리 리포트 프롬프트 (구 finance) ──
+function buildShinhanReportPrompt() {
     const weekLabel = getWeekLabel();
 
-    return `당신은 글로벌 금융시장 전문 AI 애널리스트입니다.
-오늘 날짜 기준 최신 금융 데이터를 조사하여 "${weekLabel} 금융 리포트"를 작성하세요.
+    return `당신은 신한금융그룹 전문 리서치 애널리스트입니다.
+오늘 날짜 기준 최신 뉴스와 공시를 기반으로 "${weekLabel} 신한금융그룹 위클리 리포트"를 작성하세요.
 
-## 반드시 아래 JSON만 출력하세요:
+신한금융그룹의 주요 계열사는 다음과 같습니다:
+- 신한지주 (005930 → 055550): 그룹 지배구조, 배당, IR, ESG, 주가
+- 신한은행: 여·수신 금리, 기업·가계 대출, 디지털 뱅킹, 해외법인
+- 신한카드: 카드 승인액, 마케팅 이벤트, BNPL, 디지털 카드
+- 신한투자증권: 시황, 주요 리포트, IB딜, 자산관리
+- 신한라이프: 보험 신상품, 보험료, 실적 및 계약 건수
+- 신한캐피탈: 리스·할부, 기업금융, 자동차금융
+- 제주은행: 제주 지역 특화 이슈
+- 신한DS: IT 시스템, 디지털 전환 인프라
+- 신한벤처투자: 스타트업 투자, 펀드 결성
+
+## 반드시 아래 JSON만 출력하세요. 다른 텍스트 없이 JSON만:
 {
-  "title": "${weekLabel} 금융 리포트",
+  "title": "${weekLabel} 신한금융그룹 위클리 리포트",
   "summary": {
-    "title": "이번 주 금융시장 핵심 요약 제목 (20자 이내)",
-    "body": "이번 주 글로벌 금융시장 핵심 동향 3~4문장 요약",
-    "mood": "positive 또는 neutral 또는 negative"
+    "title": "이번 주 신한금융그룹 핵심 이슈 제목 (20자 이내)",
+    "body": "이번 주 신한금융그룹 전반의 핵심 동향을 3~4문장으로 요약. 지주사 전략, 계열사 이슈, 시장 반응을 포함하여 작성.",
+    "mood": "positive 또는 neutral 또는 negative",
+    "stockPrice": "신한지주 현재가 (예: 52,300원)",
+    "stockChange": "주간 등락 (예: +2.3%)",
+    "stockIsUp": true
   },
-  "marketTable": [
-    { "name": "KOSPI", "value": "2,687.45", "change": "+1.8%", "isUp": true },
-    { "name": "KOSDAQ", "value": "891.23", "change": "+2.4%", "isUp": true },
-    { "name": "S&P 500", "value": "6,142.80", "change": "+1.5%", "isUp": true },
-    { "name": "나스닥", "value": "20,456", "change": "+2.3%", "isUp": true },
-    { "name": "니케이225", "value": "39,872", "change": "+0.9%", "isUp": true },
-    { "name": "비트코인", "value": "$97,450", "change": "+5.2%", "isUp": true },
-    { "name": "원/달러", "value": "1,385", "change": "-0.9%", "isUp": false },
-    { "name": "금(온스)", "value": "$2,945", "change": "+1.1%", "isUp": true }
+  "holdingIssues": [
+    {
+      "category": "배당 또는 IR 또는 ESG 또는 지배구조 또는 실적 또는 인사",
+      "title": "지주사 이슈 제목",
+      "body": "이슈 핵심 내용 2~3문장",
+      "importance": "high 또는 medium 또는 low"
+    }
   ],
-  "hotStocks": {
-    "korea": [
-      {
-        "name": "종목명",
-        "code": "005930",
-        "price": "72,400원",
-        "change": "+4.2%",
-        "isUp": true,
-        "reason": "상승/하락 이유 한 줄",
-        "foreignFlow": "외국인 순매수 3,200억",
-        "aiVerdict": "긍정 또는 부정 또는 중립",
-        "aiComment": "AI 판단 근거 한 줄"
-      }
-    ],
-    "overseas": [
-      {
-        "name": "종목명",
-        "symbol": "NVDA",
-        "price": "$924.50",
-        "change": "+3.8%",
-        "isUp": true,
-        "reason": "상승/하락 이유 한 줄"
-      }
-    ]
+  "subsidiaryUpdates": [
+    {
+      "company": "신한은행",
+      "icon": "account_balance",
+      "color": "blue",
+      "headline": "계열사 주간 핵심 헤드라인 한 줄",
+      "details": ["세부 이슈 1", "세부 이슈 2"],
+      "sentiment": "positive 또는 neutral 또는 negative"
+    },
+    {
+      "company": "신한카드",
+      "icon": "credit_card",
+      "color": "red",
+      "headline": "계열사 주간 핵심 헤드라인 한 줄",
+      "details": ["세부 이슈 1", "세부 이슈 2"],
+      "sentiment": "positive 또는 neutral 또는 negative"
+    },
+    {
+      "company": "신한투자증권",
+      "icon": "show_chart",
+      "color": "green",
+      "headline": "계열사 주간 핵심 헤드라인 한 줄",
+      "details": ["세부 이슈 1", "세부 이슈 2"],
+      "sentiment": "positive 또는 neutral 또는 negative"
+    },
+    {
+      "company": "신한라이프",
+      "icon": "favorite",
+      "color": "pink",
+      "headline": "계열사 주간 핵심 헤드라인 한 줄",
+      "details": ["세부 이슈 1", "세부 이슈 2"],
+      "sentiment": "positive 또는 neutral 또는 negative"
+    },
+    {
+      "company": "신한캐피탈",
+      "icon": "directions_car",
+      "color": "orange",
+      "headline": "계열사 주간 핵심 헤드라인 한 줄",
+      "details": ["세부 이슈 1"],
+      "sentiment": "positive 또는 neutral 또는 negative"
+    }
+  ],
+  "keyMetrics": [
+    { "label": "신한지주 시가총액", "value": "약 26조원", "change": "▲1.2%" },
+    { "label": "신한은행 NIM", "value": "1.68%", "change": "▼0.02%p" },
+    { "label": "신한카드 승인액", "value": "월 12.3조원", "change": "▲3.5%" },
+    { "label": "그룹 ROE", "value": "10.2%", "change": "▲0.3%p" }
+  ],
+  "analystView": {
+    "consensus": "매수 또는 중립 또는 매도",
+    "targetPrice": "목표주가 (예: 62,000원)",
+    "currentPrice": "현재가 (예: 52,300원)",
+    "upside": "상승여력 (예: +18.5%)",
+    "comment": "애널리스트 종합 의견 2~3문장. 밸류에이션, 배당수익률, 리스크 요인을 포함."
   },
-  "signals": {
-    "positive": [
-      "긍정 시그널 1",
-      "긍정 시그널 2",
-      "긍정 시그널 3"
-    ],
-    "negative": [
-      "주의 시그널 1",
-      "주의 시그널 2",
-      "주의 시그널 3"
-    ]
-  },
-  "crypto": {
-    "summary": "가상화폐 시장 동향 요약 2~3문장",
-    "top3": [
-      { "name": "BTC", "price": "$97,450", "change": "+5.2%", "note": "핵심 포인트 한 줄" },
-      { "name": "ETH", "price": "$3,890", "change": "+7.3%", "note": "핵심 포인트 한 줄" },
-      { "name": "SOL", "price": "$245", "change": "+12.1%", "note": "핵심 포인트 한 줄" }
-    ]
-  },
+  "globalPeerComparison": [
+    { "name": "KB금융", "change": "+1.8%", "isUp": true, "note": "한 줄 코멘트" },
+    { "name": "하나금융", "change": "+0.9%", "isUp": true, "note": "한 줄 코멘트" },
+    { "name": "우리금융", "change": "-0.3%", "isUp": false, "note": "한 줄 코멘트" },
+    { "name": "카카오뱅크", "change": "+2.1%", "isUp": true, "note": "한 줄 코멘트" }
+  ],
+  "riskFactors": [
+    { "factor": "리스크 항목", "description": "리스크 설명 한 줄", "level": "high 또는 medium 또는 low" }
+  ],
   "nextWeek": {
-    "preview": "다음 주 금융시장 전망 3~4문장",
+    "preview": "다음 주 신한금융그룹 관련 주요 전망 및 일정 3~4문장",
     "events": [
-      { "date": "3/3", "day": "월", "event": "주요 경제 일정" }
+      { "date": "3/3", "day": "월", "event": "예정 이벤트 또는 공시 또는 IR 일정" }
     ]
   }
 }
 
-hotStocks.korea는 3개, hotStocks.overseas는 3개 작성.
-반드시 최신 실제 시장 데이터를 기반으로 현실적인 수치를 작성하세요.`;
+holdingIssues는 정확히 3개, subsidiaryUpdates는 5개(위 계열사 순서 그대로), keyMetrics는 4개, riskFactors는 3개, nextWeek.events는 3~4개 작성.
+반드시 최신 실제 뉴스·공시·시장 데이터를 기반으로 현실적인 내용을 작성하세요.`;
 }
 
 // ══════════════════════════════════════════════════
@@ -299,12 +330,11 @@ function MoodBadge({ mood }) {
     );
 }
 
-// ── 카드 리포트 렌더 ──
+// ── 카드 리포트 렌더 (변경 없음) ──
 function CardReportView({ data }) {
     if (!data) return null;
     return (
         <div className="space-y-2">
-            {/* 요약 */}
             <div className="bg-gradient-to-br from-primary/5 to-blue-50 dark:from-primary/10 dark:to-gray-900 rounded-[20px] p-5 border border-primary/10">
                 <div className="flex items-center gap-2 mb-3">
                     <span className="text-lg">🔥</span>
@@ -314,26 +344,21 @@ function CardReportView({ data }) {
                 <p className="text-[14px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">{data.summary?.body}</p>
             </div>
 
-            {/* 인기 급상승 TOP 3 */}
             <SectionTitle icon="trending_up" title="주간 인기 급상승 카드 TOP 3" />
             <div className="space-y-3">
                 {data.rankings?.map((item, idx) => (
                     <div key={idx} className="bg-white dark:bg-[#1a1a1a] rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
                         <div className="flex items-center gap-3 mb-3">
-                            <span className={`text-[20px] font-black ${idx === 0 ? 'text-primary' : 'text-toss-gray-400'}`}>
-                                {item.rank}
-                            </span>
+                            <span className={`text-[20px] font-black ${idx === 0 ? 'text-primary' : 'text-toss-gray-400'}`}>{item.rank}</span>
                             <div className="flex-1 min-w-0">
                                 <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white truncate">{item.title}</p>
                                 <p className="text-[12px] text-toss-gray-500 dark:text-gray-500">{item.subtitle}</p>
                             </div>
                             <span className={`text-[12px] font-bold px-2 py-1 rounded-lg ${item.badgeType === 'up' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
-                                : item.badgeType === 'new' ? 'bg-primary/10 text-primary'
-                                    : item.badgeType === 'down' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
-                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
-                                }`}>
-                                {item.badge}
-                            </span>
+                                    : item.badgeType === 'new' ? 'bg-primary/10 text-primary'
+                                        : item.badgeType === 'down' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
+                                            : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+                                }`}>{item.badge}</span>
                         </div>
                         <div className="bg-toss-gray-50 dark:bg-gray-900/50 rounded-2xl p-3 mb-3">
                             <p className="text-[13px] font-semibold text-primary">📌 {item.highlight}</p>
@@ -348,7 +373,6 @@ function CardReportView({ data }) {
                 ))}
             </div>
 
-            {/* 카드사별 이벤트 */}
             <SectionTitle icon="celebration" title="카드사별 핫 이벤트" />
             <div className="space-y-2">
                 {data.events?.map((evt, idx) => (
@@ -363,7 +387,6 @@ function CardReportView({ data }) {
                 ))}
             </div>
 
-            {/* 숨은 카드 조합 */}
             {data.comboInsight && (
                 <>
                     <SectionTitle icon="auto_awesome" title="AI가 발견한 숨은 카드 조합" />
@@ -407,7 +430,6 @@ function CardReportView({ data }) {
                 </>
             )}
 
-            {/* 다음 주 전망 */}
             {data.nextWeek && (
                 <>
                     <SectionTitle icon="calendar_month" title="다음 주 미리보기" />
@@ -425,12 +447,11 @@ function CardReportView({ data }) {
     );
 }
 
-// ── AI 동향 리포트 렌더 ──
+// ── AI 동향 리포트 렌더 (변경 없음) ──
 function AITrendReportView({ data }) {
     if (!data) return null;
     return (
         <div className="space-y-2">
-            {/* 요약 */}
             <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/10 dark:to-indigo-900/10 rounded-[20px] p-5 border border-purple-200/50 dark:border-purple-800/30">
                 <div className="flex items-center gap-2 mb-3">
                     <span className="text-lg">⚡</span>
@@ -440,7 +461,6 @@ function AITrendReportView({ data }) {
                 <p className="text-[14px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">{data.summary?.body}</p>
             </div>
 
-            {/* TOP 5 뉴스 */}
             <SectionTitle icon="newspaper" title="이번 주 AI 핵심 뉴스 TOP 5" />
             <div className="space-y-3">
                 {data.topNews?.map((news, idx) => (
@@ -456,7 +476,6 @@ function AITrendReportView({ data }) {
                         <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-3 mb-3">
                             <p className="text-[12px] text-primary font-semibold">💬 AI 분석: {news.aiComment}</p>
                         </div>
-                        {/* 임팩트 바 */}
                         <div className="flex items-center gap-2">
                             <span className="text-[11px] text-toss-gray-500 dark:text-gray-500">임팩트</span>
                             <div className="flex-1 h-2 bg-toss-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
@@ -471,7 +490,6 @@ function AITrendReportView({ data }) {
                 ))}
             </div>
 
-            {/* 산업 지표 */}
             <SectionTitle icon="analytics" title="주간 AI 산업 지표" />
             <div className="grid grid-cols-2 gap-3">
                 {data.industryStats?.map((stat, idx) => (
@@ -485,7 +503,6 @@ function AITrendReportView({ data }) {
                 ))}
             </div>
 
-            {/* 기술 트렌드 */}
             <SectionTitle icon="science" title="주목할 AI 기술 트렌드" />
             <div className="space-y-3">
                 {data.techTrends?.map((trend, idx) => (
@@ -499,7 +516,6 @@ function AITrendReportView({ data }) {
                 ))}
             </div>
 
-            {/* 국내 동향 */}
             <SectionTitle icon="flag" title="국내 AI 동향" sub="🇰🇷" />
             <div className="space-y-2">
                 {data.koreaUpdates?.map((item, idx) => (
@@ -510,7 +526,6 @@ function AITrendReportView({ data }) {
                 ))}
             </div>
 
-            {/* 다음 주 전망 */}
             {data.nextWeek && (
                 <>
                     <SectionTitle icon="calendar_month" title="다음 주 AI 전망" />
@@ -533,140 +548,224 @@ function AITrendReportView({ data }) {
     );
 }
 
-// ── 금융 리포트 렌더 ──
-function FinanceReportView({ data }) {
+// ── ✅ 신한금융그룹 리포트 렌더 (신규) ──
+
+// 계열사별 색상/아이콘 팔레트
+const SUBSIDIARY_STYLE = {
+    blue: { bg: 'bg-blue-50 dark:bg-blue-900/10', border: 'border-blue-200/50 dark:border-blue-800/30', badge: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400', dot: 'bg-blue-400' },
+    red: { bg: 'bg-red-50 dark:bg-red-900/10', border: 'border-red-200/50 dark:border-red-800/30', badge: 'bg-red-100 dark:bg-red-900/30 text-red-500 dark:text-red-400', dot: 'bg-red-400' },
+    green: { bg: 'bg-green-50 dark:bg-green-900/10', border: 'border-green-200/50 dark:border-green-800/30', badge: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400', dot: 'bg-green-400' },
+    pink: { bg: 'bg-pink-50 dark:bg-pink-900/10', border: 'border-pink-200/50 dark:border-pink-800/30', badge: 'bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400', dot: 'bg-pink-400' },
+    orange: { bg: 'bg-orange-50 dark:bg-orange-900/10', border: 'border-orange-200/50 dark:border-orange-800/30', badge: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400', dot: 'bg-orange-400' },
+};
+
+const IMPORTANCE_CONFIG = {
+    high: { bg: 'bg-red-50 dark:bg-red-900/20 border-red-200/50 dark:border-red-800/30', label: 'bg-red-100 dark:bg-red-900/40 text-red-500', text: '🔴 핵심' },
+    medium: { bg: 'bg-yellow-50 dark:bg-yellow-900/10 border-yellow-200/50 dark:border-yellow-800/30', label: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600', text: '🟡 주목' },
+    low: { bg: 'bg-gray-50 dark:bg-gray-900/50 border-toss-gray-100 dark:border-gray-800', label: 'bg-gray-100 dark:bg-gray-800 text-gray-500', text: '⚪ 일반' },
+};
+
+const RISK_LEVEL_CONFIG = {
+    high: { bar: 'w-full bg-red-400', text: 'text-red-500', label: '높음' },
+    medium: { bar: 'w-2/3 bg-yellow-400', text: 'text-yellow-500', label: '중간' },
+    low: { bar: 'w-1/3 bg-green-400', text: 'text-green-500', label: '낮음' },
+};
+
+function ShinhanReportView({ data }) {
     if (!data) return null;
+
+    const { summary, holdingIssues, subsidiaryUpdates, keyMetrics, analystView, globalPeerComparison, riskFactors, nextWeek } = data;
+
     return (
         <div className="space-y-2">
-            {/* 요약 */}
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10 rounded-[20px] p-5 border border-green-200/50 dark:border-green-800/30">
-                <div className="flex items-center gap-2 mb-3">
-                    <span className="text-lg">📍</span>
-                    <h3 className="text-[15px] font-bold text-toss-gray-800 dark:text-white">{data.summary?.title}</h3>
-                    <MoodBadge mood={data.summary?.mood} />
+
+            {/* ── 요약 + 신한지주 주가 ── */}
+            <div className="bg-gradient-to-br from-[#0046FF]/5 to-blue-50 dark:from-[#0046FF]/10 dark:to-gray-900 rounded-[20px] p-5 border border-[#0046FF]/10">
+                {/* 신한 브랜드 헤더 */}
+                <div className="flex items-center gap-2 mb-4">
+                    <div className="w-8 h-8 bg-[#0046FF] rounded-xl flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-white text-[16px]">account_balance</span>
+                    </div>
+                    <span className="text-[13px] font-bold text-[#0046FF]">신한금융그룹</span>
+                    <MoodBadge mood={summary?.mood} />
                 </div>
-                <p className="text-[14px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">{data.summary?.body}</p>
+
+                {/* 신한지주 주가 인라인 */}
+                {summary?.stockPrice && (
+                    <div className="flex items-baseline gap-2 mb-3">
+                        <span className="text-[22px] font-black text-toss-gray-800 dark:text-white">{summary.stockPrice}</span>
+                        <span className={`text-[14px] font-bold ${summary.stockIsUp ? 'text-red-500' : 'text-blue-500'}`}>
+                            {summary.stockIsUp ? '▲' : '▼'} {summary.stockChange?.replace(/[+-]/, '')}
+                        </span>
+                        <span className="text-[11px] text-toss-gray-400 dark:text-gray-600">신한지주 (055550)</span>
+                    </div>
+                )}
+
+                <h3 className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-2">{summary?.title}</h3>
+                <p className="text-[14px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">{summary?.body}</p>
             </div>
 
-            {/* 시장 테이블 */}
-            <SectionTitle icon="table_chart" title="주요 지수 주간 성적표" />
-            <div className="bg-white dark:bg-[#1a1a1a] rounded-[20px] border border-toss-gray-100 dark:border-gray-800 overflow-hidden">
-                <div className="grid grid-cols-3 bg-toss-gray-50 dark:bg-gray-900 px-4 py-3 border-b border-toss-gray-100 dark:border-gray-800">
-                    <p className="text-[11px] font-bold text-toss-gray-500 dark:text-gray-500">지수</p>
-                    <p className="text-[11px] font-bold text-toss-gray-500 dark:text-gray-500 text-right">종가</p>
-                    <p className="text-[11px] font-bold text-toss-gray-500 dark:text-gray-500 text-right">주간등락</p>
-                </div>
-                {data.marketTable?.map((row, idx) => (
-                    <div key={idx} className={`grid grid-cols-3 px-4 py-3 ${idx < data.marketTable.length - 1 ? 'border-b border-toss-gray-50 dark:border-gray-800/50' : ''}`}>
-                        <p className="text-[13px] font-semibold text-toss-gray-800 dark:text-white">{row.name}</p>
-                        <p className="text-[13px] font-bold text-toss-gray-800 dark:text-white text-right">{row.value}</p>
-                        <p className={`text-[13px] font-bold text-right ${row.isUp ? 'text-red-500' : 'text-blue-500'}`}>
-                            {row.isUp ? '▲' : '▼'} {row.change?.replace(/[+-]/, '')}
-                        </p>
+            {/* ── 핵심 지표 4종 ── */}
+            <SectionTitle icon="monitoring" title="주요 그룹 지표" />
+            <div className="grid grid-cols-2 gap-3">
+                {keyMetrics?.map((metric, idx) => (
+                    <div key={idx} className="bg-white dark:bg-[#1a1a1a] rounded-[16px] p-4 border border-toss-gray-100 dark:border-gray-800">
+                        <p className="text-[11px] text-toss-gray-500 dark:text-gray-500 mb-1">{metric.label}</p>
+                        <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white">{metric.value}</p>
+                        <p className={`text-[12px] font-semibold mt-0.5 ${metric.change?.includes('▲') || metric.change?.includes('+') ? 'text-red-500' : 'text-blue-500'
+                            }`}>{metric.change}</p>
                     </div>
                 ))}
             </div>
 
-            {/* 핫 종목 - 국내 */}
-            <SectionTitle icon="local_fire_department" title="이번 주 핫 종목" sub="🇰🇷 국내" />
+            {/* ── 지주사 핵심 이슈 ── */}
+            <SectionTitle icon="corporate_fare" title="신한지주 주간 핵심 이슈" />
             <div className="space-y-3">
-                {data.hotStocks?.korea?.map((stock, idx) => (
-                    <div key={idx} className="bg-white dark:bg-[#1a1a1a] rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
-                        <div className="flex items-center justify-between mb-2">
-                            <div>
-                                <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white">{stock.name}</p>
-                                <p className="text-[11px] text-toss-gray-500 dark:text-gray-500">{stock.code}</p>
+                {holdingIssues?.map((issue, idx) => {
+                    const cfg = IMPORTANCE_CONFIG[issue.importance] || IMPORTANCE_CONFIG.low;
+                    return (
+                        <div key={idx} className={`rounded-[16px] p-4 border ${cfg.bg}`}>
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${cfg.label}`}>{cfg.text}</span>
+                                <span className="text-[11px] font-semibold text-toss-gray-500 dark:text-gray-400 bg-white dark:bg-[#1a1a1a] px-2 py-0.5 rounded-md border border-toss-gray-100 dark:border-gray-700">
+                                    {issue.category}
+                                </span>
+                            </div>
+                            <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white mb-1.5">{issue.title}</p>
+                            <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed">{issue.body}</p>
+                        </div>
+                    );
+                })}
+            </div>
+
+            {/* ── 계열사별 위클리 업데이트 ── */}
+            <SectionTitle icon="business" title="계열사 위클리 업데이트" />
+            <div className="space-y-3">
+                {subsidiaryUpdates?.map((sub, idx) => {
+                    const style = SUBSIDIARY_STYLE[sub.color] || SUBSIDIARY_STYLE.blue;
+                    const sentimentText = sub.sentiment === 'positive' ? '▲ 긍정' : sub.sentiment === 'negative' ? '▼ 부정' : '→ 중립';
+                    const sentimentColor = sub.sentiment === 'positive' ? 'text-red-500' : sub.sentiment === 'negative' ? 'text-blue-500' : 'text-gray-500';
+
+                    return (
+                        <div key={idx} className={`rounded-[20px] p-5 border ${style.bg} ${style.border}`}>
+                            {/* 계열사 헤더 */}
+                            <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center gap-2">
+                                    <span className={`material-symbols-outlined text-[18px] ${style.badge.split(' ').find(c => c.startsWith('text-'))}`}>
+                                        {sub.icon}
+                                    </span>
+                                    <span className={`text-[12px] font-bold px-2.5 py-1 rounded-lg ${style.badge}`}>
+                                        {sub.company}
+                                    </span>
+                                </div>
+                                <span className={`text-[11px] font-bold ${sentimentColor}`}>{sentimentText}</span>
+                            </div>
+                            {/* 헤드라인 */}
+                            <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white mb-2.5">{sub.headline}</p>
+                            {/* 세부 이슈 */}
+                            <div className="space-y-1.5">
+                                {sub.details?.map((d, i) => (
+                                    <div key={i} className="flex items-start gap-2">
+                                        <span className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${style.dot}`} />
+                                        <p className="text-[12px] text-toss-gray-600 dark:text-gray-400 leading-snug">{d}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+
+            {/* ── 애널리스트 뷰 ── */}
+            {analystView && (
+                <>
+                    <SectionTitle icon="manage_search" title="애널리스트 컨센서스" />
+                    <div className="bg-white dark:bg-[#1a1a1a] rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
+                        {/* 투자의견 + 목표가 */}
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className={`px-4 py-2 rounded-xl text-[14px] font-black ${analystView.consensus === '매수' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
+                                    : analystView.consensus === '매도' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
+                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+                                }`}>
+                                {analystView.consensus}
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-[11px] text-toss-gray-500 dark:text-gray-500">목표주가</p>
+                                <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white">{analystView.targetPrice}</p>
                             </div>
                             <div className="text-right">
-                                <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white">{stock.price}</p>
-                                <p className={`text-[13px] font-bold ${stock.isUp ? 'text-red-500' : 'text-blue-500'}`}>
-                                    {stock.isUp ? '▲' : '▼'} {stock.change?.replace(/[+-]/, '')}
-                                </p>
+                                <p className="text-[11px] text-toss-gray-500 dark:text-gray-500">상승여력</p>
+                                <p className="text-[16px] font-bold text-red-500">{analystView.upside}</p>
                             </div>
                         </div>
-                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2">{stock.reason}</p>
-                        <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 mb-2">📊 {stock.foreignFlow}</p>
-                        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-bold ${stock.aiVerdict === '긍정' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
-                            : stock.aiVerdict === '부정' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
-                                : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
-                            }`}>
-                            <span className="material-symbols-outlined text-[14px]">smart_toy</span>
-                            AI: {stock.aiVerdict} — {stock.aiComment}
+                        {/* 의견 */}
+                        <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-3">
+                            <p className="text-[12px] font-semibold text-primary mb-1">💬 애널리스트 코멘트</p>
+                            <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed">{analystView.comment}</p>
                         </div>
                     </div>
-                ))}
-            </div>
+                </>
+            )}
 
-            {/* 핫 종목 - 해외 */}
-            <SectionTitle icon="public" title="해외 핫 종목" sub="🇺🇸" />
-            <div className="space-y-2">
-                {data.hotStocks?.overseas?.map((stock, idx) => (
-                    <div key={idx} className="flex items-center gap-4 p-4 bg-white dark:bg-[#1a1a1a] rounded-[16px] border border-toss-gray-100 dark:border-gray-800">
-                        <div className="w-10 h-10 rounded-full bg-toss-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                            <span className="text-[12px] font-bold text-toss-gray-600 dark:text-gray-400">{stock.symbol}</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white">{stock.name}</p>
-                            <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 truncate">{stock.reason}</p>
-                        </div>
-                        <div className="text-right shrink-0">
-                            <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white">{stock.price}</p>
-                            <p className={`text-[12px] font-bold ${stock.isUp ? 'text-red-500' : 'text-blue-500'}`}>
-                                {stock.isUp ? '▲' : '▼'} {stock.change?.replace(/[+-]/, '')}
-                            </p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* AI 시그널 */}
-            <SectionTitle icon="sensors" title="주간 AI 투자 인사이트" />
-            <div className="grid grid-cols-1 gap-3">
-                <div className="bg-red-50 dark:bg-red-900/10 rounded-[16px] p-4 border border-red-200/50 dark:border-red-800/30">
-                    <p className="text-[12px] font-bold text-red-500 mb-2">🟢 긍정 시그널</p>
-                    {data.signals?.positive?.map((s, i) => (
-                        <p key={i} className="text-[13px] text-toss-gray-700 dark:text-gray-300 leading-relaxed">• {s}</p>
-                    ))}
-                </div>
-                <div className="bg-blue-50 dark:bg-blue-900/10 rounded-[16px] p-4 border border-blue-200/50 dark:border-blue-800/30">
-                    <p className="text-[12px] font-bold text-blue-500 mb-2">🔴 주의 시그널</p>
-                    {data.signals?.negative?.map((s, i) => (
-                        <p key={i} className="text-[13px] text-toss-gray-700 dark:text-gray-300 leading-relaxed">• {s}</p>
-                    ))}
-                </div>
-            </div>
-
-            {/* 가상화폐 */}
-            <SectionTitle icon="currency_bitcoin" title="가상화폐 주간 동향" sub="₿" />
-            <div className="bg-white dark:bg-[#1a1a1a] rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
-                <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed mb-4">{data.crypto?.summary}</p>
-                <div className="space-y-3">
-                    {data.crypto?.top3?.map((coin, idx) => (
-                        <div key={idx} className="flex items-center gap-3">
-                            <span className={`text-[14px] font-black ${idx === 0 ? 'text-primary' : 'text-toss-gray-400'}`}>{idx + 1}</span>
-                            <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2">
-                                    <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white">{coin.name}</p>
-                                    <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white">{coin.price}</p>
-                                    <p className={`text-[12px] font-bold ${coin.change?.includes('+') ? 'text-red-500' : 'text-blue-500'}`}>{coin.change}</p>
-                                </div>
-                                <p className="text-[12px] text-toss-gray-500 dark:text-gray-500">{coin.note}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* 다음 주 */}
-            {data.nextWeek && (
+            {/* ── 금융지주 비교 ── */}
+            {globalPeerComparison?.length > 0 && (
                 <>
-                    <SectionTitle icon="calendar_month" title="다음 주 주요 일정" />
+                    <SectionTitle icon="compare" title="4대 금융지주 주간 비교" />
+                    <div className="bg-white dark:bg-[#1a1a1a] rounded-[20px] border border-toss-gray-100 dark:border-gray-800 overflow-hidden">
+                        <div className="grid grid-cols-3 bg-toss-gray-50 dark:bg-gray-900 px-4 py-3 border-b border-toss-gray-100 dark:border-gray-800">
+                            <p className="text-[11px] font-bold text-toss-gray-500 dark:text-gray-500">금융지주</p>
+                            <p className="text-[11px] font-bold text-toss-gray-500 dark:text-gray-500 text-right">주간 등락</p>
+                            <p className="text-[11px] font-bold text-toss-gray-500 dark:text-gray-500 text-right">비고</p>
+                        </div>
+                        {globalPeerComparison?.map((peer, idx) => (
+                            <div key={idx} className={`grid grid-cols-3 px-4 py-3 items-center ${idx < globalPeerComparison.length - 1 ? 'border-b border-toss-gray-50 dark:border-gray-800/50' : ''}`}>
+                                <p className="text-[13px] font-semibold text-toss-gray-800 dark:text-white">{peer.name}</p>
+                                <p className={`text-[13px] font-bold text-right ${peer.isUp ? 'text-red-500' : 'text-blue-500'}`}>
+                                    {peer.isUp ? '▲' : '▼'} {peer.change?.replace(/[+-]/, '')}
+                                </p>
+                                <p className="text-[11px] text-toss-gray-500 dark:text-gray-500 text-right truncate">{peer.note}</p>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
+
+            {/* ── 리스크 요인 ── */}
+            {riskFactors?.length > 0 && (
+                <>
+                    <SectionTitle icon="warning" title="주요 리스크 요인" />
+                    <div className="space-y-2">
+                        {riskFactors?.map((risk, idx) => {
+                            const lvl = RISK_LEVEL_CONFIG[risk.level] || RISK_LEVEL_CONFIG.medium;
+                            return (
+                                <div key={idx} className="bg-white dark:bg-[#1a1a1a] rounded-[16px] p-4 border border-toss-gray-100 dark:border-gray-800">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <p className="text-[13px] font-bold text-toss-gray-800 dark:text-white">{risk.factor}</p>
+                                        <span className={`text-[11px] font-bold ${lvl.text}`}>리스크 {lvl.label}</span>
+                                    </div>
+                                    <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 mb-2">{risk.description}</p>
+                                    <div className="h-1.5 bg-toss-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                                        <div className={`h-full rounded-full ${lvl.bar}`} />
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </>
+            )}
+
+            {/* ── 다음 주 전망 ── */}
+            {nextWeek && (
+                <>
+                    <SectionTitle icon="calendar_month" title="다음 주 주요 일정 및 전망" />
                     <div className="bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
-                        <p className="text-[14px] text-toss-gray-700 dark:text-gray-300 leading-relaxed mb-4">{data.nextWeek.preview}</p>
+                        <p className="text-[14px] text-toss-gray-700 dark:text-gray-300 leading-relaxed mb-4">{nextWeek.preview}</p>
                         <div className="space-y-2">
-                            {data.nextWeek.events?.map((evt, i) => (
+                            {nextWeek.events?.map((evt, i) => (
                                 <div key={i} className="flex items-center gap-3">
-                                    <span className="text-[11px] font-bold text-primary bg-primary/10 px-2 py-1 rounded-lg shrink-0 min-w-[70px] text-center">{evt.date} ({evt.day})</span>
+                                    <span className="text-[11px] font-bold text-[#0046FF] bg-[#0046FF]/10 px-2 py-1 rounded-lg shrink-0 min-w-[70px] text-center">
+                                        {evt.date} ({evt.day})
+                                    </span>
                                     <p className="text-[12px] text-toss-gray-600 dark:text-gray-400">{evt.event}</p>
                                 </div>
                             ))}
@@ -684,16 +783,16 @@ function FinanceReportView({ data }) {
 
 export default function AIWeeklyReport() {
     const [activeTab, setActiveTab] = useState('card');
-    const [reports, setReports] = useState({ card: null, ai: null, finance: null });
-    const [generating, setGenerating] = useState({ card: false, ai: false, finance: false });
-    const [progress, setProgress] = useState({ card: 0, ai: 0, finance: 0 });
+    const [reports, setReports] = useState({ card: null, ai: null, shinhan: null });
+    const [generating, setGenerating] = useState({ card: false, ai: false, shinhan: false });
+    const [progress, setProgress] = useState({ card: 0, ai: 0, shinhan: 0 });
 
     // 초기 로드 — 캐시에서 가져오기
     useEffect(() => {
         setReports({
             card: loadCache('card'),
             ai: loadCache('ai'),
-            finance: loadCache('finance'),
+            shinhan: loadCache('shinhan'),
         });
     }, []);
 
@@ -704,13 +803,11 @@ export default function AIWeeklyReport() {
         setGenerating(prev => ({ ...prev, [type]: true }));
         setProgress(prev => ({ ...prev, [type]: 0 }));
 
-        // 프로그레스 시뮬레이션
         const progressInterval = setInterval(() => {
             setProgress(prev => {
                 const current = prev[type];
                 if (current >= 90) return prev;
-                const increment = Math.random() * 15 + 5;
-                return { ...prev, [type]: Math.min(90, current + increment) };
+                return { ...prev, [type]: Math.min(90, current + Math.random() * 15 + 5) };
             });
         }, 800);
 
@@ -719,7 +816,7 @@ export default function AIWeeklyReport() {
             switch (type) {
                 case 'card': prompt = buildCardReportPrompt(); break;
                 case 'ai': prompt = buildAITrendReportPrompt(); break;
-                case 'finance': prompt = buildFinanceReportPrompt(); break;
+                case 'shinhan': prompt = buildShinhanReportPrompt(); break;
                 default: return;
             }
 
@@ -728,14 +825,10 @@ export default function AIWeeklyReport() {
             );
 
             const parsed = extractJSON(raw);
-
-            // 캐시 저장
             saveCache(type, parsed);
 
-            // 프로그레스 100%
             setProgress(prev => ({ ...prev, [type]: 100 }));
 
-            // 약간의 딜레이 후 결과 반영
             setTimeout(() => {
                 setReports(prev => ({ ...prev, [type]: parsed }));
                 setGenerating(prev => ({ ...prev, [type]: false }));
@@ -759,7 +852,8 @@ export default function AIWeeklyReport() {
 
     return (
         <div className="flex-1 flex flex-col overflow-hidden h-full">
-            {/* 서브 탭 - 고정 */}
+
+            {/* 서브 탭 */}
             <div className="bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800 shrink-0">
                 <div className="flex px-5 gap-2 py-3">
                     {REPORT_TABS.map(tab => {
@@ -770,8 +864,8 @@ export default function AIWeeklyReport() {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[13px] font-semibold transition-all border ${isActive
-                                    ? 'bg-primary text-white border-primary'
-                                    : 'bg-white dark:bg-[#1a1a1a] text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700'
+                                        ? 'bg-primary text-white border-primary'
+                                        : 'bg-white dark:bg-[#1a1a1a] text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700'
                                     }`}
                             >
                                 <span>{tab.emoji}</span>
@@ -785,7 +879,7 @@ export default function AIWeeklyReport() {
                 </div>
             </div>
 
-            {/* 상태 바 - 고정 */}
+            {/* 상태 바 */}
             <div className="px-5 pt-3 pb-2 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-1.5">
                     <span className="material-symbols-outlined text-primary text-[18px]">{currentTab?.icon}</span>
@@ -796,10 +890,10 @@ export default function AIWeeklyReport() {
                 <p className="text-[11px] text-toss-gray-400 dark:text-gray-600">{getMonthDay()}</p>
             </div>
 
-            {/* 콘텐츠 영역 - 스크롤 */}
+            {/* 콘텐츠 영역 */}
             <div className="flex-1 overflow-y-auto h-full px-5 pb-32">
 
-                {/* ── 생성 중 ── */}
+                {/* 생성 중 */}
                 {isGenerating && (
                     <div className="mt-4">
                         <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-6 border border-toss-gray-100 dark:border-gray-800 text-center">
@@ -816,8 +910,6 @@ export default function AIWeeklyReport() {
                             <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 mb-4">
                                 Google Search + Gemini AI 분석...
                             </p>
-
-                            {/* 프로그레스 바 */}
                             <div className="w-full bg-toss-gray-100 dark:bg-gray-800 rounded-full h-2 mb-3 overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full transition-all duration-700 ease-out"
@@ -827,14 +919,13 @@ export default function AIWeeklyReport() {
                             <p className="text-[12px] text-toss-gray-400 dark:text-gray-600">
                                 {currentProgress < 30 ? '데이터 수집 중...' :
                                     currentProgress < 60 ? '정보 분석 중...' :
-                                        currentProgress < 90 ? '리포트 작성 중...' :
-                                            '마무리 중...'}
+                                        currentProgress < 90 ? '리포트 작성 중...' : '마무리 중...'}
                             </p>
                         </div>
                     </div>
                 )}
 
-                {/* ── 리포트 없음 → 생성 버튼 ── */}
+                {/* 리포트 없음 → 생성 버튼 */}
                 {!isGenerating && !currentReport && (
                     <div className="mt-4">
                         <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-6 border border-toss-gray-100 dark:border-gray-800 text-center">
@@ -845,7 +936,7 @@ export default function AIWeeklyReport() {
                             <p className="text-[13px] text-toss-gray-500 dark:text-gray-400 mb-5 leading-relaxed">
                                 {activeTab === 'card' && 'AI가 이번 주 카드 트렌드와 최적 조합을 분석합니다.'}
                                 {activeTab === 'ai' && 'AI가 이번 주 글로벌 AI 산업 핵심 동향을 분석합니다.'}
-                                {activeTab === 'finance' && 'AI가 이번 주 금융시장 동향과 투자 시그널을 분석합니다.'}
+                                {activeTab === 'shinhan' && '신한금융그룹 지주사 이슈부터 계열사별 위클리 동향까지 AI가 분석합니다.'}
                             </p>
                             <button
                                 onClick={() => generateReport(activeTab)}
@@ -861,20 +952,18 @@ export default function AIWeeklyReport() {
                     </div>
                 )}
 
-                {/* ── 리포트 있음 → 렌더링 ── */}
+                {/* 리포트 있음 → 렌더링 */}
                 {!isGenerating && currentReport && (
                     <div className="mt-4">
-                        {/* 리포트 헤더 */}
                         <div className="flex items-center justify-between mb-5">
                             <h2 className="text-[18px] font-bold text-toss-gray-800 dark:text-white">
                                 {currentReport.title || `${getWeekLabel()} ${currentTab?.label}`}
                             </h2>
                         </div>
 
-                        {/* 리포트 본문 */}
                         {activeTab === 'card' && <CardReportView data={currentReport} />}
                         {activeTab === 'ai' && <AITrendReportView data={currentReport} />}
-                        {activeTab === 'finance' && <FinanceReportView data={currentReport} />}
+                        {activeTab === 'shinhan' && <ShinhanReportView data={currentReport} />}
 
                         {/* 푸터 */}
                         <div className="mt-8 p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-2xl">
@@ -891,7 +980,6 @@ export default function AIWeeklyReport() {
                             </p>
                         </div>
 
-                        {/* 이미 오늘 생성된 경우 비활성 버튼 */}
                         <button
                             disabled
                             className="w-full mt-4 bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-400 dark:text-gray-600 py-[14px] rounded-[18px] font-bold text-[14px] cursor-not-allowed flex items-center justify-center gap-2"
