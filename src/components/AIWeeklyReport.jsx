@@ -1043,11 +1043,23 @@ export default function AIWeeklyReport() {
         setShowSharePanel(false);
         showToast('이미지 생성 중...', 'hourglass_top');
         try {
-            const dataUrl = await toPng(reportRef.current, {
+            const opts = {
                 pixelRatio: 2,
                 cacheBust: true,
                 backgroundColor: document.documentElement.classList.contains('dark') ? '#111111' : '#f9fafb',
-            });
+                // Material Symbols 아이콘 폰트의 영어 리거처 텍스트가 겹치는 문제 방지
+                filter: (node) => {
+                    // material-symbols-outlined 클래스를 가진 요소 제외
+                    if (node.classList && node.classList.contains('material-symbols-outlined')) {
+                        return false;
+                    }
+                    return true;
+                },
+            };
+            // 1차 호출: 폰트 캐시 워밍업 (결과는 버림)
+            await toPng(reportRef.current, opts);
+            // 2차 호출: 실제 이미지 생성
+            const dataUrl = await toPng(reportRef.current, opts);
             const link = document.createElement('a');
             const currentTab = REPORT_TABS.find(t => t.id === activeTab);
             link.download = `${getWeekLabel()}_${currentTab?.label || 'report'}.png`;
