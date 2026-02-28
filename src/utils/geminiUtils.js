@@ -33,7 +33,9 @@ export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false,
             );
 
             if (res.status === 429) {
-                // 429: 지수 백오프로 대기 후 재시도
+                if (attempt === maxRetries - 1) {
+                    throw new Error('무료버전 이용중이라 사용 한도에 도달하였습니다. 잠시후에 이용해주세요.');
+                }
                 const waitMs = Math.min(1000 * Math.pow(2, attempt) + Math.random() * 1000, 30000);
                 console.warn(`Gemini 429 - Retry ${attempt + 1}/${maxRetries} after ${Math.round(waitMs)}ms`);
                 await new Promise(r => setTimeout(r, waitMs));
@@ -46,6 +48,7 @@ export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false,
             const raw = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
             return raw;
         } catch (e) {
+            if (e.message.includes('무료버전')) throw e;
             if (attempt === maxRetries - 1) throw e;
             const waitMs = 1000 * Math.pow(2, attempt);
             await new Promise(r => setTimeout(r, waitMs));
