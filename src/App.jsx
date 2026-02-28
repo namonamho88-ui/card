@@ -22,6 +22,8 @@ function App() {
   const [showComparison, setShowComparison] = useState(false);
   const [selectedIssuer, setSelectedIssuer] = useState('전체');
   const [activeMainTab, setActiveMainTab] = useState('report');
+  const [cardDetail, setCardDetail] = useState(null);
+  const [cardDetailLoading, setCardDetailLoading] = useState(false);
   const chatEndRef = useRef(null);
   const chatbotSectionRef = useRef(null);
 
@@ -32,6 +34,72 @@ function App() {
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // ✅ 카드 상세 정보 AI 보강 로직
+  const fetchCardDetail = useCallback(async (card) => {
+    const cacheKey = `card_detail_${card.id}`;
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed?.benefits?.length > 0 && parsed.benefits[0] !== '상세 혜택 홈페이지 참조') {
+          setCardDetail(parsed);
+          return;
+        }
+      }
+    } catch (e) { }
+
+    // 이미 상세 혜택이 있으면 AI 호출 불필요
+    if (card.benefits?.length > 0 && card.benefits[0] !== '상세 혜택 홈페이지 참조') {
+      setCardDetail(null);
+      return;
+    }
+
+    setCardDetailLoading(true);
+    try {
+      const prompt = `"${card.issuer} ${card.name}" 신용카드의 상세 정보를 알려주세요.
+반드시 JSON으로 출력:
+{
+  "annualFee": "실제 연회비(국내/해외 구분, 예: 국내 15,000원 / 해외 15,000원)",
+  "previousMonthSpending": "전월 실적 조건 (예: 30만원 이상)",
+  "benefits": [
+    "핵심 혜택 1 (구체적 할인/적립율 포함)",
+    "핵심 혜택 2",
+    "핵심 혜택 3"
+  ],
+  "summary": "이 카드의 핵심 특징 한줄 요약"
+}
+benefits는 최대 5개 실제 혜택 정보를 정확히 작성하세요.`;
+
+      const raw = await enqueueGeminiRequest(() =>
+        geminiRequest(prompt, { useSearch: true })
+      );
+
+      const parsed = extractJSON(raw);
+      if (parsed && typeof parsed === 'object') {
+        const detail = {
+          annualFee: parsed.annualFee || card.annualFee,
+          previousMonthSpending: parsed.previousMonthSpending || card.previousMonthSpending,
+          benefits: Array.isArray(parsed.benefits) && parsed.benefits.length > 0 ? parsed.benefits : card.benefits,
+          summary: parsed.summary || '',
+        };
+        localStorage.setItem(cacheKey, JSON.stringify(detail));
+        setCardDetail(detail);
+      }
+    } catch (e) {
+      console.warn('Card detail fetch error:', e.message);
+    } finally {
+      setCardDetailLoading(false);
+    }
+  }, []);
+
+  // 카드 선택 시 상세정보 fetch
+  useEffect(() => {
+    if (selectedCard) {
+      setCardDetail(null);
+      fetchCardDetail(selectedCard);
+    }
+  }, [selectedCard, fetchCardDetail]);
 
   useEffect(() => {
     scrollToBottom();
@@ -504,29 +572,56 @@ ${cardContext}
               <div className="grid grid-cols-2 gap-4 mb-8">
                 <div className="bg-toss-gray-50 dark:bg-gray-900/50 p-5 rounded-[24px] border border-toss-gray-100 dark:border-gray-800/50">
                   <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2 font-medium">연회비</p>
-                  <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">{selectedCard.annualFee}</p>
+                  <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">{cardDetail?.annualFee || selectedCard.annualFee}</p>
                 </div>
                 <div className="bg-toss-gray-50 dark:bg-gray-900/50 p-5 rounded-[24px] border border-toss-gray-100 dark:border-gray-800/50">
                   <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2 font-medium">전월 실적</p>
-                  <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">{selectedCard.previousMonthSpending}</p>
+                  <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">{cardDetail?.previousMonthSpending || selectedCard.previousMonthSpending}</p>
                 </div>
               </div>
 
-              {/* Benefits List */}
-              <div className="space-y-4 mb-10">
-                <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-4 px-1">주요 혜택</h3>
-                <div className="space-y-3">
-                  {selectedCard.benefits.map((benefit, idx) => (
-                    <div key={idx} className="flex gap-4 items-center p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] transition-all hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-toss-gray-100 dark:hover:border-gray-700">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined text-primary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                      </div>
-                      <p className="text-[15px] font-semibold text-toss-gray-700 dark:text-gray-300 leading-snug">
-                        {benefit}
-                      </p>
-                    </div>
-                  ))}
+              {/* AI 요약 */}
+              {cardDetail?.summary && (
+                <div className="bg-primary/5 dark:bg-primary/10 rounded-2xl p-4 mb-6 border border-primary/10">
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <span className="material-symbols-outlined text-primary text-[16px]">smart_toy</span>
+                    <span className="text-[11px] font-bold text-primary">AI 카드 요약</span>
+                  </div>
+                  <p className="text-[14px] text-toss-gray-700 dark:text-gray-300 leading-relaxed">{cardDetail.summary}</p>
                 </div>
+              )}
+
+              <div className="space-y-4 mb-10">
+                <div className="flex items-center justify-between px-1 mb-4">
+                  <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white">주요 혜택</h3>
+                  {cardDetailLoading && (
+                    <div className="flex items-center gap-1.5 animate-pulse">
+                      <span className="material-symbols-outlined text-primary text-[18px] animate-spin">progress_activity</span>
+                      <span className="text-[12px] font-bold text-primary">AI 분석 중...</span>
+                    </div>
+                  )}
+                </div>
+
+                {cardDetailLoading && !cardDetail ? (
+                  <div className="space-y-3">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="h-16 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] animate-pulse" />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {(cardDetail?.benefits || selectedCard.benefits).map((benefit, idx) => (
+                      <div key={idx} className="flex gap-4 items-center p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] transition-all hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-toss-gray-100 dark:hover:border-gray-700">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                          <span className="material-symbols-outlined text-primary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                        </div>
+                        <p className="text-[15px] font-semibold text-toss-gray-700 dark:text-gray-300 leading-snug">
+                          {benefit}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons */}
