@@ -53,15 +53,23 @@ export async function geminiStreamRequest(prompt, { onChunk, maxRetries = 2, use
         // Gemini 스트리밍 응답은 JSON 객체 배열 형태이거나 단일 객체일 수 있음
         // 텍스트 추출 시도
         try {
-            // 정규식으로 "text": "..." 내용 추출 (가장 간단하고 빠른 방법)
-            const textMatches = chunk.match(/"text":\s*"([^"]*)"/g);
+            // ✅ 개선된 정규식: 이스케이프된 따옴표(\")를 올바르게 처리함
+            const textMatches = chunk.match(/"text":\s*"((?:[^"\\]|\\.)*)"/g);
             if (textMatches) {
                 textMatches.forEach(match => {
-                    const text = match.match(/"text":\s*"([^"]*)"/)[1];
-                    // 유니코드 이스케이프 해제
-                    const decodedText = text.replace(/\\n/g, '\n').replace(/\\"/g, '"');
-                    fullText += decodedText;
-                    if (onChunk) onChunk(decodedText, fullText);
+                    const textMatch = match.match(/"text":\s*"((?:[^"\\]|\\.)*)"/);
+                    if (textMatch) {
+                        const text = textMatch[1];
+                        // 유니코드 이스케이프 및 특수 문자 해제
+                        const decodedText = text
+                            .replace(/\\n/g, '\n')
+                            .replace(/\\"/g, '"')
+                            .replace(/\\\\/g, '\\')
+                            .replace(/\\r/g, '\r')
+                            .replace(/\\t/g, '\t');
+                        fullText += decodedText;
+                        if (onChunk) onChunk(decodedText, fullText);
+                    }
                 });
             }
         } catch (e) {
@@ -165,11 +173,21 @@ export function extractJSON(raw) {
         } catch (e) { }
 
         // 4. {} 또는 [] 패턴 추출 시도 (가장 넓은 범위)
-        const objMatch = cleaned.match(/\{[\s\S]*\}/);
-        const arrMatch = cleaned.match(/\[[\s\S]*\]/);
+        // ⚠️ JSON 모드가 꺼져있을 때(Search 사용 시) 모델이 설명을 덧붙이는 경우를 대비
+        const firstCurly = cleaned.indexOf('{');
+        const lastCurly = cleaned.lastIndexOf('}');
+        const firstSquare = cleaned.indexOf('[');
+        const lastSquare = cleaned.lastIndexOf(']');
 
-        if (objMatch || arrMatch) {
-            const potentialJSON = (objMatch?.[0] || arrMatch?.[0]);
+        // 가장 바깥쪽의 {} 또는 [] 범위를 찾아 시도
+        let potentialJSON = "";
+        if (firstCurly !== -1 && lastCurly !== -1 && (firstSquare === -1 || firstCurly < firstSquare)) {
+            potentialJSON = cleaned.substring(firstCurly, lastCurly + 1);
+        } else if (firstSquare !== -1 && lastSquare !== -1) {
+            potentialJSON = cleaned.substring(firstSquare, lastSquare + 1);
+        }
+
+        if (potentialJSON) {
             try {
                 return JSON.parse(potentialJSON);
             } catch (e) {
@@ -177,7 +195,8 @@ export function extractJSON(raw) {
                 const polished = potentialJSON
                     .replace(/\\`/g, '`') // 잘못된 이스케이프
                     .replace(/```json/g, '') // 중첩된 코드 블록 표시기 제거
-                    .replace(/```/g, '');
+                    .replace(/```/g, '')
+                    .trim();
 
                 try {
                     return JSON.parse(polished);
@@ -185,7 +204,7 @@ export function extractJSON(raw) {
             }
         }
 
-        throw new Error("JSON 구조를 찾을 수 없습니다.");
+        throw new Error("JSON 구조를 찾을 수 없습니다. 응답 내용: " + (cleaned.length > 100 ? cleaned.substring(0, 100) + "..." : cleaned));
     } catch (e) {
         console.error("JSON Parsing Error original content:", raw);
         throw new Error("JSON 파싱 실패: " + e.message);
