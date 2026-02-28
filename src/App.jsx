@@ -356,7 +356,7 @@ ${cardContext}
       </header>
 
       {/* Conditional Content Wrapper */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-hidden">
         {showComparison ? (
           <CardComparison
             card1={compareCards[0]}
