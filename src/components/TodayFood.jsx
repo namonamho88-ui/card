@@ -88,7 +88,7 @@ const MOOD_OPTIONS = [
 // ──────────────────────────────────────────
 export default function TodayFood() {
   // ── 공통 상태 ──
-  const [activeTab, setActiveTab] = useState('roulette'); // 'roulette' | 'course'
+  const [activeTab, setActiveTab] = useState('course'); // 'course' | 'roulette'
   const [selectedArea, setSelectedArea] = useState('을지로');
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
@@ -493,16 +493,6 @@ INSTRUCTIONS:
       <div className="bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800 shrink-0">
         <div className="flex px-5 gap-1">
           <button
-            onClick={() => setActiveTab('roulette')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3.5 border-b-2 transition-all ${activeTab === 'roulette'
-              ? 'border-primary text-primary font-bold'
-              : 'border-transparent text-toss-gray-500 dark:text-gray-500'
-              }`}
-          >
-            <span className="text-[16px]">🎰</span>
-            <span className="text-[14px]">오늘의 한 끼</span>
-          </button>
-          <button
             onClick={() => setActiveTab('course')}
             className={`flex-1 flex items-center justify-center gap-2 py-3.5 border-b-2 transition-all ${activeTab === 'course'
               ? 'border-primary text-primary font-bold'
@@ -511,6 +501,16 @@ INSTRUCTIONS:
           >
             <span className="text-[16px]">🗺️</span>
             <span className="text-[14px]">AI 코스 플래너</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('roulette')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3.5 border-b-2 transition-all ${activeTab === 'roulette'
+              ? 'border-primary text-primary font-bold'
+              : 'border-transparent text-toss-gray-500 dark:text-gray-500'
+              }`}
+          >
+            <span className="text-[16px]">🎰</span>
+            <span className="text-[14px]">오늘의 한 끼</span>
           </button>
         </div>
       </div>
