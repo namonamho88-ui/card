@@ -89,7 +89,7 @@ const MOOD_OPTIONS = [
 export default function TodayFood() {
   // ── 공통 상태 ──
   const [activeTab, setActiveTab] = useState('roulette'); // 'roulette' | 'course'
-  const [selectedArea, setSelectedArea] = useState('성수동');
+  const [selectedArea, setSelectedArea] = useState('을지로');
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const fetchingRef = useRef(false);
@@ -478,8 +478,8 @@ INSTRUCTIONS:
                   setCourseResult(null);
                 }}
                 className={`px-4 py-2 rounded-full text-[13px] font-semibold shrink-0 transition-all border ${isActive
-                    ? 'bg-primary text-white border-primary shadow-sm shadow-primary/20'
-                    : 'bg-white dark:bg-[#1a1a1a] text-toss-gray-600 dark:text-gray-400 border-toss-gray-200 dark:border-gray-700 active:scale-95'
+                  ? 'bg-primary text-white border-primary shadow-sm shadow-primary/20'
+                  : 'bg-white dark:bg-[#1a1a1a] text-toss-gray-600 dark:text-gray-400 border-toss-gray-200 dark:border-gray-700 active:scale-95'
                   }`}
               >
                 {area}
@@ -495,8 +495,8 @@ INSTRUCTIONS:
           <button
             onClick={() => setActiveTab('roulette')}
             className={`flex-1 flex items-center justify-center gap-2 py-3.5 border-b-2 transition-all ${activeTab === 'roulette'
-                ? 'border-primary text-primary font-bold'
-                : 'border-transparent text-toss-gray-500 dark:text-gray-500'
+              ? 'border-primary text-primary font-bold'
+              : 'border-transparent text-toss-gray-500 dark:text-gray-500'
               }`}
           >
             <span className="text-[16px]">🎰</span>
@@ -505,8 +505,8 @@ INSTRUCTIONS:
           <button
             onClick={() => setActiveTab('course')}
             className={`flex-1 flex items-center justify-center gap-2 py-3.5 border-b-2 transition-all ${activeTab === 'course'
-                ? 'border-primary text-primary font-bold'
-                : 'border-transparent text-toss-gray-500 dark:text-gray-500'
+              ? 'border-primary text-primary font-bold'
+              : 'border-transparent text-toss-gray-500 dark:text-gray-500'
               }`}
           >
             <span className="text-[16px]">🗺️</span>
@@ -534,8 +534,8 @@ INSTRUCTIONS:
                       key={opt}
                       onClick={() => setRoulettePeople(roulettePeople === opt ? null : opt)}
                       className={`px-4 py-2.5 rounded-2xl text-[13px] font-semibold transition-all border ${roulettePeople === opt
-                          ? 'bg-primary text-white border-primary'
-                          : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
+                        ? 'bg-primary text-white border-primary'
+                        : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
                         }`}
                     >
                       {opt}
@@ -556,8 +556,8 @@ INSTRUCTIONS:
                       key={opt}
                       onClick={() => setRouletteBudget(rouletteBudget === opt ? null : opt)}
                       className={`px-4 py-2.5 rounded-2xl text-[13px] font-semibold transition-all border ${rouletteBudget === opt
-                          ? 'bg-primary text-white border-primary'
-                          : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
+                        ? 'bg-primary text-white border-primary'
+                        : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
                         }`}
                     >
                       {opt}
@@ -578,8 +578,8 @@ INSTRUCTIONS:
                       key={opt.id}
                       onClick={() => setRouletteMood(rouletteMood === opt.id ? null : opt.id)}
                       className={`flex flex-col items-center gap-1 py-3 rounded-2xl text-[13px] font-semibold transition-all border ${rouletteMood === opt.id
-                          ? 'bg-primary/10 text-primary border-primary dark:bg-primary/20'
-                          : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
+                        ? 'bg-primary/10 text-primary border-primary dark:bg-primary/20'
+                        : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
                         }`}
                     >
                       <span className="text-[20px]">{opt.icon}</span>
@@ -602,8 +602,8 @@ INSTRUCTIONS:
                       key={cat.id}
                       onClick={() => toggleExclude(cat.id)}
                       className={`flex items-center gap-1 px-3 py-2 rounded-full text-[12px] font-semibold transition-all border ${cat.selected
-                          ? 'bg-red-50 dark:bg-red-900/20 text-red-500 border-red-200 dark:border-red-800 line-through'
-                          : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-600 dark:text-gray-400 border-toss-gray-200 dark:border-gray-700'
+                        ? 'bg-red-50 dark:bg-red-900/20 text-red-500 border-red-200 dark:border-red-800 line-through'
+                        : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-600 dark:text-gray-400 border-toss-gray-200 dark:border-gray-700'
                         }`}
                     >
                       <span className="text-[14px]">{cat.icon}</span>
@@ -618,8 +618,8 @@ INSTRUCTIONS:
                 onClick={handleRoulette}
                 disabled={rouletteLoading}
                 className={`w-full py-5 rounded-[22px] font-bold text-[18px] transition-all active:scale-[0.98] flex items-center justify-center gap-3 ${rouletteLoading
-                    ? 'bg-toss-gray-200 dark:bg-gray-700 text-toss-gray-400 cursor-not-allowed'
-                    : 'bg-primary text-white shadow-lg shadow-primary/30 hover:brightness-105'
+                  ? 'bg-toss-gray-200 dark:bg-gray-700 text-toss-gray-400 cursor-not-allowed'
+                  : 'bg-primary text-white shadow-lg shadow-primary/30 hover:brightness-105'
                   }`}
               >
                 {rouletteLoading ? (
@@ -847,8 +847,8 @@ INSTRUCTIONS:
                 onClick={handleCoursePlan}
                 disabled={courseLoading || !courseScenario.trim()}
                 className={`w-full py-5 rounded-[22px] font-bold text-[18px] transition-all active:scale-[0.98] flex items-center justify-center gap-3 ${courseLoading || !courseScenario.trim()
-                    ? 'bg-toss-gray-200 dark:bg-gray-700 text-toss-gray-400 cursor-not-allowed'
-                    : 'bg-primary text-white shadow-lg shadow-primary/30 hover:brightness-105'
+                  ? 'bg-toss-gray-200 dark:bg-gray-700 text-toss-gray-400 cursor-not-allowed'
+                  : 'bg-primary text-white shadow-lg shadow-primary/30 hover:brightness-105'
                   }`}
               >
                 {courseLoading ? (
