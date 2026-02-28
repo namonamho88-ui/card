@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { geminiRequest, extractJSON, enqueueGeminiRequest, geminiStreamRequest } from '../utils/geminiUtils';
+import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
 import cardData from '../data/popularCards.json';
 
 const { cards: POPULAR_CARDS } = cardData;
@@ -87,13 +87,52 @@ function buildCardReportPrompt() {
 ## 보유 카드 데이터
 ${cardContext}
 
+## 반드시 아래 JSON만 출력하세요. 다른 텍스트 없이 JSON만:
+{
+  "title": "${weekLabel} AI 카드 리포트",
+  "summary": {
+    "title": "이번 주 카드 시장 핵심 트렌드 제목 (20자 이내)",
+    "body": "이번 주 카드 시장의 핵심 동향을 3~4문장으로 요약. 실제 시즌(여행, 개학, 연말 등)과 연결하여 작성.",
+    "mood": "positive 또는 neutral 또는 negative"
+  },
+  "rankings": [
+    {
+      "rank": 1,
+      "title": "카드명",
+      "subtitle": "카드사",
+      "badge": "▲5 또는 NEW 또는 →유지",
+      "badgeType": "up 또는 down 또는 same 또는 new",
+      "highlight": "이 카드가 주목받는 핵심 이유 한 줄",
+      "detail": "연회비, 전월실적, 대표 혜택을 포함한 2~3문장 설명",
+      "tags": ["태그1", "태그2"]
+    }
+  ],
+  "events": [
+    {
+      "issuer": "카드사명",
+      "title": "이벤트 제목",
+      "period": "~3/31",
+      "detail": "이벤트 핵심 내용 한 줄"
+    }
+  ],
+  "comboInsight": {
+    "card1": "첫번째 추천 카드명",
+    "card1Issuer": "카드사",
+    "card1Benefits": ["카페 50%", "배달 10%"],
+    "card2": "두번째 추천 카드명",
+    "card2Issuer": "카드사",
+    "card2Benefits": ["마트 10%", "교통 10%"],
+    "coveragePercent": 89,
+    "monthlySaving": 53200,
+    "description": "이 조합을 추천하는 이유 2문장"
+  },
   "nextWeek": {
     "preview": "다음 주 카드 시장 전망 3~4문장",
     "keywords": ["키워드1", "키워드2", "키워드3"]
   }
 }
 
-rankings는 정확히 3개, events는 6개(카드사별 1개씩) 작성하세요. 실제 현재 시즌에 맞는 현실적인 내용으로 반드시 유효한 JSON 형식으로만 응답하세요.`;
+rankings는 정확히 3개, events는 6개(카드사별 1개씩), 실제 현재 시즌에 맞는 현실적인 내용으로 작성하세요.`;
 }
 
 function buildAITrendReportPrompt() {
@@ -102,6 +141,45 @@ function buildAITrendReportPrompt() {
     return `당신은 AI 산업 전문 애널리스트입니다.
 오늘 날짜 기준 최신 AI 뉴스와 동향을 조사하여 "${weekLabel} AI 동향 리포트"를 작성하세요.
 
+## 반드시 아래 JSON만 출력하세요:
+{
+  "title": "${weekLabel} AI 동향 리포트",
+  "summary": {
+    "title": "이번 주 AI 업계 핵심 이슈 제목 (20자 이내)",
+    "body": "이번 주 AI 업계 핵심 동향을 3~4문장으로 요약",
+    "mood": "positive 또는 neutral 또는 negative"
+  },
+  "topNews": [
+    {
+      "rank": 1,
+      "category": "빅테크 또는 스타트업 또는 규제 또는 제품 또는 오픈소스",
+      "title": "뉴스 제목",
+      "company": "관련 기업/기관명",
+      "date": "2026.02.28",
+      "body": "뉴스 핵심 내용 3~4문장",
+      "aiComment": "이 뉴스가 시장에 미치는 영향 분석 1~2문장",
+      "impact": 10
+    }
+  ],
+  "industryStats": [
+    { "label": "글로벌 AI 투자", "value": "$4.2B", "change": "▲18%" },
+    { "label": "한국 AI 투자", "value": "₩3,200억", "change": "▲25%" },
+    { "label": "신규 AI 스타트업", "value": "47개", "change": "▲12%" },
+    { "label": "AI 특허 출원", "value": "1,230건", "change": "▲8%" }
+  ],
+  "techTrends": [
+    {
+      "keyword": "#키워드",
+      "title": "트렌드 제목",
+      "body": "트렌드 설명 2~3문장"
+    }
+  ],
+  "koreaUpdates": [
+    {
+      "company": "기업명",
+      "update": "업데이트 내용 한 줄"
+    }
+  ],
   "nextWeek": {
     "preview": "다음 주 AI 업계 전망 3~4문장",
     "events": [
@@ -110,7 +188,8 @@ function buildAITrendReportPrompt() {
   }
 }
 
-topNews는 정확히 5개, techTrends는 3개, koreaUpdates는 4개 작성. 반드시 실제 최신 동향을 기반으로 유효한 JSON 형식으로만 응답하세요.`;
+topNews는 정확히 5개, techTrends는 3개, koreaUpdates는 4개 작성.
+반드시 현재 실제로 일어나고 있는 최신 뉴스와 동향을 기반으로 작성하세요.`;
 }
 
 function buildFinanceReportPrompt() {
@@ -119,6 +198,69 @@ function buildFinanceReportPrompt() {
     return `당신은 글로벌 금융시장 전문 AI 애널리스트입니다.
 오늘 날짜 기준 최신 금융 데이터를 조사하여 "${weekLabel} 금융 리포트"를 작성하세요.
 
+## 반드시 아래 JSON만 출력하세요:
+{
+  "title": "${weekLabel} 금융 리포트",
+  "summary": {
+    "title": "이번 주 금융시장 핵심 요약 제목 (20자 이내)",
+    "body": "이번 주 글로벌 금융시장 핵심 동향 3~4문장 요약",
+    "mood": "positive 또는 neutral 또는 negative"
+  },
+  "marketTable": [
+    { "name": "KOSPI", "value": "2,687.45", "change": "+1.8%", "isUp": true },
+    { "name": "KOSDAQ", "value": "891.23", "change": "+2.4%", "isUp": true },
+    { "name": "S&P 500", "value": "6,142.80", "change": "+1.5%", "isUp": true },
+    { "name": "나스닥", "value": "20,456", "change": "+2.3%", "isUp": true },
+    { "name": "니케이225", "value": "39,872", "change": "+0.9%", "isUp": true },
+    { "name": "비트코인", "value": "$97,450", "change": "+5.2%", "isUp": true },
+    { "name": "원/달러", "value": "1,385", "change": "-0.9%", "isUp": false },
+    { "name": "금(온스)", "value": "$2,945", "change": "+1.1%", "isUp": true }
+  ],
+  "hotStocks": {
+    "korea": [
+      {
+        "name": "종목명",
+        "code": "005930",
+        "price": "72,400원",
+        "change": "+4.2%",
+        "isUp": true,
+        "reason": "상승/하락 이유 한 줄",
+        "foreignFlow": "외국인 순매수 3,200억",
+        "aiVerdict": "긍정 또는 부정 또는 중립",
+        "aiComment": "AI 판단 근거 한 줄"
+      }
+    ],
+    "overseas": [
+      {
+        "name": "종목명",
+        "symbol": "NVDA",
+        "price": "$924.50",
+        "change": "+3.8%",
+        "isUp": true,
+        "reason": "상승/하락 이유 한 줄"
+      }
+    ]
+  },
+  "signals": {
+    "positive": [
+      "긍정 시그널 1",
+      "긍정 시그널 2",
+      "긍정 시그널 3"
+    ],
+    "negative": [
+      "주의 시그널 1",
+      "주의 시그널 2",
+      "주의 시그널 3"
+    ]
+  },
+  "crypto": {
+    "summary": "가상화폐 시장 동향 요약 2~3문장",
+    "top3": [
+      { "name": "BTC", "price": "$97,450", "change": "+5.2%", "note": "핵심 포인트 한 줄" },
+      { "name": "ETH", "price": "$3,890", "change": "+7.3%", "note": "핵심 포인트 한 줄" },
+      { "name": "SOL", "price": "$245", "change": "+12.1%", "note": "핵심 포인트 한 줄" }
+    ]
+  },
   "nextWeek": {
     "preview": "다음 주 금융시장 전망 3~4문장",
     "events": [
@@ -127,7 +269,8 @@ function buildFinanceReportPrompt() {
   }
 }
 
-hotStocks.korea는 3개, hotStocks.overseas는 3개 작성. 반드시 최신 실제 데이터를 기반으로 유효한 JSON 형식으로만 응답하세요.`;
+hotStocks.korea는 3개, hotStocks.overseas는 3개 작성.
+반드시 최신 실제 시장 데이터를 기반으로 현실적인 수치를 작성하세요.`;
 }
 
 // ══════════════════════════════════════════════════
@@ -171,11 +314,11 @@ function CardReportView({ data }) {
                 <p className="text-[14px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">{data.summary?.body}</p>
             </div>
 
-            {/* 인기 급상승 TOP 3 - 가로 스크롤 캐러셀 */}
+            {/* 인기 급상승 TOP 3 */}
             <SectionTitle icon="trending_up" title="주간 인기 급상승 카드 TOP 3" />
-            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-4 -mx-1 px-1 snap-x">
+            <div className="space-y-3">
                 {data.rankings?.map((item, idx) => (
-                    <div key={idx} className="min-w-[280px] bg-white dark:bg-[#1a1a1a] rounded-[24px] p-5 border border-toss-gray-100 dark:border-gray-800 snap-start shadow-sm">
+                    <div key={idx} className="bg-white dark:bg-[#1a1a1a] rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
                         <div className="flex items-center gap-3 mb-3">
                             <span className={`text-[20px] font-black ${idx === 0 ? 'text-primary' : 'text-toss-gray-400'}`}>
                                 {item.rank}
@@ -184,7 +327,7 @@ function CardReportView({ data }) {
                                 <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white truncate">{item.title}</p>
                                 <p className="text-[12px] text-toss-gray-500 dark:text-gray-500">{item.subtitle}</p>
                             </div>
-                            <span className={`text-[11px] font-bold px-2 py-1 rounded-lg shrink-0 ${item.badgeType === 'up' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
+                            <span className={`text-[12px] font-bold px-2 py-1 rounded-lg ${item.badgeType === 'up' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
                                 : item.badgeType === 'new' ? 'bg-primary/10 text-primary'
                                     : item.badgeType === 'down' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
                                         : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
@@ -192,32 +335,30 @@ function CardReportView({ data }) {
                                 {item.badge}
                             </span>
                         </div>
-                        <div className="bg-toss-gray-50 dark:bg-gray-900/50 rounded-xl p-3 mb-3">
-                            <p className="text-[12px] font-semibold text-primary truncate">📌 {item.highlight}</p>
+                        <div className="bg-toss-gray-50 dark:bg-gray-900/50 rounded-2xl p-3 mb-3">
+                            <p className="text-[13px] font-semibold text-primary">📌 {item.highlight}</p>
                         </div>
-                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2 h-[40px] mb-3">{item.detail}</p>
-                        <div className="flex gap-1.5 overflow-hidden">
-                            {item.tags?.slice(0, 2).map((tag, i) => (
-                                <span key={i} className="text-[10px] bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-500 dark:text-gray-500 px-2 py-0.5 rounded-md truncate">#{tag}</span>
+                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed">{item.detail}</p>
+                        <div className="flex gap-1.5 mt-3">
+                            {item.tags?.map((tag, i) => (
+                                <span key={i} className="text-[10px] bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-500 dark:text-gray-500 px-2 py-0.5 rounded-md">#{tag}</span>
                             ))}
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* 카드사별 이벤트 - 2열 그리드 */}
+            {/* 카드사별 이벤트 */}
             <SectionTitle icon="celebration" title="카드사별 핫 이벤트" />
-            <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-2">
                 {data.events?.map((evt, idx) => (
-                    <div key={idx} className="p-3 bg-white dark:bg-[#1a1a1a] rounded-[20px] border border-toss-gray-100 dark:border-gray-800 flex flex-col justify-between h-[100px]">
-                        <div>
-                            <div className="flex justify-between items-start mb-1">
-                                <span className="text-[10px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded-md shrink-0">{evt.issuer}</span>
-                                <span className="text-[9px] text-toss-gray-400 dark:text-gray-600">{evt.period}</span>
-                            </div>
-                            <p className="text-[12px] font-bold text-toss-gray-800 dark:text-white line-clamp-2 leading-tight">{evt.title}</p>
+                    <div key={idx} className="flex items-start gap-3 p-4 bg-white dark:bg-[#1a1a1a] rounded-[16px] border border-toss-gray-100 dark:border-gray-800">
+                        <span className="text-[12px] font-bold text-primary bg-primary/10 px-2 py-1 rounded-lg shrink-0">{evt.issuer}</span>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-[14px] font-semibold text-toss-gray-800 dark:text-white">{evt.title}</p>
+                            <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 mt-0.5">{evt.detail}</p>
                         </div>
-                        <p className="text-[10px] text-toss-gray-500 dark:text-gray-500 truncate">{evt.detail}</p>
+                        <span className="text-[11px] text-toss-gray-400 dark:text-gray-600 shrink-0">{evt.period}</span>
                     </div>
                 ))}
             </div>
@@ -299,30 +440,32 @@ function AITrendReportView({ data }) {
                 <p className="text-[14px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">{data.summary?.body}</p>
             </div>
 
-            {/* TOP 5 뉴스 - 가로 스크롤 캐러셀 */}
+            {/* TOP 5 뉴스 */}
             <SectionTitle icon="newspaper" title="이번 주 AI 핵심 뉴스 TOP 5" />
-            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-4 -mx-1 px-1 snap-x">
+            <div className="space-y-3">
                 {data.topNews?.map((news, idx) => (
-                    <div key={idx} className="min-w-[300px] bg-white dark:bg-[#1a1a1a] rounded-[24px] p-5 border border-toss-gray-100 dark:border-gray-800 snap-start shadow-sm">
+                    <div key={idx} className="bg-white dark:bg-[#1a1a1a] rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
                         <div className="flex items-center gap-2 mb-3">
                             <span className="text-[18px] font-black text-primary">{news.rank}</span>
-                            <span className="text-[10px] font-bold bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-lg">{news.category}</span>
-                            <span className="text-[10px] text-toss-gray-400 dark:text-gray-600 ml-auto">{news.date}</span>
+                            <span className="text-[11px] font-bold bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-lg">{news.category}</span>
+                            <span className="text-[11px] text-toss-gray-400 dark:text-gray-600 ml-auto">{news.date}</span>
                         </div>
-                        <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-1 truncate">{news.title}</p>
-                        <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 mb-3 truncate">🏢 {news.company}</p>
-                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed mb-3 line-clamp-2 h-[40px]">{news.body}</p>
-                        <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-3 mb-3 h-[54px] flex items-center">
-                            <p className="text-[11px] text-primary font-semibold line-clamp-2">💬 AI: {news.aiComment}</p>
+                        <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-1">{news.title}</p>
+                        <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 mb-3">🏢 {news.company}</p>
+                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-relaxed mb-3">{news.body}</p>
+                        <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-3 mb-3">
+                            <p className="text-[12px] text-primary font-semibold">💬 AI 분석: {news.aiComment}</p>
                         </div>
+                        {/* 임팩트 바 */}
                         <div className="flex items-center gap-2">
-                            <div className="flex-1 h-1.5 bg-toss-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                            <span className="text-[11px] text-toss-gray-500 dark:text-gray-500">임팩트</span>
+                            <div className="flex-1 h-2 bg-toss-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full transition-all"
                                     style={{ width: `${(news.impact || 5) * 10}%` }}
                                 />
                             </div>
-                            <span className="text-[10px] font-bold text-primary">IMPACT {news.impact}</span>
+                            <span className="text-[11px] font-bold text-primary">{news.impact}/10</span>
                         </div>
                     </div>
                 ))}
@@ -356,13 +499,13 @@ function AITrendReportView({ data }) {
                 ))}
             </div>
 
-            {/* 국내 동향 - 2열 그리드 */}
+            {/* 국내 동향 */}
             <SectionTitle icon="flag" title="국내 AI 동향" sub="🇰🇷" />
-            <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-2">
                 {data.koreaUpdates?.map((item, idx) => (
-                    <div key={idx} className="p-3 bg-white dark:bg-[#1a1a1a] rounded-[20px] border border-toss-gray-100 dark:border-gray-800">
-                        <span className="text-[10px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded-md inline-block mb-2 truncate max-w-full">{item.company}</span>
-                        <p className="text-[12px] text-toss-gray-700 dark:text-gray-300 leading-snug line-clamp-3 h-[54px]">{item.update}</p>
+                    <div key={idx} className="flex items-start gap-3 p-4 bg-white dark:bg-[#1a1a1a] rounded-[16px] border border-toss-gray-100 dark:border-gray-800">
+                        <span className="text-[12px] font-bold text-primary bg-primary/10 px-2 py-1 rounded-lg shrink-0">{item.company}</span>
+                        <p className="text-[13px] text-toss-gray-700 dark:text-gray-300 leading-snug">{item.update}</p>
                     </div>
                 ))}
             </div>
@@ -424,33 +567,31 @@ function FinanceReportView({ data }) {
                 ))}
             </div>
 
-            {/* 핫 종목 - 가로 스크롤 캐러셀 */}
+            {/* 핫 종목 - 국내 */}
             <SectionTitle icon="local_fire_department" title="이번 주 핫 종목" sub="🇰🇷 국내" />
-            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-4 -mx-1 px-1 snap-x">
+            <div className="space-y-3">
                 {data.hotStocks?.korea?.map((stock, idx) => (
-                    <div key={idx} className="min-w-[280px] bg-white dark:bg-[#1a1a1a] rounded-[24px] p-5 border border-toss-gray-100 dark:border-gray-800 snap-start shadow-sm">
-                        <div className="flex items-center justify-between mb-3">
+                    <div key={idx} className="bg-white dark:bg-[#1a1a1a] rounded-[20px] p-5 border border-toss-gray-100 dark:border-gray-800">
+                        <div className="flex items-center justify-between mb-2">
                             <div>
-                                <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white truncate max-w-[120px]">{stock.name}</p>
+                                <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white">{stock.name}</p>
                                 <p className="text-[11px] text-toss-gray-500 dark:text-gray-500">{stock.code}</p>
                             </div>
                             <div className="text-right">
                                 <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white">{stock.price}</p>
-                                <p className={`text-[12px] font-bold ${stock.isUp ? 'text-red-500' : 'text-blue-500'}`}>
+                                <p className={`text-[13px] font-bold ${stock.isUp ? 'text-red-500' : 'text-blue-500'}`}>
                                     {stock.isUp ? '▲' : '▼'} {stock.change?.replace(/[+-]/, '')}
                                 </p>
                             </div>
                         </div>
-                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-3 line-clamp-1">🔍 {stock.reason}</p>
-                        <div className={`p-3 rounded-xl text-[11px] font-bold h-[64px] flex flex-col justify-center ${stock.aiVerdict === '긍정' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
+                        <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 mb-2">{stock.reason}</p>
+                        <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 mb-2">📊 {stock.foreignFlow}</p>
+                        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-bold ${stock.aiVerdict === '긍정' ? 'bg-red-50 dark:bg-red-900/20 text-red-500'
                             : stock.aiVerdict === '부정' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500'
                                 : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
                             }`}>
-                            <div className="flex items-center gap-1 mb-1">
-                                <span className="material-symbols-outlined text-[14px]">smart_toy</span>
-                                <span>AI {stock.aiVerdict}</span>
-                            </div>
-                            <p className="line-clamp-2 leading-tight opacity-80">{stock.aiComment}</p>
+                            <span className="material-symbols-outlined text-[14px]">smart_toy</span>
+                            AI: {stock.aiVerdict} — {stock.aiComment}
                         </div>
                     </div>
                 ))}
@@ -478,24 +619,20 @@ function FinanceReportView({ data }) {
                 ))}
             </div>
 
-            {/* AI 시그널 - 가로 병렬 배치 */}
+            {/* AI 시그널 */}
             <SectionTitle icon="sensors" title="주간 AI 투자 인사이트" />
-            <div className="grid grid-cols-2 gap-2">
-                <div className="bg-red-50 dark:bg-red-900/10 rounded-[20px] p-4 border border-red-200/50 dark:border-red-800/30">
-                    <p className="text-[11px] font-bold text-red-500 mb-2">🟢 긍정 인사이트</p>
-                    <div className="space-y-1.5">
-                        {data.signals?.positive?.slice(0, 3).map((s, i) => (
-                            <p key={i} className="text-[11px] text-toss-gray-700 dark:text-gray-300 leading-tight">• {s}</p>
-                        ))}
-                    </div>
+            <div className="grid grid-cols-1 gap-3">
+                <div className="bg-red-50 dark:bg-red-900/10 rounded-[16px] p-4 border border-red-200/50 dark:border-red-800/30">
+                    <p className="text-[12px] font-bold text-red-500 mb-2">🟢 긍정 시그널</p>
+                    {data.signals?.positive?.map((s, i) => (
+                        <p key={i} className="text-[13px] text-toss-gray-700 dark:text-gray-300 leading-relaxed">• {s}</p>
+                    ))}
                 </div>
-                <div className="bg-blue-50 dark:bg-blue-900/10 rounded-[20px] p-4 border border-blue-200/50 dark:border-blue-800/30">
-                    <p className="text-[11px] font-bold text-blue-500 mb-2">🔴 주의 인사이트</p>
-                    <div className="space-y-1.5">
-                        {data.signals?.negative?.slice(0, 3).map((s, i) => (
-                            <p key={i} className="text-[11px] text-toss-gray-700 dark:text-gray-300 leading-tight">• {s}</p>
-                        ))}
-                    </div>
+                <div className="bg-blue-50 dark:bg-blue-900/10 rounded-[16px] p-4 border border-blue-200/50 dark:border-blue-800/30">
+                    <p className="text-[12px] font-bold text-blue-500 mb-2">🔴 주의 시그널</p>
+                    {data.signals?.negative?.map((s, i) => (
+                        <p key={i} className="text-[13px] text-toss-gray-700 dark:text-gray-300 leading-relaxed">• {s}</p>
+                    ))}
                 </div>
             </div>
 
@@ -549,7 +686,7 @@ export default function AIWeeklyReport() {
     const [activeTab, setActiveTab] = useState('card');
     const [reports, setReports] = useState({ card: null, ai: null, finance: null });
     const [generating, setGenerating] = useState({ card: false, ai: false, finance: false });
-    const [streamingText, setStreamingText] = useState(''); // ✅ 실시간 텍스트 상태
+    const [progress, setProgress] = useState({ card: 0, ai: 0, finance: 0 });
 
     // 초기 로드 — 캐시에서 가져오기
     useEffect(() => {
@@ -565,7 +702,17 @@ export default function AIWeeklyReport() {
         if (generating[type] || hasTodayCache(type)) return;
 
         setGenerating(prev => ({ ...prev, [type]: true }));
-        setStreamingText('');
+        setProgress(prev => ({ ...prev, [type]: 0 }));
+
+        // 프로그레스 시뮬레이션
+        const progressInterval = setInterval(() => {
+            setProgress(prev => {
+                const current = prev[type];
+                if (current >= 90) return prev;
+                const increment = Math.random() * 15 + 5;
+                return { ...prev, [type]: Math.min(90, current + increment) };
+            });
+        }, 800);
 
         try {
             let prompt;
@@ -576,28 +723,31 @@ export default function AIWeeklyReport() {
                 default: return;
             }
 
-            // ✅ 검색 기능을 사용하므로 JSON 모드를 쓸 수 없기 때문에
-            // 스트리밍 대신 전체를 받아 안정적으로 파싱하는 geminiRequest 사용
-            const fullText = await enqueueGeminiRequest(() =>
+            const raw = await enqueueGeminiRequest(() =>
                 geminiRequest(prompt, { useSearch: true })
             );
 
-            const parsed = extractJSON(fullText);
+            const parsed = extractJSON(raw);
 
             // 캐시 저장
             saveCache(type, parsed);
+
+            // 프로그레스 100%
+            setProgress(prev => ({ ...prev, [type]: 100 }));
 
             // 약간의 딜레이 후 결과 반영
             setTimeout(() => {
                 setReports(prev => ({ ...prev, [type]: parsed }));
                 setGenerating(prev => ({ ...prev, [type]: false }));
-                setStreamingText('');
+                setProgress(prev => ({ ...prev, [type]: 0 }));
             }, 500);
 
         } catch (error) {
             console.error(`Report generation error (${type}):`, error);
             setGenerating(prev => ({ ...prev, [type]: false }));
-            setStreamingText('');
+            setProgress(prev => ({ ...prev, [type]: 0 }));
+        } finally {
+            clearInterval(progressInterval);
         }
     }, [generating]);
 
@@ -605,6 +755,7 @@ export default function AIWeeklyReport() {
     const currentReport = reports[activeTab];
     const isGenerating = generating[activeTab];
     const hasToday = hasTodayCache(activeTab);
+    const currentProgress = progress[activeTab];
 
     return (
         <div className="flex-1 overflow-y-auto no-scrollbar">
@@ -647,24 +798,71 @@ export default function AIWeeklyReport() {
 
             {/* 콘텐츠 영역 */}
             <div className="px-5 pb-32">
-                {isGenerating ? (
-                    <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 relative">
-                            <span className="material-symbols-outlined text-primary text-[32px] animate-spin">progress_activity</span>
-                        </div>
-                        <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-2">실시간으로 리포트를 생성하고 있어요</h3>
-                        <p className="text-[14px] text-toss-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
-                            {activeTab === 'card' ? '최신 인기 카드 동향과 혜택을 수집하고 있습니다.' :
-                                activeTab === 'ai' ? '글로벌 AI 트렌드와 산업 뉴스를 분석하는 중입니다.' :
-                                    '국내외 금융 지수와 핫 종목 실시간 데이터를 가져오고 있습니다.'}
-                        </p>
 
-                        {/* 로딩 바 */}
-                        <div className="w-full max-w-[300px] h-1.5 bg-toss-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mt-8">
-                            <div className="h-full bg-primary animate-[shimmer_2s_infinite]" style={{ width: '60%' }} />
+                {/* ── 생성 중 ── */}
+                {isGenerating && (
+                    <div className="mt-8">
+                        <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-8 border border-toss-gray-100 dark:border-gray-800 text-center">
+                            <div className="w-16 h-16 mx-auto mb-5 relative">
+                                <div className="w-16 h-16 border-4 border-primary/20 rounded-full" />
+                                <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin absolute inset-0" />
+                                <span className="material-symbols-outlined text-primary text-[24px] absolute inset-0 flex items-center justify-center">
+                                    {currentTab?.icon}
+                                </span>
+                            </div>
+                            <h3 className="text-[17px] font-bold text-toss-gray-800 dark:text-white mb-2">
+                                AI가 리포트를 생성하고 있습니다
+                            </h3>
+                            <p className="text-[13px] text-toss-gray-500 dark:text-gray-400 mb-6">
+                                Google Search + Gemini AI로 최신 데이터를 수집·분석 중...
+                            </p>
+
+                            {/* 프로그레스 바 */}
+                            <div className="w-full bg-toss-gray-100 dark:bg-gray-800 rounded-full h-2 mb-3 overflow-hidden">
+                                <div
+                                    className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full transition-all duration-700 ease-out"
+                                    style={{ width: `${currentProgress}%` }}
+                                />
+                            </div>
+                            <p className="text-[12px] text-toss-gray-400 dark:text-gray-600">
+                                {currentProgress < 30 ? '데이터 수집 중...' :
+                                    currentProgress < 60 ? '정보 분석 중...' :
+                                        currentProgress < 90 ? '리포트 작성 중...' :
+                                            '마무리 중...'}
+                            </p>
                         </div>
                     </div>
-                ) : currentReport ? (
+                )}
+
+                {/* ── 리포트 없음 → 생성 버튼 ── */}
+                {!isGenerating && !currentReport && (
+                    <div className="mt-8">
+                        <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-8 border border-toss-gray-100 dark:border-gray-800 text-center">
+                            <span className="text-5xl block mb-4">{currentTab?.emoji}</span>
+                            <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-2">
+                                {currentTab?.label}
+                            </h3>
+                            <p className="text-[14px] text-toss-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
+                                {activeTab === 'card' && 'AI가 이번 주 카드 시장 트렌드, 인기 카드, 이벤트, 최적 카드 조합을 분석합니다.'}
+                                {activeTab === 'ai' && 'AI가 이번 주 글로벌 AI 산업 핵심 뉴스, 기술 트렌드, 투자 동향을 분석합니다.'}
+                                {activeTab === 'finance' && 'AI가 이번 주 글로벌 금융시장 동향, 핫 종목, 투자 시그널을 분석합니다.'}
+                            </p>
+                            <button
+                                onClick={() => generateReport(activeTab)}
+                                className="w-full bg-primary text-white py-[16px] rounded-[18px] font-bold text-[16px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                            >
+                                <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
+                                AI 리포트 생성하기
+                            </button>
+                            <p className="text-[11px] text-toss-gray-400 dark:text-gray-600 mt-3">
+                                Gemini AI + Google Search 기반 · 1일 1회 생성 가능
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {/* ── 리포트 있음 → 렌더링 ── */}
+                {!isGenerating && currentReport && (
                     <div className="mt-4">
                         {/* 리포트 헤더 */}
                         <div className="flex items-center justify-between mb-5">
@@ -701,30 +899,6 @@ export default function AIWeeklyReport() {
                             <span className="material-symbols-outlined text-[18px]">check_circle</span>
                             오늘의 리포트가 이미 생성되었습니다
                         </button>
-                    </div>
-                ) : (
-                    <div className="mt-8">
-                        <div className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-8 border border-toss-gray-100 dark:border-gray-800 text-center">
-                            <span className="text-5xl block mb-4">{currentTab?.emoji}</span>
-                            <h3 className="text-[18px] font-bold text-toss-gray-800 dark:text-white mb-2">
-                                {currentTab?.label}
-                            </h3>
-                            <p className="text-[14px] text-toss-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
-                                {activeTab === 'card' && 'AI가 이번 주 카드 시장 트렌드, 인기 카드, 이벤트, 최적 카드 조합을 분석합니다.'}
-                                {activeTab === 'ai' && 'AI가 이번 주 글로벌 AI 산업 핵심 뉴스, 기술 트렌드, 투자 동향을 분석합니다.'}
-                                {activeTab === 'finance' && 'AI가 이번 주 글로벌 금융시장 동향, 핫 종목, 투자 시그널을 분석합니다.'}
-                            </p>
-                            <button
-                                onClick={() => generateReport(activeTab)}
-                                className="w-full bg-primary text-white py-[16px] rounded-[18px] font-bold text-[16px] shadow-lg shadow-primary/20 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                            >
-                                <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
-                                AI 리포트 생성하기
-                            </button>
-                            <p className="text-[11px] text-toss-gray-400 dark:text-gray-600 mt-3">
-                                Gemini AI + Google Search 기반 · 1일 1회 생성 가능
-                            </p>
-                        </div>
                     </div>
                 )}
             </div>
