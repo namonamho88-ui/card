@@ -169,39 +169,49 @@ function buildShinhanReportPrompt(today) {
 }`;
 }
 
-// ✅ 경쟁 인텔리전스 프롬프트 — 모바일 최적화 버전
+// ✅ 경쟁 인텔리전스 프롬프트 — 신규
 function buildCompetitorReportPrompt(today) {
     const weekLabel = getWeekLabel();
     return `당신은 한국 금융권 경쟁 분석 전문 AI 애널리스트입니다.
-반드시 구글 검색(Google Search)을 사용하여 다음 티커들의 가장 최근 거래일(기준일: ${today}) 종가와 주간 변동률을 정확히 확인하세요. (PER, PBR은 제외하고 주가 지표에 집중하세요):
-- 신한지주 (055550), KB금융 (105560), 하나금융 (086790), 우리금융 (316140), 카카오뱅크 (323410)
+반드시 구글 검색(Google Search)을 사용하여 다음 티커들의 가장 최근 거래일(기준일: ${today}) 종가와 주간 변동률, PBR, PER를 정확히 확인하여 리포트를 작성하세요:
+- 신한지주 (055550)
+- KB금융 (105560)
+- 하나금융 (086790)
+- 우리금융 (316140)
+- 카카오뱅크 (323410)
 
-## 반드시 아래 JSON만 출력하세요 (데이터 용량 최적화):
+## 반드시 아래 JSON만 출력하세요:
 {
-  "title": "${weekLabel} 경쟁 인텔리전스",
+  "title": "${weekLabel} 금융권 경쟁 인텔리전스 리포트",
   "summary": {
-    "title": "요약 (20자 이내)",
-    "body": "이번 주 구도 요약 2문장",
-    "hotGroup": "핵심 금융사",
+    "title": "경쟁 구도 핵심 (20자 이내)",
+    "body": "이번 주 경쟁 요약 3~4문장",
+    "hotGroup": "가장 공격적인 금융사",
     "hotReason": "이유 한 줄",
     "mood": "positive/neutral/negative"
   },
   "stockComparison": [
-    { "name": "신한지주", "ticker": "055550", "price": "현재가", "weekChange": "변동률", "isUp": true, "isOurGroup": true },
-    { "name": "KB금융", "ticker": "105560", "price": "현재가", "weekChange": "변동률", "isUp": true, "isOurGroup": false },
-    { "name": "하나금융", "ticker": "086790", "price": "현재가", "weekChange": "변동률", "isUp": true, "isOurGroup": false },
-    { "name": "우리금융", "ticker": "316140", "price": "현재가", "weekChange": "변동률", "isUp": false, "isOurGroup": false },
-    { "name": "카카오뱅크", "ticker": "323410", "price": "현재가", "weekChange": "변동률", "isUp": true, "isOurGroup": false }
+    { "name": "신한지주", "ticker": "055550", "price": "검색된 실제 현재가", "weekChange": "검색된 실제 변동률", "isUp": true, "per": "검색된 실제 PER", "pbr": "검색된 실제 PBR", "isOurGroup": true },
+    { "name": "KB금융", "ticker": "105560", "price": "검색된 실제 현재가", "weekChange": "검색된 실제 변동률", "isUp": true, "per": "실제 PER", "pbr": "실제 PBR", "isOurGroup": false },
+    { "name": "하나금융", "ticker": "086790", "price": "실제", "weekChange": "실제", "isUp": true, "per": "실제", "pbr": "실제", "isOurGroup": false },
+    { "name": "우리금융", "ticker": "316140", "price": "실제", "weekChange": "실제", "isUp": false, "per": "실제", "pbr": "실제", "isOurGroup": false },
+    { "name": "카카오뱅크", "ticker": "323410", "price": "실제", "weekChange": "실제", "isUp": true, "per": "실제", "pbr": "실제", "isOurGroup": false }
   ],
   "competitorMoves": [
-    { "group": "KB/하나/우리 중 택1", "category": "기술/상품", "title": "핵심 이슈", "body": "1~2문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응" },
-    { "group": "인터넷뱅크 중 택1", "category": "플랫폼", "title": "핵심 이슈", "body": "1~2문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응" }
+    { "group": "KB금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
+    { "group": "하나금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
+    { "group": "우리금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
+    { "group": "카카오뱅크", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
+    { "group": "토스뱅크", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" }
   ],
   "productBattle": [
-    { "domain": "주요 영역", "leader": "리드사", "leaderProduct": "상품", "leaderRate": "금리", "shinhanStatus": "우위/동등/열위", "comment": "요약" }
+    { "domain": "수신", "leader": "리드사", "leaderProduct": "상품명", "leaderRate": "금리", "shinhanProduct": "신한 상품", "shinhanRate": "신한 금리", "shinhanStatus": "우위/동등/열위", "comment": "코멘트" },
+    { "domain": "대출", "leader": "리드사", "leaderProduct": "상품명", "leaderRate": "금리", "shinhanProduct": "신한 상품", "shinhanRate": "신한 금리", "shinhanStatus": "우위/동등/열위", "comment": "코멘트" }
   ],
-  "swotSignals": { "opportunities": ["핵심기회"], "threats": ["핵심위협"] },
-  "weeklyVerdict": { "winner": "금융사", "shinhanScore": 80, "nextFocus": "전략 포인트" }
+  "industryTopics": [{ "topic": "주제", "body": "내용", "affectedGroups": ["신한", "KB"], "shinhanImpact": "영향" }],
+  "swotSignals": { "opportunities": ["기회"], "threats": ["위협"] },
+  "weeklyVerdict": { "winner": "금융사", "winnerReason": "이유", "shinhanScore": 75, "shinhanComment": "평가", "nextFocus": "전략" },
+  "nextWeek": { "preview": "전망", "watchList": [{ "group": "사명", "watchPoint": "관전포인트" }] }
 }`;
 }
 
@@ -811,19 +821,20 @@ function CompetitorReportView({ data }) {
             {/* ── 주가 비교 테이블 ── */}
             <SectionTitle icon="table_chart" title="금융지주 주간 주가 비교" />
             <div className="bg-white dark:bg-[#1a1a1a] rounded-[20px] border border-toss-gray-100 dark:border-gray-800 overflow-hidden">
-                <div className="grid grid-cols-3 bg-toss-gray-50 dark:bg-gray-900 px-4 py-3 border-b border-toss-gray-100 dark:border-gray-800">
-                    {['그룹', '주가', '주간'].map((h, i) => (
+                <div className="grid grid-cols-4 bg-toss-gray-50 dark:bg-gray-900 px-4 py-3 border-b border-toss-gray-100 dark:border-gray-800">
+                    {['그룹', '주가', '주간', 'PBR'].map((h, i) => (
                         <p key={i} className={`text-[11px] font-bold text-toss-gray-500 dark:text-gray-500 ${i > 0 ? 'text-right' : ''}`}>{h}</p>
                     ))}
                 </div>
                 {stockComparison?.map((stock, idx) => (
-                    <div key={idx} className={`grid grid-cols-3 px-4 py-3 items-center ${stock.isOurGroup ? 'bg-primary/5 dark:bg-primary/10' : ''} ${idx < stockComparison.length - 1 ? 'border-b border-toss-gray-50 dark:border-gray-800/50' : ''}`}>
+                    <div key={idx} className={`grid grid-cols-4 px-4 py-3 items-center ${stock.isOurGroup ? 'bg-primary/5 dark:bg-primary/10' : ''} ${idx < stockComparison.length - 1 ? 'border-b border-toss-gray-50 dark:border-gray-800/50' : ''}`}>
                         <div className="flex items-center gap-1.5">
                             {stock.isOurGroup && <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />}
                             <p className={`text-[13px] font-semibold truncate ${stock.isOurGroup ? 'text-primary' : 'text-toss-gray-800 dark:text-white'}`}>{stock.name}</p>
                         </div>
                         <p className="text-[13px] font-bold text-toss-gray-800 dark:text-white text-right">{stock.price}</p>
                         <p className={`text-[12px] font-bold text-right ${stock.isUp ? 'text-red-500' : 'text-blue-500'}`}>{stock.isUp ? '▲' : '▼'} {stock.weekChange?.replace(/[+-]/, '')}</p>
+                        <p className="text-[12px] text-toss-gray-500 dark:text-gray-500 text-right">{stock.pbr}</p>
                     </div>
                 ))}
             </div>
@@ -943,7 +954,7 @@ function CompetitorReportView({ data }) {
                             <div>
                                 <p className="text-[11px] font-bold text-orange-500">이번 주 Winner</p>
                                 <p className="text-[17px] font-black text-toss-gray-800 dark:text-white">{weeklyVerdict.winner}</p>
-                                {weeklyVerdict.winnerReason && <p className="text-[12px] text-toss-gray-500 dark:text-gray-400">{weeklyVerdict.winnerReason}</p>}
+                                <p className="text-[12px] text-toss-gray-500 dark:text-gray-400">{weeklyVerdict.winnerReason}</p>
                             </div>
                         </div>
                         {/* 신한 점수 */}
