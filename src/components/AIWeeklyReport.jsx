@@ -48,16 +48,16 @@ const REPORT_TABS = [
 // 프롬프트 함수들
 // ══════════════════════════════════════════════════
 
-function buildCardReportPrompt() {
-    const cardContext = POPULAR_CARDS.slice(0, 30).map(c =>
+function buildCardReportPrompt(today) {
+    const cardsText = POPULAR_CARDS.map(c =>
         `${c.issuer} ${c.name}(연회비:${c.annualFee}/실적:${c.previousMonthSpending}):${c.benefits.join(',')}`
     ).join('\n');
     const weekLabel = getWeekLabel();
     return `당신은 한국 신용카드 시장 전문 AI 애널리스트입니다.
-오늘 날짜 기준으로 "${weekLabel} AI 카드 리포트"를 작성하세요.
+오늘 날짜(${today}) 기준으로 "${weekLabel} AI 카드 리포트"를 작성하세요.
 
 ## 보유 카드 데이터
-${cardContext}
+${cardsText}
 
 ## 반드시 아래 JSON만 출력하세요. 다른 텍스트 없이 JSON만:
 {
@@ -71,10 +71,10 @@ ${cardContext}
 rankings는 정확히 3개, events는 6개(카드사별 1개씩).`;
 }
 
-function buildAITrendReportPrompt() {
+function buildAITrendReportPrompt(today) {
     const weekLabel = getWeekLabel();
     return `당신은 AI 산업 전문 애널리스트입니다.
-오늘 날짜 기준 최신 AI 뉴스와 동향을 조사하여 "${weekLabel} AI 동향 리포트"를 작성하세요.
+오늘 날짜(${today}) 기준 최신 AI 뉴스와 동향을 조사하여 "${weekLabel} AI 동향 리포트"를 작성하세요.
 
 ## 반드시 아래 JSON만 출력하세요:
 {
@@ -89,121 +89,97 @@ function buildAITrendReportPrompt() {
 topNews 정확히 5개, techTrends 3개, koreaUpdates 4개. 반드시 최신 실제 뉴스 기반.`;
 }
 
-function buildShinhanReportPrompt() {
+function buildShinhanReportPrompt(today) {
     const weekLabel = getWeekLabel();
     return `당신은 신한금융그룹 전문 리서치 애널리스트입니다.
-오늘 날짜 기준 최신 뉴스와 공시를 기반으로 "${weekLabel} 신한금융그룹 위클리 리포트"를 작성하세요.
+반드시 구글 검색(Google Search)을 사용하여 **신한지주(055550)**의 가장 최근 거래일(기준일: ${today}) 종가와 주간 등락률, 시가총액, 주요 재무 지표(NIM, ROE 등)를 확인하여 리포트를 작성하세요.
 
-신한금융그룹의 주요 계열사: 신한지주(055550), 신한은행, 신한카드, 신한투자증권, 신한라이프, 신한캐피탈, 제주은행, 신한DS, 신한벤처투자
-
-## 반드시 아래 JSON만 출력하세요:
+## 반드시 아래 JSON만 출력하세요 (다른 텍스트 없이):
 {
   "title": "${weekLabel} 신한금융그룹 위클리 리포트",
-  "summary": { "title": "핵심 이슈 제목 (20자 이내)", "body": "3~4문장 요약", "mood": "positive 또는 neutral 또는 negative", "stockPrice": "52,300원", "stockChange": "+2.3%", "stockIsUp": true },
-  "holdingIssues": [{ "category": "배당 또는 IR 또는 ESG 또는 지배구조 또는 실적 또는 인사", "title": "이슈 제목", "body": "2~3문장", "importance": "high 또는 medium 또는 low" }],
+  "summary": { 
+    "title": "이슈 제목 (20자 이내)", 
+    "body": "3~4문장 요약", 
+    "mood": "positive/neutral/negative", 
+    "stockPrice": "검색된 실제 현재가 (예: 56,200원)", 
+    "stockChange": "검색된 실제 등락률 (예: +1.5%)", 
+    "stockIsUp": true 
+  },
+  "holdingIssues": [{ "category": "배당/IR/ESG/지배구조/실적/인사", "title": "이슈 제목", "body": "2~3문장", "importance": "high/medium/low" }],
   "subsidiaryUpdates": [
-    { "company": "신한은행",     "icon": "account_balance", "color": "blue",   "headline": "헤드라인", "details": ["이슈1", "이슈2"], "sentiment": "positive" },
-    { "company": "신한카드",     "icon": "credit_card",     "color": "red",    "headline": "헤드라인", "details": ["이슈1", "이슈2"], "sentiment": "neutral"  },
-    { "company": "신한투자증권", "icon": "show_chart",      "color": "green",  "headline": "헤드라인", "details": ["이슈1", "이슈2"], "sentiment": "positive" },
-    { "company": "신한라이프",   "icon": "favorite",        "color": "pink",   "headline": "헤드라인", "details": ["이슈1", "이슈2"], "sentiment": "neutral"  },
-    { "company": "신한캐피탈",   "icon": "directions_car",  "color": "orange", "headline": "헤드라인", "details": ["이슈1"],          "sentiment": "positive" }
+    { "company": "신한은행", "icon": "account_balance", "color": "blue", "headline": "헤드라인", "details": ["이슈1"], "sentiment": "positive" },
+    { "company": "신한카드", "icon": "credit_card", "color": "red", "headline": "헤드라인", "details": ["이슈1"], "sentiment": "neutral" },
+    { "company": "신한투자증권", "icon": "show_chart", "color": "green", "headline": "헤드라인", "details": ["이 이슈1"], "sentiment": "positive" },
+    { "company": "신한라이프", "icon": "favorite", "color": "pink", "headline": "헤드라인", "details": ["이슈1"], "sentiment": "neutral" },
+    { "company": "신한캐피탈", "icon": "directions_car", "color": "orange", "headline": "헤드라인", "details": ["이슈1"], "sentiment": "positive" }
   ],
   "keyMetrics": [
-    { "label": "신한지주 시가총액", "value": "약 26조원", "change": "▲1.2%" },
-    { "label": "신한은행 NIM",     "value": "1.68%",     "change": "▼0.02%p" },
-    { "label": "신한카드 승인액",  "value": "월 12.3조원","change": "▲3.5%" },
-    { "label": "그룹 ROE",         "value": "10.2%",     "change": "▲0.3%p" }
+    { "label": "신한지주 시가총액", "value": "검색된 실제 값", "change": "검색된 실제 등락" },
+    { "label": "신한은행 NIM", "value": "검색된 최신 수치", "change": "변동폭" },
+    { "label": "그룹 ROE", "value": "검색된 최신 수치", "change": "변동폭" }
   ],
-  "analystView": { "consensus": "매수 또는 중립 또는 매도", "targetPrice": "62,000원", "currentPrice": "52,300원", "upside": "+18.5%", "comment": "2~3문장" },
+  "analystView": { 
+    "consensus": "매수/중립/매도", 
+    "targetPrice": "최신 목표주가", 
+    "currentPrice": "현재가", 
+    "upside": "상승여력", 
+    "comment": "애널리스트 의견 2~3문장" 
+  },
   "globalPeerComparison": [
-    { "name": "KB금융",    "change": "+1.8%", "isUp": true,  "note": "코멘트" },
-    { "name": "하나금융",  "change": "+0.9%", "isUp": true,  "note": "코멘트" },
-    { "name": "우리금융",  "change": "-0.3%", "isUp": false, "note": "코멘트" },
-    { "name": "카카오뱅크","change": "+2.1%", "isUp": true,  "note": "코멘트" }
+    { "name": "KB금융", "change": "검색된 실제 등락", "isUp": true, "note": "코멘트" },
+    { "name": "하나금융", "change": "검색된 실제 등락", "isUp": true, "note": "코멘트" },
+    { "name": "우리금융", "change": "검색된 실제 등락", "isUp": false, "note": "코멘트" },
+    { "name": "카카오뱅크", "change": "검색된 실제 등락", "isUp": true, "note": "코멘트" }
   ],
-  "riskFactors": [{ "factor": "리스크 항목", "description": "설명 한 줄", "level": "high 또는 medium 또는 low" }],
-  "nextWeek": { "preview": "3~4문장", "events": [{ "date": "3/3", "day": "월", "event": "일정" }] }
-}
-holdingIssues 3개, riskFactors 3개, nextWeek.events 3~4개. 반드시 최신 실제 데이터 기반.`;
+  "riskFactors": [{ "factor": "리스크 항목", "description": "설명", "level": "high/medium/low" }],
+  "nextWeek": { "preview": "전망", "events": [{ "date": "일자", "day": "요일", "event": "내용" }] }
+}`;
 }
 
 // ✅ 경쟁 인텔리전스 프롬프트 — 신규
-function buildCompetitorReportPrompt() {
+function buildCompetitorReportPrompt(today) {
     const weekLabel = getWeekLabel();
     return `당신은 한국 금융권 경쟁 분석 전문 AI 애널리스트입니다.
-오늘 날짜 기준 최신 뉴스·공시·보도자료를 기반으로 "${weekLabel} 금융권 경쟁 인텔리전스 리포트"를 작성하세요.
+반드시 구글 검색(Google Search)을 사용하여 다음 티커들의 가장 최근 거래일(기준일: ${today}) 종가와 주간 변동률, PBR, PER를 정확히 확인하여 리포트를 작성하세요:
+- 신한지주 (055550)
+- KB금융 (105560)
+- 하나금융 (086790)
+- 우리금융 (316140)
+- 카카오뱅크 (323410)
 
-분석 대상:
-- 신한금융그룹 (기준점/당사) — 신한은행, 신한카드, 신한투자증권, 신한라이프
-- KB금융그룹 — KB국민은행, KB국민카드, KB증권, KB손해보험
-- 하나금융그룹 — 하나은행, 하나카드, 하나증권
-- 우리금융그룹 — 우리은행, 우리카드, 우리투자증권
-- 카카오뱅크 (인터넷전문은행)
-- 토스뱅크/비바리퍼블리카 (인터넷전문은행·핀테크)
-
-## 반드시 아래 JSON만 출력하세요. 다른 텍스트 없이 JSON만:
+## 반드시 아래 JSON만 출력하세요:
 {
   "title": "${weekLabel} 금융권 경쟁 인텔리전스 리포트",
   "summary": {
-    "title": "이번 주 경쟁 구도 핵심 한 줄 (20자 이내)",
-    "body": "이번 주 경쟁 구도 전반 요약 3~4문장. 누가 공격적으로 움직였는지, 어떤 전선이 형성됐는지 중심으로.",
-    "hotGroup": "이번 주 가장 공격적으로 움직인 금융그룹명",
-    "hotReason": "해당 그룹이 주목받는 이유 한 줄",
-    "mood": "positive 또는 neutral 또는 negative"
+    "title": "경쟁 구도 핵심 (20자 이내)",
+    "body": "이번 주 경쟁 요약 3~4문장",
+    "hotGroup": "가장 공격적인 금융사",
+    "hotReason": "이유 한 줄",
+    "mood": "positive/neutral/negative"
   },
   "stockComparison": [
-    { "name": "신한지주",  "ticker": "055550", "price": "52,300원", "weekChange": "+2.3%", "isUp": true,  "per": "6.2배", "pbr": "0.54배", "isOurGroup": true  },
-    { "name": "KB금융",   "ticker": "105560", "price": "78,500원", "weekChange": "+1.8%", "isUp": true,  "per": "6.8배", "pbr": "0.61배", "isOurGroup": false },
-    { "name": "하나금융", "ticker": "086790", "price": "58,200원", "weekChange": "+0.9%", "isUp": true,  "per": "5.9배", "pbr": "0.49배", "isOurGroup": false },
-    { "name": "우리금융", "ticker": "316140", "price": "15,800원", "weekChange": "-0.3%", "isUp": false, "per": "5.1배", "pbr": "0.41배", "isOurGroup": false },
-    { "name": "카카오뱅크","ticker": "323410", "price": "22,450원", "weekChange": "+2.1%", "isUp": true,  "per": "18.4배","pbr": "1.82배","isOurGroup": false }
+    { "name": "신한지주", "ticker": "055550", "price": "검색된 실제 현재가", "weekChange": "검색된 실제 변동률", "isUp": true, "per": "검색된 실제 PER", "pbr": "검색된 실제 PBR", "isOurGroup": true },
+    { "name": "KB금융", "ticker": "105560", "price": "검색된 실제 현재가", "weekChange": "검색된 실제 변동률", "isUp": true, "per": "실제 PER", "pbr": "실제 PBR", "isOurGroup": false },
+    { "name": "하나금융", "ticker": "086790", "price": "실제", "weekChange": "실제", "isUp": true, "per": "실제", "pbr": "실제", "isOurGroup": false },
+    { "name": "우리금융", "ticker": "316140", "price": "실제", "weekChange": "실제", "isUp": false, "per": "실제", "pbr": "실제", "isOurGroup": false },
+    { "name": "카카오뱅크", "ticker": "323410", "price": "실제", "weekChange": "실제", "isUp": true, "per": "실제", "pbr": "실제", "isOurGroup": false }
   ],
   "competitorMoves": [
-    {
-      "group": "KB금융",
-      "category": "신상품 또는 금리 또는 마케팅 또는 인사 또는 M&A 또는 디지털 또는 해외",
-      "title": "이슈 제목",
-      "body": "핵심 내용 2~3문장",
-      "threatLevel": "high 또는 medium 또는 low",
-      "ourAction": "신한이 취해야 할 대응 방향 한 줄"
-    },
-    { "group": "하나금융",  "category": "신상품 또는 금리 또는 마케팅 또는 인사 또는 M&A 또는 디지털 또는 해외", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high 또는 medium 또는 low", "ourAction": "대응 방향 한 줄" },
-    { "group": "우리금융",  "category": "신상품 또는 금리 또는 마케팅 또는 인사 또는 M&A 또는 디지털 또는 해외", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high 또는 medium 또는 low", "ourAction": "대응 방향 한 줄" },
-    { "group": "카카오뱅크","category": "신상품 또는 금리 또는 마케팅 또는 인사 또는 M&A 또는 디지털 또는 해외", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high 또는 medium 또는 low", "ourAction": "대응 방향 한 줄" },
-    { "group": "토스뱅크",  "category": "신상품 또는 금리 또는 마케팅 또는 인사 또는 M&A 또는 디지털 또는 해외", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high 또는 medium 또는 low", "ourAction": "대응 방향 한 줄" }
+    { "group": "KB금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
+    { "group": "하나금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
+    { "group": "우리금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
+    { "group": "카카오뱅크", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
+    { "group": "토스뱅크", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" }
   ],
   "productBattle": [
-    { "domain": "수신(예·적금)", "leader": "리드 금융사", "leaderProduct": "상품명", "leaderRate": "최고 금리", "shinhanProduct": "신한 상품명", "shinhanRate": "신한 금리", "shinhanStatus": "우위 또는 동등 또는 열위", "comment": "경쟁 현황 한 줄" },
-    { "domain": "대출(주담·신용)", "leader": "리드 금융사", "leaderProduct": "상품명", "leaderRate": "최저 금리", "shinhanProduct": "신한 상품명", "shinhanRate": "신한 금리", "shinhanStatus": "우위 또는 동등 또는 열위", "comment": "경쟁 현황 한 줄" },
-    { "domain": "카드 혜택", "leader": "리드 금융사", "leaderProduct": "상품명", "leaderRate": "핵심 혜택", "shinhanProduct": "신한 상품명", "shinhanRate": "신한 혜택", "shinhanStatus": "우위 또는 동등 또는 열위", "comment": "경쟁 현황 한 줄" },
-    { "domain": "디지털·앱", "leader": "리드 금융사", "leaderProduct": "앱/서비스명", "leaderRate": "핵심 기능", "shinhanProduct": "신한 앱명", "shinhanRate": "신한 기능", "shinhanStatus": "우위 또는 동등 또는 열위", "comment": "경쟁 현황 한 줄" }
+    { "domain": "수신", "leader": "리드사", "leaderProduct": "상품명", "leaderRate": "금리", "shinhanProduct": "신한 상품", "shinhanRate": "신한 금리", "shinhanStatus": "우위/동등/열위", "comment": "코멘트" },
+    { "domain": "대출", "leader": "리드사", "leaderProduct": "상품명", "leaderRate": "금리", "shinhanProduct": "신한 상품", "shinhanRate": "신한 금리", "shinhanStatus": "우위/동등/열위", "comment": "코멘트" }
   ],
-  "industryTopics": [
-    { "topic": "업계 공통 이슈 제목", "body": "2~3문장", "affectedGroups": ["신한", "KB", "하나"], "shinhanImpact": "신한 영향 한 줄" }
-  ],
-  "swotSignals": {
-    "opportunities": ["기회 요인 1", "기회 요인 2"],
-    "threats": ["위협 요인 1", "위협 요인 2"]
-  },
-  "weeklyVerdict": {
-    "winner": "이번 주 가장 앞선 금융그룹명",
-    "winnerReason": "이유 2문장",
-    "shinhanScore": 72,
-    "shinhanComment": "신한 평가 2문장. 잘한 점과 보완점 균형 있게.",
-    "nextFocus": "다음 주 신한이 집중해야 할 전략 포인트 한 줄"
-  },
-  "nextWeek": {
-    "preview": "다음 주 경쟁 구도 전망 3~4문장",
-    "watchList": [
-      { "group": "KB금융",    "watchPoint": "주목 포인트 한 줄" },
-      { "group": "카카오뱅크","watchPoint": "주목 포인트 한 줄" },
-      { "group": "토스뱅크",  "watchPoint": "주목 포인트 한 줄" }
-    ]
-  }
-}
-competitorMoves 정확히 5개(KB·하나·우리·카카오뱅크·토스뱅크 각 1개),
-productBattle 4개, industryTopics 2~3개, nextWeek.watchList 3개.
-반드시 이번 주 실제 최신 뉴스·데이터 기반으로 작성하세요.`;
+  "industryTopics": [{ "topic": "주제", "body": "내용", "affectedGroups": ["신한", "KB"], "shinhanImpact": "영향" }],
+  "swotSignals": { "opportunities": ["기회"], "threats": ["위협"] },
+  "weeklyVerdict": { "winner": "금융사", "winnerReason": "이유", "shinhanScore": 75, "shinhanComment": "평가", "nextFocus": "전략" },
+  "nextWeek": { "preview": "전망", "watchList": [{ "group": "사명", "watchPoint": "관전포인트" }] }
+}`;
 }
 
 // ══════════════════════════════════════════════════
@@ -1096,13 +1072,14 @@ export default function AIWeeklyReport() {
             });
         }, 800);
 
+        const today = getTodayKey();
         try {
-            let prompt;
+            let prompt = '';
             switch (type) {
-                case 'card': prompt = buildCardReportPrompt(); break;
-                case 'ai': prompt = buildAITrendReportPrompt(); break;
-                case 'shinhan': prompt = buildShinhanReportPrompt(); break;
-                case 'competitor': prompt = buildCompetitorReportPrompt(); break; // ✅
+                case 'card': prompt = buildCardReportPrompt(today); break;
+                case 'ai': prompt = buildAITrendReportPrompt(today); break;
+                case 'shinhan': prompt = buildShinhanReportPrompt(today); break;
+                case 'competitor': prompt = buildCompetitorReportPrompt(today); break; // ✅
                 default: return;
             }
             const raw = await enqueueGeminiRequest(() => geminiRequest(prompt, { useSearch: true }));
@@ -1151,8 +1128,8 @@ export default function AIWeeklyReport() {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`flex items-center gap-1.5 px-3.5 py-2.5 rounded-full text-[12px] font-semibold transition-all border whitespace-nowrap shrink-0 ${isActive
-                                        ? 'bg-primary text-white border-primary'
-                                        : 'bg-white dark:bg-[#1a1a1a] text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700'
+                                    ? 'bg-primary text-white border-primary'
+                                    : 'bg-white dark:bg-[#1a1a1a] text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700'
                                     }`}
                             >
                                 <span>{tab.emoji}</span>
