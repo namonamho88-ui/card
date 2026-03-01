@@ -27,6 +27,8 @@ export default function FinancialRanking() {
     const [selectedItem, setSelectedItem] = useState(null);
     const [newsData, setNewsData] = useState(null);
     const [newsLoading, setNewsLoading] = useState(false);
+    const [krTimer, setKrTimer] = useState(0);     // ✅ 신규: 국장 타이머
+    const [newsTimer, setNewsTimer] = useState(0); // ✅ 신규: 뉴스 타이머
     const intervalRef = useRef(null);
     const isMountedRef = useRef(true);
 
@@ -127,6 +129,8 @@ export default function FinancialRanking() {
         } catch (e) { }
 
         if (!GEMINI_KEY) return;
+        setKrTimer(20); // 20초 예측
+        const tInt = setInterval(() => setKrTimer(p => p <= 1 ? p : p - 1), 1000);
 
         try {
             const raw = await enqueueGeminiRequest(() =>
@@ -147,6 +151,9 @@ export default function FinancialRanking() {
         } catch (e) {
             console.warn('KR stocks Gemini error:', e.message);
             // ✅ 실패 시 Mock 데이터 유지 (이미 초기값)
+        } finally {
+            clearInterval(tInt);
+            setKrTimer(0);
         }
     }, []);
 
@@ -178,6 +185,9 @@ export default function FinancialRanking() {
             setNewsData({ summary: 'API 키가 설정되지 않았습니다.', sentiment: '중립', items: [] });
             return;
         }
+
+        setNewsTimer(15); // 뉴스 분석은 약 15초
+        const tInt = setInterval(() => setNewsTimer(p => p <= 1 ? p : p - 1), 1000);
 
         try {
             const stockName = item.nameKr || item.name;
@@ -242,6 +252,8 @@ export default function FinancialRanking() {
             });
         } finally {
             setNewsLoading(false);
+            clearInterval(tInt);
+            setNewsTimer(0);
         }
     }, []);
 
@@ -324,7 +336,7 @@ export default function FinancialRanking() {
                             ? '매일 자동 업데이트'
                             : lastUpdated
                                 ? `실시간 · ${lastUpdated.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`
-                                : '연결 중...'
+                                : krTimer > 0 ? `AI 분석 중... ${krTimer}초 남음` : '연결 중...'
                         }
                     </p>
                 </div>
@@ -506,7 +518,7 @@ export default function FinancialRanking() {
                                     <div className="flex items-center gap-3">
                                         <span className="material-symbols-outlined text-primary text-[24px] animate-spin">progress_activity</span>
                                         <span className="text-[14px] font-semibold text-toss-gray-600 dark:text-gray-400">
-                                            AI가 분석 중입니다
+                                            AI가 분석 중입니다 (약 {newsTimer}초 남음)
                                         </span>
                                     </div>
 

@@ -109,6 +109,8 @@ export default function TodayFood() {
   const [courseResult, setCourseResult] = useState(null);
   const [courseLoading, setCourseLoading] = useState(false);
   const [courseProgress, setCourseProgress] = useState(0);
+  const [rouletteTimer, setRouletteTimer] = useState(0); // ✅ 룰렛 타이머
+  const [courseTimer, setCourseTimer] = useState(0);     // ✅ 코스 타이머
 
   // ── 코스 예시 시나리오 ──
   const SCENARIO_EXAMPLES = [
@@ -250,6 +252,11 @@ ${area} 지역에서 모든 음식 종류를 포함하여 현재 가장 인기 �
     setRouletteLoading(true);
     setRouletteAnimation(true);
     setRouletteResult(null);
+    setRouletteTimer(8); // ✅ 룰렛은 보통 8초 내외
+
+    const timerInterval = setInterval(() => {
+      setRouletteTimer(prev => (prev <= 1 ? prev : prev - 1));
+    }, 1000);
 
     // Build excluded keywords
     const excludedKeywords = rouletteExclude.flatMap(id => {
@@ -340,6 +347,8 @@ INSTRUCTIONS:
     } finally {
       setRouletteLoading(false);
       setRouletteAnimation(false);
+      clearInterval(timerInterval); // ✅ 인터벌 제거
+      setRouletteTimer(0);
     }
   };
 
@@ -355,10 +364,14 @@ INSTRUCTIONS:
   // 🗺️ 코스 플래너 기능
   // ──────────────────────────────────────────
   const handleCoursePlan = async () => {
-    if (!courseScenario.trim()) return;
     setCourseLoading(true);
     setCourseResult(null);
     setCourseProgress(0);
+    setCourseTimer(20); // ✅ 코스 플래너는 검색 포함 20초 예측
+
+    const timerInterval = setInterval(() => {
+      setCourseTimer(prev => (prev <= 1 ? prev : prev - 1));
+    }, 1000);
 
     // Progress simulation
     const progressInterval = setInterval(() => {
@@ -443,6 +456,8 @@ INSTRUCTIONS:
       setCourseResult({ error: 'AI 코스 생성에 실패했습니다. 다시 시도해주세요.' });
     } finally {
       setCourseLoading(false);
+      clearInterval(timerInterval); // ✅ 인터벌 제거
+      setCourseTimer(0);
     }
   };
 
@@ -601,7 +616,7 @@ INSTRUCTIONS:
                     <button
                       key={cat.id}
                       onClick={() => toggleExclude(cat.id)}
-                      className={`flex items-center gap-1 px-3 py-2 rounded-full text-[12px] font-semibold transition-all border ${cat.selected
+                      className={`flex items-center gap-1 px-3.5 py-2.5 rounded-full text-[12px] font-semibold transition-all border ${cat.selected
                         ? 'bg-red-50 dark:bg-red-900/20 text-red-500 border-red-200 dark:border-red-800 line-through'
                         : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-600 dark:text-gray-400 border-toss-gray-200 dark:border-gray-700'
                         }`}
@@ -645,7 +660,7 @@ INSTRUCTIONS:
                     AI가 메뉴를 고르고 있어요
                   </p>
                   <p className="text-[13px] text-toss-gray-500 dark:text-gray-400">
-                    {selectedArea}의 맛집 데이터를 분석 중...
+                    {selectedArea}의 맛집 데이터를 분석 중... ({rouletteTimer}초)
                   </p>
                   <div className="mt-4 w-full bg-toss-gray-200 dark:bg-gray-800 rounded-full h-1.5">
                     <div className="bg-primary h-1.5 rounded-full animate-pulse" style={{ width: '60%' }} />

@@ -983,6 +983,7 @@ export default function AIWeeklyReport() {
     const [reports, setReports] = useState({ card: null, ai: null, shinhan: null, competitor: null });
     const [generating, setGenerating] = useState({ card: false, ai: false, shinhan: false, competitor: false });
     const [progress, setProgress] = useState({ card: 0, ai: 0, shinhan: 0, competitor: 0 });
+    const [timers, setTimers] = useState({ card: 0, ai: 0, shinhan: 0, competitor: 0 }); // ✅ 타이머 상태 추가
 
     const [showSharePanel, setShowSharePanel] = useState(false);
     const [toast, setToast] = useState({ visible: false, message: '', icon: '' });
@@ -1063,6 +1064,7 @@ export default function AIWeeklyReport() {
         if (generating[type] || hasTodayCache(type)) return;
         setGenerating(prev => ({ ...prev, [type]: true }));
         setProgress(prev => ({ ...prev, [type]: 0 }));
+        setTimers(prev => ({ ...prev, [type]: 20 })); // ✅ 신규: 소요 시간 20초 예측 (검색 포함)
 
         const interval = setInterval(() => {
             setProgress(prev => {
@@ -1071,6 +1073,15 @@ export default function AIWeeklyReport() {
                 return { ...prev, [type]: Math.min(90, cur + Math.random() * 15 + 5) };
             });
         }, 800);
+
+        // ✅ 신규: 1초마다 줄어드는 타이머
+        const timerInterval = setInterval(() => {
+            setTimers(prev => {
+                const cur = prev[type];
+                if (cur <= 1) return prev; // 1초에서 멈춤 (마무리 단계)
+                return { ...prev, [type]: cur - 1 };
+            });
+        }, 1000);
 
         const today = getTodayKey();
         try {
@@ -1097,6 +1108,8 @@ export default function AIWeeklyReport() {
             setProgress(prev => ({ ...prev, [type]: 0 }));
         } finally {
             clearInterval(interval);
+            clearInterval(timerInterval); // ✅ 타이머 인터벌 제거
+            setTimers(prev => ({ ...prev, [type]: 0 }));
         }
     }, [generating]);
 
@@ -1149,6 +1162,14 @@ export default function AIWeeklyReport() {
                         {getWeekLabel()} · {hasToday ? '오늘 생성 완료' : '미생성'}
                     </p>
                 </div>
+                {isGenerating && (
+                    <div className="flex items-center gap-1.5 bg-primary/5 dark:bg-primary/20 px-3 py-1 rounded-full border border-primary/20">
+                        <span className="material-symbols-outlined text-primary text-[14px] animate-spin">progress_activity</span>
+                        <p className="text-[11px] font-bold text-primary">
+                            분석 완료까지 {timers[activeTab]}초 예상
+                        </p>
+                    </div>
+                )}
                 <p className="text-[11px] text-toss-gray-400 dark:text-gray-600">{getMonthDay()}</p>
             </div>
 

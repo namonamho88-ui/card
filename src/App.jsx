@@ -23,6 +23,8 @@ function App() {
   const [activeMainTab, setActiveMainTab] = useState('report');
   const [cardDetail, setCardDetail] = useState(null);
   const [cardDetailLoading, setCardDetailLoading] = useState(false);
+  const [detailTimer, setDetailTimer] = useState(0);    // ✅ 상세 타이머
+  const [chatTimer, setChatTimer] = useState(0);      // ✅ 챗봇 타이머
   const chatEndRef = useRef(null);
   const chatbotSectionRef = useRef(null);
 
@@ -55,6 +57,8 @@ function App() {
     }
 
     setCardDetailLoading(true);
+    setDetailTimer(15);
+    const tInt = setInterval(() => setDetailTimer(p => p <= 1 ? p : p - 1), 1000);
 
     try {
       const prompt = `"${card.issuer} ${card.name}" 신용카드의 정보를 다음 구조의 JSON 형식으로 찾아주세요:
@@ -89,6 +93,8 @@ function App() {
       console.warn('Card detail fetch error:', e.message);
     } finally {
       setCardDetailLoading(false);
+      clearInterval(tInt);
+      setDetailTimer(0);
     }
   }, []);
 
@@ -110,6 +116,8 @@ function App() {
     const userMsg = inputValue;
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setInputValue('');
+    setChatTimer(8);
+    const tInt = setInterval(() => setChatTimer(p => p <= 1 ? p : p - 1), 1000);
 
     // 로딩 표시
     const loadingId = Date.now();
@@ -174,6 +182,9 @@ ${cardContext}
           ? { ...msg, text: errorMsg, isLoading: false }
           : msg
       ));
+    } finally {
+      clearInterval(tInt);
+      setChatTimer(0);
     }
   };
 
@@ -186,8 +197,10 @@ ${cardContext}
   const CardComparison = ({ card1, card2, onClear }) => {
     const [analysis, setAnalysis] = useState('AI가 두 카드를 분석하고 있습니다...');
     const [isAnalyzing, setIsAnalyzing] = useState(true);
+    const [compTimer, setCompTimer] = useState(8); // ✅ 비교 타이머
 
     useEffect(() => {
+      const tInt = setInterval(() => setCompTimer(p => p <= 1 ? p : p - 1), 1000);
       const fetchAnalysis = async () => {
         try {
           const prompt = `당신은 신용카드 비교 전문 AI입니다.
@@ -254,10 +267,13 @@ ${cardContext}
           setAnalysis("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
         } finally {
           setIsAnalyzing(false);
+          clearInterval(tInt);
+          setCompTimer(0);
         }
       };
 
       fetchAnalysis();
+      return () => clearInterval(tInt);
     }, [card1, card2]);
 
     return (
@@ -304,7 +320,9 @@ ${cardContext}
             {isAnalyzing ? (
               <div className="flex flex-col items-center py-10 gap-3">
                 <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                <p className="text-sm text-toss-gray-500 dark:text-gray-400">데이터를 정밀 분석 중입니다...</p>
+                <p className="text-sm text-toss-gray-500 dark:text-gray-400">
+                  데이터를 정밀 분석 중입니다... (약 {compTimer}초 남음)
+                </p>
               </div>
             ) : (
               <div className="prose dark:prose-invert max-w-none text-[15px] leading-relaxed dark:text-gray-200">
@@ -444,6 +462,11 @@ ${cardContext}
                           : 'bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-800 dark:text-gray-200 rounded-tl-none'
                           }`}>
                           <div dangerouslySetInnerHTML={{ __html: m.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                          {m.isLoading && chatTimer > 0 && (
+                            <p className="text-[11px] mt-1.5 font-bold text-primary/70 animate-pulse">
+                              분석 완료까지 {chatTimer}초 예상
+                            </p>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -592,7 +615,7 @@ ${cardContext}
                   {cardDetailLoading && (
                     <div className="flex items-center gap-1.5 animate-pulse">
                       <span className="material-symbols-outlined text-primary text-[18px] animate-spin">progress_activity</span>
-                      <span className="text-[12px] font-bold text-primary">AI 분석 중...</span>
+                      <span className="text-[12px] font-bold text-primary">AI 분석 중... ({detailTimer}초)</span>
                     </div>
                   )}
                 </div>
@@ -603,7 +626,9 @@ ${cardContext}
                     <div className="p-4 bg-toss-gray-50 dark:bg-black/20 rounded-[20px] border border-dashed border-toss-gray-200 dark:border-white/5 min-h-[100px] flex items-center justify-center">
                       <div className="flex items-center gap-2">
                         <span className="material-symbols-outlined text-primary text-[20px] animate-spin">progress_activity</span>
-                        <span className="text-[14px] font-bold text-toss-gray-600 dark:text-gray-400">AI가 혜택을 분석하고 있습니다...</span>
+                        <span className="text-[14px] font-bold text-toss-gray-600 dark:text-gray-400">
+                          AI가 혜택을 분석하고 있습니다... (약 {detailTimer}초 남음)
+                        </span>
                       </div>
                     </div>
 
