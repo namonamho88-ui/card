@@ -92,6 +92,7 @@ export default function TodayFood() {
   const [selectedArea, setSelectedArea] = useState('을지로');
   const [customArea, setCustomArea] = useState('');     // 사용자가 입력한 지역
   const [allRestaurants, setAllRestaurants] = useState([]);
+  const [isMainFetching, setIsMainFetching] = useState(false); // ✅ 메인 데이터 로딩 상태
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const fetchingRef = useRef(false);
 
@@ -149,7 +150,8 @@ export default function TodayFood() {
 
     // 2순위: 이전 캐시
     try {
-      const prefix = `${CACHE_KEY}_${area}_`;
+      const searchLoc = getSearchLocation(area);
+      const prefix = `${CACHE_KEY}_${searchLoc}_`;
       let latestData = null;
       let latestTime = 0;
       for (let i = 0; i < localStorage.length; i++) {
@@ -185,9 +187,12 @@ export default function TodayFood() {
 
   // 백그라운드 API 업데이트 (기존 로직 재사용)
   const fetchInBackground = useCallback(async (area) => {
-    if (fetchingRef.current) return;
-    fetchingRef.current = true;
+    // 이미 같은 지역을 가져오는 중이면 중복 실행 방지 (직접입력 모드 고려)
+    const searchLoc = getSearchLocation(area);
+    if (fetchingRef.current === searchLoc) return;
+    fetchingRef.current = searchLoc;
 
+    setIsMainFetching(true); // ✅ 로딩 시작
     try {
       const searchLoc = getSearchLocation(area);
       const prompt = `
@@ -233,8 +238,9 @@ ${searchLoc} 지역에서 모든 음식 종류를 포함하여 현재 가장 인
       console.warn('Background food update failed:', err.message);
     } finally {
       fetchingRef.current = false;
+      setIsMainFetching(false); // ✅ 로딩 종료
     }
-  }, []);
+  }, [getSearchLocation]);
 
   useEffect(() => {
     // 직접입력 모드인데 아직 입력값이 없으면 대기
@@ -404,7 +410,7 @@ INSTRUCTIONS:
       `${r.name}|${r.category}|${r.signature}|${r.priceRange}|${r.rating}|${r.waitTime}|${r.openHours}|${r.closedDay}`
     ).join('\n');
 
-    const prompt = `You are "AI Course Planner", a Seoul food-course planning expert.
+    const prompt = `You are "AI Course Planner", a local food-course planning expert.
 The user wants a food course plan based on their scenario.
 
 USER SCENARIO: "${courseScenario}"
@@ -556,658 +562,718 @@ INSTRUCTIONS:
           </div>
         )}
       </div>
-
-      {/* ─── 기능 탭 전환 ─── */}
-      <div className="bg-white dark:bg-[#111111] border-b border-toss-gray-100 dark:border-gray-800 shrink-0">
-        <div className="flex px-5 gap-1">
-          <button
-            onClick={() => setActiveTab('course')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3.5 border-b-2 transition-all ${activeTab === 'course'
-              ? 'border-primary text-primary font-bold'
-              : 'border-transparent text-toss-gray-500 dark:text-gray-500'
-              }`}
-          >
-            <span className="text-[16px]">🗺️</span>
-            <span className="text-[14px]">AI 코스 플래너</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('roulette')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3.5 border-b-2 transition-all ${activeTab === 'roulette'
-              ? 'border-primary text-primary font-bold'
-              : 'border-transparent text-toss-gray-500 dark:text-gray-500'
-              }`}
-          >
-            <span className="text-[16px]">🎰</span>
-            <span className="text-[14px]">오늘의 한 끼</span>
-          </button>
-        </div>
-      </div>
-
-      {/* ──────────────────────────────────────── */}
-      {/* 🎰 오늘의 한 끼 (룰렛) 탭 */}
-      {/* ──────────────────────────────────────── */}
-      {activeTab === 'roulette' && (
-        <div className="px-5 py-6 pb-36">
-          {!rouletteResult ? (
-            <>
-              {/* 인원 선택 */}
-              <div className="mb-6">
-                <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-3 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary text-[18px]">group</span>
-                  몇 명이서 먹나요?
-                </p>
-                <div className="flex gap-2 flex-wrap">
-                  {PEOPLE_OPTIONS.map(opt => (
-                    <button
-                      key={opt}
-                      onClick={() => setRoulettePeople(roulettePeople === opt ? null : opt)}
-                      className={`px-4 py-2.5 rounded-2xl text-[13px] font-semibold transition-all border ${roulettePeople === opt
-                        ? 'bg-primary text-white border-primary'
-                        : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
-                        }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
+      {/* ─── 하위 컨텐츠 영역 ─── */}
+      <div className="py-6 px-5 space-y-8">
+        {/* 주변 맛집 리스트 */}
+        <section>
+          <div className="flex items-center justify-between mb-4 px-1">
+            <h3 className="text-[17px] font-bold text-toss-gray-800 dark:text-white flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-primary text-[20px]">recommend</span>
+              주변 맛집 추천
+            </h3>
+            {isMainFetching && (
+              <div className="flex items-center gap-1.5 animate-pulse">
+                <span className="material-symbols-outlined text-primary text-[14px] animate-spin">progress_activity</span>
+                <span className="text-[11px] font-bold text-primary">실시간 검색 중...</span>
               </div>
+            )}
+          </div>
 
-              {/* 예산 선택 */}
-              <div className="mb-6">
-                <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-3 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary text-[18px]">payments</span>
-                  1인 예산은?
-                </p>
-                <div className="flex gap-2 flex-wrap">
-                  {BUDGET_OPTIONS.map(opt => (
-                    <button
-                      key={opt}
-                      onClick={() => setRouletteBudget(rouletteBudget === opt ? null : opt)}
-                      className={`px-4 py-2.5 rounded-2xl text-[13px] font-semibold transition-all border ${rouletteBudget === opt
-                        ? 'bg-primary text-white border-primary'
-                        : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
-                        }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 분위기 선택 */}
-              <div className="mb-6">
-                <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-3 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary text-[18px]">mood</span>
-                  오늘 기분은?
-                </p>
-                <div className="grid grid-cols-3 gap-2">
-                  {MOOD_OPTIONS.map(opt => (
-                    <button
-                      key={opt.id}
-                      onClick={() => setRouletteMood(rouletteMood === opt.id ? null : opt.id)}
-                      className={`flex flex-col items-center gap-1 py-3 rounded-2xl text-[13px] font-semibold transition-all border ${rouletteMood === opt.id
-                        ? 'bg-primary/10 text-primary border-primary dark:bg-primary/20'
-                        : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
-                        }`}
-                    >
-                      <span className="text-[20px]">{opt.icon}</span>
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 제외 음식 */}
-              <div className="mb-8">
-                <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-3 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary text-[18px]">block</span>
-                  오늘은 빼고 싶은 음식
-                  <span className="text-[12px] font-normal text-toss-gray-400">(선택)</span>
-                </p>
-                <div className="flex gap-2 flex-wrap">
-                  {excludeCategories.map(cat => (
-                    <button
-                      key={cat.id}
-                      onClick={() => toggleExclude(cat.id)}
-                      className={`flex items-center gap-1 px-3.5 py-2.5 rounded-full text-[12px] font-semibold transition-all border ${cat.selected
-                        ? 'bg-red-50 dark:bg-red-900/20 text-red-500 border-red-200 dark:border-red-800 line-through'
-                        : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-600 dark:text-gray-400 border-toss-gray-200 dark:border-gray-700'
-                        }`}
-                    >
-                      <span className="text-[14px]">{cat.icon}</span>
-                      {cat.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 룰렛 버튼 */}
-              <button
-                onClick={handleRoulette}
-                disabled={rouletteLoading}
-                className={`w-full py-5 rounded-[22px] font-bold text-[18px] transition-all active:scale-[0.98] flex items-center justify-center gap-3 ${rouletteLoading
-                  ? 'bg-toss-gray-200 dark:bg-gray-700 text-toss-gray-400 cursor-not-allowed'
-                  : 'bg-primary text-white shadow-lg shadow-primary/30 hover:brightness-105'
-                  }`}
-              >
-                {rouletteLoading ? (
-                  <>
-                    <span className="material-symbols-outlined animate-spin text-[24px]">progress_activity</span>
-                    AI가 고르는 중...
-                  </>
-                ) : (
-                  <>
-                    <span className="text-[24px]">🎲</span>
-                    오늘의 한 끼 추천받기
-                  </>
-                )}
-              </button>
-
-              {/* 룰렛 애니메이션 오버레이 */}
-              {rouletteAnimation && (
-                <div className="mt-6 bg-toss-gray-50 dark:bg-gray-900 rounded-[24px] p-8 text-center">
-                  <div className="text-5xl mb-4 animate-bounce">
-                    {['🍚', '🍣', '🍝', '🍔', '🍜', '🍰', '🥩', '🍕'][Math.floor(Math.random() * 8)]}
-                  </div>
-                  <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white mb-2">
-                    AI가 메뉴를 고르고 있어요
-                  </p>
-                  <p className="text-[13px] text-toss-gray-500 dark:text-gray-400">
-                    {selectedArea}의 맛집 데이터를 분석 중... ({rouletteTimer}초)
-                  </p>
-                  <div className="mt-4 w-full bg-toss-gray-200 dark:bg-gray-800 rounded-full h-1.5">
-                    <div className="bg-primary h-1.5 rounded-full animate-pulse" style={{ width: '60%' }} />
-                  </div>
-                </div>
-              )}
-
-              {/* 이전 추천 히스토리 */}
-              {rouletteHistory.length > 0 && !rouletteLoading && (
-                <div className="mt-8">
-                  <p className="text-[14px] font-bold text-toss-gray-600 dark:text-gray-400 mb-3 flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[16px]">history</span>
-                    최근 추천
-                  </p>
-                  <div className="space-y-2">
-                    {rouletteHistory.slice(0, 3).map((item, idx) => (
-                      <div
-                        key={idx}
-                        onClick={() => {
-                          const matched = allRestaurants.find(r => r.name === item.name);
-                          if (matched) setSelectedRestaurant(matched);
-                        }}
-                        className="flex items-center gap-3 p-3 bg-toss-gray-50 dark:bg-gray-900/50 rounded-2xl cursor-pointer active:bg-toss-gray-100 dark:active:bg-gray-800 transition-colors"
-                      >
-                        <div
-                          className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
-                          style={{ background: item.color || '#f3f4f6' }}
-                        >
-                          {item.icon || '🍽️'}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[14px] font-semibold text-toss-gray-800 dark:text-white truncate">{item.name}</p>
-                          <p className="text-[11px] text-toss-gray-500 dark:text-gray-400">{item.area} · {item.category}</p>
-                        </div>
-                        <span className="text-[11px] text-toss-gray-400 dark:text-gray-600 shrink-0">
-                          {new Date(item.timestamp).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </>
+          {isMainFetching && allRestaurants.length === 0 ? (
+            <div className="py-12 flex flex-col items-center justify-center bg-toss-gray-50 dark:bg-black/20 rounded-3xl border border-dashed border-toss-gray-200 dark:border-white/5">
+              <span className="material-symbols-outlined text-toss-gray-200 dark:text-gray-700 text-5xl mb-3 animate-pulse">
+                manage_search
+              </span>
+              <p className="text-toss-gray-400 dark:text-gray-500 font-medium text-[14px]">
+                {getSearchLocation(selectedArea)} 지역 맛집을 찾고 있어요...
+              </p>
+            </div>
+          ) : allRestaurants.length === 0 ? (
+            <div className="py-12 flex flex-col items-center justify-center">
+              <p className="text-toss-gray-400 dark:text-gray-500 font-medium">맛집 정보가 없네요.</p>
+            </div>
           ) : (
-            /* ─── 룰렛 결과 화면 ─── */
-            <div>
-              {/* 결과 카드 */}
-              <div className="bg-gradient-to-br from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20 rounded-[28px] p-6 mb-6 border border-primary/10">
-                <div className="text-center mb-5">
-                  <p className="text-[13px] font-bold text-primary mb-2">AI 추천 결과</p>
+            <div className="space-y-4">
+              {allRestaurants.map((restaurant, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setSelectedRestaurant(restaurant)}
+                  className="bg-white dark:bg-[#1a1a1a] rounded-[24px] p-4 flex gap-4 items-center border border-toss-gray-100 dark:border-gray-800 active:scale-[0.98] transition-all cursor-pointer shadow-sm shadow-black/5"
+                >
                   <div
-                    className="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-3 shadow-sm"
-                    style={{ background: rouletteResult.color || '#f3f4f6' }}
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shadow-sm"
+                    style={{ background: restaurant.color || '#f3f4f6' }}
                   >
-                    {rouletteResult.icon || '🍽️'}
+                    {restaurant.icon || '🍽️'}
                   </div>
-                  <h3 className="text-[24px] font-bold text-toss-gray-800 dark:text-white mb-1">
-                    {rouletteResult.name}
-                  </h3>
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="text-[12px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-semibold">
-                      {rouletteResult.category}
-                    </span>
-                    {rouletteResult.rating && (
-                      <span className="flex items-center gap-0.5 text-[13px]">
-                        <span className="material-symbols-outlined text-yellow-400 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                        <span className="font-bold text-toss-gray-800 dark:text-white">{rouletteResult.rating}</span>
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* AI 추천 이유 */}
-                <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl p-4 mb-4">
-                  <div className="flex items-center gap-1.5 mb-2">
-                    <span className="material-symbols-outlined text-primary text-[16px]">smart_toy</span>
-                    <span className="text-[12px] font-bold text-primary">AI가 이 곳을 추천한 이유</span>
-                  </div>
-                  <p className="text-[14px] text-toss-gray-700 dark:text-gray-300 leading-relaxed">
-                    {rouletteResult.reason}
-                  </p>
-                </div>
-
-                {/* 정보 그리드 */}
-                <div className="grid grid-cols-2 gap-2 mb-4">
-                  <InfoCard icon="restaurant_menu" label="대표 메뉴" value={rouletteResult.signature} />
-                  <InfoCard icon="payments" label="가격대" value={rouletteResult.priceRange} />
-                  <InfoCard icon="schedule" label="영업시간" value={rouletteResult.openHours} />
-                  <InfoCard icon="hourglass_top" label="예상 대기" value={rouletteResult.waitTime} />
-                </div>
-
-                {/* 팁 */}
-                {rouletteResult.tip && (
-                  <div className="bg-amber-50 dark:bg-amber-900/20 rounded-2xl p-4 mb-4 border border-amber-100 dark:border-amber-800/30">
-                    <div className="flex items-start gap-2">
-                      <span className="text-[16px] shrink-0">💡</span>
-                      <p className="text-[13px] text-amber-800 dark:text-amber-200 leading-relaxed font-medium">
-                        {rouletteResult.tip}
-                      </p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5 mb-0.5">
+                      <span className="text-[13px] font-bold text-primary">{restaurant.category}</span>
+                      <span className="text-toss-gray-200 dark:text-gray-700">|</span>
+                      <span className="text-[12px] font-medium text-toss-gray-500">{restaurant.rank}위</span>
                     </div>
+                    <h4 className="text-[16px] font-bold text-toss-gray-800 dark:text-white truncate">
+                      {restaurant.name}
+                    </h4>
+                    <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 truncate">
+                      {restaurant.signature} · {restaurant.priceRange}
+                    </p>
                   </div>
-                )}
-
-                {/* 페어링 음료 */}
-                {rouletteResult.pairingDrink && (
-                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-4 border border-blue-100 dark:border-blue-800/30">
-                    <div className="flex items-start gap-2">
-                      <span className="text-[16px] shrink-0">🥂</span>
-                      <p className="text-[13px] text-blue-800 dark:text-blue-200 leading-relaxed font-medium">
-                        추천 음료: {rouletteResult.pairingDrink}
-                      </p>
+                  <div className="text-right shrink-0">
+                    <div className="flex items-center justify-end gap-1 mb-1">
+                      <span className="material-symbols-outlined text-yellow-400 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                      <span className="text-[14px] font-bold text-toss-gray-800 dark:text-white">{restaurant.rating}</span>
                     </div>
+                    <p className="text-[11px] text-toss-gray-400 font-medium">{restaurant.waitTime}</p>
                   </div>
-                )}
-              </div>
-
-              {/* 지도 버튼 */}
-              <div className="flex gap-3 mb-4">
-                <button
-                  onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(selectedArea + ' ' + rouletteResult.name)}`, '_blank')}
-                  className="flex-1 bg-[#03C75A] text-white py-[14px] rounded-[18px] font-bold text-[14px] flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
-                >
-                  네이버 지도
-                </button>
-                <button
-                  onClick={() => window.open(`https://map.kakao.com/?q=${encodeURIComponent(selectedArea + ' ' + rouletteResult.name)}`, '_blank')}
-                  className="flex-1 bg-[#FEE500] text-[#191919] py-[14px] rounded-[18px] font-bold text-[14px] flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
-                >
-                  카카오맵
-                </button>
-              </div>
-
-              {/* 다시 하기 / 다른 추천 */}
-              <div className="flex gap-3">
-                <button
-                  onClick={resetRoulette}
-                  className="flex-1 bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-700 dark:text-gray-300 py-[14px] rounded-[18px] font-bold text-[14px] active:scale-[0.98] transition-all"
-                >
-                  처음부터 다시
-                </button>
-                <button
-                  onClick={handleRoulette}
-                  disabled={rouletteLoading}
-                  className="flex-1 bg-primary text-white py-[14px] rounded-[18px] font-bold text-[14px] active:scale-[0.98] transition-all shadow-sm shadow-primary/20"
-                >
-                  🎲 다른 곳 추천
-                </button>
-              </div>
+                </div>
+              ))}
             </div>
           )}
+        </section>
+
+        {/* 기능 탭 */}
+        <div className="bg-white dark:bg-[#111111] border rounded-3xl border-toss-gray-100 dark:border-gray-800 overflow-hidden shadow-sm">
+          <div className="flex p-1 gap-1">
+            <button
+              onClick={() => setActiveTab('course')}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-[20px] transition-all ${activeTab === 'course'
+                ? 'bg-primary text-white font-bold shadow-md shadow-primary/20'
+                : 'text-toss-gray-500 dark:text-gray-500 hover:bg-toss-gray-50 dark:hover:bg-gray-900'
+                }`}
+            >
+              <span className="text-[16px]">🗺️</span>
+              <span className="text-[14px]">AI 코스 플래너</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('roulette')}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-[20px] transition-all ${activeTab === 'roulette'
+                ? 'bg-primary text-white font-bold shadow-md shadow-primary/20'
+                : 'text-toss-gray-500 dark:text-gray-500 hover:bg-toss-gray-50 dark:hover:bg-gray-900'
+                }`}
+            >
+              <span className="text-[16px]">🎰</span>
+              <span className="text-[14px]">오늘의 한 끼</span>
+            </button>
+          </div>
         </div>
-      )}
 
-      {/* ──────────────────────────────────────── */}
-      {/* 🗺️ AI 코스 플래너 탭 */}
-      {/* ──────────────────────────────────────── */}
-      {activeTab === 'course' && (
-        <div className="px-5 py-6 pb-36">
-          {!courseResult ? (
-            <>
-              {/* 시나리오 입력 */}
-              <div className="mb-6">
-                <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary text-[18px]">edit_note</span>
-                  어떤 코스를 원하세요?
-                </p>
-                <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 mb-3 ml-[26px]">
-                  상황, 인원, 분위기를 자유롭게 적어주세요
-                </p>
-                <textarea
-                  value={courseScenario}
-                  onChange={(e) => setCourseScenario(e.target.value)}
-                  placeholder={`예: ${selectedArea} 저녁 데이트 코스, 2명, 분위기 좋은 곳 위주로`}
-                  className="w-full bg-toss-gray-50 dark:bg-gray-900 border border-toss-gray-200 dark:border-gray-700 rounded-2xl px-4 py-4 text-[14px] dark:text-white outline-none focus:ring-2 focus:ring-primary resize-none h-[100px] placeholder:text-toss-gray-400"
-                />
-              </div>
-
-              {/* 예시 시나리오 칩 */}
-              <div className="mb-8">
-                <p className="text-[13px] font-semibold text-toss-gray-500 dark:text-gray-400 mb-3">
-                  이런 코스는 어때요?
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {SCENARIO_EXAMPLES.map((ex, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCourseScenario(ex.text)}
-                      className="flex items-center gap-1.5 px-3.5 py-2.5 bg-toss-gray-50 dark:bg-gray-900 border border-toss-gray-200 dark:border-gray-700 rounded-2xl text-[12px] font-medium text-toss-gray-700 dark:text-gray-300 active:scale-95 transition-all"
-                    >
-                      <span>{ex.icon}</span>
-                      {ex.text}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 생성 버튼 */}
-              <button
-                onClick={handleCoursePlan}
-                disabled={courseLoading || !courseScenario.trim()}
-                className={`w-full py-5 rounded-[22px] font-bold text-[18px] transition-all active:scale-[0.98] flex items-center justify-center gap-3 ${courseLoading || !courseScenario.trim()
-                  ? 'bg-toss-gray-200 dark:bg-gray-700 text-toss-gray-400 cursor-not-allowed'
-                  : 'bg-primary text-white shadow-lg shadow-primary/30 hover:brightness-105'
-                  }`}
-              >
-                {courseLoading ? (
-                  <>
-                    <span className="material-symbols-outlined animate-spin text-[24px]">progress_activity</span>
-                    AI 코스 만드는 중...
-                  </>
-                ) : (
-                  <>
-                    <span className="text-[24px]">🗺️</span>
-                    AI 코스 생성하기
-                  </>
-                )}
-              </button>
-
-              {/* 로딩 프로그레스 */}
-              {courseLoading && (
-                <div className="mt-6 bg-toss-gray-50 dark:bg-gray-900 rounded-[24px] p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="material-symbols-outlined text-primary text-[18px] animate-spin">progress_activity</span>
-                    <span className="text-[14px] font-bold text-toss-gray-800 dark:text-white">코스를 설계하고 있어요</span>
-                  </div>
-                  <div className="w-full bg-toss-gray-200 dark:bg-gray-800 rounded-full h-2 mb-2">
-                    <div
-                      className="bg-primary h-2 rounded-full transition-all duration-500"
-                      style={{ width: `${Math.min(courseProgress, 100)}%` }}
-                    />
-                  </div>
-                  <p className="text-[12px] text-toss-gray-500 dark:text-gray-400">
-                    {courseProgress < 30 ? `${selectedArea} 맛집 데이터 분석 중...`
-                      : courseProgress < 60 ? '동선 최적화 중...'
-                        : courseProgress < 90 ? '코스 시간표 작성 중...'
-                          : '마무리 중...'}
-                  </p>
-                </div>
-              )}
-            </>
-          ) : courseResult.error ? (
-            /* ─── 에러 상태 ─── */
-            <div className="text-center py-10">
-              <span className="text-5xl block mb-4">😥</span>
-              <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white mb-2">{courseResult.error}</p>
-              <button
-                onClick={() => setCourseResult(null)}
-                className="mt-4 px-6 py-3 bg-primary text-white rounded-2xl font-bold text-[14px]"
-              >
-                다시 시도
-              </button>
-            </div>
-          ) : (
-            /* ─── 코스 결과 화면 ─── */
-            <div>
-              {/* 코스 헤더 */}
-              <div className="bg-gradient-to-br from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20 rounded-[28px] p-6 mb-6 border border-primary/10">
-                <div className="flex items-center gap-1.5 mb-3">
-                  <span className="material-symbols-outlined text-primary text-[16px]">smart_toy</span>
-                  <span className="text-[12px] font-bold text-primary">AI Generated Course</span>
-                </div>
-                <h3 className="text-[22px] font-bold text-toss-gray-800 dark:text-white mb-1 leading-tight">
-                  {courseResult.title}
-                </h3>
-                <p className="text-[14px] text-toss-gray-600 dark:text-gray-400 mb-4">
-                  {courseResult.subtitle}
-                </p>
-                <div className="flex gap-3">
-                  <div className="flex items-center gap-1.5 bg-white dark:bg-[#1a1a1a] px-3 py-1.5 rounded-full">
-                    <span className="material-symbols-outlined text-primary text-[14px]">schedule</span>
-                    <span className="text-[12px] font-bold text-toss-gray-800 dark:text-white">{courseResult.totalTime}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 bg-white dark:bg-[#1a1a1a] px-3 py-1.5 rounded-full">
-                    <span className="material-symbols-outlined text-primary text-[14px]">payments</span>
-                    <span className="text-[12px] font-bold text-toss-gray-800 dark:text-white">{courseResult.totalBudget}/인</span>
-                  </div>
-                  {courseResult.numberOfPeople && (
-                    <div className="flex items-center gap-1.5 bg-white dark:bg-[#1a1a1a] px-3 py-1.5 rounded-full">
-                      <span className="material-symbols-outlined text-primary text-[14px]">group</span>
-                      <span className="text-[12px] font-bold text-toss-gray-800 dark:text-white">{courseResult.numberOfPeople}</span>
+        {/* 탭 컨텐츠 */}
+        <div className="pb-32">
+          {activeTab === 'roulette' ? (
+            <div className="animate-in fade-in duration-500">
+              {!rouletteResult ? (
+                <>
+                  {/* 인원 선택 */}
+                  <div className="mb-6">
+                    <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-3 flex items-center gap-2">
+                      <span className="material-symbols-outlined text-primary text-[18px]">group</span>
+                      몇 명이서 먹나요?
+                    </p>
+                    <div className="flex gap-2 flex-wrap">
+                      {PEOPLE_OPTIONS.map(opt => (
+                        <button
+                          key={opt}
+                          onClick={() => setRoulettePeople(roulettePeople === opt ? null : opt)}
+                          className={`px-4 py-2.5 rounded-2xl text-[13px] font-semibold transition-all border ${roulettePeople === opt
+                            ? 'bg-primary text-white border-primary'
+                            : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
+                            }`}
+                        >
+                          {opt}
+                        </button>
+                      ))}
                     </div>
-                  )}
-                </div>
-              </div>
+                  </div>
 
-              {/* 코스 타임라인 */}
-              <div className="relative mb-6">
-                {courseResult.stops?.map((stop, idx) => {
-                  const isLast = idx === courseResult.stops.length - 1;
-                  return (
-                    <div key={idx} className="relative">
-                      {/* 타임라인 연결선 */}
-                      {!isLast && (
-                        <div className="absolute left-[19px] top-[52px] bottom-0 w-[2px] bg-toss-gray-200 dark:bg-gray-700" />
-                      )}
+                  {/* 예산 선택 */}
+                  <div className="mb-6">
+                    <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-3 flex items-center gap-2">
+                      <span className="material-symbols-outlined text-primary text-[18px]">payments</span>
+                      1인 예산은?
+                    </p>
+                    <div className="flex gap-2 flex-wrap">
+                      {BUDGET_OPTIONS.map(opt => (
+                        <button
+                          key={opt}
+                          onClick={() => setRouletteBudget(rouletteBudget === opt ? null : opt)}
+                          className={`px-4 py-2.5 rounded-2xl text-[13px] font-semibold transition-all border ${rouletteBudget === opt
+                            ? 'bg-primary text-white border-primary'
+                            : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
+                            }`}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-                      {/* 스톱 카드 */}
-                      <div
-                        className="flex gap-4 mb-2 cursor-pointer"
-                        onClick={() => {
-                          if (stop.matched) setSelectedRestaurant(stop.matched);
-                        }}
-                      >
-                        {/* 순서 번호 + 아이콘 */}
-                        <div className="flex flex-col items-center shrink-0">
-                          <div
-                            className="w-10 h-10 rounded-xl flex items-center justify-center text-xl z-10 shadow-sm"
-                            style={{ background: stop.color || '#f3f4f6' }}
-                          >
-                            {stop.icon}
-                          </div>
+                  {/* 분위기 선택 */}
+                  <div className="mb-6">
+                    <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-3 flex items-center gap-2">
+                      <span className="material-symbols-outlined text-primary text-[18px]">mood</span>
+                      오늘 기분은?
+                    </p>
+                    <div className="grid grid-cols-3 gap-2">
+                      {MOOD_OPTIONS.map(opt => (
+                        <button
+                          key={opt.id}
+                          onClick={() => setRouletteMood(rouletteMood === opt.id ? null : opt.id)}
+                          className={`flex flex-col items-center gap-1 py-3 rounded-2xl text-[13px] font-semibold transition-all border ${rouletteMood === opt.id
+                            ? 'bg-primary/10 text-primary border-primary dark:bg-primary/20'
+                            : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-700 dark:text-gray-300 border-toss-gray-200 dark:border-gray-700 active:scale-95'
+                            }`}
+                        >
+                          <span className="text-[20px]">{opt.icon}</span>
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 제외 음식 */}
+                  <div className="mb-8">
+                    <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-3 flex items-center gap-2">
+                      <span className="material-symbols-outlined text-primary text-[18px]">block</span>
+                      제외할 음식 (선택)
+                    </p>
+                    <div className="flex gap-2 flex-wrap">
+                      {excludeCategories.map(cat => (
+                        <button
+                          key={cat.id}
+                          onClick={() => toggleExclude(cat.id)}
+                          className={`px-3.5 py-2.5 rounded-full text-[12px] font-semibold transition-all border ${cat.selected
+                            ? 'bg-red-50 dark:bg-red-900/20 text-red-500 border-red-200'
+                            : 'bg-toss-gray-50 dark:bg-gray-900 text-toss-gray-600 dark:text-gray-400 border-toss-gray-200 dark:border-gray-700'
+                            }`}
+                        >
+                          {cat.icon} {cat.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 룰렛 버튼 */}
+                  <button
+                    onClick={handleRoulette}
+                    disabled={rouletteLoading}
+                    className="w-full py-5 rounded-[22px] font-bold text-[18px] bg-primary text-white shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    🎲 추천받기
+                  </button>
+
+                  {/* 룰렛 애니메이션 오버레이 */}
+                  {
+                    rouletteAnimation && (
+                      <div className="mt-6 bg-toss-gray-50 dark:bg-gray-900 rounded-[24px] p-6 text-center">
+                        <div className="text-5xl mb-4 animate-bounce">
+                          {['🍚', '🍣', '🍝', '🍔', '🍜', '🍰', '🥩', '🍕'][Math.floor(Math.random() * 8)]}
                         </div>
+                        <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white mb-2">
+                          AI가 메뉴를 고르고 있어요
+                        </p>
+                        <p className="text-[13px] text-toss-gray-500 dark:text-gray-400">
+                          {selectedArea}의 맛집 데이터를 분석 중... ({rouletteTimer}초)
+                        </p>
+                        <div className="mt-4 w-full bg-toss-gray-200 dark:bg-gray-800 rounded-full h-1.5">
+                          <div className="bg-primary h-1.5 rounded-full animate-pulse" style={{ width: '60%' }} />
+                        </div>
+                      </div>
+                    )
+                  }
 
-                        {/* 정보 */}
-                        <div className="flex-1 bg-white dark:bg-[#1a1a1a] rounded-2xl p-4 border border-toss-gray-100 dark:border-gray-800 mb-1">
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <span className="text-[11px] bg-primary text-white px-2 py-0.5 rounded-full font-bold">
-                                {stop.time}
-                              </span>
-                              <span className="text-[11px] text-toss-gray-500 dark:text-gray-400 font-medium">
-                                {stop.duration}
+                  {/* 이전 추천 히스토리 */}
+                  {
+                    rouletteHistory.length > 0 && !rouletteLoading && (
+                      <div className="mt-8">
+                        <p className="text-[14px] font-bold text-toss-gray-600 dark:text-gray-400 mb-3 flex items-center gap-1.5">
+                          <span className="material-symbols-outlined text-[16px]">history</span>
+                          최근 추천
+                        </p>
+                        <div className="space-y-2">
+                          {rouletteHistory.slice(0, 3).map((item, idx) => (
+                            <div
+                              key={idx}
+                              onClick={() => {
+                                const matched = allRestaurants.find(r => r.name === item.name);
+                                if (matched) setSelectedRestaurant(matched);
+                              }}
+                              className="flex items-center gap-3 p-3 bg-toss-gray-50 dark:bg-gray-900/50 rounded-2xl cursor-pointer active:bg-toss-gray-100 dark:active:bg-gray-800 transition-colors"
+                            >
+                              <div
+                                className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
+                                style={{ background: item.color || '#f3f4f6' }}
+                              >
+                                {item.icon || '🍽️'}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[14px] font-semibold text-toss-gray-800 dark:text-white truncate">{item.name}</p>
+                                <p className="text-[11px] text-toss-gray-500 dark:text-gray-400">{item.area} · {item.category}</p>
+                              </div>
+                              <span className="text-[11px] text-toss-gray-400 dark:text-gray-600 shrink-0">
+                                {new Date(item.timestamp).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
                               </span>
                             </div>
-                            <span className="text-[12px] font-bold text-primary">
-                              {stop.estimatedCost}
-                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  }
+                </>
+              ) : (
+                /* ─── 룰렛 결과 화면 ─── */
+                <div className="space-y-6">
+                  {/* 결과 카드 */}
+                  <div className="bg-gradient-to-br from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20 rounded-[28px] p-6 mb-6 border border-primary/10">
+                    <div className="text-center mb-5">
+                      <p className="text-[13px] font-bold text-primary mb-2">AI 추천 결과</p>
+                      <div
+                        className="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-3 shadow-sm"
+                        style={{ background: rouletteResult.color || '#f3f4f6' }}
+                      >
+                        {rouletteResult.icon || '🍽️'}
+                      </div>
+                      <h3 className="text-[24px] font-bold text-toss-gray-800 dark:text-white mb-1">
+                        {rouletteResult.name}
+                      </h3>
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-[12px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-semibold">
+                          {rouletteResult.category}
+                        </span>
+                        {rouletteResult.rating && (
+                          <span className="flex items-center gap-0.5 text-[13px]">
+                            <span className="material-symbols-outlined text-yellow-400 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                            <span className="font-bold text-toss-gray-800 dark:text-white">{rouletteResult.rating}</span>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* AI 추천 이유 */}
+                    <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl p-4 mb-4">
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <span className="material-symbols-outlined text-primary text-[16px]">smart_toy</span>
+                        <span className="text-[12px] font-bold text-primary">AI가 이 곳을 추천한 이유</span>
+                      </div>
+                      <p className="text-[14px] text-toss-gray-700 dark:text-gray-300 leading-relaxed">
+                        {rouletteResult.reason}
+                      </p>
+                    </div>
+
+                    {/* 정보 그리드 */}
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                      <InfoCard icon="restaurant_menu" label="대표 메뉴" value={rouletteResult.signature} />
+                      <InfoCard icon="payments" label="가격대" value={rouletteResult.priceRange} />
+                      <InfoCard icon="schedule" label="영업시간" value={rouletteResult.openHours} />
+                      <InfoCard icon="hourglass_top" label="예상 대기" value={rouletteResult.waitTime} />
+                    </div>
+
+                    {/* 팁 */}
+                    {rouletteResult.tip && (
+                      <div className="bg-amber-50 dark:bg-amber-900/20 rounded-2xl p-4 mb-4 border border-amber-100 dark:border-amber-800/30">
+                        <div className="flex items-start gap-2">
+                          <span className="text-[16px] shrink-0">💡</span>
+                          <p className="text-[13px] text-amber-800 dark:text-amber-200 leading-relaxed font-medium">
+                            {rouletteResult.tip}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 페어링 음료 */}
+                    {rouletteResult.pairingDrink && (
+                      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-4 border border-blue-100 dark:border-blue-800/30">
+                        <div className="flex items-start gap-2">
+                          <span className="text-[16px] shrink-0">🥂</span>
+                          <p className="text-[13px] text-blue-800 dark:text-blue-200 leading-relaxed font-medium">
+                            추천 음료: {rouletteResult.pairingDrink}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 지도 버튼 */}
+                  <div className="flex gap-3 mb-4">
+                    <button
+                      onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(selectedArea + ' ' + rouletteResult.name)}`, '_blank')}
+                      className="flex-1 bg-[#03C75A] text-white py-[14px] rounded-[18px] font-bold text-[14px] flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+                    >
+                      네이버 지도
+                    </button>
+                    <button
+                      onClick={() => window.open(`https://map.kakao.com/?q=${encodeURIComponent(selectedArea + ' ' + rouletteResult.name)}`, '_blank')}
+                      className="flex-1 bg-[#FEE500] text-[#191919] py-[14px] rounded-[18px] font-bold text-[14px] flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+                    >
+                      카카오맵
+                    </button>
+                  </div>
+
+                  {/* 다시 하기 / 다른 추천 */}
+                  <div className="flex gap-3">
+                    <button
+                      onClick={resetRoulette}
+                      className="flex-1 bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-700 dark:text-gray-300 py-[14px] rounded-[18px] font-bold text-[14px] active:scale-[0.98] transition-all"
+                    >
+                      처음부터 다시
+                    </button>
+                    <button
+                      onClick={handleRoulette}
+                      disabled={rouletteLoading}
+                      className="flex-1 bg-primary text-white py-[14px] rounded-[18px] font-bold text-[14px] active:scale-[0.98] transition-all shadow-sm shadow-primary/20"
+                    >
+                      🎲 다른 곳 추천
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            /* ──────────────────────────────────────── */
+            /* 🗺️ AI 코스 플래너 탭 */
+            /* ──────────────────────────────────────── */
+            <div className="animate-in fade-in duration-500">
+              {!courseResult ? (
+                <>
+                  {/* 시나리오 입력 */}
+                  <div className="mb-6">
+                    <p className="text-[15px] font-bold text-toss-gray-800 dark:text-white mb-1 flex items-center gap-2">
+                      <span className="material-symbols-outlined text-primary text-[18px]">edit_note</span>
+                      어떤 코스를 원하세요?
+                    </p>
+                    <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 mb-3 ml-[26px]">
+                      상황, 인원, 분위기를 자유롭게 적어주세요
+                    </p>
+                    <textarea
+                      value={courseScenario}
+                      onChange={(e) => setCourseScenario(e.target.value)}
+                      placeholder={`예: ${selectedArea} 저녁 데이트 코스, 2명, 분위기 좋은 곳 위주로`}
+                      className="w-full bg-toss-gray-50 dark:bg-gray-900 border border-toss-gray-200 dark:border-gray-700 rounded-2xl px-4 py-4 text-[14px] dark:text-white outline-none focus:ring-2 focus:ring-primary resize-none h-[100px] placeholder:text-toss-gray-400"
+                    />
+                  </div>
+
+                  {/* 예시 시나리오 칩 */}
+                  <div className="mb-8">
+                    <p className="text-[13px] font-semibold text-toss-gray-500 dark:text-gray-400 mb-3">
+                      이런 코스는 어때요?
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {SCENARIO_EXAMPLES.map((ex, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setCourseScenario(ex.text)}
+                          className="flex items-center gap-1.5 px-3.5 py-2.5 bg-toss-gray-50 dark:bg-gray-900 border border-toss-gray-200 dark:border-gray-700 rounded-2xl text-[12px] font-medium text-toss-gray-700 dark:text-gray-300 active:scale-95 transition-all"
+                        >
+                          <span>{ex.icon}</span>
+                          {ex.text}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 생성 버튼 */}
+                  <button
+                    onClick={handleCoursePlan}
+                    disabled={courseLoading || !courseScenario.trim()}
+                    className={`w-full py-5 rounded-[22px] font-bold text-[18px] transition-all active:scale-[0.98] flex items-center justify-center gap-3 ${courseLoading || !courseScenario.trim()
+                      ? 'bg-toss-gray-200 dark:bg-gray-700 text-toss-gray-400 cursor-not-allowed'
+                      : 'bg-primary text-white shadow-lg shadow-primary/30 hover:brightness-105'
+                      }`}
+                  >
+                    {courseLoading ? (
+                      <>
+                        <span className="material-symbols-outlined animate-spin text-[24px]">progress_activity</span>
+                        AI 코스 만드는 중...
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-[24px]">🗺️</span>
+                        AI 코스 생성하기
+                      </>
+                    )}
+                  </button>
+
+                  {/* 로딩 프로그레스 */}
+                  {courseLoading && (
+                    <div className="mt-6 bg-toss-gray-50 dark:bg-gray-900 rounded-[24px] p-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="material-symbols-outlined text-primary text-[18px] animate-spin">progress_activity</span>
+                        <span className="text-[14px] font-bold text-toss-gray-800 dark:text-white">코스를 설계하고 있어요</span>
+                      </div>
+                      <div className="w-full bg-toss-gray-200 dark:bg-gray-800 rounded-full h-2 mb-2">
+                        <div
+                          className="bg-primary h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${Math.min(courseProgress, 100)}%` }}
+                        />
+                      </div>
+                      <p className="text-[12px] text-toss-gray-500 dark:text-gray-400">
+                        {courseProgress < 30 ? `${selectedArea} 맛집 데이터 분석 중...`
+                          : courseProgress < 60 ? '동선 최적화 중...'
+                            : courseProgress < 90 ? '코스 시간표 작성 중...'
+                              : '마무리 중...'}
+                      </p>
+                    </div>
+                  )}
+                </>
+              ) : courseResult.error ? (
+                /* ─── 에러 상태 ─── */
+                <div className="text-center py-10">
+                  <span className="text-5xl block mb-4">😥</span>
+                  <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white mb-2">{courseResult.error}</p>
+                  <button
+                    onClick={() => setCourseResult(null)}
+                    className="mt-4 px-6 py-3 bg-primary text-white rounded-2xl font-bold text-[14px]"
+                  >
+                    다시 시도
+                  </button>
+                </div>
+              ) : (
+                /* ─── 코스 결과 화면 ─── */
+                <div>
+                  {/* 코스 헤더 */}
+                  <div className="bg-gradient-to-br from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20 rounded-[28px] p-6 mb-6 border border-primary/10">
+                    <div className="flex items-center gap-1.5 mb-3">
+                      <span className="material-symbols-outlined text-primary text-[16px]">smart_toy</span>
+                      <span className="text-[12px] font-bold text-primary">AI Generated Course</span>
+                    </div>
+                    <h3 className="text-[22px] font-bold text-toss-gray-800 dark:text-white mb-1 leading-tight">
+                      {courseResult.title}
+                    </h3>
+                    <p className="text-[14px] text-toss-gray-600 dark:text-gray-400 mb-4">
+                      {courseResult.subtitle}
+                    </p>
+                    <div className="flex gap-3">
+                      <div className="flex items-center gap-1.5 bg-white dark:bg-[#1a1a1a] px-3 py-1.5 rounded-full">
+                        <span className="material-symbols-outlined text-primary text-[14px]">schedule</span>
+                        <span className="text-[12px] font-bold text-toss-gray-800 dark:text-white">{courseResult.totalTime}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 bg-white dark:bg-[#1a1a1a] px-3 py-1.5 rounded-full">
+                        <span className="material-symbols-outlined text-primary text-[14px]">payments</span>
+                        <span className="text-[12px] font-bold text-toss-gray-800 dark:text-white">{courseResult.totalBudget}/인</span>
+                      </div>
+                      {courseResult.numberOfPeople && (
+                        <div className="flex items-center gap-1.5 bg-white dark:bg-[#1a1a1a] px-3 py-1.5 rounded-full">
+                          <span className="material-symbols-outlined text-primary text-[14px]">group</span>
+                          <span className="text-[12px] font-bold text-toss-gray-800 dark:text-white">{courseResult.numberOfPeople}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* 코스 타임라인 */}
+                  <div className="relative mb-6">
+                    {courseResult.stops?.map((stop, idx) => {
+                      const isLast = idx === courseResult.stops.length - 1;
+                      return (
+                        <div key={idx} className="relative">
+                          {/* 타임라인 연결선 */}
+                          {!isLast && (
+                            <div className="absolute left-[19px] top-[52px] bottom-0 w-[2px] bg-toss-gray-200 dark:bg-gray-700" />
+                          )}
+
+                          {/* 스톱 카드 */}
+                          <div
+                            className="flex gap-4 mb-2 cursor-pointer"
+                            onClick={() => {
+                              if (stop.matched) setSelectedRestaurant(stop.matched);
+                            }}
+                          >
+                            {/* 순서 번호 + 아이콘 */}
+                            <div className="flex flex-col items-center shrink-0">
+                              <div
+                                className="w-10 h-10 rounded-xl flex items-center justify-center text-xl z-10 shadow-sm"
+                                style={{ background: stop.color || '#f3f4f6' }}
+                              >
+                                {stop.icon}
+                              </div>
+                            </div>
+
+                            {/* 정보 */}
+                            <div className="flex-1 bg-white dark:bg-[#1a1a1a] rounded-2xl p-4 border border-toss-gray-100 dark:border-gray-800 mb-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-[11px] bg-primary text-white px-2 py-0.5 rounded-full font-bold">
+                                    {stop.time}
+                                  </span>
+                                  <span className="text-[11px] text-toss-gray-500 dark:text-gray-400 font-medium">
+                                    {stop.duration}
+                                  </span>
+                                </div>
+                                <span className="text-[12px] font-bold text-primary">
+                                  {stop.estimatedCost}
+                                </span>
+                              </div>
+                              <h4 className="text-[16px] font-bold text-toss-gray-800 dark:text-white mb-0.5">
+                                {stop.name}
+                              </h4>
+                              <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 mb-2">
+                                {stop.category} · {stop.signature}
+                              </p>
+                              <p className="text-[13px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">
+                                {stop.reason}
+                              </p>
+                              {stop.rating && (
+                                <div className="flex items-center gap-0.5 mt-2">
+                                  <span className="material-symbols-outlined text-yellow-400 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                                  <span className="text-[12px] font-bold text-toss-gray-800 dark:text-white">{stop.rating}</span>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                          <h4 className="text-[16px] font-bold text-toss-gray-800 dark:text-white mb-0.5">
-                            {stop.name}
-                          </h4>
-                          <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 mb-2">
-                            {stop.category} · {stop.signature}
-                          </p>
-                          <p className="text-[13px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">
-                            {stop.reason}
-                          </p>
-                          {stop.rating && (
-                            <div className="flex items-center gap-0.5 mt-2">
-                              <span className="material-symbols-outlined text-yellow-400 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                              <span className="text-[12px] font-bold text-toss-gray-800 dark:text-white">{stop.rating}</span>
+
+                          {/* 이동 시간 */}
+                          {!isLast && stop.travelToNext && (
+                            <div className="flex items-center gap-2 ml-[14px] mb-2 py-1.5">
+                              <span className="material-symbols-outlined text-toss-gray-400 dark:text-gray-600 text-[14px]">directions_walk</span>
+                              <span className="text-[11px] text-toss-gray-400 dark:text-gray-600 font-medium">
+                                {stop.travelToNext}
+                              </span>
                             </div>
                           )}
                         </div>
-                      </div>
+                      );
+                    })}
+                  </div>
 
-                      {/* 이동 시간 */}
-                      {!isLast && stop.travelToNext && (
-                        <div className="flex items-center gap-2 ml-[14px] mb-2 py-1.5">
-                          <span className="material-symbols-outlined text-toss-gray-400 dark:text-gray-600 text-[14px]">directions_walk</span>
-                          <span className="text-[11px] text-toss-gray-400 dark:text-gray-600 font-medium">
-                            {stop.travelToNext}
-                          </span>
-                        </div>
-                      )}
+                  {/* 팁 섹션 */}
+                  {courseResult.tips?.length > 0 && (
+                    <div className="bg-amber-50 dark:bg-amber-900/20 rounded-2xl p-5 mb-4 border border-amber-100 dark:border-amber-800/30">
+                      <p className="text-[13px] font-bold text-amber-800 dark:text-amber-200 mb-3 flex items-center gap-1.5">
+                        <span className="text-[16px]">💡</span> 코스 팁
+                      </p>
+                      {courseResult.tips.map((tip, idx) => (
+                        <p key={idx} className="text-[13px] text-amber-700 dark:text-amber-300 leading-relaxed mb-1.5 last:mb-0 flex items-start gap-2">
+                          <span className="shrink-0 text-amber-500">•</span>
+                          {tip}
+                        </p>
+                      ))}
                     </div>
-                  );
-                })}
-              </div>
+                  )}
 
-              {/* 팁 섹션 */}
-              {courseResult.tips?.length > 0 && (
-                <div className="bg-amber-50 dark:bg-amber-900/20 rounded-2xl p-5 mb-4 border border-amber-100 dark:border-amber-800/30">
-                  <p className="text-[13px] font-bold text-amber-800 dark:text-amber-200 mb-3 flex items-center gap-1.5">
-                    <span className="text-[16px]">💡</span> 코스 팁
-                  </p>
-                  {courseResult.tips.map((tip, idx) => (
-                    <p key={idx} className="text-[13px] text-amber-700 dark:text-amber-300 leading-relaxed mb-1.5 last:mb-0 flex items-start gap-2">
-                      <span className="shrink-0 text-amber-500">•</span>
-                      {tip}
-                    </p>
-                  ))}
-                </div>
-              )}
+                  {/* 대안 플랜 */}
+                  {courseResult.alternativePlan && (
+                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-4 mb-6 border border-blue-100 dark:border-blue-800/30">
+                      <div className="flex items-start gap-2">
+                        <span className="text-[14px] shrink-0">🔄</span>
+                        <p className="text-[13px] text-blue-700 dark:text-blue-300 leading-relaxed font-medium">
+                          {courseResult.alternativePlan}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
-              {/* 대안 플랜 */}
-              {courseResult.alternativePlan && (
-                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-4 mb-6 border border-blue-100 dark:border-blue-800/30">
-                  <div className="flex items-start gap-2">
-                    <span className="text-[14px] shrink-0">🔄</span>
-                    <p className="text-[13px] text-blue-700 dark:text-blue-300 leading-relaxed font-medium">
-                      {courseResult.alternativePlan}
-                    </p>
+                  {/* 액션 버튼 */}
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => { setCourseResult(null); setCourseScenario(''); setCourseProgress(0); }}
+                      className="flex-1 bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-700 dark:text-gray-300 py-[14px] rounded-[18px] font-bold text-[14px] active:scale-[0.98] transition-all"
+                    >
+                      새 코스 만들기
+                    </button>
+                    <button
+                      onClick={() => {
+                        const text = `[${courseResult.title}]\n${courseResult.stops?.map(s => `${s.time} ${s.name} (${s.signature})`).join('\n')}\n총 ${courseResult.totalTime} / ${courseResult.totalBudget}`;
+                        if (navigator.share) {
+                          navigator.share({ title: courseResult.title, text });
+                        } else {
+                          navigator.clipboard.writeText(text);
+                          alert('코스 정보가 클립보드에 복사되었습니다!');
+                        }
+                      }}
+                      className="flex-1 bg-primary text-white py-[14px] rounded-[18px] font-bold text-[14px] active:scale-[0.98] transition-all shadow-sm shadow-primary/20 flex items-center justify-center gap-2"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">share</span>
+                      공유하기
+                    </button>
                   </div>
                 </div>
               )}
-
-              {/* 액션 버튼 */}
-              <div className="flex gap-3">
-                <button
-                  onClick={() => { setCourseResult(null); setCourseScenario(''); setCourseProgress(0); }}
-                  className="flex-1 bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-700 dark:text-gray-300 py-[14px] rounded-[18px] font-bold text-[14px] active:scale-[0.98] transition-all"
-                >
-                  새 코스 만들기
-                </button>
-                <button
-                  onClick={() => {
-                    const text = `[${courseResult.title}]\n${courseResult.stops?.map(s => `${s.time} ${s.name} (${s.signature})`).join('\n')}\n총 ${courseResult.totalTime} / ${courseResult.totalBudget}`;
-                    if (navigator.share) {
-                      navigator.share({ title: courseResult.title, text });
-                    } else {
-                      navigator.clipboard.writeText(text);
-                      alert('코스 정보가 클립보드에 복사되었습니다!');
-                    }
-                  }}
-                  className="flex-1 bg-primary text-white py-[14px] rounded-[18px] font-bold text-[14px] active:scale-[0.98] transition-all shadow-sm shadow-primary/20 flex items-center justify-center gap-2"
-                >
-                  <span className="material-symbols-outlined text-[18px]">share</span>
-                  공유하기
-                </button>
-              </div>
             </div>
-          )}
-        </div>
-      )}
+          )
+          }
 
-      {/* ──────────────────────────────────────── */}
-      {/* 맛집 상세 바텀시트 (기존 재사용) */}
-      {/* ──────────────────────────────────────── */}
-      {selectedRestaurant && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-[2px]"
-          onClick={() => setSelectedRestaurant(null)}
-        >
-          <div
-            className="bg-white dark:bg-[#111111] rounded-t-[32px] p-8 w-full max-w-[430px] mx-auto shadow-[0_-8px_30px_rgb(0,0,0,0.12)] max-h-[85vh] overflow-y-auto no-scrollbar"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="w-12 h-1.5 bg-toss-gray-200 dark:bg-gray-800 rounded-full mx-auto mb-8 cursor-pointer"
-              onClick={() => setSelectedRestaurant(null)} />
-
-            <div className="flex justify-between items-start mb-6">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-2xl">{selectedRestaurant.icon || getCategoryIcon(selectedRestaurant.category)}</span>
-                  <span className="text-primary font-bold text-sm">{selectedRestaurant.category}</span>
-                </div>
-                <h2 className="text-[28px] font-bold text-toss-gray-800 dark:text-white leading-tight">
-                  {selectedRestaurant.name}
-                </h2>
-              </div>
-              <button
-                className="w-10 h-10 flex items-center justify-center bg-toss-gray-100 dark:bg-gray-800 rounded-full"
+          {/* ──────────────────────────────────────── */}
+          {/* 맛집 상세 바텀시트 (기존 재사용) */}
+          {/* ──────────────────────────────────────── */}
+          {
+            selectedRestaurant && (
+              <div
+                className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-[2px]"
                 onClick={() => setSelectedRestaurant(null)}
               >
-                <span className="material-symbols-outlined text-[20px] text-toss-gray-600 dark:text-gray-400">close</span>
-              </button>
-            </div>
+                <div
+                  className="bg-white dark:bg-[#111111] rounded-t-[32px] p-8 w-full max-w-[430px] mx-auto shadow-[0_-8px_30px_rgb(0,0,0,0.12)] max-h-[85vh] overflow-y-auto no-scrollbar"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="w-12 h-1.5 bg-toss-gray-200 dark:bg-gray-800 rounded-full mx-auto mb-8 cursor-pointer"
+                    onClick={() => setSelectedRestaurant(null)} />
 
-            <p className="text-[15px] text-toss-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-              {selectedRestaurant.description}
-            </p>
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-2xl">{selectedRestaurant.icon || getCategoryIcon(selectedRestaurant.category)}</span>
+                        <span className="text-primary font-bold text-sm">{selectedRestaurant.category}</span>
+                      </div>
+                      <h2 className="text-[28px] font-bold text-toss-gray-800 dark:text-white leading-tight">
+                        {selectedRestaurant.name}
+                      </h2>
+                    </div>
+                    <button
+                      className="w-10 h-10 flex items-center justify-center bg-toss-gray-100 dark:bg-gray-800 rounded-full"
+                      onClick={() => setSelectedRestaurant(null)}
+                    >
+                      <span className="material-symbols-outlined text-[20px] text-toss-gray-600 dark:text-gray-400">close</span>
+                    </button>
+                  </div>
 
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              <InfoCard icon="star" label="평점" value={`${selectedRestaurant.rating} (${selectedRestaurant.reviewCount})`} />
-              <InfoCard icon="payments" label="가격대" value={selectedRestaurant.priceRange} />
-              <InfoCard icon="schedule" label="영업시간" value={selectedRestaurant.openHours} />
-              <InfoCard icon="event_busy" label="휴무일" value={selectedRestaurant.closedDay} />
-              <InfoCard icon="hourglass_top" label="예상 대기" value={selectedRestaurant.waitTime} />
-              <InfoCard icon="location_on" label="위치" value={selectedRestaurant.address} />
-            </div>
+                  <p className="text-[15px] text-toss-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                    {selectedRestaurant.description}
+                  </p>
 
-            <div className="bg-primary/5 dark:bg-primary/10 rounded-[20px] p-5 mb-6">
-              <p className="text-[13px] text-primary font-bold mb-1">대표 메뉴</p>
-              <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">
-                {selectedRestaurant.signature}
-              </p>
-            </div>
+                  <div className="grid grid-cols-2 gap-3 mb-6">
+                    <InfoCard icon="star" label="평점" value={`${selectedRestaurant.rating} (${selectedRestaurant.reviewCount})`} />
+                    <InfoCard icon="payments" label="가격대" value={selectedRestaurant.priceRange} />
+                    <InfoCard icon="schedule" label="영업시간" value={selectedRestaurant.openHours} />
+                    <InfoCard icon="event_busy" label="휴무일" value={selectedRestaurant.closedDay} />
+                    <InfoCard icon="hourglass_top" label="예상 대기" value={selectedRestaurant.waitTime} />
+                    <InfoCard icon="location_on" label="위치" value={selectedRestaurant.address} />
+                  </div>
 
-            <div className="flex flex-wrap gap-2 mb-8">
-              {selectedRestaurant.tags?.map((tag, i) => (
-                <span key={i} className="bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-600 dark:text-gray-400 text-[13px] px-3 py-1.5 rounded-full font-medium">
-                  #{tag}
-                </span>
-              ))}
-            </div>
+                  <div className="bg-primary/5 dark:bg-primary/10 rounded-[20px] p-5 mb-6">
+                    <p className="text-[13px] text-primary font-bold mb-1">대표 메뉴</p>
+                    <p className="text-[17px] font-bold text-toss-gray-800 dark:text-white">
+                      {selectedRestaurant.signature}
+                    </p>
+                  </div>
 
-            <div className="flex gap-3">
-              <button
-                onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(selectedArea + ' ' + selectedRestaurant.name)}`, '_blank')}
-                className="flex-1 bg-[#03C75A] text-white py-[16px] rounded-[20px] font-bold text-[16px] flex items-center justify-center gap-2"
-              >
-                네이버 지도
-              </button>
-              <button
-                onClick={() => window.open(`https://map.kakao.com/?q=${encodeURIComponent(selectedArea + ' ' + selectedRestaurant.name)}`, '_blank')}
-                className="flex-1 bg-[#FEE500] text-[#191919] py-[16px] rounded-[20px] font-bold text-[16px] flex items-center justify-center gap-2"
-              >
-                카카오맵
-              </button>
-            </div>
-          </div>
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {selectedRestaurant.tags?.map((tag, i) => (
+                      <span key={i} className="bg-toss-gray-100 dark:bg-gray-800 text-toss-gray-600 dark:text-gray-400 text-[13px] px-3 py-1.5 rounded-full font-medium">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(selectedArea + ' ' + selectedRestaurant.name)}`, '_blank')}
+                      className="flex-1 bg-[#03C75A] text-white py-[16px] rounded-[20px] font-bold text-[16px] flex items-center justify-center gap-2"
+                    >
+                      네이버 지도
+                    </button>
+                    <button
+                      onClick={() => window.open(`https://map.kakao.com/?q=${encodeURIComponent(selectedArea + ' ' + selectedRestaurant.name)}`, '_blank')}
+                      className="flex-1 bg-[#FEE500] text-[#191919] py-[16px] rounded-[20px] font-bold text-[16px] flex items-center justify-center gap-2"
+                    >
+                      카카오맵
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )
+          }
         </div>
-      )}
+      </div>
     </div>
   );
 }
