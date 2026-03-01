@@ -84,6 +84,25 @@ const MOOD_OPTIONS = [
 ];
 
 // ──────────────────────────────────────────
+// 💡 AI 대기 중 인사이트 카드 데이터
+// ──────────────────────────────────────────
+const AI_INSIGHTS = [
+  { icon: '💡', title: '알고 계셨나요?', body: '신한카드 데이터에 따르면, 비 오는 날 을지로에서는 전집보다 골뱅이 골목의 매출이 15% 더 높게 나타납니다.' },
+  { icon: '✨', title: '웨이팅 꿀팁', body: '인기 있는 맛집은 평일 11시 30분 이전에 방문하면 웨이팅 없이 입장할 확률이 80% 이상입니다.' },
+  { icon: '🥗', title: '건강한 한 끼', body: '점심 식사 전 가벼운 산책은 혈당 급상승을 막아주어 오후 업무 효율을 높여줍니다.' },
+  { icon: '🗺️', title: '숨은 장소 찾기', body: '익숙한 거리도 골목 하나만 안쪽으로 들어가면 전혀 다른 분위기의 숨은 카페를 만날 수 있습니다.' },
+  { icon: '💳', title: '현명한 소비', body: '신한카드 MyShop 혜택을 확인해보세요. 지금 주변 맛집에서 최대 5% 캐시백 혜택이 있을지도 모릅니다.' },
+];
+
+const LOADING_STEPS = [
+  "전국 맛집 데이터베이스 조회 중...",
+  "사용자 선호도 및 시나리오 분석 중...",
+  "날씨와 시간대별 최적 코스 매칭 중...",
+  "Gemini AI가 가장 맛있는 조합을 구성 중...",
+  "최종 코스 정보 검증 및 리포트 작성 중..."
+];
+
+// ──────────────────────────────────────────
 // 메인 컴포넌트
 // ──────────────────────────────────────────
 export default function TodayFood() {
@@ -116,6 +135,8 @@ export default function TodayFood() {
   const [courseProgress, setCourseProgress] = useState(0);
   const [rouletteTimer, setRouletteTimer] = useState(0); // ✅ 룰렛 타이머
   const [courseTimer, setCourseTimer] = useState(0);     // ✅ 코스 타이머
+  const [insightIndex, setInsightIndex] = useState(0);   // ✅ 인사이트 카드 인덱스
+  const [loadingStepIndex, setLoadingStepIndex] = useState(0); // ✅ 로딩 단계 인덱스
 
   // ── 코스 예시 시나리오 ──
   const SCENARIO_EXAMPLES = useMemo(() => [
@@ -384,18 +405,22 @@ INSTRUCTIONS:
     setCourseResult(null);
     setCourseProgress(0);
     setCourseTimer(20); // ✅ 코스 플래너는 검색 포함 20초 예측
+    setCourseTimer(15);
+    setInsightIndex(Math.floor(Math.random() * AI_INSIGHTS.length));
+    setLoadingStepIndex(0);
 
-    const timerInterval = setInterval(() => {
-      setCourseTimer(prev => (prev <= 1 ? prev : prev - 1));
-    }, 1000);
-
-    // Progress simulation
-    const progressInterval = setInterval(() => {
-      setCourseProgress(prev => {
-        if (prev >= 90) { clearInterval(progressInterval); return 90; }
-        return prev + Math.random() * 15;
+    const interval = setInterval(() => {
+      setCourseProgress(p => {
+        if (p >= 95) return p;
+        const remaining = 15 - (p / 6.33); // 대략적인 남은 시간 계산
+        const nextStep = Math.min(LOADING_STEPS.length - 1, Math.floor((p / 100) * LOADING_STEPS.length * 1.2));
+        setLoadingStepIndex(nextStep);
+        return p + Math.random() * 8 + 2;
       });
-    }, 400);
+      setCourseTimer(t => (t > 1 ? t - 1 : 1));
+      // 5초마다 인사이트 카드 변경
+      setInsightIndex(idx => (idx + 1) % AI_INSIGHTS.length);
+    }, 1000);
 
     // Build restaurant context
     const searchLoc = getSearchLocation(selectedArea);
@@ -449,7 +474,7 @@ INSTRUCTIONS:
       );
       const result = extractJSON(rawText);
 
-      clearInterval(progressInterval);
+      clearInterval(interval); // Changed from progressInterval
       setCourseProgress(100);
 
       // Enrich stops with cached restaurant data
@@ -469,12 +494,12 @@ INSTRUCTIONS:
       setTimeout(() => setCourseResult(result), 300);
     } catch (err) {
       console.error('Course planner error:', err);
-      clearInterval(progressInterval);
+      clearInterval(interval); // Changed from progressInterval
       setCourseProgress(0);
       setCourseResult({ error: 'AI 코스 생성에 실패했습니다. 다시 시도해주세요.' });
     } finally {
       setCourseLoading(false);
-      clearInterval(timerInterval); // ✅ 인터벌 제거
+      clearInterval(interval); // Changed from timerInterval
       setCourseTimer(0);
     }
   };
@@ -945,13 +970,30 @@ INSTRUCTIONS:
                       style={{ width: `${Math.min(courseProgress, 100)}%` }}
                     />
                   </div>
-                  <p className="text-[12px] text-toss-gray-500 dark:text-gray-400">
-                    {courseProgress < 30 ? `${selectedArea} 맛집 데이터 분석 중...`
-                      : courseProgress < 60 ? '동선 최적화 중...'
-                        : courseProgress < 90 ? '코스 시간표 작성 중...'
-                          : '마무리 중...'}
-                    {courseTimer > 0 && ` (답변까지 약 ${courseTimer}초 남음)`}
+                  {/* 상세 로딩 단계 */}
+                  <p className="text-[13px] font-bold text-primary mb-1 animate-pulse">
+                    {LOADING_STEPS[loadingStepIndex]}
                   </p>
+                  <p className="text-[12px] text-toss-gray-400 dark:text-gray-500 mb-6">
+                    답변까지 약 {courseTimer}초 남음
+                  </p>
+
+                  {/* 인사이트 카드 */}
+                  <div className="bg-primary/5 dark:bg-primary/10 rounded-[22px] p-5 border border-primary/10 relative overflow-hidden text-left animate-in fade-in zoom-in duration-500">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xl">{AI_INSIGHTS[insightIndex].icon}</span>
+                      <h4 className="text-[14px] font-bold text-primary">{AI_INSIGHTS[insightIndex].title}</h4>
+                    </div>
+                    <p className="text-[13px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">
+                      {AI_INSIGHTS[insightIndex].body}
+                    </p>
+                    {/* 카드 교체 인디케이터 */}
+                    <div className="flex gap-1 mt-4 justify-center">
+                      {AI_INSIGHTS.map((_, i) => (
+                        <div key={i} className={`h-1 rounded-full transition-all duration-300 ${i === insightIndex ? 'w-4 bg-primary' : 'w-1 bg-primary/20'}`} />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </>

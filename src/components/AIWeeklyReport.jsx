@@ -44,6 +44,24 @@ const REPORT_TABS = [
     { id: 'card', label: '카드 리포트', icon: 'credit_card', emoji: '💳' },
 ];
 
+// ──────────────────────────────────────────
+// 💡 금융 및 카드 인사이트 카드 데이터
+// ──────────────────────────────────────────
+const FINANCIAL_INSIGHTS = [
+    { icon: '💳', title: '연회비 절약 팁', body: '사용하지 않는 카드는 해지 전 해지 시 연회비 반환 규정을 확인하세요. 남은 기간만큼 일할 계산되어 돌려받을 수 있습니다.' },
+    { icon: '📈', title: '복리의 마법', body: '하루라도 빨리 투자를 시작하는 것이 중요합니다. 연 5% 수익률이라도 10년이 지나면 원금의 1.6배가 됩니다.' },
+    { icon: '🏦', title: '주거래 은행의 힘', body: '급여 이체, 공과금 자동이체 등 한 은행에 집중하면 대출 금리 우대 등 예상치 못한 혜택을 누릴 수 있습니다.' },
+    { icon: '📉', title: '금리 하락기 전략', body: '금리가 내려갈 때는 변동금리보다 고정금리 예금이 유리하며, 대출은 변동금리가 더 유리할 수 있습니다.' },
+    { icon: '🛡️', title: '신용점수 관리', body: '신용카드 한도의 30~50% 이내로 꾸준히 사용하는 것이 신용점수 상승에 긍정적인 영향을 줍니다.' },
+];
+
+const REPORT_LOADING_STEPS = {
+    shinhan: ["신한지주 실시간 주가 및 거래량 분석 중...", "금융위원회 및 금감원 공시 자료 확인 중...", "신한은행/카드/증권 계열사별 뉴스 필터링 중...", "주요 재무 지표(NIM, ROE) 계산 및 예측 중...", "마켓 애널리스트 의견 종합 및 리포트 구성 중..."],
+    competitor: ["KB, 하나, 우리금융 주가 데이터 수집 중...", "금융권 공통 경쟁 이슈 및 규제 환경 분석 중...", "경쟁사별 신상품 런칭 및 마케팅 행보 추적 중...", "신한금융 대비 영역별 우위/열위 분석 중...", "전략적 시사점 도출 및 대응 가이드 작성 중..."],
+    ai: ["글로벌 빅테크(OpenAI, Google, MS) 동향 수집 중...", "주요 AI 논문 및 기술 트렌드 키워드 추출 중...", "국내 AI 스타트업 및 대기업 관련 소식 필터링 중...", "AI 기업별 투자 유치 및 실적 임팩트 계산 중...", "산업 전반의 인사이트 요약 및 다음 주 전망 작성 중..."],
+    card: ["인기 신용카드 혜택 명세서 실시간 비교 중...", "사용자 소비 패턴 기반 카드 콤보 시뮬레이션 중...", "주요 카드사 월간 이벤트 및 혜택 한도 분석 중...", "주간 MZ세대 인기 카드 순위 집계 중...", "최종 추천 조합 및 절약 금액 산정 중..."]
+};
+
 // ══════════════════════════════════════════════════
 // 프롬프트 함수들
 // ══════════════════════════════════════════════════
@@ -984,6 +1002,9 @@ export default function AIWeeklyReport() {
     const [generating, setGenerating] = useState({ card: false, ai: false, shinhan: false, competitor: false });
     const [progress, setProgress] = useState({ card: 0, ai: 0, shinhan: 0, competitor: 0 });
     const [timers, setTimers] = useState({ card: 0, ai: 0, shinhan: 0, competitor: 0 }); // ✅ 타이머 상태 추가
+    const [insightIndex, setInsightIndex] = useState(0);   // ✅ 인사이트 인덱스
+    const [loadingStepIndex, setLoadingStepIndex] = useState(0); // ✅ 로딩 단계 인덱스
+
 
     const [showSharePanel, setShowSharePanel] = useState(false);
     const [toast, setToast] = useState({ visible: false, message: '', icon: '' });
@@ -1081,7 +1102,17 @@ export default function AIWeeklyReport() {
                 if (cur <= 1) return prev; // 1초에서 멈춤 (마무리 단계)
                 return { ...prev, [type]: cur - 1 };
             });
+            // 5초마다 인사이트 변경
+            setInsightIndex(idx => (idx + 1) % FINANCIAL_INSIGHTS.length);
+            // 로딩 단계 업데이트
+            setLoadingStepIndex(prev => {
+                const steps = REPORT_LOADING_STEPS[type] || [];
+                return Math.min(steps.length - 1, prev + 1);
+            });
         }, 1000);
+
+        setInsightIndex(Math.floor(Math.random() * FINANCIAL_INSIGHTS.length));
+        setLoadingStepIndex(0);
 
         const today = getTodayKey();
         try {
@@ -1110,6 +1141,8 @@ export default function AIWeeklyReport() {
             clearInterval(interval);
             clearInterval(timerInterval); // ✅ 타이머 인터벌 제거
             setTimers(prev => ({ ...prev, [type]: 0 }));
+            setLoadingStepIndex(0); // 로딩 단계 초기화
+            setInsightIndex(0); // 인사이트 초기화
         }
     }, [generating]);
 
@@ -1186,12 +1219,28 @@ export default function AIWeeklyReport() {
                                 <span className="material-symbols-outlined text-primary text-[20px] absolute inset-0 flex items-center justify-center">{currentTab?.icon}</span>
                             </div>
                             <h3 className="text-[16px] font-bold text-toss-gray-800 dark:text-white mb-1">AI가 리포트를 생성 중입니다</h3>
-                            <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 mb-4">Google Search + Gemini AI 분석...</p>
-                            <div className="w-full bg-toss-gray-100 dark:bg-gray-800 rounded-full h-2 mb-3 overflow-hidden">
+                            <p className="text-[12px] text-toss-gray-500 dark:text-gray-400 mb-5">{REPORT_LOADING_STEPS[activeTab][loadingStepIndex]}</p>
+                            <div className="w-full bg-toss-gray-100 dark:bg-gray-800 rounded-full h-2 mb-6 overflow-hidden">
                                 <div className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full transition-all duration-700 ease-out" style={{ width: `${currentProgress}%` }} />
                             </div>
-                            <p className="text-[12px] text-toss-gray-400 dark:text-gray-600">
-                                {currentProgress < 30 ? '데이터 수집 중...' : currentProgress < 60 ? '정보 분석 중...' : currentProgress < 90 ? '리포트 작성 중...' : '마무리 중...'}
+
+                            {/* 인사이트 카드 추가 */}
+                            <div className="bg-primary/5 dark:bg-primary/10 rounded-[22px] p-5 border border-primary/10 text-left animate-in fade-in slide-in-from-bottom-2 duration-500">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="text-xl">{FINANCIAL_INSIGHTS[insightIndex].icon}</span>
+                                    <h4 className="text-[14px] font-bold text-primary">{FINANCIAL_INSIGHTS[insightIndex].title}</h4>
+                                </div>
+                                <p className="text-[13px] text-toss-gray-600 dark:text-gray-300 leading-relaxed">
+                                    {FINANCIAL_INSIGHTS[insightIndex].body}
+                                </p>
+                                <div className="flex gap-1 mt-4 justify-center">
+                                    {FINANCIAL_INSIGHTS.map((_, i) => (
+                                        <div key={i} className={`h-1 rounded-full transition-all duration-300 ${i === insightIndex ? 'w-4 bg-primary' : 'w-1 bg-primary/20'}`} />
+                                    ))}
+                                </div>
+                            </div>
+                            <p className="text-[11px] text-toss-gray-400 dark:text-gray-600 mt-5">
+                                분석 완료까지 약 {timers[activeTab]}초 남았습니다
                             </p>
                         </div>
                     </div>
