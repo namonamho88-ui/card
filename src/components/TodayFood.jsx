@@ -121,21 +121,22 @@ export default function TodayFood() {
   const [courseTimer, setCourseTimer] = useState(0);     // ✅ 코스 타이머
 
   // ── 코스 예시 시나리오 ──
-  const SCENARIO_EXAMPLES = [
-    { icon: '💑', text: '성수동 저녁 데이트 2명' },
-    { icon: '👨‍👩‍👧‍👦', text: '망원동 가족 브런치 4명' },
-    { icon: '🍻', text: '을지로 친구들과 회식 5명' },
-    { icon: '🧑‍💻', text: '연남동 혼자 카페 투어' },
-    { icon: '🎂', text: '익선동 생일 파티 3명' },
-  ];
+  const SCENARIO_EXAMPLES = useMemo(() => [
+    { icon: '💑', text: `${selectedArea} 저녁 데이트 2명` },
+    { icon: '👨‍👩‍👧‍👦', text: `${selectedArea} 가족 브런치 4명` },
+    { icon: '🍻', text: `${selectedArea} 친구들과 회식 5명` },
+    { icon: '🧑‍💻', text: `${selectedArea} 혼자 카페 투어` },
+    { icon: '🎂', text: `${selectedArea} 생일 파티 3명` },
+  ], [selectedArea]);
 
   // ──────────────────────────────────────────
   // 캐시에서 맛집 데이터 로드 (기존 로직 재사용)
   // ──────────────────────────────────────────
   const loadRestaurantData = useCallback((area) => {
+    const searchLoc = getSearchLocation(area);
+
     // 1순위: 오늘 캐시
     try {
-      const searchLoc = getSearchLocation(area);
       const cacheKey = `${CACHE_KEY}_${searchLoc}_${getTodayKey()}`;
       const cached = localStorage.getItem(cacheKey);
       if (cached) {
@@ -149,7 +150,7 @@ export default function TodayFood() {
 
     // 2순위: 이전 캐시
     try {
-      const prefix = `${CACHE_KEY}_${area}_`;
+      const prefix = `${CACHE_KEY}_${searchLoc}_`;
       let latestData = null;
       let latestTime = 0;
       for (let i = 0; i < localStorage.length; i++) {
@@ -171,17 +172,23 @@ export default function TodayFood() {
       }
     } catch (e) { }
 
-    // 3순위: Mock 데이터
-    const searchLoc = getSearchLocation(area);
-    const areaKey = Object.keys(MOCK_RESTAURANTS).find(k => searchLoc.includes(k) || k.includes(searchLoc)) || searchLoc;
-    const mockData = MOCK_RESTAURANTS[areaKey] || MOCK_RESTAURANTS['을지로'] || [];
-    setAllRestaurants(mockData.map(r => ({
-      ...r,
-      icon: getCategoryIcon(r.category),
-      color: getCategoryColor(r.category)
-    })));
-    return 'mock';
-  }, []);
+    // 3순위: Mock 데이터 (철저히 해당 지역만 매칭)
+    const areaKey = Object.keys(MOCK_RESTAURANTS).find(k => searchLoc.includes(k) || k.includes(searchLoc));
+
+    if (areaKey) {
+      const mockData = MOCK_RESTAURANTS[areaKey] || [];
+      setAllRestaurants(mockData.map(r => ({
+        ...r,
+        icon: getCategoryIcon(r.category),
+        color: getCategoryColor(r.category)
+      })));
+      return 'mock';
+    }
+
+    // 매칭되는 지역 데이터가 없으면 비워둠 (백그라운드 페치 유도)
+    setAllRestaurants([]);
+    return 'none';
+  }, [getSearchLocation]);
 
   // 백그라운드 API 업데이트 (기존 로직 재사용)
   const fetchInBackground = useCallback(async (area) => {
@@ -404,18 +411,19 @@ INSTRUCTIONS:
       `${r.name}|${r.category}|${r.signature}|${r.priceRange}|${r.rating}|${r.waitTime}|${r.openHours}|${r.closedDay}`
     ).join('\n');
 
-    const prompt = `You are "AI Course Planner", a Seoul food-course planning expert.
-The user wants a food course plan based on their scenario.
+    const prompt = `You are "AI Course Planner", a local food-course planning expert for the ${searchLoc} area.
+The user wants a food course plan specifically within the ${searchLoc} region.
 
 USER SCENARIO: "${courseScenario}"
 AREA DATA (${searchLoc} restaurants):
 ${restaurantContext}
 
 INSTRUCTIONS:
-1. Create a timed course plan with 2~4 stops.
-2. Use restaurants from the provided data when possible. If the scenario requires a type not in the data, you may suggest a realistic restaurant name for that area.
-3. Each stop must include a realistic time, travel time to next stop, and estimated cost.
-4. Respond ONLY with valid JSON (no other text):
+1. Create a timed course plan with 2~4 stops strictly within the ${searchLoc} area.
+2. IMPORTANT: Do NOT include restaurants from other areas like Euljiro unless they are explicitly listed in the AREA DATA above.
+3. Each stop must be a realistic match for the ${searchLoc} location.
+4. Each stop must include a realistic time, travel time to next stop, and estimated cost.
+5. Respond ONLY with valid JSON (no other text):
 {
   "title": "Course title in Korean (fun and descriptive, e.g., '성수동 감성 데이트 코스')",
   "subtitle": "One-line subtitle in Korean describing the vibe",
