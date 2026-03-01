@@ -90,6 +90,9 @@ export default function TodayFood() {
   // ── 공통 상태 ──
   const [activeTab, setActiveTab] = useState('course'); // 'course' | 'roulette'
   const [selectedArea, setSelectedArea] = useState('을지로');
+  const [allRestaurants, setAllRestaurants] = useState([]);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const fetchingRef = useRef(false);
   // 실제 검색에 사용할 지역명 반환 유틸
   const getSearchLocation = useCallback((area) => {
     if (area === '죽전') return '경기도 용인시 수지구 죽전동';
