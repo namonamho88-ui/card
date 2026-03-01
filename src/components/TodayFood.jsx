@@ -67,7 +67,7 @@ function InfoCard({ icon, label, value }) {
 // ──────────────────────────────────────────
 // 지역 목록
 // ──────────────────────────────────────────
-const AREAS = ['을지로', '명동', '여의도', '죽전', '직접입력'];
+const AREAS = ['을지로', '명동', '여의도', '죽전'];
 
 // ──────────────────────────────────────────
 // 룰렛 필터 옵션
@@ -90,17 +90,11 @@ export default function TodayFood() {
   // ── 공통 상태 ──
   const [activeTab, setActiveTab] = useState('course'); // 'course' | 'roulette'
   const [selectedArea, setSelectedArea] = useState('을지로');
-  const [customArea, setCustomArea] = useState('');     // 사용자가 입력한 지역
-  const [allRestaurants, setAllRestaurants] = useState([]);
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-  const fetchingRef = useRef(false);
-
   // 실제 검색에 사용할 지역명 반환 유틸
   const getSearchLocation = useCallback((area) => {
     if (area === '죽전') return '경기도 용인시 수지구 죽전동';
-    if (area === '직접입력') return customArea || '서울';
     return area;
-  }, [customArea]);
+  }, []);
 
   // ── 룰렛 상태 ──
   const [roulettePeople, setRoulettePeople] = useState(null);
@@ -244,16 +238,11 @@ ${searchLoc} 지역에서 모든 음식 종류를 포함하여 현재 가장 인
   }, []);
 
   useEffect(() => {
-    // 직접입력 모드인데 아직 입력값이 없으면 대기
-    if (selectedArea === '직접입력' && !customArea) {
-      setAllRestaurants([]);
-      return;
-    }
     const cacheStatus = loadRestaurantData(selectedArea);
     if (cacheStatus !== 'today') {
       fetchInBackground(selectedArea);
     }
-  }, [selectedArea, customArea, loadRestaurantData, fetchInBackground]);
+  }, [selectedArea, loadRestaurantData, fetchInBackground]);
 
   // ──────────────────────────────────────────
   // 🎰 룰렛 기능
@@ -958,6 +947,7 @@ INSTRUCTIONS:
                       : courseProgress < 60 ? '동선 최적화 중...'
                         : courseProgress < 90 ? '코스 시간표 작성 중...'
                           : '마무리 중...'}
+                    {courseTimer > 0 && ` (답변까지 약 ${courseTimer}초 남음)`}
                   </p>
                 </div>
               )}
