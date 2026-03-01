@@ -92,6 +92,11 @@ const AI_INSIGHTS = [
   { icon: '🥗', title: '건강한 한 끼', body: '점심 식사 전 가벼운 산책은 혈당 급상승을 막아주어 오후 업무 효율을 높여줍니다.' },
   { icon: '🗺️', title: '숨은 장소 찾기', body: '익숙한 거리도 골목 하나만 안쪽으로 들어가면 전혀 다른 분위기의 숨은 카페를 만날 수 있습니다.' },
   { icon: '💳', title: '현명한 소비', body: '신한카드 MyShop 혜택을 확인해보세요. 지금 주변 맛집에서 최대 5% 캐시백 혜택이 있을지도 모릅니다.' },
+  { icon: '🍜', title: '면 요리 맛있게 먹기', body: '평양냉면은 가위로 자르지 않고 면의 메밀 향을 느끼며 식초와 겨자 없이 먼저 드셔보시는 것을 추천합니다.' },
+  { icon: '☕', title: '커피 한 잔의 여유', body: '로스팅한 지 3~10일 사이의 원두가 가장 풍부한 향과 맛을 냅니다. 카페 방문 시 로스팅 날짜를 확인해보세요.' },
+  { icon: '🍣', title: '초밥 먹는 순서', body: '흰살 생선에서 붉은살 생선, 그리고 간이 센 양념 초밥 순으로 드시면 각 재료의 맛을 온전히 즐길 수 있습니다.' },
+  { icon: '🥩', title: '고기 굽기 팁', body: '스테이크를 구운 뒤 5분 정도 기다리는 레스팅(Resting) 과정은 육즙이 골고루 퍼지게 하여 풍미를 극대화합니다.' },
+  { icon: '🥖', title: '빵 보관법', body: '먹고 남은 빵은 냉장고가 아닌 냉동실에 보관해야 수분이 날아가지 않아 다시 데웠을 때 맛있습니다.' },
 ];
 
 const LOADING_STEPS = [
@@ -408,18 +413,22 @@ INSTRUCTIONS:
     setCourseTimer(15);
     setInsightIndex(Math.floor(Math.random() * AI_INSIGHTS.length));
     setLoadingStepIndex(0);
+    let secondsPassed = 0;
 
     const interval = setInterval(() => {
+      secondsPassed += 1;
       setCourseProgress(p => {
         if (p >= 95) return p;
-        const remaining = 15 - (p / 6.33); // 대략적인 남은 시간 계산
         const nextStep = Math.min(LOADING_STEPS.length - 1, Math.floor((p / 100) * LOADING_STEPS.length * 1.2));
         setLoadingStepIndex(nextStep);
         return p + Math.random() * 8 + 2;
       });
       setCourseTimer(t => (t > 1 ? t - 1 : 1));
-      // 5초마다 인사이트 카드 변경
-      setInsightIndex(idx => (idx + 1) % AI_INSIGHTS.length);
+
+      // 6초마다 인사이트 카드 변경 (사용자가 읽을 시간 확보)
+      if (secondsPassed % 6 === 0) {
+        setInsightIndex(idx => (idx + 1) % AI_INSIGHTS.length);
+      }
     }, 1000);
 
     // Build restaurant context
@@ -496,7 +505,13 @@ INSTRUCTIONS:
       console.error('Course planner error:', err);
       clearInterval(interval); // Changed from progressInterval
       setCourseProgress(0);
-      setCourseResult({ error: 'AI 코스 생성에 실패했습니다. 다시 시도해주세요.' });
+
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const errorMsg = isMobile
+        ? '모바일 네트워크 환경이 불안정하거나 AI 서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해주세요.'
+        : 'AI 코스 생성에 실패했습니다. 서버 상태를 확인하거나 잠시 후 다시 시도해주세요.';
+
+      setCourseResult({ error: errorMsg });
     } finally {
       setCourseLoading(false);
       clearInterval(interval); // Changed from timerInterval

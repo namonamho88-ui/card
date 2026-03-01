@@ -53,6 +53,11 @@ const FINANCIAL_INSIGHTS = [
     { icon: '🏦', title: '주거래 은행의 힘', body: '급여 이체, 공과금 자동이체 등 한 은행에 집중하면 대출 금리 우대 등 예상치 못한 혜택을 누릴 수 있습니다.' },
     { icon: '📉', title: '금리 하락기 전략', body: '금리가 내려갈 때는 변동금리보다 고정금리 예금이 유리하며, 대출은 변동금리가 더 유리할 수 있습니다.' },
     { icon: '🛡️', title: '신용점수 관리', body: '신용카드 한도의 30~50% 이내로 꾸준히 사용하는 것이 신용점수 상승에 긍정적인 영향을 줍니다.' },
+    { icon: '💸', title: '지출 관리의 첫걸음', body: '고정 지출을 제외한 변동 지출의 예산을 정하고 일주일 단위로 점검하면 불필요한 과소비를 막을 수 있습니다.' },
+    { icon: '📊', title: '분산 투자의 원칙', body: '계란을 한 바구니에 담지 마세요. 주식, 채권, 예금 등 자산을 적절히 분배하면 리스크를 낮출 수 있습니다.' },
+    { icon: '🏠', title: '청약 통장의 가치', body: '주택청약저축은 소득공제 혜택뿐만 아니라 미래 내 집 마련을 위한 가장 저렴하고 확실한 수단입니다.' },
+    { icon: '📱', title: '간편 결제의 활용', body: '다양한 페이 서비스와 카드 혜택을 연결하면 기본 혜택 외에도 추가 포인트 적립을 누릴 수 있습니다.' },
+    { icon: '🎁', title: '포인트 소멸 방지', body: '신한 마이신한포인트는 1포인트부터 현금처럼 사용 가능하니 소멸되기 전 미리 체크해보세요.' },
 ];
 
 const REPORT_LOADING_STEPS = {
@@ -1096,14 +1101,18 @@ export default function AIWeeklyReport() {
         }, 800);
 
         // ✅ 신규: 1초마다 줄어드는 타이머
+        let secondsPassed = 0;
         const timerInterval = setInterval(() => {
+            secondsPassed += 1;
             setTimers(prev => {
                 const cur = prev[type];
                 if (cur <= 1) return prev; // 1초에서 멈춤 (마무리 단계)
                 return { ...prev, [type]: cur - 1 };
             });
-            // 5초마다 인사이트 변경
-            setInsightIndex(idx => (idx + 1) % FINANCIAL_INSIGHTS.length);
+            // 6초마다 인사이트 변경 (사용자가 읽을 시간 확보)
+            if (secondsPassed % 6 === 0) {
+                setInsightIndex(idx => (idx + 1) % FINANCIAL_INSIGHTS.length);
+            }
             // 로딩 단계 업데이트
             setLoadingStepIndex(prev => {
                 const steps = REPORT_LOADING_STEPS[type] || [];
@@ -1137,6 +1146,13 @@ export default function AIWeeklyReport() {
             console.error(`Report generation error (${type}):`, error);
             setGenerating(prev => ({ ...prev, [type]: false }));
             setProgress(prev => ({ ...prev, [type]: 0 }));
+
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const errorMsg = isMobile
+                ? '모바일 환경에서 리포트 생성 중 네트워크 끊김이 발생했을 수 있습니다. 안정적인 Wi-Fi 환경에서 다시 시도해 주세요.'
+                : '리포트 생성에 실패했습니다. Gemini API 호출 제한이나 서버 통신 오류일 수 있으니 잠시 후 다시 시도해 주세요.';
+
+            showToast(errorMsg, 'error');
         } finally {
             clearInterval(interval);
             clearInterval(timerInterval); // ✅ 타이머 인터벌 제거
