@@ -59,7 +59,9 @@ export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false,
             if (!res.ok) throw new Error(`API ${res.status}`);
 
             const json = await res.json();
-            const raw = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            // ✅ 모든 text parts를 결합 (Google Search grounding 시 여러 parts에 분산됨)
+            const parts = json.candidates?.[0]?.content?.parts || [];
+            const raw = parts.map(p => p.text || '').join('').trim();
             return raw;
         } catch (e) {
             if (e.message.includes('무료버전')) throw e;
