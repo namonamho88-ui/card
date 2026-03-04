@@ -23,14 +23,28 @@ export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false,
                 body.system_instruction = { parts: [{ text: systemInstruction }] };
             }
 
-            const res = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 120000); // 120초 타임아웃
+
+            let res;
+            try {
+                res = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body),
+                        signal: controller.signal
+                    }
+                );
+            } catch (fetchErr) {
+                clearTimeout(timeoutId);
+                if (fetchErr.name === 'AbortError') {
+                    throw new Error('요청 시간이 초과되었습니다. 네트워크 상태를 확인하고 다시 시도해 주세요.');
                 }
-            );
+                throw fetchErr;
+            }
+            clearTimeout(timeoutId);
 
             if (res.status === 429) {
                 if (attempt === maxRetries - 1) {

@@ -51,7 +51,7 @@ const REPORT_TABS = [
 
 const REPORT_LOADING_STEPS = {
     shinhan: ["신한지주 실시간 주가 및 거래량 분석 중...", "금융위원회 및 금감원 공시 자료 확인 중...", "신한은행/카드/증권 계열사별 뉴스 필터링 중...", "주요 재무 지표(NIM, ROE) 계산 및 예측 중...", "마켓 애널리스트 의견 종합 및 리포트 구성 중..."],
-    competitor: ["KB, 하나, 우리금융 주가 데이터 수집 중...", "금융권 공통 경쟁 이슈 및 규제 환경 분석 중...", "경쟁사별 신상품 런칭 및 마케팅 행보 추적 중...", "신한금융 대비 영역별 우위/열위 분석 중...", "전략적 시사점 도출 및 대응 가이드 작성 중..."],
+    competitor: ["KB·하나·우리 금융 주가 데이터 수집 중...", "3대 금융지주 경쟁 이슈 분석 중...", "경쟁사별 신상품 및 마케팅 행보 추적 중...", "신한금융 대비 영역별 우위/열위 분석 중...", "전략적 시사점 도출 및 대응 가이드 작성 중..."],
     ai: ["글로벌 빅테크(OpenAI, Google, MS) 동향 수집 중...", "주요 AI 논문 및 기술 트렌드 키워드 추출 중...", "국내 AI 스타트업 및 대기업 관련 소식 필터링 중...", "AI 기업별 투자 유치 및 실적 임팩트 계산 중...", "산업 전반의 인사이트 요약 및 다음 주 전망 작성 중..."],
     card: ["인기 신용카드 혜택 명세서 실시간 비교 중...", "사용자 소비 패턴 기반 카드 콤보 시뮬레이션 중...", "주요 카드사 월간 이벤트 및 혜택 한도 분석 중...", "주간 MZ세대 인기 카드 순위 집계 중...", "최종 추천 조합 및 절약 금액 산정 중..."]
 };
@@ -148,7 +148,7 @@ function buildShinhanReportPrompt(today) {
 }`;
 }
 
-// ✅ 경쟁 인텔리전스 프롬프트 — 신규
+// ✅ 경쟁 인텔리전스 프롬프트 — KB, 하나, 우리 3사로 축소
 function buildCompetitorReportPrompt(today) {
     const weekLabel = getWeekLabel();
     return `당신은 한국 금융권 경쟁 분석 전문 AI 애널리스트입니다.
@@ -157,7 +157,6 @@ function buildCompetitorReportPrompt(today) {
 - KB금융 (105560)
 - 하나금융 (086790)
 - 우리금융 (316140)
-- 카카오뱅크 (323410)
 
 ## 반드시 아래 JSON만 출력하세요:
 {
@@ -173,15 +172,12 @@ function buildCompetitorReportPrompt(today) {
     { "name": "신한지주", "ticker": "055550", "price": "검색된 실제 현재가", "weekChange": "검색된 실제 변동률", "isUp": true, "per": "검색된 실제 PER", "pbr": "검색된 실제 PBR", "isOurGroup": true },
     { "name": "KB금융", "ticker": "105560", "price": "검색된 실제 현재가", "weekChange": "검색된 실제 변동률", "isUp": true, "per": "실제 PER", "pbr": "실제 PBR", "isOurGroup": false },
     { "name": "하나금융", "ticker": "086790", "price": "실제", "weekChange": "실제", "isUp": true, "per": "실제", "pbr": "실제", "isOurGroup": false },
-    { "name": "우리금융", "ticker": "316140", "price": "실제", "weekChange": "실제", "isUp": false, "per": "실제", "pbr": "실제", "isOurGroup": false },
-    { "name": "카카오뱅크", "ticker": "323410", "price": "실제", "weekChange": "실제", "isUp": true, "per": "실제", "pbr": "실제", "isOurGroup": false }
+    { "name": "우리금융", "ticker": "316140", "price": "실제", "weekChange": "실제", "isUp": false, "per": "실제", "pbr": "실제", "isOurGroup": false }
   ],
   "competitorMoves": [
     { "group": "KB금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
     { "group": "하나금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
-    { "group": "우리금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
-    { "group": "카카오뱅크", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
-    { "group": "토스뱅크", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" }
+    { "group": "우리금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" }
   ],
   "productBattle": [
     { "domain": "수신", "leader": "리드사", "leaderProduct": "상품명", "leaderRate": "금리", "shinhanProduct": "신한 상품", "shinhanRate": "신한 금리", "shinhanStatus": "우위/동등/열위", "comment": "코멘트" },
@@ -754,8 +750,6 @@ const COMPETITOR_STYLE = {
     'KB금융': { bg: 'bg-yellow-50 dark:bg-yellow-900/10', border: 'border-yellow-200/50 dark:border-yellow-800/30', badge: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400', dot: 'bg-yellow-400' },
     '하나금융': { bg: 'bg-emerald-50 dark:bg-emerald-900/10', border: 'border-emerald-200/50 dark:border-emerald-800/30', badge: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400', dot: 'bg-emerald-400' },
     '우리금융': { bg: 'bg-sky-50 dark:bg-sky-900/10', border: 'border-sky-200/50 dark:border-sky-800/30', badge: 'bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400', dot: 'bg-sky-400' },
-    '카카오뱅크': { bg: 'bg-yellow-50 dark:bg-yellow-900/10', border: 'border-yellow-300/50 dark:border-yellow-700/20', badge: 'bg-[#FEE500]/40 text-yellow-800 dark:text-yellow-300', dot: 'bg-[#FEE500]' },
-    '토스뱅크': { bg: 'bg-blue-50 dark:bg-blue-900/10', border: 'border-blue-200/50 dark:border-blue-800/30', badge: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400', dot: 'bg-blue-400' },
 };
 const THREAT_CONFIG = {
     high: { label: '🔴 위협 높음', bg: 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400', bar: 'w-full bg-red-400' },
