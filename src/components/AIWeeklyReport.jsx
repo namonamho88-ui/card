@@ -68,6 +68,8 @@ function buildCardReportPrompt(today) {
     return `당신은 한국 신용카드 시장 전문 AI 애널리스트입니다.
 오늘 날짜(${today}) 기준으로 "${weekLabel} AI 카드 리포트"를 작성하세요.
 
+⚠️ 중요: 모든 텍스트 필드(body, detail, description, highlight, preview 등)는 반드시 구체적이고 상세하게 작성하세요. 한 줄로 축약하지 말고, 지정된 문장 수를 반드시 채워서 풍부한 분석 내용을 담으세요.
+
 ## 보유 카드 데이터
 ${cardsText}
 
@@ -88,6 +90,8 @@ function buildAITrendReportPrompt(today) {
     return `당신은 AI 산업 전문 애널리스트입니다.
 오늘 날짜(${today}) 기준 최신 AI 뉴스와 동향을 조사하여 "${weekLabel} AI 동향 리포트"를 작성하세요.
 
+⚠️ 중요: 모든 텍스트 필드(body, aiComment, preview 등)는 반드시 구체적이고 상세하게 작성하세요. 한 줄로 축약하지 말고, 지정된 문장 수(3~4문장, 2~3문장 등)를 반드시 채워서 깊이 있는 분석을 담으세요.
+
 ## 반드시 아래 JSON만 출력하세요:
 {
   "title": "${weekLabel} AI 동향 리포트",
@@ -105,6 +109,8 @@ function buildShinhanReportPrompt(today) {
     const weekLabel = getWeekLabel();
     return `당신은 신한금융그룹 전문 리서치 애널리스트입니다.
 반드시 구글 검색(Google Search)을 사용하여 **신한지주(055550)**의 가장 최근 거래일(기준일: ${today}) 종가와 주간 등락률, 시가총액, 주요 재무 지표(NIM, ROE 등)를 확인하여 리포트를 작성하세요.
+
+⚠️ 중요: 모든 텍스트 필드(body, headline, details, comment, preview 등)는 반드시 구체적이고 상세하게 작성하세요. 한 줄로 축약하지 말고, 지정된 문장 수를 반드시 채워서 풍부한 분석 내용을 담으세요. details 배열에는 각 2~3개의 상세 이슈를 포함하세요.
 
 ## 반드시 아래 JSON만 출력하세요 (다른 텍스트 없이):
 {
@@ -156,6 +162,8 @@ function buildCompetitorReportPrompt(today) {
 - KB금융 (105560)
 - 하나금융 (086790)
 - 우리금융 (316140)
+
+⚠️ 중요: 모든 텍스트 필드(body, ourAction, comment, preview 등)는 반드시 구체적이고 상세하게 작성하세요. 한 줄로 축약하지 말고, 지정된 문장 수(2~3문장 등)를 반드시 채워서 깊이 있는 경쟁 분석을 담으세요.
 
 ## 반드시 아래 JSON만 출력하세요:
 {
