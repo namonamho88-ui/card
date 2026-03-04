@@ -1,8 +1,26 @@
 // src/components/TodayFood.jsx
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { MOCK_RESTAURANTS, FOOD_CATEGORIES } from '../data/mockFoodData';
 import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
 import insightData from '../data/aiInsights.json'; // ✅ 신규 추가
+
+// ──────────────────────────────────────────
+// 카테고리 필터 정의 (룰렛 제외 필터용)
+// ──────────────────────────────────────────
+const FOOD_CATEGORIES = [
+  { id: 'all', label: '전체', icon: '🍽️', keywords: [] },
+  { id: 'korean', label: '한식', icon: '🍚', keywords: ['한식', '국밥', '냉면', '육개장', '갈비탕', '해장국', '김치찌개', '소금구이'] },
+  { id: 'japanese', label: '일식', icon: '🍣', keywords: ['일식', '오마카세', '덴동', '돈까스', '히레카츠', '라멘'] },
+  { id: 'chinese', label: '중식', icon: '🥟', keywords: ['중식', '양꼬치', '마라'] },
+  { id: 'western', label: '양식', icon: '🍝', keywords: ['양식', '이탈리안', '파스타', '피자', '트러플', '로제', '마르게리타', '고르곤졸라'] },
+  { id: 'cafe', label: '카페', icon: '☕', keywords: ['카페', '커피', '라떼', '아메리카노', '핸드드립', '아인슈페너', '쑥라떼', '오곡라떼', '에스프레소', '로스터리'] },
+  { id: 'dessert', label: '디저트', icon: '🍰', keywords: ['디저트', '케이크', '베이커리', '크루아상', '소금빵', '티라미수', '젤라또', '빙수', '팥빙수'] },
+  { id: 'bar', label: '술집·바', icon: '🍺', keywords: ['술집', '바', '생맥주', '수제맥주', '막걸리', '와인', '크래프트'] },
+  { id: 'brunch', label: '브런치', icon: '🥞', keywords: ['브런치', '에그베네딕트', '샐러드', '건강식'] },
+  { id: 'snack', label: '분식', icon: '🍜', keywords: ['분식', '떡볶이', '국수', '비빔국수'] },
+  { id: 'burger', label: '버거', icon: '🍔', keywords: ['버거', '수제버거', '패티', '한우버거'] },
+  { id: 'asian', label: '아시안', icon: '🍛', keywords: ['태국', '팟타이', '멕시칸', '타코', '베트남'] }
+];
+
 
 // ──────────────────────────────────────────
 // 기존 유틸 재사용 (캐시, 아이콘, 컬러)
@@ -183,20 +201,7 @@ export default function TodayFood() {
       }
     } catch (e) { }
 
-    // 3순위: Mock 데이터 (철저히 해당 지역만 매칭)
-    const areaKey = Object.keys(MOCK_RESTAURANTS).find(k => searchLoc.includes(k) || k.includes(searchLoc));
-
-    if (areaKey) {
-      const mockData = MOCK_RESTAURANTS[areaKey] || [];
-      setAllRestaurants(mockData.map(r => ({
-        ...r,
-        icon: getCategoryIcon(r.category),
-        color: getCategoryColor(r.category)
-      })));
-      return 'mock';
-    }
-
-    // 매칭되는 지역 데이터가 없으면 비워둠 (백그라운드 페치 유도)
+    // 캐시 없으면 빈 배열 → 백그라운드 API 페치 유도
     setAllRestaurants([]);
     return 'none';
   }, [getSearchLocation]);
