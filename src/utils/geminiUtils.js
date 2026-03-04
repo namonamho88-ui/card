@@ -73,24 +73,63 @@ export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false,
 
 /**
  * 응답에서 JSON 문자열을 추출하고 파싱하는 유틸리티
+ * - 코드블록, 제어문자, trailing comma, BOM 등 다양한 AI 응답 형식 대응
  */
 export function extractJSON(raw) {
-    try {
-        let jsonStr = raw;
-        const codeBlock = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
-        if (codeBlock) {
-            jsonStr = codeBlock[1].trim();
-        } else {
-            const arr = raw.match(/\[[\s\S]*\]/);
-            const obj = raw.match(/\{[\s\S]*\}/);
-            if (arr) jsonStr = arr[0];
-            else if (obj) jsonStr = obj[0];
-        }
-        return JSON.parse(jsonStr);
-    } catch (e) {
-        console.error("JSON Parsing Error original content:", raw);
-        throw new Error("JSON 파싱 실패");
+    if (!raw || typeof raw !== 'string') {
+        throw new Error("JSON 파싱 실패: 빈 응답");
     }
+
+    // 1단계: 전처리 — 제어문자, BOM 제거
+    let cleaned = raw
+        .replace(/^\uFEFF/, '')          // BOM 제거
+        .replace(/[\x00-\x09\x0B\x0C\x0E-\x1F]/g, '') // 제어문자 제거 (탭/줄바꿈 유지)
+        .trim();
+
+    // 2단계: 코드블록에서 추출 시도 (여러 코드블록이 있을 수 있음)
+    const codeBlocks = [...cleaned.matchAll(/```(?:json)?\s*([\s\S]*?)```/g)];
+    if (codeBlocks.length > 0) {
+        // 가장 긴 코드블록 선택 (메인 JSON일 가능성 높음)
+        const longest = codeBlocks.reduce((a, b) => a[1].length > b[1].length ? a : b);
+        cleaned = longest[1].trim();
+    }
+
+    // 3단계: 파싱 시도 함수
+    const tryParse = (str) => {
+        try {
+            return JSON.parse(str);
+        } catch {
+            // trailing comma 제거 후 재시도
+            const fixed = str
+                .replace(/,\s*([}\]])/g, '$1')   // trailing comma
+                .replace(/'/g, '"');              // 작은따옴표 → 큰따옴표
+            try {
+                return JSON.parse(fixed);
+            } catch {
+                return null;
+            }
+        }
+    };
+
+    // 4단계: 직접 파싱 시도
+    let result = tryParse(cleaned);
+    if (result) return result;
+
+    // 5단계: { } 또는 [ ] 영역 추출 후 파싱
+    const objMatch = cleaned.match(/\{[\s\S]*\}/);
+    const arrMatch = cleaned.match(/\[[\s\S]*\]/);
+
+    if (objMatch) {
+        result = tryParse(objMatch[0]);
+        if (result) return result;
+    }
+    if (arrMatch) {
+        result = tryParse(arrMatch[0]);
+        if (result) return result;
+    }
+
+    console.error("JSON Parsing Error original content:", raw);
+    throw new Error("JSON 파싱 실패");
 }
 
 /**
