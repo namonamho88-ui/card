@@ -429,14 +429,15 @@ INSTRUCTIONS:
 The user wants a food course plan specifically within the ${searchLoc} region.
 
 USER SCENARIO: "${courseScenario}"
-AREA DATA (${searchLoc} restaurants):
+
+REFERENCE DATA (may be outdated — always verify via Google Search):
 ${restaurantContext}
 
 INSTRUCTIONS:
-1. Create a timed course plan with 2~4 stops strictly within the ${searchLoc} area.
-2. IMPORTANT: Do NOT include restaurants from other areas like Euljiro unless they are explicitly listed in the AREA DATA above.
-3. Each stop must be a realistic match for the ${searchLoc} location.
-4. Each stop must include a realistic time, travel time to next stop, and estimated cost.
+1. 반드시 구글 검색(Google Search)을 사용하여 ${searchLoc} 지역의 실제 존재하는 맛집을 확인하고, 현재 영업 중인 곳으로 코스를 구성하세요.
+2. Create a timed course plan with 2~4 stops strictly within the ${searchLoc} area.
+3. 위 REFERENCE DATA는 참고용입니다. 구글 검색으로 확인한 실제 맛집 정보(영업시간, 가격, 메뉴)를 우선하여 사용하세요.
+4. Each stop must include a realistic time, travel time to next stop, and estimated cost based on real data.
 5. Respond ONLY with valid JSON (no other text):
 {
   "title": "Course title in Korean (fun and descriptive, e.g., '성수동 감성 데이트 코스')",
@@ -448,7 +449,7 @@ INSTRUCTIONS:
     {
       "order": 1,
       "time": "18:00",
-      "name": "Restaurant name",
+      "name": "Restaurant name (실제 존재하는 가게명)",
       "category": "Food category",
       "signature": "What to order",
       "estimatedCost": "Cost per person (e.g., '1.5만원')",
