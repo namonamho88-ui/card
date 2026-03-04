@@ -402,12 +402,8 @@ INSTRUCTIONS:
     setCourseLoading(true);
     setCourseResult(null);
     setCourseProgress(0);
-
-    // ✅ 캐시된 실제 데이터가 있으면 검색 생략 → 5~10초 절감
-    const hasRealData = allRestaurants.length > 0;
-    const needSearch = !hasRealData;
-    setCourseTimer(needSearch ? 15 : 8);
-
+    setCourseTimer(20); // ✅ 코스 플래너는 검색 포함 20초 예측
+    setCourseTimer(15);
     setInsightIndex(Math.floor(Math.random() * AI_INSIGHTS.length));
     setLoadingStepIndex(0);
     let secondsPassed = 0;
@@ -428,51 +424,56 @@ INSTRUCTIONS:
       }
     }, 1000);
 
-    // ✅ 레스토랑 컨텍스트 상위 5개로 축소 (프롬프트 경량화)
+    // Build restaurant context
     const searchLoc = getSearchLocation(selectedArea);
-    const topRestaurants = allRestaurants.slice(0, 5);
-    const restaurantContext = topRestaurants.map(r =>
-      `${r.name}|${r.category}|${r.signature}|${r.priceRange}|${r.rating}`
+    const restaurantContext = allRestaurants.map(r =>
+      `${r.name}|${r.category}|${r.signature}|${r.priceRange}|${r.rating}|${r.waitTime}|${r.openHours}|${r.closedDay}`
     ).join('\n');
 
-    // ✅ 실제 데이터 유무에 따라 프롬프트 분기
-    const dataSection = hasRealData
-      ? `다음은 ${searchLoc} 지역의 실제 맛집 데이터입니다. 이 데이터를 기반으로 코스를 구성하세요:\n${restaurantContext}`
-      : `구글 검색(Google Search)을 사용하여 ${searchLoc} 지역의 실제 맛집을 찾아 코스를 구성하세요.`;
+    const prompt = `You are "AI Course Planner", a local food-course planning expert for the ${searchLoc} area.
+The user wants a food course plan specifically within the ${searchLoc} region.
 
-    const prompt = `당신은 "${searchLoc}" 지역 맛집 코스 플래너 AI입니다.
+USER SCENARIO: "${courseScenario}"
 
-시나리오: "${courseScenario}"
-${dataSection}
+REFERENCE DATA (may be outdated — always verify via Google Search):
+${restaurantContext}
 
-${searchLoc} 지역 내에서 2~3개 코스를 구성하세요. 반드시 아래 JSON만 출력:
+INSTRUCTIONS:
+1. 반드시 구글 검색(Google Search)을 사용하여 ${searchLoc} 지역의 실제 존재하는 맛집을 확인하고, 현재 영업 중인 곳으로 코스를 구성하세요.
+2. Create a timed course plan with 2~4 stops strictly within the ${searchLoc} area.
+3. 위 REFERENCE DATA는 참고용입니다. 구글 검색으로 확인한 실제 맛집 정보(영업시간, 가격, 메뉴)를 우선하여 사용하세요.
+4. Each stop must include a realistic time, travel time to next stop, and estimated cost based on real data.
+5. Respond ONLY with valid JSON (no other text):
 {
-  "title": "코스 제목 (재미있게, 예: '을지로 감성 데이트 코스')",
-  "subtitle": "한줄 설명",
-  "totalTime": "총 소요시간 (예: '약 3시간')",
-  "totalBudget": "1인 총 예산 (예: '약 4.5만원')",
-  "numberOfPeople": "인원수",
+  "title": "Course title in Korean (fun and descriptive, e.g., '성수동 감성 데이트 코스')",
+  "subtitle": "One-line subtitle in Korean describing the vibe",
+  "totalTime": "Total estimated duration (e.g., '약 3시간')",
+  "totalBudget": "Total estimated cost per person (e.g., '약 4.5만원')",
+  "numberOfPeople": "Number of people inferred from scenario",
   "stops": [
     {
       "order": 1,
       "time": "18:00",
-      "name": "실제 가게명",
-      "category": "음식 종류",
-      "signature": "추천 메뉴",
-      "estimatedCost": "1인 가격",
-      "duration": "체류시간",
-      "travelToNext": "다음 장소까지 이동 (예: '도보 5분')",
-      "reason": "이 코스에 어울리는 이유 (한 문장)",
-      "icon": "이모지 1개"
+      "name": "Restaurant name (실제 존재하는 가게명)",
+      "category": "Food category",
+      "signature": "What to order",
+      "estimatedCost": "Cost per person (e.g., '1.5만원')",
+      "duration": "Time spent here (e.g., '1시간')",
+      "travelToNext": "Travel time to next stop (e.g., '도보 5분')",
+      "reason": "Why this stop fits the course (1 sentence in Korean)",
+      "icon": "single emoji representing this stop"
     }
   ],
-  "tips": ["실용적 팁1", "실용적 팁2"],
-  "alternativePlan": "대안 한 문장"
+  "tips": [
+    "Practical tip 1 in Korean",
+    "Practical tip 2 in Korean"
+  ],
+  "alternativePlan": "Brief 1-sentence alternative if a place is closed, in Korean"
 }`;
 
     try {
       const rawText = await enqueueGeminiRequest(() =>
-        geminiRequest(prompt, { useSearch: needSearch })
+        geminiRequest(prompt, { useSearch: true })
       );
       const result = extractJSON(rawText);
 
