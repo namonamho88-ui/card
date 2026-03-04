@@ -140,8 +140,7 @@ function buildShinhanReportPrompt(today) {
   "globalPeerComparison": [
     { "name": "KB금융", "change": "검색된 실제 등락", "isUp": true, "note": "코멘트" },
     { "name": "하나금융", "change": "검색된 실제 등락", "isUp": true, "note": "코멘트" },
-    { "name": "우리금융", "change": "검색된 실제 등락", "isUp": false, "note": "코멘트" },
-    { "name": "카카오뱅크", "change": "검색된 실제 등락", "isUp": true, "note": "코멘트" }
+    { "name": "우리금융", "change": "검색된 실제 등락", "isUp": false, "note": "코멘트" }
   ],
   "riskFactors": [{ "factor": "리스크 항목", "description": "설명", "level": "high/medium/low" }],
   "nextWeek": { "preview": "전망", "events": [{ "date": "일자", "day": "요일", "event": "내용" }] }
@@ -816,7 +815,7 @@ function CompetitorReportView({ data }) {
             <SectionTitle icon="radar" title="경쟁사 이번 주 핵심 무브" />
             <div className="space-y-3">
                 {competitorMoves?.map((move, idx) => {
-                    const style = COMPETITOR_STYLE[move.group] || COMPETITOR_STYLE['토스뱅크'];
+                    const style = COMPETITOR_STYLE[move.group] || COMPETITOR_STYLE['KB금융'];
                     const threat = THREAT_CONFIG[move.threatLevel] || THREAT_CONFIG.medium;
                     return (
                         <div key={idx} className={`rounded-[20px] p-5 border ${style.bg} ${style.border}`}>
@@ -1156,7 +1155,7 @@ export default function AIWeeklyReport() {
         card: 'AI가 이번 주 카드 트렌드와 최적 조합을 분석합니다.',
         ai: 'AI가 이번 주 글로벌 AI 산업 핵심 동향을 분석합니다.',
         shinhan: '신한금융그룹 지주사 이슈부터 계열사별 위클리 동향까지 AI가 분석합니다.',
-        competitor: 'KB·하나·우리·카카오뱅크·토스뱅크의 이번 주 핵심 무브를 신한 시각으로 AI가 분석합니다.',
+        competitor: 'KB·하나·우리금융의 이번 주 핵심 무브를 신한 시각으로 AI가 분석합니다.',
     };
 
     return (
