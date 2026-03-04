@@ -5,7 +5,9 @@ const styles = {
     body: {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         background: 'transparent',
-        minHeight: '100%',
+        height: '100%',
+        flex: 1,
+        overflowY: 'auto',
         display: 'flex',
         flexDirection: 'column',
         padding: '10px 10px 100px 10px', // Bottom padding for nav bar
