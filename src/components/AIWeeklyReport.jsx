@@ -110,7 +110,11 @@ function buildShinhanReportPrompt(today) {
     return `당신은 신한금융그룹 전문 리서치 애널리스트입니다.
 반드시 구글 검색(Google Search)을 사용하여 **신한지주(055550)**의 가장 최근 거래일(기준일: ${today}) 종가와 주간 등락률, 시가총액, 주요 재무 지표(NIM, ROE 등)를 확인하여 리포트를 작성하세요.
 
-⚠️ 중요: 모든 텍스트 필드(body, headline, details, comment, preview 등)는 반드시 구체적이고 상세하게 작성하세요. 한 줄로 축약하지 말고, 지정된 문장 수를 반드시 채워서 풍부한 분석 내용을 담으세요. details 배열에는 각 2~3개의 상세 이슈를 포함하세요.
+⚠️ 중요: 모든 텍스트 필드는 신뢰할 수 있는 최신 데이터를 기반으로 매우 구제적이고 상세하게 작성해야 합니다.
+1. holdingIssues: 각 이슈당 반드시 4~5문장 이상의 심층 분석을 제공하세요. (관련 수치, 날짜 포함)
+2. subsidiaryUpdates: 각 계열사별 headline은 15자 내외로 핵심을 찌르고, details 배열에는 반드시 3개 이상의 구체적인 최신 이슈/성과를 포함하세요.
+3. analystView.comment: 전문적인 투자 의견을 3~4문장으로 상세히 기술하세요.
+4. nextWeek.preview: 다음 주 시장 전망 및 그룹의 대응 전략을 4~5문장으로 매우 상세하게 서술하세요.
 
 ## 반드시 아래 JSON만 출력하세요 (다른 텍스트 없이):
 {
@@ -123,13 +127,13 @@ function buildShinhanReportPrompt(today) {
     "stockChange": "검색된 실제 등락률 (예: +1.5%)", 
     "stockIsUp": true 
   },
-  "holdingIssues": [{ "category": "배당/IR/ESG/지배구조/실적/인사", "title": "이슈 제목", "body": "2~3문장", "importance": "high/medium/low" }],
+  "holdingIssues": [{ "category": "배당/IR/ESG/지배구조/실적/인사", "title": "이슈 제목", "body": "상세 분석 4~5문장", "importance": "high/medium/low" }],
   "subsidiaryUpdates": [
-    { "company": "신한은행", "icon": "account_balance", "color": "blue", "headline": "헤드라인", "details": ["이슈1"], "sentiment": "positive" },
-    { "company": "신한카드", "icon": "credit_card", "color": "red", "headline": "헤드라인", "details": ["이슈1"], "sentiment": "neutral" },
-    { "company": "신한투자증권", "icon": "show_chart", "color": "green", "headline": "헤드라인", "details": ["이 이슈1"], "sentiment": "positive" },
-    { "company": "신한라이프", "icon": "favorite", "color": "pink", "headline": "헤드라인", "details": ["이슈1"], "sentiment": "neutral" },
-    { "company": "신한캐피탈", "icon": "directions_car", "color": "orange", "headline": "헤드라인", "details": ["이슈1"], "sentiment": "positive" }
+    { "company": "신한은행", "icon": "account_balance", "color": "blue", "headline": "요약 헤드라인", "details": ["상세 이슈1", "상세 이슈2", "상세 이슈3"], "sentiment": "positive" },
+    { "company": "신한카드", "icon": "credit_card", "color": "red", "headline": "요약 헤드라인", "details": ["상세 이슈1", "상세 이슈2", "상세 이슈3"], "sentiment": "neutral" },
+    { "company": "신한투자증권", "icon": "show_chart", "color": "green", "headline": "요약 헤드라인", "details": ["상세 이슈1", "상세 이슈2", "상세 이슈3"], "sentiment": "positive" },
+    { "company": "신한라이프", "icon": "favorite", "color": "pink", "headline": "요약 헤드라인", "details": ["상세 이슈1", "상세 이슈2", "상세 이슈3"], "sentiment": "neutral" },
+    { "company": "신한캐피탈", "icon": "directions_car", "color": "orange", "headline": "요약 헤드라인", "details": ["상세 이슈1", "상세 이슈2", "상세 이슈3"], "sentiment": "positive" }
   ],
   "keyMetrics": [
     { "label": "신한지주 시가총액", "value": "검색된 실제 값", "change": "검색된 실제 등락" },
@@ -141,15 +145,15 @@ function buildShinhanReportPrompt(today) {
     "targetPrice": "최신 목표주가", 
     "currentPrice": "현재가", 
     "upside": "상승여력", 
-    "comment": "애널리스트 의견 2~3문장" 
+    "comment": "상세 투자 의견 3~4문장" 
   },
   "globalPeerComparison": [
     { "name": "KB금융", "change": "검색된 실제 등락", "isUp": true, "note": "코멘트" },
     { "name": "하나금융", "change": "검색된 실제 등락", "isUp": true, "note": "코멘트" },
     { "name": "우리금융", "change": "검색된 실제 등락", "isUp": false, "note": "코멘트" }
   ],
-  "riskFactors": [{ "factor": "리스크 항목", "description": "설명", "level": "high/medium/low" }],
-  "nextWeek": { "preview": "전망", "events": [{ "date": "일자", "day": "요일", "event": "내용" }] }
+  "riskFactors": [{ "factor": "리스크 항목", "description": "상세 설명", "level": "high/medium/low" }],
+  "nextWeek": { "preview": "다음 주 상세 전망 및 전략 4~5문장", "events": [{ "date": "일자", "day": "요일", "event": "상세 내용" }] }
 }`;
 }
 
