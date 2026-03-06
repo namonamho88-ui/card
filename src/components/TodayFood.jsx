@@ -1,6 +1,6 @@
 // src/components/TodayFood.jsx
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
+import { geminiRequest, extractJSON, enqueueGeminiRequest, isOverloadAlertShown, markOverloadAlertAsShown } from '../utils/geminiUtils';
 import OverloadModal from './OverloadModal';
 import insightData from '../data/aiInsights.json'; // ✅ 신규 추가
 
@@ -511,7 +511,10 @@ INSTRUCTIONS:
 
       let errorMsg;
       if (err.message.includes('과부하')) {
-        setShowOverloadAlert(true);
+        if (!isOverloadAlertShown()) {
+          setShowOverloadAlert(true);
+          markOverloadAlertAsShown();
+        }
         errorMsg = '⚠️ 현재 Google AI 서버가 과부하 상태입니다. 잠시 후 다시 시도해 주세요.';
       } else if (err.message.includes('시간이 초과')) {
         errorMsg = '⚠️ 요청 시간이 초과되었습니다. 네트워크를 확인하고 다시 시도해 주세요.';

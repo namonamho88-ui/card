@@ -4,6 +4,19 @@ const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 export const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
 
 /**
+ * ⚠️ 서버 과부하 안내를 세션당 한 번만 보여주기 위한 플래그
+ */
+let overloadAlertShown = false;
+
+export function isOverloadAlertShown() {
+    return overloadAlertShown;
+}
+
+export function markOverloadAlertAsShown() {
+    overloadAlertShown = true;
+}
+
+/**
  * 지수 백오프를 포함한 Gemini API 요청 함수
  */
 export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false, systemInstruction = "" } = {}) {

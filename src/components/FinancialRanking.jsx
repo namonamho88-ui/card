@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MOCK_KR_STOCKS, US_STOCK_SYMBOLS, CRYPTO_IDS } from '../data/mockFinancialData';
-import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
+import { geminiRequest, extractJSON, enqueueGeminiRequest, isOverloadAlertShown, markOverloadAlertAsShown } from '../utils/geminiUtils';
 import OverloadModal from './OverloadModal';
 
 const FINNHUB_KEY = import.meta.env.VITE_FINNHUB_API_KEY;
@@ -303,7 +303,10 @@ export default function FinancialRanking() {
         } catch (e) {
             console.warn('News fetch error:', e.message);
             if (e.message.includes('과부하')) {
-                setServerOverload(true);
+                if (!isOverloadAlertShown()) {
+                    setServerOverload(true);
+                    markOverloadAlertAsShown();
+                }
             }
             const errorMsg = e.message.includes('과부하')
                 ? '⚠️ Google AI 서버가 과부하 상태입니다. 잠시 후 다시 시도해 주세요.'
