@@ -56,6 +56,17 @@ export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false,
                 continue;
             }
 
+            // ✅ 503 서버 과부하 처리
+            if (res.status === 503) {
+                if (attempt === maxRetries - 1) {
+                    throw new Error('현재 Google AI 서버가 과부하 상태입니다. 잠시 후 다시 시도해 주세요.');
+                }
+                const waitMs = Math.min(2000 * Math.pow(2, attempt) + Math.random() * 1000, 30000);
+                console.warn(`Gemini 503 Server Overload - Retry ${attempt + 1}/${maxRetries} after ${Math.round(waitMs)}ms`);
+                await new Promise(r => setTimeout(r, waitMs));
+                continue;
+            }
+
             if (!res.ok) throw new Error(`API ${res.status}`);
 
             const json = await res.json();
@@ -64,7 +75,7 @@ export async function geminiRequest(prompt, { maxRetries = 3, useSearch = false,
             const raw = parts.map(p => p.text || '').join('').trim();
             return raw;
         } catch (e) {
-            if (e.message.includes('무료버전')) throw e;
+            if (e.message.includes('무료버전') || e.message.includes('과부하') || e.message.includes('시간이 초과')) throw e;
             if (attempt === maxRetries - 1) throw e;
             const waitMs = 1000 * Math.pow(2, attempt);
             await new Promise(r => setTimeout(r, waitMs));

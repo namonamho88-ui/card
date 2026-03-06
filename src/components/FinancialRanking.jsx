@@ -29,6 +29,7 @@ export default function FinancialRanking() {
     const [newsLoading, setNewsLoading] = useState(false);
     const [krTimer, setKrTimer] = useState(0);     // ✅ 신규: 국장 타이머
     const [newsTimer, setNewsTimer] = useState(0); // ✅ 신규: 뉴스 타이머
+    const [serverOverload, setServerOverload] = useState(false); // ✅ 서버 과부하
     const intervalRef = useRef(null);
     const isMountedRef = useRef(true);
 
@@ -148,7 +149,13 @@ export default function FinancialRanking() {
         // ✅ 2단계: Fallback — Gemini API 호출
         if (!GEMINI_KEY) return;
         setKrTimer(20);
-        const tInt = setInterval(() => setKrTimer(p => p <= 1 ? p : p - 1), 1000);
+        setServerOverload(false);
+        let krSeconds = 0;
+        const tInt = setInterval(() => {
+            krSeconds += 1;
+            if (krSeconds >= 20) setServerOverload(true);
+            setKrTimer(p => p <= 1 ? p : p - 1);
+        }, 1000);
 
         try {
             const raw = await enqueueGeminiRequest(() =>
@@ -168,9 +175,13 @@ export default function FinancialRanking() {
             }
         } catch (e) {
             console.warn('KR stocks Gemini error:', e.message);
+            if (e.message.includes('과부하')) {
+                setServerOverload(true);
+            }
         } finally {
             clearInterval(tInt);
             setKrTimer(0);
+            setServerOverload(false);
         }
     }, []);
 
@@ -204,7 +215,13 @@ export default function FinancialRanking() {
         }
 
         setNewsTimer(15); // 뉴스 분석은 약 15초
-        const tInt = setInterval(() => setNewsTimer(p => p <= 1 ? p : p - 1), 1000);
+        setServerOverload(false);
+        let newsSeconds = 0;
+        const tInt = setInterval(() => {
+            newsSeconds += 1;
+            if (newsSeconds >= 20) setServerOverload(true);
+            setNewsTimer(p => p <= 1 ? p : p - 1);
+        }, 1000);
 
         try {
             const stockName = item.nameKr || item.name;
@@ -256,14 +273,19 @@ export default function FinancialRanking() {
             setNewsData(normalizedData);
         } catch (e) {
             console.warn('News fetch error:', e.message);
+            const errorMsg = e.message.includes('과부하')
+                ? '⚠️ Google AI 서버가 과부하 상태입니다. 잠시 후 다시 시도해 주세요.'
+                : '분석 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.';
             setNewsData({
-                summary: '분석 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
+                summary: errorMsg,
                 sentiment: '중립',
                 items: [
                     {
-                        title: 'API 요청 제한',
+                        title: e.message.includes('과부하') ? '서버 과부하' : 'API 요청 제한',
                         type: '중립',
-                        detail: '일일 무료 할당량을 초과했습니다. 캐시된 데이터가 없어 표시할 수 없습니다.'
+                        detail: e.message.includes('과부하')
+                            ? '현재 Google AI 서버가 과부하 상태입니다. 잠시 후에 다시 시도해 주세요.'
+                            : '일일 무료 할당량을 초과했습니다. 캐시된 데이터가 없어 표시할 수 없습니다.'
                     }
                 ]
             });
@@ -271,6 +293,7 @@ export default function FinancialRanking() {
             setNewsLoading(false);
             clearInterval(tInt);
             setNewsTimer(0);
+            setServerOverload(false);
         }
     }, []);
 
@@ -535,7 +558,10 @@ export default function FinancialRanking() {
                                     <div className="flex items-center gap-3">
                                         <span className="material-symbols-outlined text-primary text-[24px] animate-spin">progress_activity</span>
                                         <span className="text-[14px] font-semibold text-toss-gray-600 dark:text-gray-400">
-                                            AI가 분석 중입니다 (약 {newsTimer}초 남음)
+                                            {serverOverload
+                                                ? '⚠️ 서버 응답 지연 중... 잠시만 기다려주세요'
+                                                : `AI가 분석 중입니다 (약 ${newsTimer}초 남음)`
+                                            }
                                         </span>
                                     </div>
 

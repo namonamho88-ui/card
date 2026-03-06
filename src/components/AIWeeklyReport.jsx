@@ -1010,6 +1010,7 @@ export default function AIWeeklyReport() {
     const [timers, setTimers] = useState({ card: 0, ai: 0, shinhan: 0, competitor: 0 }); // ✅ 타이머 상태 추가
     const [insightIndex, setInsightIndex] = useState(0);   // ✅ 인사이트 인덱스
     const [loadingStepIndex, setLoadingStepIndex] = useState(0); // ✅ 로딩 단계 인덱스
+    const [serverOverload, setServerOverload] = useState(false); // ✅ 서버 과부하 상태
 
 
     const [showSharePanel, setShowSharePanel] = useState(false);
@@ -1120,8 +1121,13 @@ export default function AIWeeklyReport() {
         }, 800);
 
         let secondsPassed = 0;
+        setServerOverload(false);
         const timerInterval = setInterval(() => {
             secondsPassed += 1;
+            // ✅ 20초 초과 시 서버 과부하 안내
+            if (secondsPassed >= 20) {
+                setServerOverload(true);
+            }
             setTimers(prev => {
                 const cur = prev[type];
                 if (cur <= 1) return prev;
@@ -1179,10 +1185,20 @@ export default function AIWeeklyReport() {
             setGenerating(prev => ({ ...prev, [type]: false }));
             setProgress(prev => ({ ...prev, [type]: 0 }));
 
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            const errorMsg = isMobile
-                ? '모바일 환경에서 리포트 생성 중 네트워크 끊김이 발생했을 수 있습니다. 안정적인 Wi-Fi 환경에서 다시 시도해 주세요.'
-                : '리포트 생성에 실패했습니다. Gemini API 호출 제한이나 서버 통신 오류일 수 있으니 잠시 후 다시 시도해 주세요.';
+            // ✅ 503 서버 과부하 또는 타임아윗 에러 메시지 우선 표시
+            let errorMsg;
+            if (error.message.includes('과부하')) {
+                errorMsg = '⚠️ 현재 Google AI 서버가 과부하 상태입니다. 잠시 후 다시 시도해 주세요.';
+            } else if (error.message.includes('시간이 초과')) {
+                errorMsg = '⚠️ 요청 시간이 초과되었습니다. 네트워크 상태를 확인하고 다시 시도해 주세요.';
+            } else if (error.message.includes('무료버전')) {
+                errorMsg = error.message;
+            } else {
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                errorMsg = isMobile
+                    ? '모바일 환경에서 네트워크 끊김이 발생했을 수 있습니다. Wi-Fi 환경에서 다시 시도해 주세요.'
+                    : '리포트 생성에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+            }
 
             showToast(errorMsg, 'error');
         } finally {
@@ -1191,6 +1207,7 @@ export default function AIWeeklyReport() {
             setTimers(prev => ({ ...prev, [type]: 0 }));
             setLoadingStepIndex(0);
             setInsightIndex(0);
+            setServerOverload(false);
         }
     }, [generating, fetchPreGenerated]);
 
@@ -1287,8 +1304,25 @@ export default function AIWeeklyReport() {
                                     ))}
                                 </div>
                             </div>
+
+                            {/* ✅ 서버 과부하 안내 배너 */}
+                            {serverOverload && (
+                                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-[16px] p-4 mt-4 text-left animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="material-symbols-outlined text-amber-500 text-[18px]">warning</span>
+                                        <h4 className="text-[13px] font-bold text-amber-700 dark:text-amber-400">서버 응답 지연</h4>
+                                    </div>
+                                    <p className="text-[12px] text-amber-600 dark:text-amber-400/80 leading-relaxed">
+                                        현재 Google AI 서버 과부하로 인해 응답이 지연되고 있습니다. 잠시만 기다려주시거나, 나중에 다시 시도해 주세요.
+                                    </p>
+                                </div>
+                            )}
+
                             <p className="text-[11px] text-toss-gray-400 dark:text-gray-600 mt-5">
-                                분석 완료까지 약 {timers[activeTab]}초 남았습니다
+                                {serverOverload
+                                    ? '⚠️ 서버 응답 대기 중... 잠시만 기다려주세요'
+                                    : `분석 완료까지 약 ${timers[activeTab]}초 남았습니다`
+                                }
                             </p>
                         </div>
                     </div>

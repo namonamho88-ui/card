@@ -173,8 +173,12 @@ ${cardContext}
       console.error("Gemini API Error:", error);
       let errorMsg = "죄송합니다. 일시적인 오류가 발생했습니다.";
 
-      if (error.message.includes("429")) {
-        errorMsg = "⚠️ 가용량이 초과되었습니다 (429 Error).\n\n무료 버전 API 사용량이 많아 일시적으로 제한되었습니다. 약 1분 뒤에 다시 시도해주세요.";
+      if (error.message.includes("과부하")) {
+        errorMsg = "⚠️ 현재 Google AI 서버가 과부하 상태입니다.\n\n서버 부하로 인해 일시적으로 서비스가 중단되었습니다. 잠시 후 다시 시도해주세요.";
+      } else if (error.message.includes("시간이 초과")) {
+        errorMsg = "⚠️ 요청 시간이 초과되었습니다.\n\n네트워크 상태를 확인하고 다시 시도해주세요.";
+      } else if (error.message.includes("429") || error.message.includes("무료버전")) {
+        errorMsg = "⚠️ 가용량이 초과되었습니다.\n\n무료 버전 API 사용량이 많아 일시적으로 제한되었습니다. 약 1분 뒤에 다시 시도해주세요.";
       }
 
       setMessages(prev => prev.map(msg =>
@@ -264,7 +268,12 @@ ${cardContext}
           setAnalysis(result);
         } catch (error) {
           console.error("Comparison Error:", error);
-          setAnalysis("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+          const msg = error.message.includes('과부하')
+            ? '⚠️ 현재 Google AI 서버가 과부하 상태입니다. 잠시 후 다시 시도해 주세요.'
+            : error.message.includes('시간이 초과')
+              ? '⚠️ 요청 시간이 초과되었습니다. 네트워크를 확인해 주세요.'
+              : '오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+          setAnalysis(msg);
         } finally {
           setIsAnalyzing(false);
           clearInterval(tInt);

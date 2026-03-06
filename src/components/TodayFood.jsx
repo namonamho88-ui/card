@@ -407,6 +407,7 @@ INSTRUCTIONS:
     setInsightIndex(Math.floor(Math.random() * AI_INSIGHTS.length));
     setLoadingStepIndex(0);
     let secondsPassed = 0;
+    let courseOverload = false;
 
     const interval = setInterval(() => {
       secondsPassed += 1;
@@ -417,6 +418,12 @@ INSTRUCTIONS:
         return p + Math.random() * 8 + 2;
       });
       setCourseTimer(t => (t > 1 ? t - 1 : 1));
+
+      // ✅ 20초 초과 시 서버 과부하 안내
+      if (secondsPassed >= 20 && !courseOverload) {
+        courseOverload = true;
+        setCourseTimer(0);
+      }
 
       // 6초마다 인사이트 카드 변경 (사용자가 읽을 시간 확보)
       if (secondsPassed % 6 === 0) {
@@ -500,10 +507,17 @@ INSTRUCTIONS:
       clearInterval(interval); // Changed from progressInterval
       setCourseProgress(0);
 
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      const errorMsg = isMobile
-        ? '모바일 네트워크 환경이 불안정하거나 AI 서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해주세요.'
-        : 'AI 코스 생성에 실패했습니다. 서버 상태를 확인하거나 잠시 후 다시 시도해주세요.';
+      let errorMsg;
+      if (err.message.includes('과부하')) {
+        errorMsg = '⚠️ 현재 Google AI 서버가 과부하 상태입니다. 잠시 후 다시 시도해 주세요.';
+      } else if (err.message.includes('시간이 초과')) {
+        errorMsg = '⚠️ 요청 시간이 초과되었습니다. 네트워크를 확인하고 다시 시도해 주세요.';
+      } else {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        errorMsg = isMobile
+          ? '모바일 네트워크가 불안정하거나 AI 서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해주세요.'
+          : 'AI 코스 생성에 실패했습니다. 잠시 후 다시 시도해주세요.';
+      }
 
       setCourseResult({ error: errorMsg });
     } finally {
