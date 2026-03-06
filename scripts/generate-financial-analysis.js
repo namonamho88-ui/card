@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const REPORTS_DIR = path.join(__dirname, '..', 'public', 'reports');
 
 const GEMINI_KEY = process.env.GEMINI_API_KEY;
-const MODEL = 'gemini-1.5-flash'; // 안정적인 모델 사용
+const MODEL = 'gemini-3.1-flash-lite-preview'; // 최신 경량 모델 사용 (3.1 Flash Lite)
 
 // --- 분석 대상 정의 ---
 

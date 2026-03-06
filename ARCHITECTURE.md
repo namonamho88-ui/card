@@ -253,7 +253,7 @@ const systemInstruction = `
 **토큰 최적화**
 - 카드 데이터 압축: `Issuer Name(Fee/Perform):Benefit1,Benefit2`
 - 불필요한 공백 제거
-- 모델 변경: `gemini-2.0-flash` → `gemini-flash-latest` (안정성)
+- 모델 변경: `gemini-3.1-flash-lite-preview`로 통합 (최신 경량 모델)
 
 **에러 핸들링**
 ```javascript

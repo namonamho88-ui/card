@@ -1,6 +1,6 @@
 const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
-// ✅ 최신 모델로 교체 (가장 저렴하고 빠름)
+// ✅ 최신 모델로 교체 (Gemini 3.1 Flash Lite Preview: 최신 경량화 모델)
 export const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
 
 /**
