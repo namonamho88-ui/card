@@ -186,9 +186,9 @@ export default function FinancialRanking() {
     }, []);
 
     // ══════════════════════════════════════════
-    // 4. 뉴스/호재 분석 - ✅ 캐시 강화 + 큐 + Fallback
+    // 4. 뉴스/호재 분석 - ✅ 사전 생성 데이터 우선 + Gemini Fallback
     // ══════════════════════════════════════════
-    const fetchNews = useCallback(async (item) => {
+    const fetchNews = useCallback(async (item, category) => {
         const key = `${NEWS_CACHE_KEY}_${item.symbol || item.id}_${getTodayKey()}`;
 
         // ✅ 캐시 확인 (하루 단위) + 구조 검증
@@ -209,6 +209,34 @@ export default function FinancialRanking() {
             localStorage.removeItem(key);
         }
 
+        // ✅ 1단계: 사전 생성된 통합 분석 JSON fetch 시도
+        try {
+            const res = await fetch(`${import.meta.env.BASE_URL}reports/financial-analysis.json?t=${Date.now()}`);
+            if (res.ok) {
+                const json = await res.json();
+                if (json?.date === getTodayKey()) {
+                    // 해당 카테고리(kr, us, crypto)에서 종목 찾기
+                    const catData = json[category];
+                    const preGenerated = catData?.find(d => d.id === (item.symbol || item.id) || d.symbol === (item.symbol || item.id));
+
+                    if (preGenerated) {
+                        const normalizedData = {
+                            summary: preGenerated.summary,
+                            sentiment: preGenerated.sentiment,
+                            items: preGenerated.items || [],
+                            isPreGenerated: true
+                        };
+                        setNewsData(normalizedData);
+                        localStorage.setItem(key, JSON.stringify(normalizedData));
+                        console.log(`✅ [${category}] ${item.name} 사전 분석 로드 완료`);
+                        return;
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn('사전 분석 데이터 로드 실패, Gemini fallback 시도');
+        }
+
         if (!GEMINI_KEY) {
             setNewsData({ summary: 'API 키가 설정되지 않았습니다.', sentiment: '중립', items: [] });
             return;
@@ -226,18 +254,18 @@ export default function FinancialRanking() {
         try {
             const stockName = item.nameKr || item.name;
 
-            // ✅ geminiRequest로 변경
+            // ✅ Fallback 프롬프트도 더 상세하게 강화
             const fullText = await enqueueGeminiRequest(() =>
                 geminiRequest(
-                    `"${stockName}" (${item.symbol || item.id}) 최신동향을 짧고 빠르게 분석해 JSON으로 반환하세요.
+                    `"${stockName}" (${item.symbol || item.id})의 최신 동향과 뉴스(호재/악재)를 상세히 분석하여 JSON으로 반환하세요.
 {
-  "summary": "한줄 종합 의견 (30자 이내)",
+  "summary": "현재 상황에 대한 4~5문장 분량의 상세 요약",
   "sentiment": "긍정/부정/중립",
   "items": [
-    {"title": "명확한 소제목", "type": "호재/악재/중립", "detail": "핵심만 1줄 설명"}
+    {"title": "이슈 제목", "type": "호재/악재/중립", "detail": "해당 이슈에 대한 3~4문장 분량의 심층 분석 및 전망"}
   ]
 }
-최대 2~3개 아이템만. 답변에 JSON 외 다른 텍스트는 절대 포함하지 마세요.`,
+최소 3개 이상의 아이템을 포함하세요. 답변에 JSON 외 다른 텍스트는 절대 포함하지 마세요.`,
                     { useSearch: true }
                 )
             );
@@ -419,9 +447,9 @@ export default function FinancialRanking() {
                                     setSelectedItem(item);
                                     setNewsData(null);
                                     setNewsLoading(true); // ✅ 즉시 로딩 시작
-                                    fetchNews(item);
+                                    fetchNews(item, activeTab);
                                 }}
-                                className="flex items-center gap-4 py-4 active:bg-gray-50 dark:active:bg-white/5 transition-colors cursor-pointer"
+                                className="flex items-center gap-4 py-4 px-1 rounded-2xl active:bg-toss-gray-50 dark:active:bg-gray-900 transition-colors cursor-pointer group"
                             >
                                 <span className={`text-lg font-bold w-4 text-center ${idx < 3 ? 'text-primary' : 'text-toss-gray-400 dark:text-gray-600'}`}>
                                     {idx + 1}
@@ -549,7 +577,10 @@ export default function FinancialRanking() {
                             <div className="flex items-center gap-2 mb-3">
                                 <span className="material-symbols-outlined text-primary text-[20px]">smart_toy</span>
                                 <h3 className="text-[16px] font-bold text-toss-gray-800 dark:text-white">AI 호재/악재 분석</h3>
-                                <span className="text-[11px] text-toss-gray-400 dark:text-gray-600">매일 업데이트</span>
+                                {newsData?.isPreGenerated && (
+                                    <span className="text-[10px] font-bold bg-primary/10 text-primary px-1.5 py-0.5 rounded">Pre-analysis</span>
+                                )}
+                                <span className="text-[11px] text-toss-gray-400 dark:text-gray-600">매일 08:00 기준</span>
                             </div>
 
                             {newsLoading ? (
@@ -601,17 +632,17 @@ export default function FinancialRanking() {
                                     {/* 뉴스 아이템 리스트 (세로 배열) */}
                                     <div className="flex flex-col gap-3">
                                         {newsData.items?.map((n, i) => (
-                                            <div key={i} className="p-4 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[20px] border border-toss-gray-100 dark:border-gray-800 shadow-sm">
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded ${n.type === '호재' ? 'bg-red-100 dark:bg-red-900/20 text-red-500'
-                                                        : n.type === '악재' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-500'
+                                            <div key={i} className="p-5 bg-toss-gray-50 dark:bg-gray-900/50 rounded-[24px] border border-toss-gray-100 dark:border-gray-800 shadow-sm">
+                                                <div className="flex items-center gap-2 mb-2.5">
+                                                    <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${n.type === '호재' ? 'bg-red-100 dark:bg-red-900/30 text-red-600'
+                                                        : n.type === '악재' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600'
                                                             : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
                                                         }`}>
                                                         {n.type}
                                                     </span>
                                                 </div>
-                                                <p className="text-[14px] font-bold text-toss-gray-800 dark:text-white leading-tight mb-1">{n.title}</p>
-                                                <p className="text-[12px] text-toss-gray-600 dark:text-gray-400 leading-relaxed">{n.detail}</p>
+                                                <h4 className="text-[15px] font-bold text-toss-gray-800 dark:text-white leading-tight mb-2">{n.title}</h4>
+                                                <p className="text-[13px] text-toss-gray-600 dark:text-gray-400 leading-[1.6] whitespace-pre-wrap">{n.detail}</p>
                                             </div>
                                         ))}
                                     </div>

@@ -2,8 +2,10 @@ name: Generate Daily AI Reports
 
 on:
   schedule:
-    # 매일 자정 KST (UTC 15:00)
+    # 매일 자정 KST (UTC 15:00) — 리포트 & 주가 수집
     - cron: '0 15 * * *'
+    # 매일 오전 08:00 KST (UTC 23:00) — 글로벌 금융 종목 상세 분석
+    - cron: '0 23 * * *'
   workflow_dispatch: # 수동 실행도 가능
 
 permissions:
@@ -25,10 +27,12 @@ jobs:
       - name: Fetch Korean Stock Prices
         run: node scripts/fetch-kr-stocks.js
 
-      - name: Generate Reports
+      - name: Generate Reports and Analysis
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: node scripts/generate-daily-reports.js
+        run: |
+          node scripts/generate-daily-reports.js
+          node scripts/generate-financial-analysis.js
 
       - name: Commit and Push Reports
         run: |
