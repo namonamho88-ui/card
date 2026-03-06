@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { MOCK_KR_STOCKS, US_STOCK_SYMBOLS, CRYPTO_IDS } from '../data/mockFinancialData';
 import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
 import OverloadModal from './OverloadModal';
