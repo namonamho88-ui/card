@@ -1404,6 +1404,12 @@ export default function AIWeeklyReport() {
                 canNativeShare={canNativeShare}
             />
             <Toast message={toast.message} icon={toast.icon} visible={toast.visible} />
+
+            {/* ✅ 서버 과부하 안내창 */}
+            <OverloadModal
+                isOpen={serverOverload}
+                onClose={() => setServerOverload(false)}
+            />
         </div>
     );
 }

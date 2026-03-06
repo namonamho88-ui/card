@@ -120,7 +120,7 @@ const LOADING_STEPS = [
 export default function TodayFood() {
   // ── 공통 상태 ──
   const [activeTab, setActiveTab] = useState('course'); // 'course' | 'roulette'
-  const [selectedArea, setSelectedArea] = useState('전체');
+  const [selectedArea, setSelectedArea] = useState('을지로');
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const fetchingRef = useRef(false);
@@ -1277,6 +1277,11 @@ INSTRUCTIONS:
           </div>
         </div>
       )}
+      {/* ✅ 서버 과부하 안내창 */}
+      <OverloadModal
+        isOpen={showOverloadAlert}
+        onClose={() => setShowOverloadAlert(false)}
+      />
     </div>
   );
 }

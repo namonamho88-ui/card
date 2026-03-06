@@ -694,6 +694,11 @@ ${cardContext}
           </div>
         )
       }
+      {/* ✅ 서버 과부하 안내창 */}
+      <OverloadModal
+        isOpen={showOverloadAlert}
+        onClose={() => setShowOverloadAlert(false)}
+      />
     </div >
   );
 }
