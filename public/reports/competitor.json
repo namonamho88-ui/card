@@ -1,0 +1,143 @@
+{
+  "date": "2026-03-06",
+  "generatedAt": "2026-03-06T04:01:42.971Z",
+  "data": {
+    "title": "2026년 3월 1주차 금융권 경쟁 인텔리전스 리포트",
+    "summary": {
+      "title": "밸류업 가속화 및 주주환원 경쟁",
+      "body": "3월 주주총회를 앞두고 4대 금융지주 모두 주주환원율 제고와 기업가치 제고 계획을 구체화하며 시장의 주목을 받고 있습니다. 특히 KB금융과 신한지주는 주주환원율 50%를 상회하는 성과를 바탕으로 업종 내 투자 매력을 극대화하고 있습니다. 다만, 지정학적 리스크와 부동산 PF 관련 충당금 부담이 여전히 상존하여 보수적인 리스크 관리가 병행되는 모습입니다.",
+      "hotGroup": "KB금융",
+      "hotReason": "업종 내 가장 높은 주주환원율(52.4%)과 ROE 개선을 통한 압도적 투자 매력 확보",
+      "mood": "positive"
+    },
+    "stockComparison": [
+      {
+        "name": "신한지주",
+        "ticker": "055550",
+        "price": "96,700원",
+        "weekChange": "-0.21%",
+        "isUp": false,
+        "per": "11.48배",
+        "pbr": "0.86배",
+        "isOurGroup": true
+      },
+      {
+        "name": "KB금융",
+        "ticker": "105560",
+        "price": "137,700원",
+        "weekChange": "-10.29%",
+        "isUp": false,
+        "per": "11.57배",
+        "pbr": "0.96배",
+        "isOurGroup": false
+      },
+      {
+        "name": "하나금융",
+        "ticker": "086790",
+        "price": "105,500원",
+        "weekChange": "-12.16%",
+        "isUp": false,
+        "per": "8.47배",
+        "pbr": "0.76배",
+        "isOurGroup": false
+      },
+      {
+        "name": "우리금융",
+        "ticker": "316140",
+        "price": "33,750원",
+        "weekChange": "+6.13%",
+        "isUp": true,
+        "per": "3.6배",
+        "pbr": "0.32배",
+        "isOurGroup": false
+      }
+    ],
+    "competitorMoves": [
+      {
+        "group": "KB금융",
+        "category": "주주환원",
+        "title": "총주주환원율 52.4% 달성 및 자사주 매입",
+        "body": "2025년 역대 최대 실적을 바탕으로 총주주환원율 52.4%를 달성하며 업계 최고 수준을 기록했습니다. 2026년 상반기 1.2조원 규모의 자사주 매입·소각을 통해 주주가치 제고를 가속화하고 있습니다.",
+        "threatLevel": "high",
+        "ourAction": "배당성향 25% 이상 유지 및 감액배당을 통한 실질 주주환원율 격차 축소 전략 강화"
+      },
+      {
+        "group": "하나금융",
+        "category": "자본효율성",
+        "title": "주주환원율 50% 조기 달성 전망",
+        "body": "2026년 중장기 목표였던 주주환원율 50%를 조기에 달성할 것으로 전망됩니다. 배당소득 분리과세 요건을 충족하며 주주 친화적 정책을 공격적으로 펼치고 있습니다.",
+        "threatLevel": "medium",
+        "ourAction": "비이자이익 포트폴리오 다변화 및 자본비율 관리 효율화를 통한 ROE 개선"
+      },
+      {
+        "group": "우리금융",
+        "category": "포트폴리오",
+        "title": "비은행 부문 강화 및 비과세 배당",
+        "body": "보험사 인수 등 그룹 포트폴리오를 완성하며 비은행 이익 기여도를 높이고 있습니다. 특히 비과세 배당을 통해 개인 주주들의 투자 매력을 높이는 차별화 전략을 구사 중입니다.",
+        "threatLevel": "medium",
+        "ourAction": "신한라이프 등 핵심 비은행 자회사의 수익성 극대화 및 디지털 전환을 통한 비용 효율화"
+      }
+    ],
+    "productBattle": [
+      {
+        "domain": "수신",
+        "leader": "KB금융",
+        "leaderProduct": "KB Star 정기예금",
+        "leaderRate": "연 3.5%",
+        "shinhanProduct": "신한 S드림 정기예금",
+        "shinhanRate": "연 3.45%",
+        "shinhanStatus": "열위",
+        "comment": "금리 경쟁력 확보를 위해 우대금리 조건 완화 필요"
+      },
+      {
+        "domain": "대출",
+        "leader": "신한지주",
+        "leaderProduct": "신한 주택담보대출",
+        "leaderRate": "연 4.2%",
+        "shinhanProduct": "신한 주택담보대출",
+        "shinhanRate": "연 4.2%",
+        "shinhanStatus": "동등",
+        "comment": "위험가중치 상향 조정에 따른 가산금리 관리 및 대출 포트폴리오 리밸런싱 집중"
+      }
+    ],
+    "industryTopics": [
+      {
+        "topic": "주담대 위험가중치 상향",
+        "body": "은행권 주택담보대출 위험가중치 하한이 15%에서 20%로 상향 조정되어 자본비율 관리 부담 증가",
+        "affectedGroups": [
+          "신한",
+          "KB",
+          "하나",
+          "우리"
+        ],
+        "shinhanImpact": "CET1 비율 하락 압력 발생, 자산 리밸런싱을 통한 효율적 자본 운용 필수"
+      }
+    ],
+    "swotSignals": {
+      "opportunities": [
+        "상법 개정 및 밸류업 프로그램에 따른 저평가 해소",
+        "비과세 배당을 통한 개인 투자자 유입 확대"
+      ],
+      "threats": [
+        "지정학적 리스크에 따른 시장 변동성 확대",
+        "부동산 PF 및 가계부채 관련 충당금 적립 부담"
+      ]
+    },
+    "weeklyVerdict": {
+      "winner": "KB금융",
+      "winnerReason": "압도적인 주주환원율과 자본 여력을 바탕으로 시장 신뢰를 공고히 함",
+      "shinhanScore": 75,
+      "shinhanComment": "사상 최대 실적과 50% 주주환원율 달성은 긍정적이나, 경쟁사 대비 밸류에이션 프리미엄 확대 필요",
+      "nextFocus": "디지털 전환(AX) 투자 확대 및 비이자이익 기반의 수익성 제고"
+    },
+    "nextWeek": {
+      "preview": "3월 주주총회 시즌 본격화에 따른 주주환원 정책 추가 발표 및 시장 변동성 대응",
+      "watchList": [
+        {
+          "group": "전 금융지주",
+          "watchPoint": "주주총회 안건 및 배당 확정 공시"
+        }
+      ]
+    }
+  }
+}
