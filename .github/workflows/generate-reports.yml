@@ -2,10 +2,8 @@ name: Generate Daily AI Reports
 
 on:
   schedule:
-    # 매일 새벽 01시 KST (UTC 16:00) — 리포트 & 주가 수집
+    # 매일 새벽 01시 KST (UTC 16:00) — 리포트 & 주가 수집 및 글로벌 금융 분석
     - cron: '0 16 * * *'
-    # 매일 오전 08:00 KST (UTC 23:00) — 글로벌 금융 종목 상세 분석
-    - cron: '0 23 * * *'
   workflow_dispatch: # 수동 실행도 가능
 
 permissions:

@@ -1,6 +1,6 @@
 /**
  * 📊 AI 주간 리포트 자동 생성 스크립트
- * GitHub Actions에서 매일 자정(KST)에 실행되어 4개 리포트를 생성합니다.
+ * GitHub Actions에서 매일 새벽 01:00(KST)에 실행되어 4개 리포트를 생성합니다.
  * 
  * 사용법: GEMINI_API_KEY=xxx node scripts/generate-daily-reports.js
  */

@@ -13,6 +13,11 @@ function getTodayKey() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
+function getYesterdayKey() {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
 function getWeekLabel() {
     const now = new Date();
     return `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${Math.ceil(now.getDate() / 7)}주차`;
@@ -1094,8 +1099,10 @@ export default function AIWeeklyReport() {
             const res = await fetch(`${import.meta.env.BASE_URL}reports/${type}.json?t=${Date.now()}`);
             if (!res.ok) return null;
             const json = await res.json();
-            // 오늘 날짜와 일치하는지 확인
-            if (json?.date === getTodayKey() && json?.data) {
+            const today = getTodayKey();
+            const yesterday = getYesterdayKey();
+            // 오늘 또는 어제 리포트면 수용
+            if ((json?.date === today || json?.date === yesterday) && json?.data) {
                 return json.data;
             }
             return null;

@@ -1,6 +1,6 @@
 /**
  * 📊 글로벌 금융 종목 상세 분석 스크립트 (국내/해외/가상화폐)
- * 매일 오전 08:00 (KST) GitHub Actions에서 실행되어
+ * 매일 새벽 01:00 (KST) GitHub Actions에서 실행되어
  * 주요 30개 종목에 대한 실시간 호재/악재를 상세 분석하여 JSON으로 저장합니다.
  */
 
@@ -143,7 +143,7 @@ async function main() {
     }
 
     const today = getTodayKey();
-    console.log(`\n🚀 ${today} 글로벌 금융 분석 시작 (오전 08:00 KST 정기 생성)\n`);
+    console.log(`\n🚀 ${today} 글로벌 금융 분석 시작 (새벽 01:00 KST 정기 생성)\n`);
 
     const result = {
         date: today,

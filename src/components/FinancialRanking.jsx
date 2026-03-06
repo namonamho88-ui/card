@@ -12,6 +12,12 @@ function getTodayKey() {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
+function getYesterdayKey() {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
 const TABS = [
     { id: 'kr', label: '국내주식', icon: '🇰🇷' },
     { id: 'us', label: '해외주식', icon: '🇺🇸' },
@@ -134,7 +140,10 @@ export default function FinancialRanking() {
             const res = await fetch(`${import.meta.env.BASE_URL}reports/kr-stocks.json?t=${Date.now()}`);
             if (res.ok) {
                 const json = await res.json();
-                if (json?.date === getTodayKey() && json?.data?.length > 0) {
+                const today = getTodayKey();
+                const yesterday = getYesterdayKey();
+                // 오늘 또는 어제 데이터면 수용 (01시 생성 고려)
+                if ((json?.date === today || json?.date === yesterday) && json?.data?.length > 0) {
                     setKrStocks(json.data);
                     setIsLive(true);
                     setLastUpdated(new Date(json.generatedAt));
@@ -215,7 +224,10 @@ export default function FinancialRanking() {
             const res = await fetch(`${import.meta.env.BASE_URL}reports/financial-analysis.json?t=${Date.now()}`);
             if (res.ok) {
                 const json = await res.json();
-                if (json?.date === getTodayKey()) {
+                const today = getTodayKey();
+                const yesterday = getYesterdayKey();
+                // 오늘 또는 어제 데이터면 수용
+                if (json?.date === today || json?.date === yesterday) {
                     // 해당 카테고리(kr, us, crypto)에서 종목 찾기
                     const catData = json[category];
                     const preGenerated = catData?.find(d => d.id === (item.symbol || item.id) || d.symbol === (item.symbol || item.id));
