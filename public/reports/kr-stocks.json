@@ -1,0 +1,96 @@
+{
+  "date": "2026-03-06",
+  "generatedAt": "2026-03-06T05:46:44.524Z",
+  "data": [
+    {
+      "symbol": "005930",
+      "name": "삼성전자",
+      "sector": "반도체",
+      "price": 187800,
+      "change": -1.98,
+      "volume": "0",
+      "marketCap": "-"
+    },
+    {
+      "symbol": "000660",
+      "name": "SK하이닉스",
+      "sector": "반도체",
+      "price": 922000,
+      "change": -2.02,
+      "volume": "0",
+      "marketCap": "-"
+    },
+    {
+      "symbol": "373220",
+      "name": "LG에너지솔루션",
+      "sector": "2차전지",
+      "price": 374000,
+      "change": 0.67,
+      "volume": "0",
+      "marketCap": "-"
+    },
+    {
+      "symbol": "207940",
+      "name": "삼성바이오로직스",
+      "sector": "바이오",
+      "price": 1647000,
+      "change": 0,
+      "volume": "0",
+      "marketCap": "-"
+    },
+    {
+      "symbol": "005380",
+      "name": "현대차",
+      "sector": "자동차",
+      "price": 553000,
+      "change": 0.91,
+      "volume": "0",
+      "marketCap": "-"
+    },
+    {
+      "symbol": "006400",
+      "name": "삼성SDI",
+      "sector": "2차전지",
+      "price": 409000,
+      "change": 4.2,
+      "volume": "0",
+      "marketCap": "-"
+    },
+    {
+      "symbol": "051910",
+      "name": "LG화학",
+      "sector": "화학",
+      "price": 322000,
+      "change": -0.77,
+      "volume": "0",
+      "marketCap": "-"
+    },
+    {
+      "symbol": "035420",
+      "name": "NAVER",
+      "sector": "IT",
+      "price": 222500,
+      "change": 1.14,
+      "volume": "0",
+      "marketCap": "-"
+    },
+    {
+      "symbol": "035720",
+      "name": "카카오",
+      "sector": "IT",
+      "price": 53200,
+      "change": 3.91,
+      "volume": "0",
+      "marketCap": "-"
+    },
+    {
+      "symbol": "068270",
+      "name": "셀트리온",
+      "sector": "바이오",
+      "price": 212000,
+      "change": 0.24,
+      "volume": "0",
+      "marketCap": "-"
+    }
+  ]
+}
