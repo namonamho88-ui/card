@@ -195,12 +195,19 @@ topNews 정확히 5개, techTrends 3개, koreaUpdates 4개. 반드시 최신 실
 반드시 구글 검색(Google Search)을 사용하여 다음 티커들의 기준일(${today}) 종가, 주간 변동률, PBR, PER를 확인하세요:
 - 신한지주 (055550), KB금융 (105560), 하나금융 (086790), 우리금융 (316140)
 
-⚠️ 중요: 모든 텍스트 필드는 반드시 구체적이고 상세하게 작성하세요.
+⚠️ 중요: 이 리포트는 경영진이 읽는 주간 보고서입니다. 모든 필드를 매우 상세하고 전문적으로 작성해야 합니다.
+1. summary.body: 이번 주 금융권 전체 경쟁 구도 변화를 4~5문장으로 깊이 있게 분석하세요.
+2. competitorMoves: 각 경쟁사별 body는 반드시 4~5문장으로 구체적인 수치, 날짜, 서비스명을 포함하여 작성하세요. ourAction도 2~3문장으로 신한의 구체적 대응 전략을 제시하세요.
+3. productBattle: 각 도메인별 comment는 2~3문장으로 실제 금리/수수료 비교와 시장 영향을 분석하세요.
+4. industryTopics: 각 topic의 body는 3~4문장으로 업계에 미치는 영향을 심층 분석하세요. shinhanImpact도 2문장으로 작성하세요.
+5. swotSignals: opportunities와 threats 각각 3개 이상의 구체적 항목을 포함하세요.
+6. weeklyVerdict: shinhanComment는 3~4문장으로 종합 평가를, nextFocus는 2~3문장 구체적 전략을 서술하세요.
+7. nextWeek.preview: 다음 주 금융권 경쟁 전망을 4~5문장으로 매우 상세하게 서술하세요.
 
 ## 반드시 아래 JSON만 출력하세요:
 {
   "title": "${weekLabel} 금융권 경쟁 인텔리전스 리포트",
-  "summary": { "title": "경쟁 구도 핵심 (20자 이내)", "body": "이번 주 경쟁 요약 3~4문장", "hotGroup": "가장 공격적인 금융사", "hotReason": "이유 한 줄", "mood": "positive/neutral/negative" },
+  "summary": { "title": "경쟁 구도 핵심 (20자 이내)", "body": "이번 주 경쟁 구도 심층 분석 4~5문장", "hotGroup": "가장 공격적인 금융사", "hotReason": "이유 한 줄", "mood": "positive/neutral/negative" },
   "stockComparison": [
     { "name": "신한지주", "ticker": "055550", "price": "실제 현재가", "weekChange": "실제 변동률", "isUp": true, "per": "실제 PER", "pbr": "실제 PBR", "isOurGroup": true },
     { "name": "KB금융", "ticker": "105560", "price": "실제", "weekChange": "실제", "isUp": true, "per": "실제", "pbr": "실제", "isOurGroup": false },
@@ -208,18 +215,18 @@ topNews 정확히 5개, techTrends 3개, koreaUpdates 4개. 반드시 최신 실
     { "name": "우리금융", "ticker": "316140", "price": "실제", "weekChange": "실제", "isUp": false, "per": "실제", "pbr": "실제", "isOurGroup": false }
   ],
   "competitorMoves": [
-    { "group": "KB금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
-    { "group": "하나금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" },
-    { "group": "우리금융", "category": "카테고리", "title": "이슈 제목", "body": "2~3문장", "threatLevel": "high/medium/low", "ourAction": "신한 대응 방안" }
+    { "group": "KB금융", "category": "카테고리", "title": "이슈 제목", "body": "상세 분석 4~5문장 (수치, 날짜, 서비스명 포함)", "threatLevel": "high/medium/low", "ourAction": "신한 구체적 대응 전략 2~3문장" },
+    { "group": "하나금융", "category": "카테고리", "title": "이슈 제목", "body": "상세 분석 4~5문장 (수치, 날짜, 서비스명 포함)", "threatLevel": "high/medium/low", "ourAction": "신한 구체적 대응 전략 2~3문장" },
+    { "group": "우리금융", "category": "카테고리", "title": "이슈 제목", "body": "상세 분석 4~5문장 (수치, 날짜, 서비스명 포함)", "threatLevel": "high/medium/low", "ourAction": "신한 구체적 대응 전략 2~3문장" }
   ],
   "productBattle": [
-    { "domain": "수신", "leader": "리드사", "leaderProduct": "상품명", "leaderRate": "금리", "shinhanProduct": "신한 상품", "shinhanRate": "신한 금리", "shinhanStatus": "우위/동등/열위", "comment": "코멘트" },
-    { "domain": "대출", "leader": "리드사", "leaderProduct": "상품명", "leaderRate": "금리", "shinhanProduct": "신한 상품", "shinhanRate": "신한 금리", "shinhanStatus": "우위/동등/열위", "comment": "코멘트" }
+    { "domain": "수신", "leader": "리드사", "leaderProduct": "상품명", "leaderRate": "금리", "shinhanProduct": "신한 상품", "shinhanRate": "신한 금리", "shinhanStatus": "우위/동등/열위", "comment": "상세 비교 분석 2~3문장" },
+    { "domain": "대출", "leader": "리드사", "leaderProduct": "상품명", "leaderRate": "금리", "shinhanProduct": "신한 상품", "shinhanRate": "신한 금리", "shinhanStatus": "우위/동등/열위", "comment": "상세 비교 분석 2~3문장" }
   ],
-  "industryTopics": [{ "topic": "주제", "body": "내용", "affectedGroups": ["신한", "KB"], "shinhanImpact": "영향" }],
-  "swotSignals": { "opportunities": ["기회"], "threats": ["위협"] },
-  "weeklyVerdict": { "winner": "금융사", "winnerReason": "이유", "shinhanScore": 75, "shinhanComment": "평가", "nextFocus": "전략" },
-  "nextWeek": { "preview": "전망", "watchList": [{ "group": "사명", "watchPoint": "관전포인트" }] }
+  "industryTopics": [{ "topic": "주제", "body": "심층 분석 3~4문장", "affectedGroups": ["신한", "KB"], "shinhanImpact": "신한 영향 분석 2문장" }],
+  "swotSignals": { "opportunities": ["구체적 기회1", "기회2", "기회3"], "threats": ["구체적 위협1", "위협2", "위협3"] },
+  "weeklyVerdict": { "winner": "금융사", "winnerReason": "이유 2문장", "shinhanScore": 75, "shinhanComment": "종합 평가 3~4문장", "nextFocus": "구체적 전략 2~3문장" },
+  "nextWeek": { "preview": "다음 주 경쟁 전망 4~5문장", "watchList": [{ "group": "사명", "watchPoint": "구체적 관전포인트 2문장" }] }
 }`
     };
 }
