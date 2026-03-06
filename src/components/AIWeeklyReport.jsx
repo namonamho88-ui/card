@@ -1079,13 +1079,31 @@ export default function AIWeeklyReport() {
         });
     }, []);
 
-    // ✅ 리포트 생성 — competitor case 추가
+    // ✅ 사전 생성된 리포트 fetch 시도
+    const fetchPreGenerated = useCallback(async (type) => {
+        try {
+            const res = await fetch(`${import.meta.env.BASE_URL}reports/${type}.json?t=${Date.now()}`);
+            if (!res.ok) return null;
+            const json = await res.json();
+            // 오늘 날짜와 일치하는지 확인
+            if (json?.date === getTodayKey() && json?.data) {
+                return json.data;
+            }
+            return null;
+        } catch {
+            return null;
+        }
+    }, []);
+
+    // ✅ 리포트 생성 — 사전 생성 리포트 우선, fallback으로 Gemini API 직접 호출
     const generateReport = useCallback(async (type) => {
         if (generating[type] || hasTodayCache(type)) return;
         setGenerating(prev => ({ ...prev, [type]: true }));
         setProgress(prev => ({ ...prev, [type]: 0 }));
-        setTimers(prev => ({ ...prev, [type]: 20 })); // ✅ 신규: 소요 시간 20초 예측 (검색 포함)
+        setInsightIndex(Math.floor(Math.random() * FINANCIAL_INSIGHTS.length));
+        setLoadingStepIndex(0);
 
+        // ── 로딩 애니메이션 시작 ──
         const interval = setInterval(() => {
             setProgress(prev => {
                 const cur = prev[type];
@@ -1094,48 +1112,61 @@ export default function AIWeeklyReport() {
             });
         }, 800);
 
-        // ✅ 신규: 1초마다 줄어드는 타이머
         let secondsPassed = 0;
         const timerInterval = setInterval(() => {
             secondsPassed += 1;
             setTimers(prev => {
                 const cur = prev[type];
-                if (cur <= 1) return prev; // 1초에서 멈춤 (마무리 단계)
+                if (cur <= 1) return prev;
                 return { ...prev, [type]: cur - 1 };
             });
-            // 6초마다 인사이트 변경 (사용자가 읽을 시간 확보)
             if (secondsPassed % 6 === 0) {
                 setInsightIndex(idx => (idx + 1) % FINANCIAL_INSIGHTS.length);
             }
-            // 로딩 단계 업데이트
             setLoadingStepIndex(prev => {
                 const steps = REPORT_LOADING_STEPS[type] || [];
                 return Math.min(steps.length - 1, prev + 1);
             });
         }, 1000);
 
-        setInsightIndex(Math.floor(Math.random() * FINANCIAL_INSIGHTS.length));
-        setLoadingStepIndex(0);
-
-        const today = getTodayKey();
         try {
-            let prompt = '';
-            switch (type) {
-                case 'card': prompt = buildCardReportPrompt(today); break;
-                case 'ai': prompt = buildAITrendReportPrompt(today); break;
-                case 'shinhan': prompt = buildShinhanReportPrompt(today); break;
-                case 'competitor': prompt = buildCompetitorReportPrompt(today); break; // ✅
-                default: return;
+            // 1단계: 사전 생성된 리포트 확인
+            const preGenerated = await fetchPreGenerated(type);
+
+            if (preGenerated) {
+                // ✅ 사전 생성 리포트 발견 → 3초 시뮬레이션 후 표시
+                setTimers(prev => ({ ...prev, [type]: 3 }));
+                await new Promise(r => setTimeout(r, 3000));
+
+                saveCache(type, preGenerated);
+                setProgress(prev => ({ ...prev, [type]: 100 }));
+                setTimeout(() => {
+                    setReports(prev => ({ ...prev, [type]: preGenerated }));
+                    setGenerating(prev => ({ ...prev, [type]: false }));
+                    setProgress(prev => ({ ...prev, [type]: 0 }));
+                }, 300);
+            } else {
+                // 2단계: Fallback — Gemini API 직접 호출
+                setTimers(prev => ({ ...prev, [type]: 20 }));
+                const today = getTodayKey();
+                let prompt = '';
+                switch (type) {
+                    case 'card': prompt = buildCardReportPrompt(today); break;
+                    case 'ai': prompt = buildAITrendReportPrompt(today); break;
+                    case 'shinhan': prompt = buildShinhanReportPrompt(today); break;
+                    case 'competitor': prompt = buildCompetitorReportPrompt(today); break;
+                    default: return;
+                }
+                const raw = await enqueueGeminiRequest(() => geminiRequest(prompt, { useSearch: true }));
+                const parsed = extractJSON(raw);
+                saveCache(type, parsed);
+                setProgress(prev => ({ ...prev, [type]: 100 }));
+                setTimeout(() => {
+                    setReports(prev => ({ ...prev, [type]: parsed }));
+                    setGenerating(prev => ({ ...prev, [type]: false }));
+                    setProgress(prev => ({ ...prev, [type]: 0 }));
+                }, 500);
             }
-            const raw = await enqueueGeminiRequest(() => geminiRequest(prompt, { useSearch: true }));
-            const parsed = extractJSON(raw);
-            saveCache(type, parsed);
-            setProgress(prev => ({ ...prev, [type]: 100 }));
-            setTimeout(() => {
-                setReports(prev => ({ ...prev, [type]: parsed }));
-                setGenerating(prev => ({ ...prev, [type]: false }));
-                setProgress(prev => ({ ...prev, [type]: 0 }));
-            }, 500);
         } catch (error) {
             console.error(`Report generation error (${type}):`, error);
             setGenerating(prev => ({ ...prev, [type]: false }));
@@ -1149,12 +1180,12 @@ export default function AIWeeklyReport() {
             showToast(errorMsg, 'error');
         } finally {
             clearInterval(interval);
-            clearInterval(timerInterval); // ✅ 타이머 인터벌 제거
+            clearInterval(timerInterval);
             setTimers(prev => ({ ...prev, [type]: 0 }));
-            setLoadingStepIndex(0); // 로딩 단계 초기화
-            setInsightIndex(0); // 인사이트 초기화
+            setLoadingStepIndex(0);
+            setInsightIndex(0);
         }
-    }, [generating]);
+    }, [generating, fetchPreGenerated]);
 
     const currentTab = REPORT_TABS.find(t => t.id === activeTab);
     const currentReport = reports[activeTab];
