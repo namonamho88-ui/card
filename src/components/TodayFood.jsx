@@ -1,6 +1,7 @@
 // src/components/TodayFood.jsx
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
+import OverloadModal from './OverloadModal';
 import insightData from '../data/aiInsights.json'; // ✅ 신규 추가
 
 // ──────────────────────────────────────────
@@ -119,10 +120,12 @@ const LOADING_STEPS = [
 export default function TodayFood() {
   // ── 공통 상태 ──
   const [activeTab, setActiveTab] = useState('course'); // 'course' | 'roulette'
-  const [selectedArea, setSelectedArea] = useState('을지로');
+  const [selectedArea, setSelectedArea] = useState('전체');
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const fetchingRef = useRef(false);
+  const [courseScenario, setCourseScenario] = useState('');
+  const [showOverloadAlert, setShowOverloadAlert] = useState(false); // ✅ 서버 과부하 안내창
   // 실제 검색에 사용할 지역명 반환 유틸
   const getSearchLocation = useCallback((area) => {
     if (area === '죽전') return '경기도 용인시 수지구 죽전동';
@@ -140,7 +143,6 @@ export default function TodayFood() {
   const [rouletteHistory, setRouletteHistory] = useState([]);
 
   // ── 코스 플래너 상태 ──
-  const [courseScenario, setCourseScenario] = useState('');
   const [courseResult, setCourseResult] = useState(null);
   const [courseLoading, setCourseLoading] = useState(false);
   const [courseProgress, setCourseProgress] = useState(0);
@@ -509,6 +511,7 @@ INSTRUCTIONS:
 
       let errorMsg;
       if (err.message.includes('과부하')) {
+        setShowOverloadAlert(true);
         errorMsg = '⚠️ 현재 Google AI 서버가 과부하 상태입니다. 잠시 후 다시 시도해 주세요.';
       } else if (err.message.includes('시간이 초과')) {
         errorMsg = '⚠️ 요청 시간이 초과되었습니다. 네트워크를 확인하고 다시 시도해 주세요.';

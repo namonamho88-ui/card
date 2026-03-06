@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { geminiRequest, extractJSON, enqueueGeminiRequest } from '../utils/geminiUtils';
 import cardData from '../data/popularCards.json';
 import insightData from '../data/aiInsights.json'; // ✅ 신규 추가
+import OverloadModal from './OverloadModal';
 import { toPng } from 'html-to-image';
 
 const { cards: POPULAR_CARDS } = cardData;
@@ -1188,6 +1189,7 @@ export default function AIWeeklyReport() {
             // ✅ 503 서버 과부하 또는 타임아윗 에러 메시지 우선 표시
             let errorMsg;
             if (error.message.includes('과부하')) {
+                setServerOverload(true);
                 errorMsg = '⚠️ 현재 Google AI 서버가 과부하 상태입니다. 잠시 후 다시 시도해 주세요.';
             } else if (error.message.includes('시간이 초과')) {
                 errorMsg = '⚠️ 요청 시간이 초과되었습니다. 네트워크 상태를 확인하고 다시 시도해 주세요.';

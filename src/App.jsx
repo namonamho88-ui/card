@@ -7,6 +7,7 @@ import FinancialRanking from './components/FinancialRanking';
 import AITradingBattle from './components/AITradingBattle';
 import TodayFood from './components/TodayFood';
 import AIWeeklyReport from './components/AIWeeklyReport';
+import OverloadModal from './components/OverloadModal';
 import './index.css';
 
 import { geminiRequest, extractJSON, enqueueGeminiRequest } from './utils/geminiUtils';
@@ -25,6 +26,7 @@ function App() {
   const [cardDetailLoading, setCardDetailLoading] = useState(false);
   const [detailTimer, setDetailTimer] = useState(0);    // ✅ 상세 타이머
   const [chatTimer, setChatTimer] = useState(0);      // ✅ 챗봇 타이머
+  const [showOverloadAlert, setShowOverloadAlert] = useState(false); // ✅ 서버 과부하 안내창
   const chatEndRef = useRef(null);
   const chatbotSectionRef = useRef(null);
 
@@ -91,6 +93,9 @@ function App() {
       }
     } catch (e) {
       console.warn('Card detail fetch error:', e.message);
+      if (e.message.includes('과부하')) {
+        setShowOverloadAlert(true);
+      }
     } finally {
       setCardDetailLoading(false);
       clearInterval(tInt);
@@ -175,6 +180,7 @@ ${cardContext}
 
       if (error.message.includes("과부하")) {
         errorMsg = "⚠️ 현재 Google AI 서버가 과부하 상태입니다.\n\n서버 부하로 인해 일시적으로 서비스가 중단되었습니다. 잠시 후 다시 시도해주세요.";
+        setShowOverloadAlert(true);
       } else if (error.message.includes("시간이 초과")) {
         errorMsg = "⚠️ 요청 시간이 초과되었습니다.\n\n네트워크 상태를 확인하고 다시 시도해주세요.";
       } else if (error.message.includes("429") || error.message.includes("무료버전")) {
@@ -273,6 +279,9 @@ ${cardContext}
             : error.message.includes('시간이 초과')
               ? '⚠️ 요청 시간이 초과되었습니다. 네트워크를 확인해 주세요.'
               : '오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+          if (error.message.includes('과부하')) {
+            setShowOverloadAlert(true);
+          }
           setAnalysis(msg);
         } finally {
           setIsAnalyzing(false);
