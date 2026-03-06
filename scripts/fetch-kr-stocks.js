@@ -28,8 +28,10 @@ const KR_STOCK_SYMBOLS = [
 ];
 
 function getTodayKey() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    // 9시간 오프셋을 적용하여 KST 날짜 (YYYY-MM-DD) 반환
+    const now = new Date();
+    const kst = new Date(now.getTime() + (9 * 60 * 60 * 1000));
+    return kst.toISOString().split('T')[0];
 }
 
 /**

@@ -18,13 +18,16 @@ const REPORTS_DIR = path.join(__dirname, '..', 'public', 'reports');
 
 // ── 날짜 유틸 ──
 function getTodayKey() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    // 9시간 오프셋을 적용하여 KST 날짜 (YYYY-MM-DD) 반환
+    const now = new Date();
+    const kst = new Date(now.getTime() + (9 * 60 * 60 * 1000));
+    return kst.toISOString().split('T')[0];
 }
 
 function getWeekLabel() {
     const now = new Date();
-    return `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${Math.ceil(now.getDate() / 7)}주차`;
+    const kst = new Date(now.getTime() + (9 * 60 * 60 * 1000));
+    return `${kst.getFullYear()}년 ${kst.getMonth() + 1}월 ${Math.ceil(kst.getDate() / 7)}주차`;
 }
 
 // ── 카드 데이터 로드 ──
