@@ -208,6 +208,7 @@ export default function FinancialRanking() {
                 const parsedCache = JSON.parse(cached);
                 // 유효한 구조인지 확인
                 if (parsedCache && typeof parsedCache === 'object' && parsedCache.summary && parsedCache.sentiment) {
+                    setNewsLoading(false);
                     setNewsData(parsedCache);
                     return;
                 } else {
@@ -240,6 +241,7 @@ export default function FinancialRanking() {
                             isPreGenerated: true
                         };
                         setNewsData(normalizedData);
+                        setNewsLoading(false);
                         localStorage.setItem(key, JSON.stringify(normalizedData));
                         console.log(`✅ [${category}] ${item.name} 사전 분석 로드 완료`);
                         return;
@@ -599,7 +601,7 @@ export default function FinancialRanking() {
                                 {newsData?.isPreGenerated && (
                                     <span className="text-[10px] font-bold bg-primary/10 text-primary px-1.5 py-0.5 rounded">Pre-analysis</span>
                                 )}
-                                <span className="text-[11px] text-toss-gray-400 dark:text-gray-600">매일 08:00 기준</span>
+                                <span className="text-[11px] text-toss-gray-400 dark:text-gray-600">매일 01:00 기준</span>
                             </div>
 
                             {newsLoading ? (
