@@ -120,7 +120,6 @@ export default function FinancialRanking() {
             const cached = localStorage.getItem(cacheKey);
             if (cached) {
                 const { data, timestamp } = JSON.parse(cached);
-                // ✅ 캐시가 12시간 이내면 사용 (더 넉넉하게)
                 if (data?.length > 0 && Date.now() - timestamp < 12 * 60 * 60 * 1000) {
                     setKrStocks(data);
                     return;
@@ -128,8 +127,27 @@ export default function FinancialRanking() {
             }
         } catch (e) { }
 
+        // ✅ 1단계: 사전 생성된 주가 JSON fetch 시도
+        try {
+            const res = await fetch(`${import.meta.env.BASE_URL}reports/kr-stocks.json?t=${Date.now()}`);
+            if (res.ok) {
+                const json = await res.json();
+                if (json?.date === getTodayKey() && json?.data?.length > 0) {
+                    setKrStocks(json.data);
+                    setIsLive(true);
+                    setLastUpdated(new Date(json.generatedAt));
+                    localStorage.setItem(cacheKey, JSON.stringify({ data: json.data, timestamp: Date.now() }));
+                    console.log('✅ 국내주식: 사전 생성 데이터 로드 완료');
+                    return;
+                }
+            }
+        } catch (e) {
+            console.warn('사전 생성 주가 데이터 없음, Gemini fallback 시도');
+        }
+
+        // ✅ 2단계: Fallback — Gemini API 호출
         if (!GEMINI_KEY) return;
-        setKrTimer(20); // 20초 예측
+        setKrTimer(20);
         const tInt = setInterval(() => setKrTimer(p => p <= 1 ? p : p - 1), 1000);
 
         try {
@@ -150,7 +168,6 @@ export default function FinancialRanking() {
             }
         } catch (e) {
             console.warn('KR stocks Gemini error:', e.message);
-            // ✅ 실패 시 Mock 데이터 유지 (이미 초기값)
         } finally {
             clearInterval(tInt);
             setKrTimer(0);
