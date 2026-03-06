@@ -1,13 +1,13 @@
 {
   "date": "2026-03-06",
-  "generatedAt": "2026-03-06T05:46:44.524Z",
+  "generatedAt": "2026-03-06T08:41:48.851Z",
   "data": [
     {
       "symbol": "005930",
       "name": "삼성전자",
       "sector": "반도체",
-      "price": 187800,
-      "change": -1.98,
+      "price": 188200,
+      "change": -1.77,
       "volume": "0",
       "marketCap": "-"
     },
@@ -15,8 +15,8 @@
       "symbol": "000660",
       "name": "SK하이닉스",
       "sector": "반도체",
-      "price": 922000,
-      "change": -2.02,
+      "price": 924000,
+      "change": -1.81,
       "volume": "0",
       "marketCap": "-"
     },
@@ -24,8 +24,8 @@
       "symbol": "373220",
       "name": "LG에너지솔루션",
       "sector": "2차전지",
-      "price": 374000,
-      "change": 0.67,
+      "price": 377500,
+      "change": 1.62,
       "volume": "0",
       "marketCap": "-"
     },
@@ -33,8 +33,8 @@
       "symbol": "207940",
       "name": "삼성바이오로직스",
       "sector": "바이오",
-      "price": 1647000,
-      "change": 0,
+      "price": 1644000,
+      "change": -0.18,
       "volume": "0",
       "marketCap": "-"
     },
@@ -51,8 +51,8 @@
       "symbol": "006400",
       "name": "삼성SDI",
       "sector": "2차전지",
-      "price": 409000,
-      "change": 4.2,
+      "price": 410500,
+      "change": 4.59,
       "volume": "0",
       "marketCap": "-"
     },
@@ -60,8 +60,8 @@
       "symbol": "051910",
       "name": "LG화학",
       "sector": "화학",
-      "price": 322000,
-      "change": -0.77,
+      "price": 326500,
+      "change": 0.62,
       "volume": "0",
       "marketCap": "-"
     },
@@ -78,8 +78,8 @@
       "symbol": "035720",
       "name": "카카오",
       "sector": "IT",
-      "price": 53200,
-      "change": 3.91,
+      "price": 53600,
+      "change": 4.69,
       "volume": "0",
       "marketCap": "-"
     },
@@ -87,8 +87,8 @@
       "symbol": "068270",
       "name": "셀트리온",
       "sector": "바이오",
-      "price": 212000,
-      "change": 0.24,
+      "price": 212500,
+      "change": 0.47,
       "volume": "0",
       "marketCap": "-"
     }
