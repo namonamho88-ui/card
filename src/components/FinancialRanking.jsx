@@ -200,6 +200,13 @@ export default function FinancialRanking() {
     // ══════════════════════════════════════════
     const fetchNews = useCallback(async (item, category) => {
         const key = `${NEWS_CACHE_KEY}_${item.symbol || item.id}_${getTodayKey()}`;
+        let tInt = null;
+
+        // ✅ 초기 타이머 설정 (사전 분석용 2초)
+        setNewsTimer(2);
+        tInt = setInterval(() => {
+            setNewsTimer(p => p <= 0 ? 0 : p - 1);
+        }, 1000);
 
         // ✅ 캐시 확인 (하루 단위) + 구조 검증
         try {
@@ -210,6 +217,7 @@ export default function FinancialRanking() {
                 if (parsedCache && typeof parsedCache === 'object' && parsedCache.summary && parsedCache.sentiment) {
                     // ✅ UX: 사전 분석 데이터라도 2초간 '분석 중' 연출
                     await new Promise(resolve => setTimeout(resolve, 2000));
+                    if (tInt) clearInterval(tInt);
                     setNewsLoading(false);
                     setNewsData(parsedCache);
                     return;
@@ -244,6 +252,7 @@ export default function FinancialRanking() {
                         };
                         // ✅ UX: 사전 분석 데이터라도 2초간 '분석 중' 연출
                         await new Promise(resolve => setTimeout(resolve, 2000));
+                        if (tInt) clearInterval(tInt);
                         setNewsData(normalizedData);
                         setNewsLoading(false);
                         localStorage.setItem(key, JSON.stringify(normalizedData));
@@ -261,10 +270,12 @@ export default function FinancialRanking() {
             return;
         }
 
-        setNewsTimer(15); // 뉴스 분석은 약 15초
+        // Gemini Fallback 진입 시 타이머 초기화 (15초)
+        if (tInt) clearInterval(tInt);
+        setNewsTimer(15);
         setServerOverload(false);
         let newsSeconds = 0;
-        const tInt = setInterval(() => {
+        tInt = setInterval(() => {
             newsSeconds += 1;
             if (newsSeconds >= 20) setServerOverload(true);
             setNewsTimer(p => p <= 1 ? p : p - 1);
