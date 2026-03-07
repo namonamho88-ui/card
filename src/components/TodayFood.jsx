@@ -107,11 +107,11 @@ const MOOD_OPTIONS = [
 const { FOOD_INSIGHTS: AI_INSIGHTS } = insightData; // ✅ 파일에서 1000개 가져옴
 
 const LOADING_STEPS = [
-  "전국 맛집 데이터베이스 조회 중...",
-  "사용자 선호도 및 시나리오 분석 중...",
-  "날씨와 시간대별 최적 코스 매칭 중...",
-  "Gemini AI가 가장 맛있는 조합을 구성 중...",
-  "최종 코스 정보 검증 및 리포트 작성 중..."
+  "전국 맛집 데이터베이스 및 최신 블로그 리뷰 분석 중...",
+  "숨은 맛집(Hidden Gems) 및 현지인 추천 리스트 검색 중...",
+  "지역별 혼잡도와 실시간 영업 상태 확인 중...",
+  "Gemini AI가 최적의 이동 동선과 메뉴 조합을 설계 중...",
+  "상세 가이드 및 전용 코스 리포트 생성 중..."
 ];
 
 // ──────────────────────────────────────────
@@ -439,25 +439,25 @@ INSTRUCTIONS:
       `${r.name}|${r.category}|${r.signature}|${r.priceRange}|${r.rating}|${r.waitTime}|${r.openHours}|${r.closedDay}`
     ).join('\n');
 
-    const prompt = `You are "AI Course Planner", a local food-course planning expert for the ${searchLoc} area.
-The user wants a food course plan specifically within the ${searchLoc} region.
+    const prompt = `You are "AI Course Planner", a top-tier local food-course planning expert for the ${searchLoc} area.
+The user wants a highly detailed and "special" food course plan specifically within the ${searchLoc} region.
 
 USER SCENARIO: "${courseScenario}"
 
-REFERENCE DATA (may be outdated — always verify via Google Search):
-${restaurantContext}
+CRITICAL INSTRUCTIONS:
+1. **Diversity & Hidden Gems**: Do NOT just suggest the most famous or obvious places. Actively search for "hidden gems" (숨은 맛집) that are currently trending or highly rated by locals.
+2. **Deep Research**: 반드시 구글 검색(Google Search)을 사용하여 ${searchLoc} 지역의 최신 블로그 리뷰, 인스타그램 핫플레이스 정보를 확인하고, 현재 영업 중인 곳으로 코스를 구성하세요.
+3. **Avoid Repetition**: 위 REFERENCE DATA는 단순 참고용입니다. 만약 해당 데이터의 맛집들이 너무 뻔하다면, 구글 검색 결과를 우선하여 완전히 새로운 장소를 추천하세요.
+4. **Rich Detail**: Each stop's "reason" must be 2-3 sentences. Don't just say "it's good". Describe the vibe (분위기), specific menu recommendations, and why it's a perfect fit for this specific scenario.
+5. Create a timed course plan with 2~4 stops strictly within the ${searchLoc} area.
+6. Each stop must include a realistic time, travel time to next stop, and estimated cost based on real data.
 
-INSTRUCTIONS:
-1. 반드시 구글 검색(Google Search)을 사용하여 ${searchLoc} 지역의 실제 존재하는 맛집을 확인하고, 현재 영업 중인 곳으로 코스를 구성하세요.
-2. Create a timed course plan with 2~4 stops strictly within the ${searchLoc} area.
-3. 위 REFERENCE DATA는 참고용입니다. 구글 검색으로 확인한 실제 맛집 정보(영업시간, 가격, 메뉴)를 우선하여 사용하세요.
-4. Each stop must include a realistic time, travel time to next stop, and estimated cost based on real data.
-5. Respond ONLY with valid JSON (no other text):
+Respond ONLY with valid JSON (no other text):
 {
-  "title": "Course title in Korean (fun and descriptive, e.g., '성수동 감성 데이트 코스')",
-  "subtitle": "One-line subtitle in Korean describing the vibe",
-  "totalTime": "Total estimated duration (e.g., '약 3시간')",
-  "totalBudget": "Total estimated cost per person (e.g., '약 4.5만원')",
+  "title": "Course title in Korean (fun and descriptive, e.g., '성수동의 숨겨진 보석을 찾는 감성 데이트')",
+  "subtitle": "One-line subtitle in Korean describing the specific vibe of this course",
+  "totalTime": "Total estimated duration (e.g., '약 4시간')",
+  "totalBudget": "Total estimated cost per person (e.g., '약 5.5만원')",
   "numberOfPeople": "Number of people inferred from scenario",
   "stops": [
     {
@@ -465,19 +465,19 @@ INSTRUCTIONS:
       "time": "18:00",
       "name": "Restaurant name (실제 존재하는 가게명)",
       "category": "Food category",
-      "signature": "What to order",
-      "estimatedCost": "Cost per person (e.g., '1.5만원')",
-      "duration": "Time spent here (e.g., '1시간')",
-      "travelToNext": "Travel time to next stop (e.g., '도보 5분')",
-      "reason": "Why this stop fits the course (1 sentence in Korean)",
+      "signature": "Specific recommended menu item",
+      "estimatedCost": "Cost per person (e.g., '2만원')",
+      "duration": "Time spent here (e.g., '1.5시간')",
+      "travelToNext": "Travel time to next stop (e.g., '도보 8분')",
+      "reason": "Detailed reason in Korean (2-3 sentences). Include mentions of interior, unique taste, or current popularity.",
       "icon": "single emoji representing this stop"
     }
   ],
   "tips": [
-    "Practical tip 1 in Korean",
-    "Practical tip 2 in Korean"
+    "Specific local tip 1 (e.g., '평일 6시 이후엔 웨이팅이 있으니 캐치테이블 확인 필수')",
+    "Specific food tip 2 (e.g., '이 집은 기본 안주로 나오는 OO이 별미입니다')"
   ],
-  "alternativePlan": "Brief 1-sentence alternative if a place is closed, in Korean"
+  "alternativePlan": "Brief 1-sentence alternative if one of the places is crowded, in Korean"
 }`;
 
     try {
