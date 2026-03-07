@@ -208,6 +208,8 @@ export default function FinancialRanking() {
                 const parsedCache = JSON.parse(cached);
                 // 유효한 구조인지 확인
                 if (parsedCache && typeof parsedCache === 'object' && parsedCache.summary && parsedCache.sentiment) {
+                    // ✅ UX: 사전 분석 데이터라도 2초간 '분석 중' 연출
+                    await new Promise(resolve => setTimeout(resolve, 2000));
                     setNewsLoading(false);
                     setNewsData(parsedCache);
                     return;
@@ -240,6 +242,8 @@ export default function FinancialRanking() {
                             items: preGenerated.items || [],
                             isPreGenerated: true
                         };
+                        // ✅ UX: 사전 분석 데이터라도 2초간 '분석 중' 연출
+                        await new Promise(resolve => setTimeout(resolve, 2000));
                         setNewsData(normalizedData);
                         setNewsLoading(false);
                         localStorage.setItem(key, JSON.stringify(normalizedData));
