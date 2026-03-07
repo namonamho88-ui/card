@@ -306,8 +306,8 @@ ${searchLoc} 지역에서 모든 음식 종류를 포함하여 현재 가장 인
     ).join('\n');
 
     const searchLoc = getSearchLocation(selectedArea);
-    const prompt = `You are a fun food recommendation AI named "오늘 뭐 먹지?" (What to eat today?).
-The user is in the ${searchLoc} area and needs ONE restaurant recommendation.
+    const prompt = `You are a professional local food curator and recommendation AI named "오늘 뭐 먹지?".
+The user is in the ${searchLoc} area and needs a highly personalized and "detailed" ONE restaurant recommendation.
 
 USER CONDITIONS:
 - Number of people: ${roulettePeople || 'not specified'}
@@ -315,23 +315,26 @@ USER CONDITIONS:
 - Mood: ${MOOD_OPTIONS.find(m => m.id === rouletteMood)?.label || 'not specified'}
 - Excluded food types: ${excludedKeywords.length > 0 ? excludedKeywords.join(', ') : 'none'}
 
-AVAILABLE RESTAURANTS IN ${searchLoc}:
+CRITICAL INSTRUCTIONS:
+1. **Diversity & Hidden Gems**: Do NOT just suggest the most obvious or famous places. Look for "hidden gems" (숨은 맛집) that offer a unique experience.
+2. **Detailed Reasoning**: The "reason" must be 2-3 sentences long. Explain not just the food, but the vibe, the specialty, and why it's perfect for the user's current situation (people, mood, budget).
+3. **Professional Tip**: Provide a truly useful "tip" (e.g., specific timing, seating, or a "secret" menu combination).
+4. **Vivid Pairing**: If providing a "pairingDrink", make it specific and appetizing.
+5. **Research-Based**: Use your internal knowledge effectively to provide a recommendation that feels "deeply researched".
+
+AVAILABLE RESTAURANTS IN ${searchLoc} (Reference Only):
 ${restaurantContext}
 
-INSTRUCTIONS:
-1. Pick exactly ONE restaurant from the list above that best matches the conditions.
-2. If the user excluded certain categories, do NOT pick restaurants of those types.
-3. Consider budget, number of people (solo-friendly vs group), and mood.
-4. Respond ONLY with a valid JSON object (no other text):
+Respond ONLY with a valid JSON object (no other text):
 {
-  "name": "restaurant name (must match exactly from list)",
+  "name": "restaurant name",
   "category": "food category",
   "signature": "signature dish",
   "priceRange": "price range",
   "rating": 4.5,
-  "reason": "A fun, engaging Korean explanation (2-3 sentences) why this is perfect for the user's situation today. Be specific and enthusiastic. Mention the weather, time of day, or mood where relevant.",
-  "tip": "One practical tip in Korean (e.g., best time to avoid waiting, must-try side dish, seating preference)",
-  "pairingDrink": "Recommended drink pairing in Korean (optional, can be null)"
+  "reason": "Detailed, engaging Korean explanation (2-3 sentences) why this is perfect today.",
+  "tip": "Practical, insightful tip in Korean.",
+  "pairingDrink": "Specific recommended drink pairing in Korean (can be null)"
 }`;
 
     try {
@@ -764,10 +767,10 @@ Respond ONLY with valid JSON (no other text):
                     {['🍚', '🍣', '🍝', '🍔', '🍜', '🍰', '🥩', '🍕'][Math.floor(Math.random() * 8)]}
                   </div>
                   <p className="text-[16px] font-bold text-toss-gray-800 dark:text-white mb-2">
-                    AI가 메뉴를 고르고 있어요
+                    AI 큐레이터가 맛집을 엄선하고 있어요
                   </p>
                   <p className="text-[13px] text-toss-gray-500 dark:text-gray-400">
-                    {selectedArea}의 맛집 데이터를 분석 중... ({rouletteTimer}초)
+                    {selectedArea}의 숨은 맛집 데이터를 심층 분석 중... ({rouletteTimer}초)
                   </p>
                   <div className="mt-4 w-full bg-toss-gray-200 dark:bg-gray-800 rounded-full h-1.5">
                     <div className="bg-primary h-1.5 rounded-full animate-pulse" style={{ width: '60%' }} />
