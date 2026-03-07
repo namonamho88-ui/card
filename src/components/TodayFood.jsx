@@ -300,14 +300,10 @@ ${searchLoc} 지역에서 모든 음식 종류를 포함하여 현재 가장 인
       return cat?.keywords || [];
     });
 
-    // Build context from loaded restaurants
-    const restaurantContext = allRestaurants.map(r =>
-      `${r.name}|${r.category}|${r.signature}|${r.priceRange}|${r.rating}|${r.waitTime}|${r.openHours}|${r.closedDay}`
-    ).join('\n');
 
     const searchLoc = getSearchLocation(selectedArea);
     const prompt = `You are a professional local food curator and recommendation AI named "오늘 뭐 먹지?".
-The user is in the ${searchLoc} area and needs a highly personalized and "detailed" ONE restaurant recommendation.
+The user is in the ${searchLoc} area and needs a highly personalized and "detailed" ONE restaurant recommendation based on REAL-TIME research.
 
 USER CONDITIONS:
 - Number of people: ${roulettePeople || 'not specified'}
@@ -316,14 +312,11 @@ USER CONDITIONS:
 - Excluded food types: ${excludedKeywords.length > 0 ? excludedKeywords.join(', ') : 'none'}
 
 CRITICAL INSTRUCTIONS:
-1. **Diversity & Hidden Gems**: Do NOT just suggest the most obvious or famous places. Look for "hidden gems" (숨은 맛집) that offer a unique experience.
-2. **Detailed Reasoning**: The "reason" must be 2-3 sentences long. Explain not just the food, but the vibe, the specialty, and why it's perfect for the user's current situation (people, mood, budget).
-3. **Professional Tip**: Provide a truly useful "tip" (e.g., specific timing, seating, or a "secret" menu combination).
-4. **Vivid Pairing**: If providing a "pairingDrink", make it specific and appetizing.
-5. **Research-Based**: Use your internal knowledge effectively to provide a recommendation that feels "deeply researched".
-
-AVAILABLE RESTAURANTS IN ${searchLoc} (Reference Only):
-${restaurantContext}
+1. **Real-time Research**: 반드시 구글 검색(Google Search)을 사용하여 ${searchLoc} 지역의 최신 블로그, 리뷰, 뉴스 데이터를 기반으로 실제 존재하는 맛집을 하나만 선정하세요.
+2. **Diversity & Hidden Gems**: Do NOT just suggest the most obvious or famous places. Look for "hidden gems" (숨은 맛집) that offer a unique experience.
+3. **Detailed Reasoning**: The "reason" must be 2-3 sentences long. Explain not just the food, but the vibe, the specialty, and why it's perfect for the user's current situation.
+4. **Professional Tip**: Provide a truly useful "tip" (e.g., specific timing, seating, or a "secret" menu combination).
+5. **Vivid Pairing**: If providing a "pairingDrink", make it specific and appetizing.
 
 Respond ONLY with a valid JSON object (no other text):
 {
@@ -342,22 +335,17 @@ Respond ONLY with a valid JSON object (no other text):
       const animationPromise = new Promise(r => setTimeout(r, 2000));
 
       const [rawText] = await Promise.all([
-        enqueueGeminiRequest(() => geminiRequest(prompt)),
+        enqueueGeminiRequest(() => geminiRequest(prompt, { useSearch: true })),
         animationPromise
       ]);
 
       const result = extractJSON(rawText);
 
-      // Match with full restaurant data
-      const matched = allRestaurants.find(r => r.name === result.name);
+      // Enrich with icon and color directly from result
       const enrichedResult = {
         ...result,
-        ...(matched || {}),
-        reason: result.reason,
-        tip: result.tip,
-        pairingDrink: result.pairingDrink,
-        icon: matched?.icon || getCategoryIcon(result.category),
-        color: matched?.color || getCategoryColor(result.category),
+        icon: getCategoryIcon(result.category),
+        color: getCategoryColor(result.category),
       };
 
       setRouletteResult(enrichedResult);
@@ -438,9 +426,6 @@ Respond ONLY with a valid JSON object (no other text):
 
     // Build restaurant context
     const searchLoc = getSearchLocation(selectedArea);
-    const restaurantContext = allRestaurants.map(r =>
-      `${r.name}|${r.category}|${r.signature}|${r.priceRange}|${r.rating}|${r.waitTime}|${r.openHours}|${r.closedDay}`
-    ).join('\n');
 
     const prompt = `You are "AI Course Planner", a top-tier local food-course planning expert for the ${searchLoc} area.
 The user wants a highly detailed and "special" food course plan specifically within the ${searchLoc} region.
@@ -448,12 +433,11 @@ The user wants a highly detailed and "special" food course plan specifically wit
 USER SCENARIO: "${courseScenario}"
 
 CRITICAL INSTRUCTIONS:
-1. **Diversity & Hidden Gems**: Do NOT just suggest the most famous or obvious places. Actively search for "hidden gems" (숨은 맛집) that are currently trending or highly rated by locals.
-2. **Deep Research**: 반드시 구글 검색(Google Search)을 사용하여 ${searchLoc} 지역의 최신 블로그 리뷰, 인스타그램 핫플레이스 정보를 확인하고, 현재 영업 중인 곳으로 코스를 구성하세요.
-3. **Avoid Repetition**: 위 REFERENCE DATA는 단순 참고용입니다. 만약 해당 데이터의 맛집들이 너무 뻔하다면, 구글 검색 결과를 우선하여 완전히 새로운 장소를 추천하세요.
-4. **Rich Detail**: Each stop's "reason" must be 2-3 sentences. Don't just say "it's good". Describe the vibe (분위기), specific menu recommendations, and why it's a perfect fit for this specific scenario.
-5. Create a timed course plan with 2~4 stops strictly within the ${searchLoc} area.
-6. Each stop must include a realistic time, travel time to next stop, and estimated cost based on real data.
+1. **Search Efficiency**: 반드시 구글 검색(Google Search)을 사용하여 ${searchLoc} 지역의 최신 블로그 리뷰, 인스타그램 핫플레이스 정보를 확인하고, 현재 실제로 영업 중인 곳으로 코스를 구성하세요.
+2. **Diversity & Hidden Gems**: Do NOT just suggest the most famous or obvious places. Actively search for "hidden gems" (숨은 맛집) that are currently trending or highly rated by locals.
+3. **Rich Detail**: Each stop's "reason" must be 2-3 sentences. Describe the vibe (분위기), specific menu recommendations, and why it's a perfect fit for this specific scenario.
+4. Create a timed course plan with 2~4 stops strictly within the ${searchLoc} area.
+5. Each stop must include a realistic time, travel time to next stop, and estimated cost based on real data.
 
 Respond ONLY with valid JSON (no other text):
 {
