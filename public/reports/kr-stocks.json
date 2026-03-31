@@ -1,13 +1,13 @@
 {
-  "date": "2026-03-31",
-  "generatedAt": "2026-03-30T16:54:44.760Z",
+  "date": "2026-04-01",
+  "generatedAt": "2026-03-31T16:56:30.274Z",
   "data": [
     {
       "symbol": "005930",
       "name": "삼성전자",
       "sector": "반도체",
-      "price": 176300,
-      "change": -1.89,
+      "price": 167200,
+      "change": -5.16,
       "volume": "0",
       "marketCap": "-"
     },
@@ -15,8 +15,8 @@
       "symbol": "000660",
       "name": "SK하이닉스",
       "sector": "반도체",
-      "price": 873000,
-      "change": -5.31,
+      "price": 807000,
+      "change": -7.56,
       "volume": "0",
       "marketCap": "-"
     },
@@ -24,8 +24,8 @@
       "symbol": "373220",
       "name": "LG에너지솔루션",
       "sector": "2차전지",
-      "price": 410000,
-      "change": 3.93,
+      "price": 394500,
+      "change": -3.78,
       "volume": "0",
       "marketCap": "-"
     },
@@ -33,8 +33,8 @@
       "symbol": "207940",
       "name": "삼성바이오로직스",
       "sector": "바이오",
-      "price": 1530000,
-      "change": -4.73,
+      "price": 1504000,
+      "change": -1.7,
       "volume": "0",
       "marketCap": "-"
     },
@@ -42,8 +42,8 @@
       "symbol": "005380",
       "name": "현대차",
       "sector": "자동차",
-      "price": 469500,
-      "change": -5.15,
+      "price": 445500,
+      "change": -5.11,
       "volume": "0",
       "marketCap": "-"
     },
@@ -51,8 +51,8 @@
       "symbol": "006400",
       "name": "삼성SDI",
       "sector": "2차전지",
-      "price": 412500,
-      "change": 1.73,
+      "price": 408000,
+      "change": -1.09,
       "volume": "0",
       "marketCap": "-"
     },
@@ -60,8 +60,8 @@
       "symbol": "051910",
       "name": "LG화학",
       "sector": "화학",
-      "price": 322000,
-      "change": 2.88,
+      "price": 299000,
+      "change": -7.14,
       "volume": "0",
       "marketCap": "-"
     },
@@ -69,8 +69,8 @@
       "symbol": "035420",
       "name": "NAVER",
       "sector": "IT",
-      "price": 207000,
-      "change": -2.59,
+      "price": 201500,
+      "change": -2.66,
       "volume": "0",
       "marketCap": "-"
     },
@@ -78,8 +78,8 @@
       "symbol": "035720",
       "name": "카카오",
       "sector": "IT",
-      "price": 47100,
-      "change": -3.48,
+      "price": 45800,
+      "change": -2.76,
       "volume": "0",
       "marketCap": "-"
     },
@@ -87,8 +87,8 @@
       "symbol": "068270",
       "name": "셀트리온",
       "sector": "바이오",
-      "price": 201500,
-      "change": -2.18,
+      "price": 197200,
+      "change": -2.13,
       "volume": "0",
       "marketCap": "-"
     }
