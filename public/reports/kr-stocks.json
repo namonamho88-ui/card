@@ -1,12 +1,12 @@
 {
-  "date": "2026-11-17",
-  "generatedAt": "2026-11-16T23:58:24.096Z",
+  "date": "2026-11-18",
+  "generatedAt": "2026-11-17T23:19:58.297Z",
   "data": [
     {
       "symbol": "005930",
       "name": "삼성전자",
       "sector": "반도체",
-      "price": 196800,
+      "price": 190300,
       "change": 0,
       "volume": "0",
       "marketCap": "-"
@@ -15,7 +15,7 @@
       "symbol": "000660",
       "name": "SK하이닉스",
       "sector": "반도체",
-      "price": 1120000,
+      "price": 1098000,
       "change": 0,
       "volume": "0",
       "marketCap": "-"
@@ -24,7 +24,7 @@
       "symbol": "373220",
       "name": "LG에너지솔루션",
       "sector": "2차전지",
-      "price": 318500,
+      "price": 305500,
       "change": 0,
       "volume": "0",
       "marketCap": "-"
@@ -33,7 +33,7 @@
       "symbol": "207940",
       "name": "삼성바이오로직스",
       "sector": "바이오",
-      "price": 1423000,
+      "price": 1414000,
       "change": 0,
       "volume": "0",
       "marketCap": "-"
@@ -42,7 +42,7 @@
       "symbol": "005380",
       "name": "현대차",
       "sector": "자동차",
-      "price": 265500,
+      "price": 259000,
       "change": 0,
       "volume": "0",
       "marketCap": "-"
@@ -51,7 +51,7 @@
       "symbol": "006400",
       "name": "삼성SDI",
       "sector": "2차전지",
-      "price": 462500,
+      "price": 445000,
       "change": 0,
       "volume": "0",
       "marketCap": "-"
@@ -60,7 +60,7 @@
       "symbol": "051910",
       "name": "LG화학",
       "sector": "화학",
-      "price": 227000,
+      "price": 214500,
       "change": 0,
       "volume": "0",
       "marketCap": "-"
@@ -69,7 +69,7 @@
       "symbol": "035420",
       "name": "NAVER",
       "sector": "IT",
-      "price": 172900,
+      "price": 170000,
       "change": 0,
       "volume": "0",
       "marketCap": "-"
@@ -78,7 +78,7 @@
       "symbol": "035720",
       "name": "카카오",
       "sector": "IT",
-      "price": 32450,
+      "price": 31700,
       "change": 0,
       "volume": "0",
       "marketCap": "-"
@@ -87,7 +87,7 @@
       "symbol": "068270",
       "name": "셀트리온",
       "sector": "바이오",
-      "price": 214500,
+      "price": 213000,
       "change": 0,
       "volume": "0",
       "marketCap": "-"
